@@ -40,10 +40,11 @@ LuminNexus-LearningMap/
 - Format: `NN_topic-name.md` (lowercase, hyphen-separated)
 
 **Current State vs. Planned State**:
-- STRUCTURE_v3.md describes the **target architecture** (18 files total)
-- Current implementation has **outline files** and **one role file** (project-manager.md)
+- STRUCTURE_v3.md describes the **target architecture** (19 files total)
+- Current implementation has **outline files** and **two complete files** (project-manager.md, unix-linux-basics.md)
 - Individual topic files (01-10) are **not yet created**
 - Tool documentation: **speckit.md** created
+- Supplementary documentation: **unix-linux-basics.md** created
 
 ## Design Principles
 
@@ -215,13 +216,15 @@ Team roles being trained:
 
 Based on recent work:
 - Testing outline is at v4.0 (restructured with 01-06 chapters)
-- General outline is at v2.2 (added SDD/TDD sections)
+- General outline is at v2.3 (added Unix/Linux basics)
 - **New additions**:
   - `roles/project-manager.md` - PM learning path with Technical Debt, Legacy Code, Scope Creep, Sprint, Backlog, Velocity
   - `tools/speckit.md` - Complete Speckit tool documentation for Spec-Driven Development
+  - `general/unix-linux-basics.md` - Complete Unix/Linux basics guide for Windows users
   - General outline 3.5: SDD (Spec-Driven Development) with cross-reference to Speckit
   - General outline 4.5: TDD (Test-Driven Development) with cross-reference to SDD and Speckit
   - General outline 3.4: Project management terms (Technical Debt, Legacy Code, Scope Creep)
+  - General outline 02: Unix/Linux basics index
 - All examples removed from outline for conciseness
 - Learning outcome checklists removed per user preference
 
@@ -245,8 +248,17 @@ Based on recent work:
   - Spec validation
   - See `tools/speckit.md` for complete guide
 
+### Foundational Knowledge (in general/)
+- **Unix/Linux Basics**: Complete guide for Windows users
+  - File-oriented philosophy (Everything is a File)
+  - Shell/Terminal/Console concepts
+  - Basic commands and operations
+  - File permissions, Process management
+  - Environment variables and PATH
+  - See `general/unix-linux-basics.md` for complete guide
+
 ---
 
-**Document Version**: 1.1
+**Document Version**: 1.2
 **Last Updated**: 2025-11-10
 **Maintained by**: LuminNexus Team

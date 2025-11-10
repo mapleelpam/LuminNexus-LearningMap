@@ -1,6 +1,6 @@
 # General Learning Map - 通用核心能力大綱
 
-**版本**: 2.2
+**版本**: 2.3
 **更新日期**: 2025-11-10
 **適用角色**: 所有團隊成員 (Test & Business Analysis, Crawler Engineer)
 
@@ -135,7 +135,32 @@ mindmap
 
 ---
 
-### **02_data-engineering.md - 資料工程基礎**
+### **02_unix-linux-basics - Unix/Linux 基礎**
+> 學習階段：基礎 | 深度：概念理解與實務操作
+> 詳細內容請見：[unix-linux-basics.md](./unix-linux-basics.md)
+
+#### 核心概念
+- Unix/Linux 與 Windows 的差異
+- Everything is a File 哲學
+- Shell / Terminal / Console 的區別
+- 單一根目錄樹 vs 多磁碟機結構
+
+#### 實用技能
+- 檔案與目錄操作 (ls, cd, mkdir, rm, cp, mv)
+- 檔案內容查看 (cat, less, head, tail, grep)
+- 命令組合 (管道 |、重導向 >)
+- 檔案權限管理 (chmod, chown)
+- Process 管理 (ps, top, kill)
+- 環境變數與 PATH
+
+#### 適用對象
+- 習慣 Windows 的使用者
+- 第一次接觸命令列的人
+- 需要在 Linux 伺服器工作的開發者
+
+---
+
+### **03_data-engineering.md - 資料工程基礎**
 > 學習階段：基礎 | 深度：概念理解
 
 #### 2.1 資料結構與格式
@@ -635,6 +660,7 @@ mindmap
 | 2.0 | 2025-11-10 | 新增本體論與 AI/ML 基礎名詞章節 | Learning Team |
 | 2.1 | 2025-11-10 | 在 03_software-engineering 新增專案管理核心術語 (3.4 章節) | Learning Team |
 | 2.2 | 2025-11-10 | 新增 SDD (3.5 章節) 和 TDD (4.5 章節)，連結到 Speckit 工具文檔 | Learning Team |
+| 2.3 | 2025-11-10 | 新增 02_unix-linux-basics 章節索引，連結到 unix-linux-basics.md | Learning Team |
 
 ---
 

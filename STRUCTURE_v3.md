@@ -19,6 +19,7 @@ LuminNexus-LearningMap/
 │
 ├── general/                          # 通用核心能力
 │   ├── README.md                     # 通用能力總覽與學習指引
+│   ├── 00_outline.md                 # 通用能力大綱
 │   ├── 01_product-business.md        # 產品與業務理解
 │   ├── 02_data-engineering.md        # 資料工程基礎
 │   ├── 03_software-engineering.md    # 軟體工程實踐
@@ -28,7 +29,8 @@ LuminNexus-LearningMap/
 │   ├── 07_data-analysis.md           # 資料分析與視覺化
 │   ├── 08_systems-architecture.md    # 系統思維與架構
 │   ├── 09_collaboration.md           # 協作與溝通
-│   └── 10_security.md                # 安全性與最佳實踐
+│   ├── 10_security.md                # 安全性與最佳實踐
+│   └── unix-linux-basics.md          # Unix/Linux 基礎入門
 │
 ├── roles/                            # 角色特定學習路徑
 │   ├── README.md                     # 角色說明與選擇指引
@@ -52,7 +54,7 @@ LuminNexus-LearningMap/
 
 ```
 
-**總計**: 4 個目錄、18 個檔案
+**總計**: 4 個目錄、19 個檔案
 
 ---
 
@@ -603,6 +605,7 @@ LuminNexus-LearningMap/
 ├── STRUCTURE.md                       [架構說明]
 ├── general/
 │   ├── README.md                      [通用能力總覽]
+│   ├── 00_outline.md                  [通用能力大綱]
 │   ├── 01_product-business.md         [產品與業務理解]
 │   ├── 02_data-engineering.md         [資料工程基礎]
 │   ├── 03_software-engineering.md     [軟體工程實踐]
@@ -612,7 +615,8 @@ LuminNexus-LearningMap/
 │   ├── 07_data-analysis.md            [資料分析與視覺化]
 │   ├── 08_systems-architecture.md     [系統思維與架構]
 │   ├── 09_collaboration.md            [協作與溝通]
-│   └── 10_security.md                 [安全性與最佳實踐]
+│   ├── 10_security.md                 [安全性與最佳實踐]
+│   └── unix-linux-basics.md           [Unix/Linux 基礎入門]
 ├── roles/
 │   ├── README.md                      [角色說明]
 │   ├── testing/                       [Testing 路徑]
@@ -625,4 +629,4 @@ LuminNexus-LearningMap/
     └── 20251110_initial_draft.md      [歷史文檔]
 ```
 
-**總計**: 18 個檔案
+**總計**: 19 個檔案
