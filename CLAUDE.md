@@ -16,18 +16,23 @@ This is **LuminNexus Learning Map** - a structured onboarding and training docum
 LuminNexus-LearningMap/
 ├── STRUCTURE_v3.md          # Architecture design document (source of truth)
 ├── general/                 # General skills applicable to all roles
-│   └── 00_outline.md        # General learning outline (01-09 topics planned)
+│   └── 00_outline.md        # General learning outline (01-10 topics planned)
 ├── roles/                   # Role-specific learning paths
-│   └── testing/             # Testing & Business Analysis role
-│       └── 00_outline.md    # Testing learning outline (01-06 topics)
+│   ├── testing/             # Testing & Business Analysis role
+│   │   └── 00_outline.md    # Testing learning outline (01-06 topics)
+│   ├── crawler-engineer.md  # Crawler Engineer role (planned)
+│   └── project-manager.md   # Project Manager role
+├── tools/                   # Tool documentation
+│   └── speckit.md           # Speckit tool guide (SDD implementation)
 └── archive/                 # Historical versions with YYYYMMDD prefix
 ```
 
 ### Content Organization Philosophy
 
-**Two-tier structure**:
+**Three-tier structure**:
 1. **general/** - Universal transferable skills (all roles)
 2. **roles/** - Role-specific deep-dive content
+3. **tools/** - Tool-specific documentation and guides
 
 **Numbering System**:
 - `00_outline.md` - Overview/outline for a learning domain
@@ -35,9 +40,10 @@ LuminNexus-LearningMap/
 - Format: `NN_topic-name.md` (lowercase, hyphen-separated)
 
 **Current State vs. Planned State**:
-- STRUCTURE_v3.md describes the **target architecture** (16 files planned)
-- Current implementation has **only outline files** (00_outline.md)
+- STRUCTURE_v3.md describes the **target architecture** (18 files total)
+- Current implementation has **outline files** and **one role file** (project-manager.md)
 - Individual topic files (01-10) are **not yet created**
+- Tool documentation: **speckit.md** created
 
 ## Design Principles
 
@@ -193,7 +199,8 @@ This learning map is based on:
 
 Team roles being trained:
 1. **Test & Business Analysis** - Testing, BA, data validation
-2. **Crawler Engineer** - Web scraping, data collection
+2. **Crawler Engineer** - Web scraping, data collection (planned)
+3. **Project Manager** - Project planning, agile development, risk management
 
 ## Common Pitfalls to Avoid
 
@@ -207,14 +214,39 @@ Team roles being trained:
 ## Current Session Context
 
 Based on recent work:
-- Testing outline is at v4.0 (just restructured with 01-06 chapters)
-- Chapter 01 added: product understanding (Heimdallr + Smart Insight)
+- Testing outline is at v4.0 (restructured with 01-06 chapters)
+- General outline is at v2.2 (added SDD/TDD sections)
+- **New additions**:
+  - `roles/project-manager.md` - PM learning path with Technical Debt, Legacy Code, Scope Creep, Sprint, Backlog, Velocity
+  - `tools/speckit.md` - Complete Speckit tool documentation for Spec-Driven Development
+  - General outline 3.5: SDD (Spec-Driven Development) with cross-reference to Speckit
+  - General outline 4.5: TDD (Test-Driven Development) with cross-reference to SDD and Speckit
+  - General outline 3.4: Project management terms (Technical Debt, Legacy Code, Scope Creep)
 - All examples removed from outline for conciseness
 - Learning outcome checklists removed per user preference
-- Chapter 01 and 04 reviewed for overlap (now distinct)
+
+## Key Concepts Added
+
+### Project Management Terms (in general/00_outline.md 3.4)
+- **Technical Debt**: Future maintenance cost from quick implementations
+- **Legacy Code**: Untested, hard-to-maintain old code
+- **Scope Creep**: Uncontrolled project scope expansion
+- **Agile Terms**: Sprint, Backlog, Velocity (cross-referenced to PM role)
+
+### Development Methodologies (in general/00_outline.md 3.5 & 4.5)
+- **SDD (Spec-Driven Development)**: Spec-first approach, implemented via Speckit
+- **TDD (Test-Driven Development)**: Test-first approach (Red-Green-Refactor)
+- Both methodologies complement each other: Spec → Test → Code
+
+### Tools
+- **Speckit**: Tool for implementing SDD in LuminNexus project
+  - Spec document authoring
+  - Test case auto-generation
+  - Spec validation
+  - See `tools/speckit.md` for complete guide
 
 ---
 
-**Document Version**: 1.0
+**Document Version**: 1.1
 **Last Updated**: 2025-11-10
 **Maintained by**: LuminNexus Team

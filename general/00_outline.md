@@ -1,6 +1,6 @@
 # General Learning Map - 通用核心能力大綱
 
-**版本**: 2.0
+**版本**: 2.2
 **更新日期**: 2025-11-10
 **適用角色**: 所有團隊成員 (Test & Business Analysis, Crawler Engineer)
 
@@ -200,6 +200,53 @@ mindmap
   - 版本管理
   - 錯誤處理設計
 
+#### 3.4 專案管理核心術語
+> 簡要介紹，詳見 [Project Manager 學習路徑](../roles/project-manager.md)
+
+- **Technical Debt (技術債)**
+  - 為了快速交付而累積的未來維護成本
+  - 需要平衡速度與長期品質
+
+- **Legacy Code (遺留代碼)**
+  - 缺少測試、難以維護的舊程式碼
+  - 修改需要額外時間與謹慎
+
+- **Scope Creep (範圍蔓延)**
+  - 專案範圍不斷擴大但資源未增加
+  - 學會守護專案邊界
+
+- **Sprint / Backlog / Velocity**
+  - 敏捷開發核心概念
+  - 詳見 [PM 學習路徑 - 敏捷開發術語](../roles/project-manager.md#2-敏捷開發核心術語)
+
+#### 3.5 規格驅動開發 (Spec-Driven Development, SDD)
+> 簡要介紹，詳見 [Speckit 工具文檔](../tools/speckit.md)
+
+- **核心概念**
+  - 先寫規格文檔，再寫程式碼
+  - 規格即文檔，文檔即測試
+  - 規格是 Single Source of Truth
+
+- **SDD 流程**
+  1. 撰寫規格文檔 (Spec)
+  2. 根據規格實作功能
+  3. 用規格驗證實作
+
+- **優點**
+  - 💡 需求清楚，減少溝通成本
+  - 📚 文檔與程式碼同步
+  - 🎯 實作目標明確
+  - 🧪 測試案例可自動生成
+
+- **在 LuminNexus 的應用**
+  - 使用 [Speckit 工具](../tools/speckit.md) 實踐 SDD
+  - 查詢規格文檔參考：`spec/Canonical_Query_Schema.md`
+  - 從規格自動生成測試案例
+
+- **相關連結**
+  - [TDD 測試驅動開發](#44-測試驅動開發-test-driven-development-tdd)
+  - [Speckit 工具使用](../tools/speckit.md)
+
 ---
 
 ### **04_testing-qa.md - 測試與品質保證基礎**
@@ -231,6 +278,46 @@ mindmap
   - 如何重現問題
   - 預期結果 vs 實際結果
   - 截圖或錯誤訊息
+
+#### 4.5 測試驅動開發 (Test-Driven Development, TDD)
+> 簡要介紹，與 SDD 相輔相成
+
+- **核心概念**
+  - 先寫測試，再寫程式碼
+  - 測試即規格
+
+- **TDD 流程 (Red-Green-Refactor)**
+  1. 🔴 Red: 寫失敗的測試 (定義預期行為)
+  2. 🟢 Green: 寫最少程式碼讓測試通過
+  3. 🔵 Refactor: 重構程式碼，保持測試通過
+
+- **優點**
+  - ✅ 確保程式碼可測試
+  - 🐛 減少 bug，提早發現問題
+  - 📖 測試即文檔
+  - 🛡️ 重構時的安全網
+
+- **缺點/挑戰**
+  - ⏰ 初期速度較慢
+  - 📚 需要學習曲線
+  - 🤔 需求不明確時難以實踐
+
+- **何時使用 TDD？**
+  - ✅ 需求明確的核心邏輯
+  - ✅ 複雜的計算或演算法
+  - ✅ 需要高度可靠性的功能
+  - ❌ UI 原型探索階段
+  - ❌ 需求頻繁變動時
+
+- **與 SDD 的關係**
+  - **SDD**: 從規格文檔驅動開發
+  - **TDD**: 從測試案例驅動開發
+  - **最佳組合**: Spec → Test → Code
+  - 在 LuminNexus 中，使用 [Speckit](../tools/speckit.md) 結合兩者優勢
+
+- **相關連結**
+  - [SDD 規格驅動開發](#35-規格驅動開發-spec-driven-development-sdd)
+  - [Speckit 工具使用](../tools/speckit.md)
 
 ---
 
@@ -546,6 +633,8 @@ mindmap
 |------|------|---------|------|
 | 1.0 | 2025-11-10 | 初始版本 | Learning Team |
 | 2.0 | 2025-11-10 | 新增本體論與 AI/ML 基礎名詞章節 | Learning Team |
+| 2.1 | 2025-11-10 | 在 03_software-engineering 新增專案管理核心術語 (3.4 章節) | Learning Team |
+| 2.2 | 2025-11-10 | 新增 SDD (3.5 章節) 和 TDD (4.5 章節)，連結到 Speckit 工具文檔 | Learning Team |
 
 ---
 

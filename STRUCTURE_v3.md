@@ -41,14 +41,18 @@ LuminNexus-LearningMap/
 │   │   ├── 05_test-case-design.md
 │   │   ├── 06_data-quality-validation.md
 │   │   └── 07_business-analysis.md
-│   └── crawler-engineer.md           # Crawler Engineer 角色
+│   ├── crawler-engineer.md           # Crawler Engineer 角色
+│   └── project-manager.md            # Project Manager 角色
+│
+├── tools/                            # 工具文檔
+│   └── speckit.md                    # Speckit 工具介紹與使用指南
 │
 └── archive/                          # 歷史文檔存檔
     └── 20251110_initial_draft.md
 
 ```
 
-**總計**: 3 個目錄、16 個檔案
+**總計**: 4 個目錄、18 個檔案
 
 ---
 
@@ -133,12 +137,16 @@ LuminNexus-LearningMap/
 ## 團隊角色
 
 ### 1. Test & Business Analysis
-- [查看完整學習路徑](test-business-analyst.md)
+- [查看完整學習路徑](testing/00_outline.md)
 - 職責：測試設計、業務分析、資料洞察
 
 ### 2. Crawler Engineer
 - [查看完整學習路徑](crawler-engineer.md)
 - 職責：資料蒐集、爬蟲開發、資料清洗
+
+### 3. Project Manager
+- [查看完整學習路徑](project-manager.md)
+- 職責：專案規劃、進度管理、風險控制、團隊協作
 
 ## 學習建議
 1. 先完成 `general/` 的基礎階段 (01-05)
@@ -177,6 +185,54 @@ LuminNexus-LearningMap/
 - 自我評估檢查表
 - 實務專案建議
 ```
+
+---
+
+### `tools/` - 工具文檔
+
+**用途**: 專案中使用的工具與技術的介紹與使用指南
+
+**speckit.md 內容**:
+```markdown
+# Speckit - 規格驅動開發工具
+
+## 概述
+- 什麼是 Speckit
+- 為什麼需要 Speckit
+- 在 LuminNexus 的應用
+
+## 核心功能
+- 規格文檔撰寫
+- 測試案例自動生成
+- 規格驗證
+
+## 使用方法
+- 規格文檔結構
+- 工作流程
+- 最佳實踐
+
+## 與其他方法的比較
+- Speckit vs TDD
+- 適用場景
+
+## 實際範例
+- MDFO 查詢規格範例
+- 測試案例生成範例
+
+## 學習資源
+- 內部文檔連結
+- 推薦閱讀
+```
+
+**特色**:
+- 獨立完整的工具文檔
+- 包含實際範例和最佳實踐
+- 與 General Learning Map 交叉引用
+- 視覺化工作流程 (Mermaid)
+
+**未來擴展**:
+- 可加入其他工具文檔 (資料分析工具、CI/CD 工具等)
+- 保持工具文檔的獨立性和完整性
 
 ---
 
@@ -559,10 +615,14 @@ LuminNexus-LearningMap/
 │   └── 10_security.md                 [安全性與最佳實踐]
 ├── roles/
 │   ├── README.md                      [角色說明]
-│   ├── test-business-analyst.md       [Test & BA 路徑]
-│   └── crawler-engineer.md            [Crawler 路徑]
+│   ├── testing/                       [Testing 路徑]
+│   │   └── 00_outline.md              [Testing 大綱]
+│   ├── crawler-engineer.md            [Crawler 路徑]
+│   └── project-manager.md             [Project Manager 路徑]
+├── tools/
+│   └── speckit.md                     [Speckit 工具文檔]
 └── archive/
     └── 20251110_initial_draft.md      [歷史文檔]
 ```
 
-**總計**: 16 個檔案
+**總計**: 18 個檔案
