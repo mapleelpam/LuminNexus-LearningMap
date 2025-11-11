@@ -49,12 +49,18 @@ LuminNexus-LearningMap/
 ├── tools/                            # 工具文檔
 │   └── speckit.md                    # Speckit 工具介紹與使用指南
 │
+├── smart-insight-engine/             # Smart Insight Engine 專區
+│   ├── 00_overview.md                # SI Engine 總覽
+│   ├── 01_mdof-fundamentals.md       # MDOF 查詢基礎 ⭐
+│   ├── 02_query-design.md            # 查詢設計進階
+│   └── 03_test-case-design.md        # 測試案例設計
+│
 └── archive/                          # 歷史文檔存檔
     └── 20251110_initial_draft.md
 
 ```
 
-**總計**: 4 個目錄、19 個檔案
+**總計**: 5 個目錄、23 個檔案
 
 ---
 
@@ -235,6 +241,90 @@ LuminNexus-LearningMap/
 **未來擴展**:
 - 可加入其他工具文檔 (資料分析工具、CI/CD 工具等)
 - 保持工具文檔的獨立性和完整性
+
+---
+
+### `smart-insight-engine/` - Smart Insight Engine 專區 ⭐ NEW
+
+**用途**: Smart Insight Engine 查詢語言（MDOF）專業學習路徑
+
+**README.md 內容**:
+```markdown
+# Smart Insight Engine 學習專區
+
+## 學習路徑
+
+### 基礎階段 (Day 1-3)
+1. [Smart Insight Engine 總覽](00_overview.md) - 1小時
+2. [MDOF 查詢基礎](01_mdof-fundamentals.md) - 2-3天 ⭐
+
+### 進階階段 (Day 4-7)
+3. [查詢設計進階](02_query-design.md) - 2-3天
+4. [測試案例設計](03_test-case-design.md) - 1-2天
+
+## 適用角色
+- Test & Business Analysis（必修：01, 03）
+- Data Analyst（必修：01, 02）
+- Backend Engineer（必修：全部）
+
+## 前置知識
+- 完成 General Learning Map 01-05 基礎階段
+- 理解 JSON 格式與 JSON Schema
+- 熟悉關聯式資料庫概念
+```
+
+**4 個主題檔案**:
+
+**00_overview.md** - Smart Insight Engine 總覽
+- 系統架構概覽
+- 核心概念速覽
+- MDOF 四大元素介紹
+- 學習路徑規劃
+- 角色導向學習建議
+
+**01_mdof-fundamentals.md** - MDOF 查詢基礎 ⭐ 核心
+- **M - Measures**: 度量指標（product_count, avg_price, price_statistics...）
+- **D - Dimensions**: 維度選擇（Brand, SupplementFact, DosageForm...）
+- **F - Filters**: 過濾邏輯（any/all bucket, cross_realms_logic）
+- **O - Options**: 選項配置（limit, offset, bin_size...）
+- CISC vs RISC 架構
+- 10 個業務場景實戰範例
+- 常見錯誤與除錯技巧
+
+**02_query-design.md** - 查詢設計進階
+- 從業務需求到 MDOF 查詢
+- 12+ 個查詢設計模式
+- Filter-Dimension 互動語義
+- 效能優化技巧
+- 業務場景實戰（市場研究、產品設計、定價策略）
+
+**03_test-case-design.md** - 測試案例設計
+- 測試策略（Simple / Complex / Business Scenarios）
+- 測試案例 JSON Schema 規範
+- 等價類與邊界值分析
+- 測試工具鏈使用（v3_test_case_runner, si_validate, si_query）
+- 除錯技巧與流程
+
+**特色**:
+- **漸進式學習**: 從概念 → 元素 → 組合 → 實戰
+- **豐富範例**: 50+ 個實戰查詢範例
+- **視覺化**: 使用 Mermaid 圖表輔助理解
+- **實務導向**: 涵蓋真實業務場景
+- **工具整合**: 完整的測試與除錯工具鏈
+
+**學習時間規劃**:
+- Test & Business Analysis: 3-5 天（01 + 03）
+- Data Analyst: 5-7 天（01 + 02）
+- Backend Engineer: 7-9 天（全部）
+
+**能力驗證**:
+完成學習後，學員應能夠：
+- ✅ 獨立設計 MDOF 查詢回答業務問題
+- ✅ 選擇合適的 Measure 和 Dimension 組合
+- ✅ 設計正確的 Filter 邏輯（any/all/cross_realms）
+- ✅ 優化查詢效能
+- ✅ 設計完整的測試案例
+- ✅ 使用工具鏈除錯查詢問題
 
 ---
 
