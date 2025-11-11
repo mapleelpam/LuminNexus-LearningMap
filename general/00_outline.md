@@ -135,9 +135,9 @@ mindmap
 
 ---
 
-### **02_unix-linux-basics - Unix/Linux 基礎**
+### **02_unix-linux-basics.md - Unix/Linux 基礎**
 > 學習階段：基礎 | 深度：概念理解與實務操作
-> 詳細內容請見：[unix-linux-basics.md](./unix-linux-basics.md)
+> 詳細內容請見：[02_unix-linux-basics.md](./02_unix-linux-basics.md)
 
 #### 核心概念
 - Unix/Linux 與 Windows 的差異
@@ -685,7 +685,7 @@ mindmap
 | 2.0 | 2025-11-10 | 新增本體論與 AI/ML 基礎名詞章節 | Learning Team |
 | 2.1 | 2025-11-10 | 在 03_software-engineering 新增專案管理核心術語 (3.4 章節) | Learning Team |
 | 2.2 | 2025-11-10 | 新增 SDD (3.5 章節) 和 TDD (4.5 章節)，連結到 Speckit 工具文檔 | Learning Team |
-| 2.3 | 2025-11-10 | 新增 02_unix-linux-basics 章節索引，連結到 unix-linux-basics.md | Learning Team |
+| 2.3 | 2025-11-10 | 新增 02_unix-linux-basics 章節索引，連結到 02_unix-linux-basics.md | Learning Team |
 | 2.4 | 2025-11-11 | 新增 JSON Schema (2.1 章節) 和 URI Schema (3.3 章節) | Learning Team |
 | 2.5 | 2025-11-11 | 新增 ETL 與 Enrich 資料處理流程 (2.3 章節)，創建完整的 03_data-engineering.md | Learning Team |
 
