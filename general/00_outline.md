@@ -1,6 +1,6 @@
 # General Learning Map - 通用核心能力大綱
 
-**版本**: 2.4
+**版本**: 2.5
 **更新日期**: 2025-11-11
 **適用角色**: 所有團隊成員 (Test & Business Analysis, Crawler Engineer)
 
@@ -190,6 +190,21 @@ mindmap
 - NoSQL 簡介
   - 何時使用 NoSQL
   - 常見類型 (Document, Key-Value, Graph)
+
+#### 2.3 資料處理流程 ⭐ NEW
+- ETL (Extract, Transform, Load)
+  - Extract (提取): 從來源系統讀取資料
+  - Transform (轉換): 資料清洗、格式轉換、業務邏輯處理
+  - Load (載入): 寫入目標系統
+  - ETL vs ELT 的差異
+- Enrich (資料充實)
+  - 什麼是資料充實
+  - 充實來源: 外部 API、參考資料表、計算欄位、規則引擎
+  - 使用場景: 產品分類標註、補充缺失屬性、關聯多個資料源
+  - 資料充實 vs 資料清洗的差異
+- 在 LuminNexus 的應用
+  - Crawler → 清洗 → 充實 → PostgreSQL → Smart Insight Engine
+  - 實際範例: 營養補充品資料處理流程
 
 ---
 
@@ -672,6 +687,7 @@ mindmap
 | 2.2 | 2025-11-10 | 新增 SDD (3.5 章節) 和 TDD (4.5 章節)，連結到 Speckit 工具文檔 | Learning Team |
 | 2.3 | 2025-11-10 | 新增 02_unix-linux-basics 章節索引，連結到 unix-linux-basics.md | Learning Team |
 | 2.4 | 2025-11-11 | 新增 JSON Schema (2.1 章節) 和 URI Schema (3.3 章節) | Learning Team |
+| 2.5 | 2025-11-11 | 新增 ETL 與 Enrich 資料處理流程 (2.3 章節)，創建完整的 03_data-engineering.md | Learning Team |
 
 ---
 
