@@ -1,7 +1,7 @@
 # General Learning Map - 通用核心能力大綱
 
-**版本**: 2.3
-**更新日期**: 2025-11-10
+**版本**: 2.4
+**更新日期**: 2025-11-11
 **適用角色**: 所有團隊成員 (Test & Business Analysis, Crawler Engineer)
 
 ---
@@ -167,6 +167,11 @@ mindmap
 - JSON
   - 何時使用、基本語法
   - 最佳實踐
+- JSON Schema
+  - 什麼是 JSON Schema
+  - 資料驗證與結構定義
+  - Schema 定義語法
+  - 使用場景：API 規格、資料驗證
 - CSV
   - 優缺點、使用時機
   - 常見問題處理
@@ -216,6 +221,11 @@ mindmap
 #### 3.3 API 設計與整合
 - 什麼是 API
   - API 的作用與價值
+- URI 結構與 Schema
+  - URI 組成部分 (Scheme, Host, Path, Query)
+  - Scheme 的作用與定義
+  - 常見 URI Schemes (http, https, ftp, ws, wss)
+  - URI vs URL vs URN 的區別
 - RESTful API 基礎
   - HTTP 方法 (GET, POST, PUT, DELETE)
   - 狀態碼 (2xx, 4xx, 5xx)
@@ -661,6 +671,7 @@ mindmap
 | 2.1 | 2025-11-10 | 在 03_software-engineering 新增專案管理核心術語 (3.4 章節) | Learning Team |
 | 2.2 | 2025-11-10 | 新增 SDD (3.5 章節) 和 TDD (4.5 章節)，連結到 Speckit 工具文檔 | Learning Team |
 | 2.3 | 2025-11-10 | 新增 02_unix-linux-basics 章節索引，連結到 unix-linux-basics.md | Learning Team |
+| 2.4 | 2025-11-11 | 新增 JSON Schema (2.1 章節) 和 URI Schema (3.3 章節) | Learning Team |
 
 ---
 
