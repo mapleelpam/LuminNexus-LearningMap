@@ -15,3 +15,31 @@
 - **Code/Data 分离** → 更灵活、更安全 (防止注入攻击)
 - **Configuration 外部化** → 不改代码就能调整行为
 - **Stateless 设计** → 更容易测试、扩展、并行化
+
+---
+
+## Configuration 最佳实践：12-Factor
+
+**来自 [12-Factor App](https://12factor.net/)**：
+
+**原则**：配置与代码严格分离
+- ❌ 硬编码在代码中
+- ✅ 存储在环境变量或密管系统
+
+**实践**：
+```python
+# ❌ 不好的做法
+API_KEY = "sk-abc123..."
+DB_PASSWORD = "mypassword"
+
+# ✅ 好的做法
+API_KEY = os.getenv("API_KEY")
+DB_PASSWORD = os.getenv("DB_PASSWORD")
+```
+
+**密钥分类**：
+- **Public**：可公开 (API endpoint URL)
+- **Private**：团队内部 (内网 IP)
+- **Secret**：需加密保护 (API keys, 密码)
+
+**密钥轮替**：定期更换 Secret 类型的配置
