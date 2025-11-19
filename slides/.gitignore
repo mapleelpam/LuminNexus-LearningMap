@@ -1,0 +1,20 @@
+# Auto-generated merged markdown files
+*/merged.md
+
+# Generated output files
+*/output.pdf
+*/output.pptx
+*/*.pdf
+*/*.pptx
+
+# Marp cache
+.marp
+
+# macOS
+.DS_Store
+
+# Editor temporary files
+*~
+*.swp
+*.swo
+.vscode/
