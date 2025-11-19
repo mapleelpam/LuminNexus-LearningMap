@@ -81,7 +81,8 @@ if [[ -f "merged.md" ]]; then
 fi
 
 # Find all numbered .md files and sort them
-MD_FILES=$(find . -maxdepth 1 -name "[0-9][0-9]_*.md" | sort)
+# Pattern matches: 00_*.md, 01_*.md, 03a_*.md, etc.
+MD_FILES=$(find . -maxdepth 1 -name "[0-9][0-9]*_*.md" | sort)
 
 if [[ -z "$MD_FILES" ]]; then
     print_error "No numbered markdown files found (format: NN_name.md)"
