@@ -69,6 +69,7 @@ graph TB
   - 支援 13 維度
   - ~130K 產品資料集
   - 複雜過濾邏輯 (any/all/cross-realms)
+- **快速概覽**: [smartinsightengine.md](smartinsightengine.md) - 快速理解 Input/Output 與系統定位
 - **詳細文檔**: [smart-insight-engine/](smart-insight-engine/) ⭐ **完整學習路徑**
   - [00_overview.md](smart-insight-engine/00_overview.md) - SI Engine 總覽
   - [01_mdof-fundamentals.md](smart-insight-engine/01_mdof-fundamentals.md) - MDOF 基礎 (2-3天)
@@ -212,7 +213,7 @@ sequenceDiagram
 3. 學習測試設計 [smart-insight-engine/03_test-case-design.md](smart-insight-engine/03_test-case-design.md) (1-2天)
 
 ### 對於前端工程師
-1. 理解 SmartInsightEngine 的 API
+1. 先讀 [smartinsightengine.md](smartinsightengine.md) 快速理解 Input/Output (30分鐘)
 2. 學習 PrismaVision-Next 的架構 [next.md](next.md)
 3. 實作資料視覺化元件
 
