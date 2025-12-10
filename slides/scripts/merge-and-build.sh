@@ -126,7 +126,7 @@ print_success "Merged $(echo "$MD_FILES" | wc -l | tr -d ' ') files into merged.
 print_info "Generating PDF with Marp..."
 
 # Run Marp
-if marp merged.md --pdf --allow-local-files -o output.pdf; then
+if marp --html merged.md --pdf --allow-local-files -o output.pdf; then
     print_success "PDF generated: output.pdf"
 else
     print_error "Marp PDF generation failed!"
