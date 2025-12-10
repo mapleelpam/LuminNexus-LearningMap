@@ -160,24 +160,69 @@ graph TB
 
 ---
 
-### Stage 4: 資料精煉 (Domain Processing)
+### Stage 4: 資料精煉 (Data Enrichment)
 
-**職責**: 業務邏輯、資料品質檢查、Taxonomy mapping
+**職責**: 資料豐富化、品質檢查、Marketplace 整合
 
-**處理內容**:
-- Taxonomy mapping (將產品映射到分類階層)
-- Knowledge realms integration
-- Business logic application
-- Data quality checks
-- Derived attributes calculation
+**TheRefinery 10 Enrichers 系統** (6/10 completed):
 
-**輸入**: `products_*.db` (from Unified Forge)
+| Enricher | 版本 | 說明 | 處理結果 |
+|----------|------|------|----------|
+| 1. Keepa Match Quality | v4.0 | Keepa 匹配品質分析 | 11,910 error matches identified |
+| 2. iHerb Match Quality | v2.0 | iHerb 匹配品質分析 | 416 error matches |
+| 3. Net Content Normalization | v1.0 | 淨含量正規化 | 853,238 records |
+| 4. Knowledge Realms | v2.0 | 知識領域映射 | 767,261 mappings |
+| 5-10. | - | 其他 6 個 Enrichers | 規劃中 |
 
-**輸出**: `refined_products.db`
+**輸入**:
+- `unified.db` (from TheForge Phase 2)
+- `weaver.db` (from TheForge Phase 2)
+
+**輸出**: `enriched.db` (~827 MB)
+
+**處理時間**: ~248.60 seconds (3.3M records processed)
 
 **負責團隊**: AlchemyMind Team - TheRefinery
 
 **詳細文檔**: [alchemymind/therefinery.md](alchemymind/therefinery.md)
+
+---
+
+### Stage 4.5: 資料統一化 (Data Consolidation)
+
+**職責**: Identity Resolution、多資料庫整合、生成統一查詢資料庫
+
+**TheDistiller 11-Stage Pipeline** (Stage 0-10):
+
+**核心功能**:
+- **Identity Resolution**: 211,585 → 144,625 products (31.6% dedup)
+- **Ingredients Transfer**: 1.3M records (avg 9.28 per product)
+- **Taxonomy Transfer**: 12 Taxonomies (1,966 nodes)
+- **Knowledge Realms Integration**: 10 realms (UsageContext 100%, DietaryAdaptability 64.34%)
+
+**關鍵階段**:
+- Stage 1: Identity Resolution (去重)
+- Stage 7: Ingredients Transfer (批次處理 1,000 筆/批次)
+- Stage 8: Knowledge Realms (每個領域只保留一個 leaf node)
+- Stage 10: Quality Validation (完整性檢查)
+
+**輸入**:
+- `unified.db` (from TheForge Phase 2)
+- `enriched.db` (from TheRefinery)
+- `weaver.db` (from TheForge Phase 2)
+
+**輸出**: `product_info.db` (647 MB, 27 tables)
+- 2 核心資料表 (Products, Brands)
+- 1 成分資料表 (SupplementFact)
+- 12 Taxonomy 表
+- 10 Knowledge Realm 表
+- 1 元數據表
+
+**處理時間**: ~10 分鐘 (完整 pipeline)
+
+**負責團隊**: AlchemyMind Team - TheDistiller
+
+**詳細文檔**: [alchemymind/thedistiller.md](alchemymind/thedistiller.md)
 
 ---
 
@@ -323,7 +368,11 @@ graph TB
 
 ---
 
-### Interface 6: SmartInsightEngine → PrismaVision
+### Interface 6: SmartInsightEngine → 終端使用者
+
+SmartInsightEngine 提供兩種介面，服務不同的使用者族群：
+
+#### Interface 6A: SmartInsightEngine → PrismaVision-Next (Web UI)
 
 **資料格式**: JSON API (HTTP REST)
 
@@ -346,9 +395,50 @@ graph TB
 }
 ```
 
-**Response 結構**: 參考 SmartInsightEngine 文檔
+**Response 結構**: JSON with data array + metadata
+
+**使用者**: 終端使用者透過 Web UI
 
 **負責定義**: PrismaVision Team - SmartInsightEngine
+
+**詳細說明**: [prismavision/smartinsightengine.md](prismavision/smartinsightengine.md)
+
+---
+
+#### Interface 6B: SmartInsightEngine → MCP Server (AI Agents)
+
+**資料格式**: JSON-RPC 2.0 (stdio)
+
+**協議**: MCP (Model Context Protocol)
+
+**通訊方式**: stdin/stdout (本地) 或 SSE (遠端)
+
+**12 MCP Tools**:
+- **查詢執行** (4): execute_query, execute_batch, execute_mixed_batch, validate_query
+- **探索工具** (6): search_taxonomies, get_capabilities, get_taxonomy, get_measure_info, etc.
+- **輔助工具** (1): calculate_bin_size
+- **健康檢查** (2): health_check, test_all_tools
+
+**Query 範例**:
+```python
+execute_query(
+  measure="product_count",
+  dimensions=["Brand"],
+  filters={"any": {"SupplementFact": ["Vitamin C"]}},
+  options={"limit": 10}
+)
+```
+
+**Response 特點**:
+- snake_case 欄位命名
+- 扁平化結構 (無巢狀)
+- 自然語言查詢描述
+
+**使用者**: AI Agents (Claude Code, etc.)
+
+**負責定義**: PrismaVision Team - MCP
+
+**詳細說明**: [prismavision/mcp.md](prismavision/mcp.md)
 
 ---
 
@@ -580,18 +670,22 @@ SmartInsightEngine 執行查詢
 | Stage 2 | keepa-forge | 64,661 files | ~15-20 分鐘 |
 | Stage 2 | weaver-forge | 290,768 files | ~1 分鐘 |
 | Stage 3 | unified-forge | 4 DBs | ~2-5 分鐘 |
-| Stage 4 | TheRefinery | 1 DB | TBD |
-| Stage 5 | TheWeaver | Per product | ~10-30 秒/產品 |
+| Stage 4 | TheRefinery | 3.3M records | ~248.60 秒 |
+| Stage 4.5 | TheDistiller | 3 DBs | ~10 分鐘 |
+| Stage 5 | TheWeaver | Per product | ~10-30 秒/產品 (Batch API) |
 
 ### 資料庫大小
 
-| 資料庫 | 大小 |
-|--------|------|
-| dsld_20250728.db | ~1.8-2.0 GB |
-| iherb_20250905.db | ~200-300 MB |
-| keepa_20250912.db | ~200-300 MB |
-| edible_20251124.db | ~151 MB |
-| products_edible_dsld_centric.db | ~500MB-2GB |
+| 資料庫 | 大小 | 說明 |
+|--------|------|------|
+| dsld_20250728.db | ~1.8-2.0 GB | DSLD Forge 輸出 |
+| iherb_20250905.db | ~200-300 MB | iHerb Forge 輸出 |
+| keepa_20250912.db | ~200-300 MB | Keepa Forge 輸出 |
+| edible_20251124.db | ~151 MB | Weaver Forge 輸出 |
+| unified.db | ~1.7 GB | Unified Forge 輸出 (27 tables) |
+| weaver.db | ~605 MB | Unified Forge 輸出 (23 tables) |
+| enriched.db | ~827 MB | TheRefinery 輸出 |
+| product_info.db | ~647 MB | TheDistiller 輸出 (27 tables) |
 
 ---
 
@@ -602,9 +696,21 @@ SmartInsightEngine 執行查詢
 - [DOCUMENTATION_POLICY.md](DOCUMENTATION_POLICY.md) - 文檔撰寫規範
 
 ### 子系統文檔
-- [atlasvault/theforge.md](atlasvault/theforge.md) - TheForge 詳細說明
-- [alchemymind/theweaver.md](alchemymind/theweaver.md) - TheWeaver 詳細說明
-- [alchemymind/therefinery.md](alchemymind/therefinery.md) - TheRefinery 詳細說明
+
+**AtlasVault Layer**:
+- [atlasvault/vault.md](atlasvault/vault.md) - Vault 中央資料庫
+- [atlasvault/theforge.md](atlasvault/theforge.md) - TheForge ETL 層
+
+**AlchemyMind Layer**:
+- [alchemymind/therefinery.md](alchemymind/therefinery.md) - TheRefinery 資料精煉
+- [alchemymind/thedistiller.md](alchemymind/thedistiller.md) - TheDistiller 資料統一化
+- [alchemymind/theweaver.md](alchemymind/theweaver.md) - TheWeaver LLM 分析
+- [alchemymind/theargus.md](alchemymind/theargus.md) - TheArgus 品質檢測
+
+**PrismaVision Layer**:
+- [prismavision/smartinsightengine.md](prismavision/smartinsightengine.md) - SmartInsightEngine 快速概覽
+- [prismavision/mcp.md](prismavision/mcp.md) - MCP 協議介面
+- [prismavision/smart-insight-engine/](prismavision/smart-insight-engine/) - 完整學習路徑
 
 ### 外部文檔
 - `LuminNexus-AtlasVault-TheForge/docs/20251203_architecture_cycle.md` - TheForge 完整架構
