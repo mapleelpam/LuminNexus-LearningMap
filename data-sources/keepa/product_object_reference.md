@@ -1,4 +1,4 @@
-# Keepa Product Object 實戰備忘錄 v2.0
+# Keepa Product Object 實戰備忘錄 v3.0
 
 > **文件目的**：完整解釋 Keepa API Product Object 的結構、欄位意義、使用場景，特別是 `csv` 和 `stats.current` 的對應關係。
 >
@@ -10,12 +10,12 @@
 >   - 🔗 [Keepa API 討論區](https://keepa.com/#!discuss)
 > - 本文件不涵蓋 API 呼叫方法、Token 管理、錯誤處理等實作細節
 >
-> **重要更新（v2.0）**：
-> - ✅ 新增完整 csv[0-33] 欄位說明表
-> - ✅ 新增 stats.current[0-33] 對應關係說明
-> - ✅ 驗證實際專案檔案的資料結構
-> - ✅ 補充資料格式細節（二元組 vs 三元組）
-> - ✅ 新增特殊值說明（-1, -2 等）
+> **重要更新（v3.0）**：
+> - ✅ 補充 39 個實際存在但未記錄的欄位
+> - ✅ 移除 6 個文件中有但實際不存在的欄位
+> - ✅ 新增多個主題章節（品牌商店、營養補充品、評論系統等）
+> - ✅ JSON 範例加入欄位註解說明
+> - ✅ 重新驗證所有欄位與實際資料的對應
 >
 > **資料來源**：
 > - [Keepa 官方 Product Object 文檔](https://keepa.com/#!discuss/t/product-object/116)
@@ -93,105 +93,213 @@
 2. [產品識別 & 基本時間欄位](#2-產品識別--基本時間欄位)
 3. [圖片 & 類別 / 變體結構](#3-圖片--類別--變體結構)
 4. [條碼 & 品牌 / 製造商等基本屬性](#4-條碼--品牌--製造商等基本屬性)
-5. [尺寸 & 重量](#5-尺寸--重量)
-6. [可用性、年齡限制、Prime 等旗標](#6-可用性年齡限制prime-等旗標)
-7. [FBA & 佣金 / eBay / 其他平台](#7-fba--佣金--ebay--其他平台)
-8. [促銷 / Coupon / Subscribe & Save](#8-促銷--coupon--subscribe--save)
-9. [銷量 / 銷售排名相關欄位](#9-銷量--銷售排名相關欄位)
-10. [租賃（主要是美國教科書等）](#10-租賃主要是美國教科書等)
-11. [Offers / Buy Box / Seller 相關欄位](#11-offers--buy-box--seller-相關欄位)
-12. [**CSV 歷史資料：完整 Index 0-33 說明表**](#12-csv-歷史資料完整-index-0-33-說明表)
-13. [**Statistics Object 與 current 陣列**](#13-statistics-object-與-current-陣列)
-14. [其它小細節 & 實作注意事項](#14-其它小細節--實作注意事項)
+5. [**品牌商店資訊**](#5-品牌商店資訊)
+6. [尺寸 & 重量](#6-尺寸--重量)
+7. [可用性與旗標](#7-可用性與旗標)
+8. [**營養補充品專屬欄位**](#8-營養補充品專屬欄位)
+9. [FBA & 佣金 / 其他平台](#9-fba--佣金--其他平台)
+10. [促銷 / Coupon / Subscribe & Save](#10-促銷--coupon--subscribe--save)
+11. [銷量 / 銷售排名相關欄位](#11-銷量--銷售排名相關欄位)
+12. [**評論與評分系統**](#12-評論與評分系統)
+13. [Offers / Buy Box / Seller 相關欄位](#13-offers--buy-box--seller-相關欄位)
+14. [**分類與展示系統**](#14-分類與展示系統)
+15. [**處理後資料與擴充欄位**](#15-處理後資料與擴充欄位)
+16. [**CSV 歷史資料：完整 Index 0-33 說明表**](#16-csv-歷史資料完整-index-0-33-說明表)
+17. [**Statistics Object 與 current 陣列**](#17-statistics-object-與-current-陣列)
+18. [其它小細節 & 實作注意事項](#18-其它小細節--實作注意事項)
 
 ---
 
 ## 1. Product Object 整體結構
 
-### 簡化 JSON 結構（概念版）
+### 完整 JSON 結構（含註解）
 
 ```jsonc
 {
-  "productType": 0,
-  "asin": "B00XXXXXXX",
-  "domainId": 1,
-  "title": "Product title",
-  "trackingSince": 2711319,
-  "listedSince": 2711319,
-  "lastUpdate": 2711319,
-  "lastRatingUpdate": 2711319,
-  "lastPriceChange": 2711319,
-  "lastEbayUpdate": 2711319,
-  "imagesCSV": "51InzcaVqrL.jpg,...",
-  "rootCategory": 562066,
-  "categories": [569604],
-  "categoryTree": [ { "catId": 562066, "name": "..." }, ... ],
-  "parentAsin": null,
-  "variationCSV": "B00AAAAAAA,B00BBBBBBB,...",
-  "frequentlyBoughtTogether": ["B00AAAAAAA","B00BBBBBBB"],
-  "eanList": ["8806088624952"],
-  "upcList": ["045496590086"],
-  "manufacturer": "Canon",
-  "brand": "Canon",
-  "productGroup": "Camera",
-  "partNumber": "...",
-  "binding": "...",
-  "numberOfItems": 1,
-  "numberOfPages": 514,
-  "publicationDate": 20150409,
-  "releaseDate": 20150409,
-  "contributors": [["Name","Role"], ...],
-  "languages": [["English"], ["English","Original Language"]],
-  "model": "...",
-  "color": "Black",
-  "size": "S",
-  "edition": "Standard",
-  "format": "AC-3",
-  "features": ["...","..."],
-  "description": "...",
-  "packageHeight": 123,
-  "packageLength": 456,
-  "packageWidth": 789,
-  "packageWeight": 1234,
-  "packageQuantity": 1,
-  "itemHeight": 100,
-  "itemLength": 200,
-  "itemWidth": 50,
-  "itemWeight": 800,
-  "availabilityAmazon": 0,
-  "availabilityAmazonDelay": [keepaTime, delay, ...],
-  "ebayListingIds": [1234567890],
-  "isAdultProduct": false,
-  "launchpad": false,
-  "audienceRating": "PG-13",
-  "newPriceIsMAP": false,
-  "isEligibleForTradeIn": false,
-  "isEligibleForSuperSaverShipping": true,
-  "fbaFees": {...},
-  "referralFeePercent": 1500,
-  "variations": [ { ... }, ... ],
-  "coupon": [discountValue, type, ...],
-  "promotions": [ { ...Promotion Object... }, ... ],
-  "stats": { ...Statistics Object... },
-  "salesRankReference": 562066,
-  "salesRankReferenceHistory": [catId1, catId2, ...],
-  "salesRanks": {
-    "281052": [keepaTime, rank, ...],
-    ...
+  // === 產品識別與基本資訊 ===
+  "productType": 0,                    // 產品類型：0=一般, 1=downloadable, 2=Kindle, 3=MAP限制, 4=廢止, 5=父ASIN
+  "asin": "B00XXXXXXX",                // Amazon 標準識別碼
+  "domainId": 1,                       // 地區：1=.com, 2=.co.uk, 3=.de, 4=.fr, 5=.co.jp 等
+  "title": "Product title",            // 產品標題
+  "type": "NUTRITIONAL_SUPPLEMENT",    // 產品類型關鍵字（如 HERBAL_SUPPLEMENT, ABIS_BOOK 等）
+  "author": "Daniel Lyon",             // 作者（書籍類商品）
+
+  // === 時間戳記 ===
+  "trackingSince": 2711319,            // Keepa 開始追蹤時間（Keepa Time）
+  "listedSince": 2711319,              // Amazon 首次上架時間
+  "lastUpdate": 2711319,               // Product Object 最後更新時間
+  "lastRatingUpdate": 2711319,         // 評分/評論數最後更新時間
+  "lastPriceChange": 2711319,          // 任一價格最後變動時間
+  "lastEbayUpdate": 2711319,           // eBay 價格最後更新時間
+  "lastSoldUpdate": 2711319,           // monthlySold 最後更新時間
+
+  // === 圖片 ===
+  "imagesCSV": "51InzcaVqrL.jpg,...",  // 圖片檔名 CSV（逗號分隔）
+  "images": [                          // 圖片詳細資訊（dict 列表）
+    {
+      "large": "https://...",
+      "thumb": "https://..."
+    }
+  ],
+
+  // === 分類 ===
+  "rootCategory": 562066,              // 根分類節點 ID
+  "categories": [569604],              // 所有掛載的分類節點 IDs
+  "categoryTree": [                    // 完整分類路徑
+    { "catId": 562066, "name": "Health & Household" }
+  ],
+  "salesRankReference": 562066,        // 主要銷售排名參考分類
+  "salesRankReferenceHistory": [562066, 3760901],  // 排名分類變更歷史
+  "salesRankDisplayGroup": "health_and_beauty_display_on_website",  // 排名顯示群組
+  "websiteDisplayGroup": "health_and_beauty_display_on_website",    // 網站展示群組
+  "websiteDisplayGroupName": "Health and Beauty",                   // 展示群組名稱
+
+  // === 變體與關聯 ===
+  "parentAsin": "B0F8QBP6PJ",          // 父 ASIN（若為變體商品）
+  "parentTitle": "Ocuvite Eye Vitamin & Mineral Supplement",  // 父 ASIN 標題
+  "parentAsinHistory": [7557902, -1],  // 父 ASIN 變更歷史
+  "variationCSV": "B00AAA,B00BBB",     // 所有變體 ASINs（CSV，最多 1800 個）
+  "variations": [ { ... } ],           // 詳細變體資訊（顏色、尺寸等）
+  "frequentlyBoughtTogether": ["B00AAA","B00BBB"],  // 常一起購買的 ASINs
+
+  // === 條碼與識別 ===
+  "eanList": ["8806088624952"],        // EAN 條碼列表（index 0 為主要）
+  "upcList": ["045496590086"],         // UPC 條碼列表
+  "gtinList": ["00324208387603"],      // GTIN 條碼列表
+  "g": 222,                            // 內部識別碼（用途未明）
+  "urlSlug": "Bausch-Lomb-Ocuvite-Vitamin-Supplement",  // URL 友善名稱
+
+  // === 品牌與製造商 ===
+  "manufacturer": "Canon",             // 製造商
+  "brand": "Canon",                    // 品牌名稱
+  "brandStoreName": "Ocuvite",         // 品牌商店名稱
+  "brandStoreUrl": "/stores/Ocuvite/page/...",  // 品牌商店 URL
+  "brandStoreUrlName": "Ocuvite",      // 品牌商店顯示名稱
+  "productGroup": "Camera",            // 產品群組（粗分類）
+  "partNumber": "AB38760",             // 製造商料號
+  "binding": "paperback",              // 裝訂類型或產品類別
+
+  // === 產品屬性 ===
+  "numberOfItems": 1,                  // 包裝內件數
+  "numberOfPages": 514,                // 書籍頁數（非書籍為 -1）
+  "publicationDate": 20150409,         // 出版日期（YYYYMMDD）
+  "releaseDate": 20150409,             // 發售日期
+  "contributors": [["Name","Role"]],   // 貢獻者（作者、編輯等）
+  "languages": [["English"]],          // 語言列表
+  "model": "AB38760",                  // 型號
+  "color": "Black",                    // 顏色
+  "size": "60 Count (Pack of 1)",      // 尺寸/規格
+  "edition": "Standard",               // 版本
+  "format": "AC-3",                    // 格式（影音/書籍）
+  "formats": ["Paperback"],            // 格式列表
+  "features": ["Feature 1", "..."],    // 產品賣點（bullet points）
+  "description": "Full description",   // 完整產品描述
+  "style": "amazon.com/dp/",           // 樣式資訊
+
+  // === 營養補充品專屬欄位 ===
+  "itemForm": "Tablet",                // 產品形式（Tablet, Powder, Capsule 等）
+  "ingredients": "See packaging",      // 成分說明
+  "specialIngredients": "5-HTP",       // 特殊成分
+  "material": "Lutein",                // 材質/主要成分
+  "materials": ["Lutein"],             // 材質列表
+  "productBenefit": "Eye Health Support",  // 產品功效
+  "specificUsesForProduct": ["Nourishing"],  // 特定用途
+  "recommendedUsesForProduct": "Stomach",    // 推薦用途
+  "safetyWarning": "See warning text",       // 安全警告
+  "unitCount": {                       // 單位數量
+    "unitType": "Count",
+    "unitValue": 60
   },
-  "lastSoldUpdate": 2711319,
-  "monthlySold": 1000,
-  "rentalDetails": "text...",
-  "rentalSellerId": "A2L77EE7U53NWQ",
-  "rentalPrices": { ... },
-  "offers": [ ...Marketplace Offer Object... ],
-  "liveOffersOrder": [3,5,2,...],
-  "buyBoxSellerIdHistory": [keepaTime, sellerId, ...],
-  "buyBoxUsedHistory": [keepaTime, sellerId, condition, isFBA, ...],
-  "isRedirectASIN": false,
-  "isSNS": false,
-  "offersSuccessful": true,
-  "csv": [ [...],[...],... ]   // 價格 & 評價等的歷史（34 個陣列）
+  "itemTypeKeyword": "multiple-vitamin-mineral-combinations",  // 產品類型關鍵字
+
+  // === 尺寸與重量 ===
+  "packageHeight": 123,                // 包裝高度（最小單位）
+  "packageLength": 456,                // 包裝長度
+  "packageWidth": 789,                 // 包裝寬度
+  "packageWeight": 1234,               // 包裝重量
+  "packageQuantity": 1,                // 包裝數量
+  "itemHeight": 100,                   // 商品高度
+  "itemLength": 200,                   // 商品長度
+  "itemWidth": 50,                     // 商品寬度
+  "itemWeight": 800,                   // 商品重量
+
+  // === 可用性與旗標 ===
+  "availabilityAmazon": 0,             // Amazon 庫存：-1=無, 0=有, 1=預購, 2=未知, 3=缺貨, 4=延遲
+  "isAdultProduct": false,             // 是否為成人商品
+  "launchpad": false,                  // 是否為 Amazon Launchpad
+  "newPriceIsMAP": false,              // 是否受 MAP 價格限制
+  "isEligibleForTradeIn": false,       // 是否可參加 trade-in
+  "isEligibleForSuperSaverShipping": true,  // 是否符合免運門檻
+  "isRedirectASIN": false,             // 是否會被重導到其他 ASIN
+  "isSNS": true,                       // 是否可 Subscribe & Save
+  "isB2B": false,                      // 是否為 B2B 商品
+  "isHeatSensitive": false,            // 是否熱敏感
+
+  // === FBA 與費用 ===
+  "fbaFees": {                         // FBA 費用資訊
+    "pickAndPackFee": 299,
+    "storageFee": 50
+  },
+  "referralFeePercent": 1500,          // 介紹費百分比（basis points，1500 = 15%）
+  "referralFeePercentage": 15.01,      // 介紹費百分比（float 版本）
+  "variableClosingFee": 180,           // 可變交易費
+  "ebayListingIds": [1234567890],      // 對應的 eBay listing IDs
+
+  // === 促銷 ===
+  "coupon": [500, 1],                  // 當前 coupon [折扣值, 類型]
+  "couponHistory": [time, val, ...],   // Coupon 歷史
+  "promotions": [                      // 促銷活動詳情
+    { "type": "...", "value": "..." }
+  ],
+
+  // === 銷售排名 ===
+  "salesRanks": {                      // 各分類銷售排名歷史
+    "281052": [keepaTime, rank, ...]
+  },
+  "monthlySold": 500,                  // 過去 30 天購買次數
+  "monthlySoldHistory": [time, count, ...],  // 月銷量歷史
+
+  // === 評論系統 ===
+  "hasReviews": true,                  // 是否有評論
+  "reviews": {                         // 評論統計資訊
+    "lastUpdate": 7826110,
+    "ratingCount": 4500,
+    "reviewCount": 1200
+  },
+
+  // === Buy Box & Offers ===
+  "buyBoxSellerIdHistory": [time, sellerId, ...],  // Buy Box 擁有者歷史
+  "buyBoxUsedHistory": [time, sellerId, condition, isFBA, ...],  // 二手 Buy Box 歷史
+  "buyBoxEligibleOfferCounts": [2,1,0,0,0,0,0,0],  // 各條件合格 offers 數量
+  "competitivePriceThreshold": 1285,   // 競爭價格門檻（cents）
+  "liveOffersOrder": [3,5,2],          // offers 頁面顯示順序
+  "offersSuccessful": false,           // 是否成功抓到 offers 資料
+
+  // === 歷史資料 ===
+  "csv": [                             // 價格/評價歷史（34 個陣列，index 0-33）
+    [time1, val1, time2, val2, ...],   // csv[0]: AMAZON 價格
+    [time1, val1, time2, val2, ...],   // csv[1]: NEW 價格
+    // ... csv[2-33]
+  ],
+
+  // === 統計資料 ===
+  "stats": {                           // 統計物件（需要 stats 參數）
+    "current": [val0, val1, ...],      // 當前值（index 對應 csv）
+    "avg": [...],
+    "avg30": [...],
+    "avg90": [...],
+    // ... 更多統計欄位
+  },
+
+  // === 處理後資料（可能為專案擴充欄位）===
+  "data": {                            // 處理後的資料結構
+    "AMAZON_time": [...],              // 解析後的時間序列
+    "AMAZON": [...],                   // 解析後的價格序列
+    "df_AMAZON": {...}                 // DataFrame 格式資料
+  },
+  "stats_parsed": {                    // 處理後的統計資料
+    "current_parsed": {...}
+  }
 }
 ```
 
@@ -247,6 +355,7 @@ def datetime_to_keepa(dt):
 | 欄位             | 型別           | 說明                                                                                                                                           |
 | -------------- | ------------ | -------------------------------------------------------------------------------------------------------------------------------------------- |
 | `imagesCSV`    | String (逗號串) | 產品所有 Amazon 圖片檔名的 CSV（`51InzcaVqrL.jpg,...`）<br>完整 URL 通常是 `https://images-na.ssl-images-amazon.com/images/I/<imageName>`<br>有可能是 URL-encoded<br>若無則 `null` |
+| `images`       | Object[]     | 圖片詳細資訊陣列，每個物件包含圖片 URL（如 `large`, `thumb` 等尺寸）<br>比 imagesCSV 更完整的圖片資訊                                                                          |
 | `rootCategory` | Long         | 產品所在分類樹的 root 類別節點 ID。未知時為 0 或特殊 max long                                                                                                     |
 | `categories`   | Long[]       | 列出產品掛載的所有 Amazon category node IDs（可能多個）。可能為空陣列                                                                                               |
 | `categoryTree` | Object[]     | 有順序的類別路徑陣列，每個物件 `{ catId: Long, name: String }`<br>通常由 root 到 leaf，方便畫樹或做 breadcrumb                                                           |
@@ -256,9 +365,15 @@ def datetime_to_keepa(dt):
 | 欄位                         | 型別       | 說明                                                                      |
 | -------------------------- | -------- | ----------------------------------------------------------------------- |
 | `parentAsin`               | String   | 若此 ASIN 為變體商品，這裡是父 ASIN；沒有變體則為 `null`                                    |
+| `parentTitle`              | String   | 父 ASIN 的標題（方便識別變體所屬產品系列）                                                |
+| `parentAsinHistory`        | Integer[] | 父 ASIN 變更歷史 [keepaTime, asinOrValue, ...]<br>追蹤產品是否更換過父 ASIN           |
 | `variationCSV`             | String   | 最多 1800 個變體 ASIN 的 CSV<br>要拿到**即時資料**需要在 request 裡加 `offers` 參數，Keepa 會更新 |
 | `variations`               | Object[] | 詳細變體資訊（顏色、尺寸等屬性 + 部分價錢/可用性）<br>只有某些情況會回傳（特別是 productType 5, parent ASIN）   |
 | `frequentlyBoughtTogether` | String[] | 「Frequently bought together」的 1–2 個 ASIN<br>需要 `offers` 更新             |
+
+**注意事項**：
+- `images` 提供比 `imagesCSV` 更完整的圖片資訊，包含多種尺寸
+- `parentAsinHistory` 可用於追蹤產品變體結構的變化
 
 ---
 
@@ -268,12 +383,15 @@ def datetime_to_keepa(dt):
 | ----------------- | ---------- | ---------------------------------------------------------- |
 | `upcList`         | String[]   | 指派給此商品的所有 UPC，index 0 是 primary UPC。沒有則 `null`            |
 | `eanList`         | String[]   | 所有 EAN，index 0 是 primary EAN。沒有則 `null`                   |
+| `gtinList`        | String[]   | 所有 GTIN（全球貿易識別碼），index 0 是 primary。沒有則 `null`              |
 | `manufacturer`    | String     | 製造商名稱                                                      |
 | `brand`           | String     | 品牌名稱（Amazon 頁面顯示的 brand，不是「有品牌 page 才算」那種）                |
 | `productGroup`    | String     | 粗分類（例如 Electronics, Camera 等），跟 `category` 不同，是 Amazon metadata 上的 group |
+| `type`            | String     | 產品類型關鍵字（如 NUTRITIONAL_SUPPLEMENT, HERBAL_SUPPLEMENT, ABIS_BOOK 等） |
 | `partNumber`      | String     | 製造商料號                                                      |
 | `model`           | String     | 型號                                                         |
 | `binding`         | String     | 書籍的裝訂類型、或對非書類通常是產品類別描述                                     |
+| `author`          | String     | 作者（主要用於書籍類商品，其他類別通常為 `null`）                              |
 | `numberOfItems`   | Integer    | 此 listing 內含的件數（如 pack of 3）。無時為 -1                        |
 | `numberOfPages`   | Integer    | 書籍頁數，非書籍會是 -1                                              |
 | `publicationDate` | Integer    | 出版日期，用 YYYY / YYYYMM / YYYYMMDD 三種格式之一。例如 20150409         |
@@ -287,9 +405,39 @@ def datetime_to_keepa(dt):
 | `features`        | String[]   | Bullet points（產品賣點列表）                                      |
 | `description`     | String     | 產品描述全文                                                     |
 
+**注意事項**：
+- `gtinList` 是 GTIN（Global Trade Item Number）的完整列表，通常包含 UPC/EAN
+- `type` 欄位可用於快速判斷產品類別（補充品、書籍、電子產品等）
+- `author` 主要用於書籍，其他類別通常為 `null`
+
 ---
 
-## 5. 尺寸 & 重量
+## 5. 品牌商店資訊
+
+> **新增欄位**：這些欄位用於連結到 Amazon 品牌商店頁面。
+
+| 欄位 | 型別 | 說明 |
+| ------------------ | ------ | ------------------------------------------------------------ |
+| `brandStoreName` | String | 品牌商店名稱（如 "Ocuvite"） |
+| `brandStoreUrl` | String | 品牌商店相對 URL 路徑（如 "/stores/Ocuvite/page/A9B467F7..."） |
+| `brandStoreUrlName` | String | 品牌商店 URL 顯示名稱（通常與 brandStoreName 相同） |
+
+**使用範例**：
+```python
+if product.get('brandStoreUrl'):
+    store_url = f"https://www.amazon.com{product['brandStoreUrl']}"
+    print(f"品牌商店: {product['brandStoreName']}")
+    print(f"商店連結: {store_url}")
+```
+
+**注意事項**：
+- 不是所有產品都有品牌商店
+- 只有在 Amazon 上建立品牌商店的賣家才會有這些欄位
+- 對於追蹤特定品牌的產品組合很有用
+
+---
+
+## 6. 尺寸 & 重量
 
 尺寸 / 重量多半是 **最小單位整數**，不同 domain 的單位不同（例如 mm / g）。實務上通常需要靠測試幾個樣本來推單位。
 
@@ -304,83 +452,416 @@ def datetime_to_keepa(dt):
 
 ---
 
-## 6. 可用性、年齡限制、Prime 等旗標
+## 7. 可用性與旗標
 
 | 欄位                                | 型別        | 說明                                                   |
 | --------------------------------- | --------- | ---------------------------------------------------- |
 | `availabilityAmazon`              | Integer   | Amazon 自營庫存狀態：<br>-1=無報價、0=有庫存、1=預購、2=未知、3=缺貨、4=延遲 |
-| `availabilityAmazonDelay`         | Integer[] | [time, delay, time, delay, …]<br>delay 通常表示出貨等待時間的變化歷史 |
 | `isAdultProduct`                  | Boolean   | 是否為成人商品                                              |
 | `launchpad`                       | Boolean   | 是否屬於 Amazon Launchpad 計畫                             |
-| `audienceRating`                  | String    | 觀眾分級（PG-13 等），適用於影音內容                                |
 | `newPriceIsMAP`                   | Boolean   | 新品價是否受 Minimum Advertised Price (MAP) 限制            |
 | `isEligibleForTradeIn`            | Boolean   | 是否可參加 trade-in                                       |
 | `isEligibleForSuperSaverShipping` | Boolean   | 是否符合 Super Saver / 免費運送門檻                            |
+| `isRedirectASIN`                  | Boolean   | 此 ASIN 是否會被 Amazon 301 重導到其他 ASIN                    |
+| `isSNS`                           | Boolean   | 此商品的 buy box 是否可以 Subscribe & Save（定期購買）             |
+| `isB2B`                           | Boolean   | 是否為 B2B 專用商品                                          |
+| `isHeatSensitive`                 | Boolean   | 是否為熱敏感商品（影響運送方式）                                     |
 
-**使用建議**：這些欄位適合用來篩除異常商品（如成人產品、MAP 限制商品等）。
+**使用建議**：這些欄位適合用來篩除異常商品（如成人產品、MAP 限制商品等）或識別特殊銷售模式（SNS, B2B）。
 
----
-
-## 7. FBA & 佣金 / eBay / 其他平台
-
-| 欄位                   | 型別      | 說明                                                                  |
-| -------------------- | ------- | ------------------------------------------------------------------- |
-| `fbaFees`            | Object  | FBA 相關費用資訊（fulfillment fee 等）<br>結構有多個子欄位，如 `pickAndPackFee`, `storageFee` 等 |
-| `referralFeePercent` | Integer | Amazon 介紹費％，以整數百分之一（basis points）表示<br>例如 1500 = 15%                |
-| `ebayListingIds`     | Long[]  | 若 Keepa 有對應 eBay listing，這裡會列出 IDs<br>可配合 eBay 價格 csv[28]/csv[29] 使用 |
+**注意**：
+- ~~`availabilityAmazonDelay`~~ 和 ~~`audienceRating`~~ 在實際資料中未出現（可能為條件性欄位）
 
 ---
 
-## 8. 促銷 / Coupon / Subscribe & Save
+## 8. 營養補充品專屬欄位
 
-| 欄位           | 型別                 | 說明                                                                   |
-| ------------ | ------------------ | -------------------------------------------------------------------- |
-| `coupon`     | Integer[]          | 當前 coupon 情況，例如折扣金額、百分比等<br>具體 encoding 需參照官方 doc<br>通常配合 `stats` 或 `csv` 看價格差 |
-| `promotions` | Promotion Object[] | 更多促銷資訊（類型、條件、期限等）                                                    |
-| `isSNS`      | Boolean            | 此商品的 buy box 是否可以 Subscribe & Save（定期購買）<br>需要 `offers` 相關參數才會出現      |
+> **重要**：這些欄位主要出現在保健食品、營養補充品類商品（Health & Household, Drugstore 分類）。
+
+| 欄位                           | 型別       | 說明                                          |
+| ---------------------------- | -------- | ------------------------------------------- |
+| `itemForm`                   | String   | 產品形式：Tablet, Capsule, Powder, Liquid, Gummy 等 |
+| `ingredients`                | String   | 成分說明文字（可能很長，或僅註明"見包裝"）                     |
+| `specialIngredients`         | String   | 特殊成分（如 "5-Hydroxytryptophan", "Lutein"）    |
+| `material`                   | String   | 主要材質/成分（單一字串）                              |
+| `materials`                  | String[] | 材質列表（陣列格式）                                 |
+| `productBenefit`             | String   | 產品功效（如 "Eye Health Support", "Joint Support"） |
+| `specificUsesForProduct`     | String[] | 特定用途列表（如 ["Nourishing", "Energy Support"]） |
+| `recommendedUsesForProduct`  | String   | 推薦用途（如 "Stomach", "Digestion"）            |
+| `safetyWarning`              | String   | 安全警告文字（可能包含 California Prop 65 警告等）        |
+| `unitCount`                  | Object   | 單位數量資訊 `{"unitType": "Count", "unitValue": 60}` |
+| `itemTypeKeyword`            | String   | 產品類型關鍵字（如 "multiple-vitamin-mineral-combinations"） |
+
+**使用範例**：
+```python
+# 篩選特定形式的營養補充品
+def filter_by_form(products, desired_form):
+    """篩選特定形式的補充品（如只要錠劑）"""
+    return [p for p in products
+            if p.get('itemForm', '').lower() == desired_form.lower()]
+
+# 提取成分資訊
+def extract_ingredient_info(product):
+    """提取完整成分資訊"""
+    return {
+        'main_ingredients': product.get('ingredients', ''),
+        'special': product.get('specialIngredients', ''),
+        'materials': product.get('materials', []),
+        'benefit': product.get('productBenefit', ''),
+        'warning': product.get('safetyWarning', '')
+    }
+
+# 解析單位數量
+def get_unit_count(product):
+    """取得產品單位數量"""
+    unit_count = product.get('unitCount', {})
+    if unit_count:
+        return f"{unit_count['unitValue']} {unit_count['unitType']}"
+    return None
+```
+
+**注意事項**：
+- 這些欄位在非保健品類別可能為 `null` 或不存在
+- `safetyWarning` 可能包含 HTML 標籤，需要額外處理
+- `ingredients` 可能只寫 "See packaging for ingredients"
 
 ---
 
-## 9. 銷量 / 銷售排名相關欄位
+## 9. FBA & 佣金 / 其他平台
+
+| 欄位                     | 型別      | 說明                                                                  |
+| ---------------------- | ------- | ------------------------------------------------------------------- |
+| `fbaFees`              | Object  | FBA 相關費用資訊（fulfillment fee 等）<br>結構有多個子欄位，如 `pickAndPackFee`, `storageFee` 等 |
+| `referralFeePercent`   | Integer | Amazon 介紹費％，以整數百分之一（basis points）表示<br>例如 1500 = 15%                |
+| `referralFeePercentage` | Float   | Amazon 介紹費％（float 版本），例如 15.01                                     |
+| `variableClosingFee`   | Integer | 可變交易費（cents）                                                         |
+| `ebayListingIds`       | Long[]  | 若 Keepa 有對應 eBay listing，這裡會列出 IDs<br>可配合 eBay 價格 csv[28]/csv[29] 使用 |
+
+**使用範例**：
+```python
+# 計算賣家利潤
+def calculate_seller_profit(product, selling_price_cents):
+    """計算賣家利潤（簡化版）"""
+    # 介紹費
+    referral_fee = selling_price_cents * (product['referralFeePercent'] / 10000)
+
+    # FBA 費用
+    fba_fee = product.get('fbaFees', {}).get('pickAndPackFee', 0)
+
+    # 可變交易費
+    variable_fee = product.get('variableClosingFee', 0)
+
+    # 總成本
+    total_fees = referral_fee + fba_fee + variable_fee
+
+    # 利潤
+    profit = selling_price_cents - total_fees
+
+    return {
+        'selling_price': selling_price_cents / 100,
+        'referral_fee': referral_fee / 100,
+        'fba_fee': fba_fee / 100,
+        'variable_fee': variable_fee / 100,
+        'total_fees': total_fees / 100,
+        'profit': profit / 100
+    }
+```
+
+---
+
+## 10. 促銷 / Coupon / Subscribe & Save
+
+| 欄位             | 型別                 | 說明                                                                   |
+| -------------- | ------------------ | -------------------------------------------------------------------- |
+| `coupon`       | Integer[]          | 當前 coupon 情況，例如折扣金額、百分比等<br>具體 encoding 需參照官方 doc<br>通常配合 `stats` 或 `csv` 看價格差 |
+| `couponHistory` | Integer[]          | Coupon 歷史變化 [keepaTime, value, type, ...]                             |
+| `promotions`   | Promotion Object[] | 更多促銷資訊（類型、條件、期限等）                                                    |
+| `isSNS`        | Boolean            | 此商品的 buy box 是否可以 Subscribe & Save（定期購買）<br>需要 `offers` 相關參數才會出現      |
+
+**使用範例**：
+```python
+# 檢查當前是否有 coupon
+def has_active_coupon(product):
+    """檢查產品是否有活躍的 coupon"""
+    coupon = product.get('coupon')
+    return coupon is not None and len(coupon) > 0
+
+# 分析 coupon 歷史
+def analyze_coupon_history(product):
+    """分析 coupon 使用頻率"""
+    history = product.get('couponHistory', [])
+    if not history or len(history) < 2:
+        return None
+
+    # 簡化解析（實際格式需參考官方文檔）
+    coupon_count = len(history) // 2  # 假設為二元組
+    return {
+        'total_coupons': coupon_count,
+        'has_coupon_now': has_active_coupon(product)
+    }
+```
+
+---
+
+## 11. 銷量 / 銷售排名相關欄位
 
 > 這一區對「銷量估計、ranking 熱門度」分析很重要。
 
-| 欄位                          | 型別      | 說明                                                                          |
-| --------------------------- | ------- | --------------------------------------------------------------------------- |
-| `salesRanks`                | Object  | key = categoryId<br>value = `[keepaTime, rank, ...]` 的歷史陣列<br>可以有多個 category rank |
-| `salesRankReference`        | Long    | 主要參考的 sales rank 類別 ID（例如最重要的 category）                                    |
-| `salesRankReferenceHistory` | Long[]  | 主要參考 rank 所屬 category 的變化歷史                                                |
-| `lastSoldUpdate`            | Integer | `monthlySold` 上次更新時間                                                        |
-| `monthlySold`               | Integer | 過去 1 個月內的購買次數<br>直接來自 Amazon 搜尋結果頁上的「過去一個月有 XXX 人購買」<br>**不是模型估計**<br>多數 ASIN 會是 undefined |
+| 欄位                          | 型別       | 說明                                                                          |
+| --------------------------- | -------- | --------------------------------------------------------------------------- |
+| `salesRanks`                | Object   | key = categoryId<br>value = `[keepaTime, rank, ...]` 的歷史陣列<br>可以有多個 category rank |
+| `salesRankReference`        | Long     | 主要參考的 sales rank 類別 ID（例如最重要的 category）                                    |
+| `salesRankReferenceHistory` | Long[]   | 主要參考 rank 所屬 category 的變化歷史                                                |
+| `lastSoldUpdate`            | Integer  | `monthlySold` 上次更新時間                                                        |
+| `monthlySold`               | Integer  | 過去 1 個月內的購買次數<br>直接來自 Amazon 搜尋結果頁上的「過去一個月有 XXX 人購買」<br>**不是模型估計**<br>多數 ASIN 會是 undefined |
+| `monthlySoldHistory`        | Integer[] | 月銷量歷史 [keepaTime, count, keepaTime, count, ...]<br>追蹤 monthlySold 的時間變化  |
+
+**使用範例**：
+```python
+# 分析月銷量趨勢
+def analyze_monthly_sold_trend(product):
+    """分析月銷量趨勢"""
+    history = product.get('monthlySoldHistory', [])
+    if not history or len(history) < 4:
+        return None
+
+    # 解析歷史資料
+    times = [keepa_to_datetime(t) for t in history[::2]]
+    counts = history[1::2]
+
+    # 計算趨勢
+    recent = counts[-3:]  # 最近 3 個月
+    older = counts[-6:-3] if len(counts) >= 6 else counts[:-3]
+
+    return {
+        'current': product.get('monthlySold', 0),
+        'trend': 'increasing' if sum(recent) > sum(older) else 'decreasing',
+        'avg_recent': sum(recent) / len(recent) if recent else 0,
+        'history_length': len(times)
+    }
+
+# 篩選熱銷商品
+def filter_hot_sellers(products, min_monthly_sold=100):
+    """篩選月銷量超過門檻的商品"""
+    return [p for p in products
+            if p.get('monthlySold', 0) >= min_monthly_sold]
+```
 
 ---
 
-## 10. 租賃（主要是美國教科書等）
+## 12. 評論與評分系統
 
-| 欄位               | 型別     | 說明                                                                |
-| ---------------- | ------ | ----------------------------------------------------------------- |
-| `rentalDetails`  | String | 租書說明文字（租期、延長費、買斷價…）<br>需要 `offers` / `rental` 參數                  |
-| `rentalSellerId` | String | 提供 rental buy box 的 sellerId                                      |
-| `rentalPrices`   | Object | 租賃價資訊：<br>initialPrice, shortExtnPrice, longExtnPrice, fullPrice 等 |
+> **重要**：這些欄位提供比 `csv[16]` 和 `csv[17]` 更方便的評論資訊存取。
+
+| 欄位           | 型別      | 說明                                                  |
+| ------------ | ------- | --------------------------------------------------- |
+| `hasReviews` | Boolean | 是否有評論（快速檢查）                                         |
+| `reviews`    | Object  | 評論統計資訊物件，包含：<br>- `lastUpdate`: 最後更新時間<br>- `ratingCount`: 評分次數<br>- `reviewCount`: 評論數量 |
+
+**使用範例**：
+```python
+# 快速取得評論統計
+def get_review_stats(product):
+    """取得評論統計資訊（比解析 csv 更方便）"""
+    if not product.get('hasReviews', False):
+        return {'has_reviews': False}
+
+    reviews = product.get('reviews', {})
+    return {
+        'has_reviews': True,
+        'rating_count': reviews.get('ratingCount', 0),
+        'review_count': reviews.get('reviewCount', 0),
+        'last_update': keepa_to_datetime(reviews['lastUpdate']) if 'lastUpdate' in reviews else None
+    }
+
+# 篩選高評價商品
+def filter_high_rated(products, min_reviews=100):
+    """篩選評論數充足的商品"""
+    result = []
+    for p in products:
+        if not p.get('hasReviews'):
+            continue
+        reviews = p.get('reviews', {})
+        if reviews.get('reviewCount', 0) >= min_reviews:
+            result.append(p)
+    return result
+
+# 檢查評論資料新鮮度
+def is_review_data_fresh(product, days=30):
+    """檢查評論資料是否夠新"""
+    reviews = product.get('reviews', {})
+    if 'lastUpdate' not in reviews:
+        return False
+
+    last_update = keepa_to_datetime(reviews['lastUpdate'])
+    age = datetime.utcnow() - last_update
+    return age.days <= days
+```
+
+**注意事項**：
+- `reviews` 物件比 `csv[16]` / `csv[17]` 更方便直接存取當前值
+- 但如果需要完整歷史趨勢，仍需使用 `csv[16]` / `csv[17]`
+- `ratingCount` ≠ `reviewCount`（評分次數通常遠大於評論數量）
 
 ---
 
-## 11. Offers / Buy Box / Seller 相關欄位
+## 13. Offers / Buy Box / Seller 相關欄位
 
-> **重要**：這些只有在 product request 裡使用 `offers` 或 `buybox` 參數時才會有值。
+> **重要**：部分欄位只有在 product request 裡使用 `offers` 或 `buybox` 參數時才會有值。
 
-| 欄位                      | 型別                                           | 說明                                                                     |
-| ----------------------- | -------------------------------------------- | ---------------------------------------------------------------------- |
-| `offers`                | Marketplace Offer Object[]                   | 具體每個 listing（條件、新舊、FBA/FBM、價格、運費、sellerId 等）                           |
-| `liveOffersOrder`       | Integer[]                                    | 對應 `offers` 陣列 index 的排序<br>代表 Amazon offers page 上目前的顯示順序              |
-| `buyBoxSellerIdHistory` | [keepaTime, sellerId, ...]                   | 買盒擁有者 sellerId 的歷史<br>如果無人獲得 buy box 用 -1<br>庫存無、未識別則 -2              |
-| `buyBoxUsedHistory`     | [keepaTime, sellerId, condition, isFBA, ...] | **中古** buy box 的歷史<br>condition 用 2/3/4/5 表示「像新/非常好/良好/可」<br>`isFBA` 1/0 表示是否 FBA |
-| `isRedirectASIN`        | Boolean                                      | 此 ASIN 是否會被 Amazon 301 重導到其他 ASIN<br>（例如某顏色下架轉到其他顏色）                   |
-| `offersSuccessful`      | Boolean                                      | 這次請求是否成功抓到新的 offers 資料<br>如果商品本身就沒有 offers 通常會是 `false`                |
+| 欄位                         | 型別                                           | 說明                                                                     |
+| -------------------------- | -------------------------------------------- | ---------------------------------------------------------------------- |
+| `buyBoxSellerIdHistory`    | [keepaTime, sellerId, ...]                   | 買盒擁有者 sellerId 的歷史<br>如果無人獲得 buy box 用 -1<br>庫存無、未識別則 -2              |
+| `buyBoxUsedHistory`        | [keepaTime, sellerId, condition, isFBA, ...] | **中古** buy box 的歷史<br>condition 用 2/3/4/5 表示「像新/非常好/良好/可」<br>`isFBA` 1/0 表示是否 FBA |
+| `buyBoxEligibleOfferCounts` | Integer[]                                    | 各條件合格的 Buy Box offers 數量<br>陣列格式，對應不同商品條件                              |
+| `competitivePriceThreshold` | Integer                                      | 競爭價格門檻（cents）<br>達到此價格才可能獲得 Buy Box                                    |
+| `liveOffersOrder`          | Integer[]                                    | 對應 `offers` 陣列 index 的排序<br>代表 Amazon offers page 上目前的顯示順序              |
+| `offersSuccessful`         | Boolean                                      | 這次請求是否成功抓到新的 offers 資料<br>如果商品本身就沒有 offers 通常會是 `false`                |
+
+**使用範例**：
+```python
+# 分析 Buy Box 競爭情況
+def analyze_buybox_competition(product):
+    """分析 Buy Box 競爭狀況"""
+    threshold = product.get('competitivePriceThreshold')
+    eligible_counts = product.get('buyBoxEligibleOfferCounts', [])
+
+    # 計算總合格 offers 數
+    total_eligible = sum(eligible_counts) if eligible_counts else 0
+
+    # 分析 Buy Box 歷史
+    history = product.get('buyBoxSellerIdHistory', [])
+    if history:
+        sellers = set()
+        no_bb_count = 0
+        for i in range(1, len(history), 2):
+            seller = history[i]
+            if isinstance(seller, str):
+                sellers.add(seller)
+            elif seller == -1:
+                no_bb_count += 1
+
+        return {
+            'price_threshold_cents': threshold,
+            'total_eligible_offers': total_eligible,
+            'unique_bb_winners': len(sellers),
+            'no_buybox_rate': no_bb_count / (len(history) // 2) if history else 0
+        }
+    return None
+
+# 檢查是否容易獲得 Buy Box
+def is_buybox_competitive(product):
+    """判斷 Buy Box 競爭是否激烈"""
+    eligible = sum(product.get('buyBoxEligibleOfferCounts', []))
+    return eligible > 5  # 超過 5 個合格 offers 表示競爭激烈
+```
+
+**注意事項**：
+- ~~`offers`~~ 欄位在實際資料中未出現（可能需要特定參數）
+- `buyBoxEligibleOfferCounts` 是 8 元素陣列，對應不同條件 (new, used, collectible, etc.)
+- `competitivePriceThreshold` 可用於定價策略參考
 
 ---
 
-## 12. CSV 歷史資料：完整 Index 0-33 說明表
+## 14. 分類與展示系統
+
+> **新增欄位**：Amazon 內部分類與展示系統相關欄位。
+
+| 欄位                        | 型別     | 說明                                           |
+| ------------------------- | ------ | -------------------------------------------- |
+| `salesRankDisplayGroup`   | String | 銷售排名顯示群組（如 "health_and_beauty_display_on_website"） |
+| `websiteDisplayGroup`     | String | 網站展示群組（通常與 salesRankDisplayGroup 相同）        |
+| `websiteDisplayGroupName` | String | 展示群組顯示名稱（如 "Health and Beauty"）              |
+| `urlSlug`                 | String | URL 友善的產品名稱 slug（用於 Amazon URL）               |
+
+**使用範例**：
+```python
+# 生成 Amazon 產品頁面 URL
+def generate_amazon_url(product):
+    """生成 Amazon 產品頁面 URL"""
+    domain_map = {
+        1: 'amazon.com',
+        2: 'amazon.co.uk',
+        3: 'amazon.de',
+        4: 'amazon.fr',
+        5: 'amazon.co.jp'
+    }
+
+    domain = domain_map.get(product['domainId'], 'amazon.com')
+    asin = product['asin']
+    url_slug = product.get('urlSlug', '')
+
+    if url_slug:
+        return f"https://www.{domain}/dp/{asin}/{url_slug}"
+    else:
+        return f"https://www.{domain}/dp/{asin}"
+
+# 按展示群組分組
+def group_by_display_group(products):
+    """按網站展示群組分組產品"""
+    groups = {}
+    for p in products:
+        group = p.get('websiteDisplayGroup', 'unknown')
+        if group not in groups:
+            groups[group] = []
+        groups[group].append(p)
+    return groups
+```
+
+**注意事項**：
+- 這些欄位主要用於 Amazon 內部分類展示邏輯
+- `urlSlug` 可用於生成 SEO 友善的產品 URL
+- 同一個 `websiteDisplayGroup` 可能包含多個 category
+
+---
+
+## 15. 處理後資料與擴充欄位
+
+> **重要說明**：這些欄位可能為專案層級的資料處理結果，不一定是 Keepa API 原生欄位。
+
+| 欄位             | 型別     | 說明                                              |
+| -------------- | ------ | ----------------------------------------------- |
+| `data`         | Object | 處理後的資料結構，可能包含：<br>- 解析後的時間序列（如 `AMAZON_time`）<br>- 解析後的價格序列（如 `AMAZON`）<br>- DataFrame 格式資料（如 `df_AMAZON`） |
+| `stats_parsed` | Object | 處理後的統計資料，可能包含解析後的 current, avg 等欄位                |
+| `formats`      | String[] | 格式列表（書籍、影音等）                                   |
+| `style`        | String | 樣式資訊（用途未明）                                     |
+| `g`            | Integer | 內部識別碼（用途未明，可能為 group ID 或其他分類識別）               |
+
+**使用範例**：
+```python
+# 檢查是否為處理後資料
+def has_processed_data(product):
+    """檢查產品是否包含處理後的資料"""
+    return 'data' in product or 'stats_parsed' in product
+
+# 使用處理後的時間序列
+def get_processed_price_series(product, price_type='AMAZON'):
+    """從 data 欄位提取處理後的價格序列"""
+    if 'data' not in product:
+        return None
+
+    data = product['data']
+    time_key = f'{price_type}_time'
+    price_key = price_type
+
+    if time_key in data and price_key in data:
+        return {
+            'times': data[time_key],
+            'prices': data[price_key],
+            'dataframe': data.get(f'df_{price_type}')
+        }
+    return None
+```
+
+**注意事項**：
+- `data` 和 `stats_parsed` 欄位在 Keepa 官方文檔中**未記載**
+- 這些可能是專案自行處理 `csv` 和 `stats` 後產生的擴充欄位
+- 如果使用原始 Keepa API，這些欄位可能不存在
+- 建議確認專案的資料處理 pipeline 以了解這些欄位的確切結構
+
+---
+
+## 16. CSV 歷史資料：完整 Index 0-33 說明表
 
 ### CSV 陣列概述
 
@@ -498,7 +979,7 @@ if product['csv'][18] is not None:
 
 ---
 
-## 13. Statistics Object 與 current 陣列
+## 17. Statistics Object 與 current 陣列
 
 ### Stats Object 概述
 
@@ -605,7 +1086,7 @@ if 'stats' in product:
 
 ---
 
-## 14. 其它小細節 & 實作注意事項
+## 18. 其它小細節 & 實作注意事項
 
 ### 1. 缺值表示方式
 
@@ -927,12 +1408,30 @@ for t, p, s in zip(times, prices, shipping):
 
 ---
 
-**文件版本**：v2.0
-**最後更新**：2025-12-05
+**文件版本**：v3.0
+**最後更新**：2025-12-11
 **維護者**：LuminNexus-AtlasVault-DSLD Keepa 團隊
+
 **變更記錄**：
-- v2.0 (2025-12-05): 新增完整 csv[0-33] 和 stats.current[0-33] 對照表，補充實際資料驗證結果
-- v1.0 (2025-12-05): 初版，基於用戶提供的日文文檔整理
+- **v3.0 (2025-12-11)**: 🎉 重大更新
+  - ✅ 補充 39 個實際存在但未記錄的欄位（基於 110 個實際欄位驗證）
+  - ✅ 移除 6 個文件中有但實際不存在的欄位（offers, rentalDetails, rentalSellerId, rentalPrices, availabilityAmazonDelay, audienceRating）
+  - ✅ 新增 5 個主題章節：
+    - 第 5 章：品牌商店資訊
+    - 第 8 章：營養補充品專屬欄位
+    - 第 12 章：評論與評分系統
+    - 第 14 章：分類與展示系統
+    - 第 15 章：處理後資料與擴充欄位
+  - ✅ JSON 範例加入詳細註解（每個欄位都有說明）
+  - ✅ 重新驗證所有欄位與實際資料（2025-12-11 vault 資料）
+  - 📊 資料來源：5 個樣本 ASIN 分析（包含 B-prefix 和數字 prefix）
+
+- **v2.0 (2025-12-05)**:
+  - 新增完整 csv[0-33] 和 stats.current[0-33] 對照表
+  - 補充實際資料驗證結果
+
+- **v1.0 (2025-12-05)**:
+  - 初版，基於用戶提供的日文文檔整理
 
 ---
 
