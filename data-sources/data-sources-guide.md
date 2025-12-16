@@ -2,8 +2,6 @@
 
 本文件整理專案中可能用到的資料說明與注意事項，供日後使用參考。
 
-Author: Hu, Yu-Shin
-
 ---
 
 ## 一、資料來源總覽
@@ -168,3 +166,7 @@ DSLD 產品 ──UPC──▶ iHerb 產品 ──brandCode──▶ 品牌
 | 抓取難度 | 較容易       | 需 Selenium          |
 
 - **重點**：品牌官網通常沒有 UPC/GTIN，應找 SKU 或 product_id 作為內部識別碼
+
+---
+
+Author: Hu, Yu-Shin

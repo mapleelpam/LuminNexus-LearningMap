@@ -14,25 +14,38 @@ This is **LuminNexus Learning Map** - a structured onboarding and training docum
 
 ```
 LuminNexus-LearningMap/
-├── STRUCTURE_v3.md          # Architecture design document (source of truth)
+├── STRUCTURE.md             # Architecture design document (source of truth)
 ├── general/                 # General skills applicable to all roles
-│   └── 00_outline.md        # General learning outline (01-10 topics planned)
+│   ├── 00_outline.md        # General learning outline
+│   ├── 02_unix-linux-basics.md
+│   ├── 03_data-engineering.md
+│   ├── claude-code-tips.md  # Claude Code CLI 使用技巧
+│   └── ubuntu-desktop-tips.md
 ├── roles/                   # Role-specific learning paths
 │   ├── testing/             # Testing & Business Analysis role
 │   │   └── 00_outline.md    # Testing learning outline (01-06 topics)
 │   ├── crawler-engineer.md  # Crawler Engineer role (planned)
 │   └── project-manager.md   # Project Manager role
 ├── tools/                   # Tool documentation
-│   └── speckit.md           # Speckit tool guide (SDD implementation)
+│   ├── speckit.md           # Speckit tool guide (SDD implementation)
+│   ├── ai-tools.md          # AI Coding Agent, Canvas, API 參考
+│   └── external-services.md # 外部服務 (Keepa, Oxylabs, Jina AI, MarkItDown)
+├── data-sources/            # Data source documentation
+│   ├── data-sources-guide.md # 資料來源與關聯欄位指南
+│   ├── dsld/                # DSLD 相關文檔
+│   ├── keepa/               # Keepa API 文檔
+│   └── shopify/             # Shopify 相關文檔
+├── projects/                # Project-specific documentation
 └── archive/                 # Historical versions with YYYYMMDD prefix
 ```
 
 ### Content Organization Philosophy
 
-**Three-tier structure**:
+**Four-tier structure**:
 1. **general/** - Universal transferable skills (all roles)
 2. **roles/** - Role-specific deep-dive content
 3. **tools/** - Tool-specific documentation and guides
+4. **data-sources/** - Data source documentation and field guides
 
 **Numbering System**:
 - `00_outline.md` - Overview/outline for a learning domain
@@ -40,15 +53,15 @@ LuminNexus-LearningMap/
 - Format: `NN_topic-name.md` (lowercase, hyphen-separated)
 
 **Current State vs. Planned State**:
-- STRUCTURE_v3.md describes the **target architecture** (19 files total)
-- Current implementation has **outline files** and **two complete files** (project-manager.md, unix-linux-basics.md)
-- Individual topic files (01-10) are **not yet created**
-- Tool documentation: **speckit.md** created
-- Supplementary documentation: **unix-linux-basics.md** created
+- STRUCTURE.md describes the **target architecture**
+- **general/** has outline and topic files (unix-linux-basics, data-engineering, claude-code-tips, ubuntu-desktop-tips)
+- **roles/** has outline files and role guides (project-manager.md)
+- **tools/** has: speckit.md, ai-tools.md, external-services.md
+- **data-sources/** has: data-sources-guide.md and subdirectories (dsld, keepa, shopify)
 
 ## Design Principles
 
-From STRUCTURE_v3.md and conversation context:
+From STRUCTURE.md and conversation context:
 
 1. **Extreme Simplification** - Avoid over-design, minimal files
 2. **Documentation First Policy** - Update docs before code changes
@@ -84,7 +97,7 @@ From STRUCTURE_v3.md and conversation context:
 
 **Planned but not yet created**. When creating:
 - Follow numbering from outline
-- Use template from STRUCTURE_v3.md lines 320-371
+- Use template from STRUCTURE.md lines 320-371
 - Include: Overview, Core Concepts, Practical Skills, Best Practices, FAQ
 - Use Mermaid diagrams instead of images
 - Support both markdown reading and future web conversion
@@ -166,7 +179,7 @@ graph LR
 ```
 ```
 
-See STRUCTURE_v3.md lines 210-270 for more diagram types.
+See STRUCTURE.md lines 210-270 for more diagram types.
 
 ## File Creation Policy
 
@@ -212,53 +225,38 @@ Team roles being trained:
 5. ❌ Making content too similar between general/ and roles/
 6. ❌ Creating documentation files (*.md, README) without request
 
-## Current Session Context
+## Key Documentation
 
-Based on recent work:
-- Testing outline is at v4.0 (restructured with 01-06 chapters)
-- General outline is at v2.3 (added Unix/Linux basics)
-- **New additions**:
-  - `roles/project-manager.md` - PM learning path with Technical Debt, Legacy Code, Scope Creep, Sprint, Backlog, Velocity
-  - `tools/speckit.md` - Complete Speckit tool documentation for Spec-Driven Development
-  - `general/unix-linux-basics.md` - Complete Unix/Linux basics guide for Windows users
-  - General outline 3.5: SDD (Spec-Driven Development) with cross-reference to Speckit
-  - General outline 4.5: TDD (Test-Driven Development) with cross-reference to SDD and Speckit
-  - General outline 3.4: Project management terms (Technical Debt, Legacy Code, Scope Creep)
-  - General outline 02: Unix/Linux basics index
-- All examples removed from outline for conciseness
-- Learning outcome checklists removed per user preference
+### tools/ai-tools.md
+AI 工具參考文件，涵蓋：
+- **AI Coding Agent**: Claude Code, Gemini CLI, Codex CLI, Cursor
+- **AI Canvas**: ChatGPT Canvas, Gemini Canvas
+- **AI 研究工具**: NotebookLM
+- **AI API**: Claude API, OpenAI API, Gemini API
 
-## Key Concepts Added
+### tools/external-services.md
+外部服務參考，涵蓋：
+- **資料蒐集**: Keepa (Amazon 價格追蹤), Apollo.io (B2B 資料)
+- **代理服務**: Oxylabs
+- **網頁解析**: Jina AI
+- **文件轉換**: MarkItDown
 
-### Project Management Terms (in general/00_outline.md 3.4)
-- **Technical Debt**: Future maintenance cost from quick implementations
-- **Legacy Code**: Untested, hard-to-maintain old code
-- **Scope Creep**: Uncontrolled project scope expansion
-- **Agile Terms**: Sprint, Backlog, Velocity (cross-referenced to PM role)
+### general/claude-code-tips.md (v1.3)
+Claude Code CLI 使用技巧：
+- Memory 與 CLAUDE.md 差異
+- Slash Commands (/clear, /compact, /resume, /rewind, /model)
+- Subagent 多代理模式與獨立 Context Window
+- 快捷鍵 (Esc, Esc Esc, Shift+Tab)
+- 官方文檔連結
 
-### Development Methodologies (in general/00_outline.md 3.5 & 4.5)
-- **SDD (Spec-Driven Development)**: Spec-first approach, implemented via Speckit
-- **TDD (Test-Driven Development)**: Test-first approach (Red-Green-Refactor)
-- Both methodologies complement each other: Spec → Test → Code
-
-### Tools
-- **Speckit**: Tool for implementing SDD in LuminNexus project
-  - Spec document authoring
-  - Test case auto-generation
-  - Spec validation
-  - See `tools/speckit.md` for complete guide
-
-### Foundational Knowledge (in general/)
-- **Unix/Linux Basics**: Complete guide for Windows users
-  - File-oriented philosophy (Everything is a File)
-  - Shell/Terminal/Console concepts
-  - Basic commands and operations
-  - File permissions, Process management
-  - Environment variables and PATH
-  - See `general/unix-linux-basics.md` for complete guide
+### data-sources/data-sources-guide.md
+資料來源與關聯欄位指南：
+- UPC, ASIN, brandCode 等識別碼說明
+- 跨平台資料串接方式
+- 常見問題與注意事項
 
 ---
 
-**Document Version**: 1.2
-**Last Updated**: 2025-11-10
+**Document Version**: 1.3
+**Last Updated**: 2025-12-16
 **Maintained by**: LuminNexus Team
