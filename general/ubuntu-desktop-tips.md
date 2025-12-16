@@ -1,6 +1,6 @@
 # Ubuntu GNOME Desktop Tips
 
-**版本**: 1.0
+**版本**: 1.1
 **更新日期**: 2025-12-16
 **適用角色**: 所有團隊成員
 
@@ -99,7 +99,64 @@ byobu
 
 ---
 
-## 2. GNOME 視窗管理快捷鍵
+## 2. Terminator - 分割式 Terminal
+
+### 什麼是 Terminator
+
+- GNOME based 的 terminal emulator
+- 可在單一視窗內切割多個 terminal 面板
+- 比原生 GNOME Terminal 更強大的分割功能
+
+### Terminator vs Byobu
+
+| 特性 | Terminator | Byobu |
+|------|------------|-------|
+| 類型 | Terminal 應用程式 (GUI) | Terminal multiplexer (CLI) |
+| 分割方式 | 視窗內分割面板 | Session 內分割 |
+| 關閉視窗後 | 程式終止 | 程式繼續運行 (detach) |
+| 適用場景 | 本地開發，同時看多個輸出 | 遠端/長時間任務 |
+| 可組合使用 | 可以在 Terminator 內開 Byobu |  |
+
+### 安裝
+
+```bash
+sudo apt install terminator
+```
+
+### 常用快捷鍵
+
+| 快捷鍵 | 功能 |
+|--------|------|
+| `Ctrl+Shift+O` | 水平分割 (上下) |
+| `Ctrl+Shift+E` | 垂直分割 (左右) |
+| `Ctrl+Shift+W` | 關閉目前面板 |
+| `Ctrl+Shift+Q` | 關閉整個視窗 |
+| `Alt + 方向鍵` | 在面板間切換 |
+| `Ctrl+Shift+方向鍵` | 調整面板大小 |
+| `Ctrl+Shift+X` | 最大化/還原目前面板 |
+| `Ctrl+Shift+T` | 新增 Tab |
+| `Ctrl+Page Up/Down` | 切換 Tab |
+
+### 實用場景
+
+```
+┌─────────────────────────────────────┐
+│  backend server    │  frontend dev  │
+│  npm run server    │  npm run dev   │
+├────────────────────┴────────────────┤
+│              logs / git status      │
+└─────────────────────────────────────┘
+```
+
+### 與 Byobu 搭配使用
+
+- **本地開發**: 用 Terminator 分割畫面
+- **遠端/長任務**: 在 Terminator 的面板內開 Byobu
+- 這樣既有 GUI 的便利分割，又有 session 保護
+
+---
+
+## 3. GNOME 視窗管理快捷鍵
 
 ### 視窗分割 (Tiling)
 
@@ -137,7 +194,7 @@ byobu
 
 ---
 
-## 3. 多螢幕設定
+## 4. 多螢幕設定
 
 ### 透過 Settings 設定
 
@@ -154,7 +211,7 @@ byobu
 
 ---
 
-## 4. 其他實用技巧
+## 5. 其他實用技巧
 
 > 此章節將持續補充
 
@@ -175,3 +232,4 @@ byobu
 | 版本 | 日期 | 變更內容 | 作者 |
 |------|------|---------|------|
 | 1.0 | 2025-12-16 | 初始版本，包含 Byobu、GNOME 快捷鍵、多螢幕設定章節 | Learning Team |
+| 1.1 | 2025-12-16 | 新增 Terminator 分割式 Terminal 章節 | Learning Team |
