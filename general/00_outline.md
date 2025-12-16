@@ -1,7 +1,7 @@
 # General Learning Map - 通用核心能力大綱
 
-**版本**: 2.5
-**更新日期**: 2025-11-11
+**版本**: 2.6
+**更新日期**: 2025-12-16
 **適用角色**: 所有團隊成員 (Test & Business Analysis, Crawler Engineer)
 
 ---
@@ -65,6 +65,14 @@ mindmap
         Clean Code
         Code Smells
         重構技巧
+    補充資料<br/>工具與環境
+      Claude Code Tips
+        Memory管理
+        Context管理
+        SDD/TDD流程
+      Ubuntu Desktop
+        Byobu
+        視窗管理
 ```
 
 ---
@@ -620,6 +628,39 @@ mindmap
 
 ---
 
+### **claude-code-tips.md - Claude Code CLI 使用技巧**
+> 學習階段：補充資料 | 深度：實務操作
+> 詳細內容請見：[claude-code-tips.md](./claude-code-tips.md)
+
+#### 核心主題
+- Memory 記憶管理 (`#memory`)
+- Skill 技能系統 (`@skill_name`)
+- Compact Conversation 與 Context 管理
+- TodoWrite 與 Decision 對齊
+- 快捷鍵 (Ctrl+O, Ctrl+T)
+- SDD/TDD 工作流程整合
+
+#### 適用對象
+- 使用 Claude Code 進行開發的團隊成員
+- 希望提升 AI 輔助開發效率的人
+
+---
+
+### **ubuntu-desktop-tips.md - Ubuntu GNOME 桌面環境技巧**
+> 學習階段：補充資料 | 深度：實務操作
+> 詳細內容請見：[ubuntu-desktop-tips.md](./ubuntu-desktop-tips.md)
+
+#### 核心主題
+- Byobu Terminal Session 管理
+- GNOME 視窗管理快捷鍵 (Super + 方向鍵)
+- 多螢幕設定
+
+#### 適用對象
+- 使用 Ubuntu GNOME 桌面環境的團隊成員
+- 習慣 Windows 轉換到 Linux 的使用者
+
+---
+
 ## 📊 學習順序建議
 
 ### 快速概覽路徑（3-5 天）
@@ -688,6 +729,7 @@ mindmap
 | 2.3 | 2025-11-10 | 新增 02_unix-linux-basics 章節索引，連結到 02_unix-linux-basics.md | Learning Team |
 | 2.4 | 2025-11-11 | 新增 JSON Schema (2.1 章節) 和 URI Schema (3.3 章節) | Learning Team |
 | 2.5 | 2025-11-11 | 新增 ETL 與 Enrich 資料處理流程 (2.3 章節)，創建完整的 03_data-engineering.md | Learning Team |
+| 2.6 | 2025-12-16 | 新增 Claude Code CLI Tips 和 Ubuntu GNOME Desktop Tips 補充文檔 | Learning Team |
 
 ---
 
