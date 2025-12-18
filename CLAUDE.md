@@ -14,6 +14,7 @@ This is **LuminNexus Learning Map** - a structured onboarding and training docum
 
 ```
 LuminNexus-LearningMap/
+├── .stillflow.yaml          # Stillflow configuration (flat mode)
 ├── STRUCTURE.md             # Architecture design document (source of truth)
 ├── general/                 # General skills applicable to all roles
 │   ├── 00_outline.md        # General learning outline
@@ -58,6 +59,91 @@ LuminNexus-LearningMap/
 - **roles/** has outline files and role guides (project-manager.md)
 - **tools/** has: speckit.md, ai-tools.md, external-services.md
 - **data-sources/** has: data-sources-guide.md and subdirectories (dsld, keepa, shopify)
+
+## Stillflow Integration (ContextOps)
+
+本專案使用 **Stillflow** 作為文檔治理工具，採用 **flat mode**（無 flow/crystallized 分層）。
+
+### Configuration
+
+`.stillflow.yaml` 定義專案設定：
+
+```yaml
+version: "1"
+project: LearningMap
+mode: flat
+valid_status:
+  - active
+  - stable
+  - deprecated
+scan_paths:
+  - general/
+  - tools/
+  - data-sources/
+  - roles/
+  - projects/
+ignore_paths:
+  - archive/
+  - slides/
+```
+
+### Frontmatter Template
+
+所有 markdown 文件必須包含 YAML frontmatter：
+
+```yaml
+---
+title: "文件標題"
+type: guide              # guide, reference, outline, topic, spec, overview, policy
+status: active           # active, stable, deprecated
+created: 2025-12-18
+author: maple            # maple, leana, yijou14
+tags:
+  - tag1
+  - tag2
+---
+```
+
+**Required fields**: `title`, `type`, `status`, `created`
+
+### CLI Commands
+
+```bash
+# 查看所有文件
+stillflow list
+
+# 查看統計狀態
+stillflow status
+
+# 搜尋文件 (支援多條件 AND)
+stillflow search "author:leana"
+stillflow search "author:maple type:guide"
+stillflow search "project:data-sources author:leana"
+stillflow search "tags:onboarding" --json
+
+# 驗證 frontmatter
+muster lint .
+muster lint general/
+
+# 生成索引
+muster index .
+```
+
+### Search Fields
+
+| Field | Example |
+|-------|---------|
+| `author` | `author:leana` |
+| `type` | `type:guide` |
+| `status` | `status:active` |
+| `project` | `project:data-sources` |
+| `tags` | `tags:onboarding` |
+| `folder` | `folder:flow` |
+
+### References
+
+- [Stillflow Runbook](https://github.com/pgylee/LuminNexus-Stillflow/blob/main/projects/Stillflow/crystallized/runbook.md)
+- [stillflow_doc.v0.1.yaml schema](https://github.com/pgylee/LuminNexus-Stillflow/blob/main/schemas/stillflow_doc.v0.1.yaml)
 
 ## Design Principles
 
@@ -224,6 +310,7 @@ Team roles being trained:
 4. ❌ Adding "learning outcome checklists" (user doesn't want them)
 5. ❌ Making content too similar between general/ and roles/
 6. ❌ Creating documentation files (*.md, README) without request
+7. ❌ Creating markdown files without proper Stillflow frontmatter
 
 ## Key Documentation
 
@@ -249,6 +336,12 @@ Claude Code CLI 使用技巧：
 - 快捷鍵 (Esc, Esc Esc, Shift+Tab)
 - 官方文檔連結
 
+### general/contextops-discipline.md
+ContextOps 方法論參考：
+- 核心概念：Context Pipeline 與 Context Budget
+- Stillflow 作為 ContextOps 治理工具
+- Context Quality Metrics
+
 ### data-sources/data-sources-guide.md
 資料來源與關聯欄位指南：
 - UPC, ASIN, brandCode 等識別碼說明
@@ -257,6 +350,6 @@ Claude Code CLI 使用技巧：
 
 ---
 
-**Document Version**: 1.3
-**Last Updated**: 2025-12-16
+**Document Version**: 1.5
+**Last Updated**: 2025-12-18
 **Maintained by**: LuminNexus Team
