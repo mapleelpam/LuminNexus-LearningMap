@@ -1,8 +1,23 @@
-# Keepa API 查詢方法完整參考
+---
+title: "Keepa API 查詢方法完整參考"
+type: reference
+status: active
+created: 2025-12-08
+project: LearningMap
+author: leana
+tags:
+  - keepa
+  - api
+  - token
+  - rate-limit
+audience:
+  - crawler-engineer
+summary: |
+  Keepa API 查詢方法參考，涵蓋速率配置、核心查詢方法、
+  Token 成本總覽與優化策略。
+---
 
-**文件類型**: API 方法參考
-**最後更新**: 2025-12-08
-**適用專案**: LuminNexus-AtlasVault-Keepa
+# Keepa API 查詢方法完整參考
 
 ---
 

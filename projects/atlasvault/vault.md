@@ -1,11 +1,26 @@
-# Vault - 原始資料中央儲存庫
+---
+title: "Vault - 原始資料中央儲存庫"
+type: spec
+status: active
+created: 2025-12-09
+version: "1.0"
+project: LearningMap
+author: maple
+tags:
+  - atlasvault
+  - vault
+  - storage
+  - single-source-of-truth
+related:
+  - 00_overview.md
+audience:
+  - all
+summary: |
+  Vault 中央原始資料儲存庫（Single Source of Truth），涵蓋資料版本控制、
+  URI 系統、與上下游系統的資料流動關係。
+---
 
-**版本**: 1.0
-**更新日期**: 2025-12-09
-**文檔類型**: 詳細說明
-**維護團隊**: AtlasVault Team
-**適用角色**: 全員
-**前置知識**: [00_overview.md](00_overview.md), [../01_data-flow.md](../01_data-flow.md)
+# Vault - 原始資料中央儲存庫
 
 ---
 

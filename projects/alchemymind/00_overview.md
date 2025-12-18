@@ -1,11 +1,26 @@
-# AlchemyMind - 資料處理與分析層概覽
+---
+title: "AlchemyMind - 資料處理與分析層概覽"
+type: overview
+status: active
+created: 2025-12-09
+version: "1.0"
+project: LearningMap
+author: maple
+tags:
+  - alchemymind
+  - layer-2
+  - data-processing
+  - llm
+related:
+  - ../00_architecture-overview.md
+audience:
+  - all
+summary: |
+  AlchemyMind 系統概覽（Layer 2），涵蓋資料精煉（TheRefinery）、
+  LLM 分析（TheWeaver）、異常檢測（TheArgus）等子系統。
+---
 
-**版本**: 1.0
-**更新日期**: 2025-12-09
-**文檔類型**: 概覽
-**維護團隊**: AlchemyMind Team
-**適用角色**: 全員
-**前置知識**: [00_architecture-overview.md](../00_architecture-overview.md)
+# AlchemyMind - 資料處理與分析層概覽
 
 ---
 

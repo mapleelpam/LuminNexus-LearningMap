@@ -1,3 +1,24 @@
+---
+title: "Keepa Product Object 實戰備忘錄"
+type: reference
+status: active
+created: 2025-12-08
+version: "3.0"
+project: LearningMap
+author: leana
+tags:
+  - keepa
+  - product-object
+  - api
+  - csv
+  - stats
+audience:
+  - crawler-engineer
+summary: |
+  Keepa API Product Object 完整結構參考，涵蓋 csv 時間序列、
+  stats.current 對應、品牌商店、營養補充品欄位等。
+---
+
 # Keepa Product Object 實戰備忘錄 v3.0
 
 > **文件目的**：完整解釋 Keepa API Product Object 的結構、欄位意義、使用場景，特別是 `csv` 和 `stats.current` 的對應關係。

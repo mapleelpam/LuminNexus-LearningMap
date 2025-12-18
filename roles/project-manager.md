@@ -1,9 +1,24 @@
-# Project Manager Learning Path - 專案管理學習路徑
+---
+title: "Project Manager Learning Path - 專案管理學習路徑"
+type: guide
+status: active
+created: 2025-11-10
+version: "1.0"
+project: LearningMap
+author: maple
+tags:
+  - project-management
+  - agile
+  - technical-debt
+  - risk-management
+audience:
+  - project-manager
+summary: |
+  專案管理學習路徑，涵蓋技術債、風險管理、敏捷開發等核心概念，
+  適合 PM、PO、Team Lead 及需要理解專案管理的技術人員。
+---
 
-**版本**: 1.0
-**更新日期**: 2025-11-10
-**適用角色**: Project Manager, Product Manager, Team Lead
-**前置要求**: 完成 General Learning Map 基礎階段 (01-05)
+# Project Manager Learning Path - 專案管理學習路徑
 
 ---
 

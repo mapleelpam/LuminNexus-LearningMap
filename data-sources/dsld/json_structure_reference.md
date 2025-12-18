@@ -1,10 +1,26 @@
+---
+title: "DSLD JSON Structure Reference"
+type: reference
+status: active
+created: 2025-12-08
+version: "1.0"
+project: LearningMap
+author: leana
+tags:
+  - dsld
+  - json
+  - schema
+  - api
+audience:
+  - crawler-engineer
+  - all
+summary: |
+  DSLD JSON 資料格式完整技術參考，涵蓋頂層欄位、嵌套物件、
+  成分資料結構、LanguaL 標準欄位等。
+---
+
 # DSLD JSON Structure Reference
 **完整 JSON 欄位結構說明**
-
-## 文件資訊
-- **建立日期**: 2025-12-08
-- **版本**: 1.0
-- **用途**: DSLD JSON 資料格式完整技術參考
 
 ---
 

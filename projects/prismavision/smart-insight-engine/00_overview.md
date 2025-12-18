@@ -1,9 +1,25 @@
-# Smart Insight Engine 學習總覽
+---
+title: "Smart Insight Engine 學習總覽"
+type: outline
+status: active
+created: 2025-11-11
+version: "1.0"
+project: LearningMap
+author: maple
+tags:
+  - prismavision
+  - smartinsightengine
+  - mdof
+  - learning-path
+audience:
+  - tester
+  - crawler-engineer
+  - all
+summary: |
+  Smart Insight Engine 完整學習路徑，涵蓋 MDOF 查詢基礎、查詢設計進階、測試案例設計。
+---
 
-**版本**: 1.0
-**更新日期**: 2025-11-11
-**適用角色**: Test & Business Analysis, Data Analyst, Backend Engineer
-**前置知識**: General Learning Map 01-05 基礎階段
+# Smart Insight Engine 學習總覽
 
 ---
 

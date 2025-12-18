@@ -1,9 +1,22 @@
-# LuminNexus 專案文檔撰寫規範
+---
+title: "LuminNexus 專案文檔撰寫規範"
+type: policy
+status: active
+created: 2025-12-09
+version: "1.0"
+project: LearningMap
+author: maple
+tags:
+  - policy
+  - documentation
+  - style-guide
+audience:
+  - all
+summary: |
+  專案文檔撰寫規範，統一文檔格式、風格、分類與職責分配。
+---
 
-**版本**: 1.0
-**更新日期**: 2025-12-09
-**適用範圍**: `projects/` 目錄下的所有專案文檔
-**維護者**: Architecture Team
+# LuminNexus 專案文檔撰寫規範
 
 ---
 

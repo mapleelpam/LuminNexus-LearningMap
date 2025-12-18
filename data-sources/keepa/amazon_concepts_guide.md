@@ -1,3 +1,25 @@
+---
+title: "Amazon & Keepa 基礎概念完全指南"
+type: guide
+status: active
+created: 2025-12-08
+version: "1.2"
+project: LearningMap
+author: leana
+tags:
+  - amazon
+  - keepa
+  - asin
+  - buy-box
+  - ecommerce
+audience:
+  - crawler-engineer
+  - all
+summary: |
+  Amazon 電商生態系統與 Keepa 價格追蹤核心概念，涵蓋 ASIN、Buy Box、
+  1P/3P 銷售模式、FBA/FBM 履約方式、品牌與賣家關係等。
+---
+
 # Amazon & Keepa 基礎概念完全指南 v1.2
 
 > **文件目的**：完整解釋 Amazon 電商生態系統和 Keepa 價格追蹤系統的核心概念，包括 ASIN、Buy Box、1P/3P、履約模式、價格類型、品牌與賣家關係等。

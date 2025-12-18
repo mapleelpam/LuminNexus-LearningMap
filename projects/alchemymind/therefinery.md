@@ -1,11 +1,26 @@
-# TheRefinery - 資料精煉層
+---
+title: "TheRefinery - 資料精煉層"
+type: spec
+status: active
+created: 2025-12-09
+version: "1.0"
+project: LearningMap
+author: maple
+tags:
+  - alchemymind
+  - therefinery
+  - enrichment
+  - data-quality
+related:
+  - 00_overview.md
+audience:
+  - crawler-engineer
+summary: |
+  TheRefinery 資料精煉層，執行資料品質檢查、標準化、分類映射、
+  業務邏輯計算，包含 10 個 Enrichers。
+---
 
-**版本**: 1.0
-**更新日期**: 2025-12-09
-**文檔類型**: 詳細說明
-**維護團隊**: AlchemyMind Team - TheRefinery
-**適用角色**: 工程師、架構師、資料分析師
-**前置知識**: [00_overview.md](00_overview.md), [../01_data-flow.md](../01_data-flow.md)
+# TheRefinery - 資料精煉層
 
 ---
 

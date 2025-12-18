@@ -1,11 +1,26 @@
-# AtlasVault - 資料蒐集與 ETL 層概覽
+---
+title: "AtlasVault - 資料蒐集與 ETL 層概覽"
+type: overview
+status: active
+created: 2025-12-09
+version: "1.0"
+project: LearningMap
+author: maple
+tags:
+  - atlasvault
+  - layer-1
+  - crawler
+  - etl
+related:
+  - ../00_architecture-overview.md
+audience:
+  - all
+summary: |
+  AtlasVault 系統概覽（Layer 1），涵蓋資料蒐集爬蟲、中央資料庫（Vault）、
+  ETL 處理層（TheForge）等子系統。
+---
 
-**版本**: 1.0
-**更新日期**: 2025-12-09
-**文檔類型**: 概覽
-**維護團隊**: AtlasVault Team
-**適用角色**: 全員
-**前置知識**: [00_architecture-overview.md](../00_architecture-overview.md)
+# AtlasVault - 資料蒐集與 ETL 層概覽
 
 ---
 

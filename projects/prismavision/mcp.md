@@ -1,11 +1,26 @@
-# Smart Insight Engine MCP - MCP 協議介面
+---
+title: "Smart Insight Engine MCP - MCP 協議介面"
+type: spec
+status: active
+created: 2025-12-09
+version: "1.0"
+project: LearningMap
+author: maple
+tags:
+  - prismavision
+  - mcp
+  - protocol
+  - ai-agent
+related:
+  - 00_overview.md
+  - smartinsightengine.md
+audience:
+  - crawler-engineer
+summary: |
+  Smart Insight Engine MCP Server 系統架構，透過標準化協議將查詢引擎能力開放給 AI Agent。
+---
 
-**版本**: 1.0
-**更新日期**: 2025-12-09
-**文檔類型**: 詳細說明
-**維護團隊**: PrismaVision Team - MCP
-**適用角色**: 新進工程師、架構師
-**前置知識**: [00_overview.md](00_overview.md), [../01_data-flow.md](../01_data-flow.md)
+# Smart Insight Engine MCP - MCP 協議介面
 
 ---
 

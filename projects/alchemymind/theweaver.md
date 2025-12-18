@@ -1,11 +1,28 @@
-# TheWeaver - LLM 分析生成器
+---
+title: "TheWeaver - LLM 分析生成器"
+type: spec
+status: active
+created: 2025-12-09
+version: "1.0"
+project: LearningMap
+author: maple
+tags:
+  - alchemymind
+  - theweaver
+  - llm
+  - batch-api
+  - knowledge-realms
+related:
+  - 00_overview.md
+audience:
+  - crawler-engineer
+  - all
+summary: |
+  TheWeaver LLM 分析生成器，使用 Batch API 批次分析營養補充品，
+  生成 10 個知識領域的結構化資料。
+---
 
-**版本**: 1.0
-**更新日期**: 2025-12-09
-**文檔類型**: 詳細說明
-**維護團隊**: AlchemyMind Team - TheWeaver
-**適用角色**: 工程師、架構師、PM
-**前置知識**: [00_overview.md](00_overview.md), [../01_data-flow.md](../01_data-flow.md)
+# TheWeaver - LLM 分析生成器
 
 ---
 

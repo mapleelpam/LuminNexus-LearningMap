@@ -1,11 +1,24 @@
-# [文檔標題 - 待 AtlasVault Team 補充]
+---
+title: "DSLD Crawler - DSLD 資料爬蟲"
+type: spec
+status: active
+created: 2025-12-09
+version: "1.0"
+project: LearningMap
+author: maple
+tags:
+  - atlasvault
+  - crawler
+  - dsld
+related:
+  - 00_overview.md
+audience:
+  - crawler-engineer
+summary: |
+  DSLD Crawler 資料爬蟲說明（待補充）。
+---
 
-**版本**: 1.0
-**更新日期**: 2025-12-09
-**文檔類型**: 詳細說明
-**維護團隊**: AtlasVault Team
-**適用角色**: 工程師、架構師
-**前置知識**: [00_overview.md](00_overview.md), [../01_data-flow.md](../01_data-flow.md)
+# DSLD Crawler - DSLD 資料爬蟲
 
 ---
 

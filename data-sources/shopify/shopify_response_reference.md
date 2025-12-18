@@ -1,10 +1,27 @@
-# Shopify Response Reference
+---
+title: "Shopify Response Reference"
+type: reference
+status: active
+created: 2025-12-08
+version: "1.0"
+project: LearningMap
+author: leana
+tags:
+  - shopify
+  - api
+  - json
+  - json-ld
+  - schema
+related:
+  - shopify_crawler_guide.md
+audience:
+  - crawler-engineer
+summary: |
+  Shopify API 響應格式完整參考，涵蓋 products.json、handle.json、
+  collections/handle/products.json、JSON-LD 結構化資料等。
+---
 
-## 文件資訊
-- **建立日期**: 2025-12-08
-- **版本**: 1.0
-- **用途**: Shopify API 響應格式完整參考 (products.json, handle.json, JSON-LD)
-- **相關文件**: [shopify_crawler_guide.md](./shopify_crawler_guide.md) - 爬蟲技術指南
+# Shopify Response Reference
 
 ---
 

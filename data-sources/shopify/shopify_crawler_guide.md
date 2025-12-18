@@ -1,9 +1,24 @@
-# Shopify 爬蟲技術指南
+---
+title: "Shopify 爬蟲技術指南"
+type: guide
+status: active
+created: 2025-12-08
+version: "1.0"
+project: LearningMap
+author: leana
+tags:
+  - shopify
+  - crawler
+  - api
+  - products-json
+audience:
+  - crawler-engineer
+summary: |
+  Shopify 網站識別方法、Products.json API 結構、分頁機制、
+  錯誤處理與重試策略等爬蟲技術參考。
+---
 
-## 文件資訊
-- **建立日期**: 2025-12-08
-- **版本**: 1.0
-- **用途**: Shopify 網站識別、API 結構、爬蟲技術參考
+# Shopify 爬蟲技術指南
 
 ---
 

@@ -1,9 +1,24 @@
-# Testing Learning Map - 測試專業能力大綱
+---
+title: "Testing Learning Map - 測試專業能力大綱"
+type: outline
+status: active
+created: 2025-11-10
+version: "4.0"
+project: LearningMap
+author: leana
+tags:
+  - testing
+  - qa
+  - business-analysis
+  - learning-path
+audience:
+  - tester
+summary: |
+  測試專業能力學習大綱，3-5 天建立測試基礎，適合資訊背景較弱的 BA 角色，
+  涵蓋產品理解、測試概念、查詢測試實務、資料分析能力。
+---
 
-**版本**: 4.0
-**更新日期**: 2025-11-10
-**適用角色**: Test & Business Analysis 角色
-**前置要求**: 完成 General Learning Map 基礎階段 (01-05)
+# Testing Learning Map - 測試專業能力大綱
 
 ---
 

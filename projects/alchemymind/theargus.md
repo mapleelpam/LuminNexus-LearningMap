@@ -1,11 +1,25 @@
-# TheArgus - 資料品質檢測系統
+---
+title: "TheArgus - 資料品質檢測系統"
+type: spec
+status: active
+created: 2025-12-09
+version: "1.0"
+project: LearningMap
+author: maple
+tags:
+  - alchemymind
+  - theargus
+  - anomaly-detection
+  - data-quality
+related:
+  - 00_overview.md
+audience:
+  - crawler-engineer
+summary: |
+  TheArgus 資料品質檢測系統，專門檢測 DSLD 補充品成分資料中的異常劑量值。
+---
 
-**版本**: 1.0
-**更新日期**: 2025-12-09
-**文檔類型**: 詳細說明
-**維護團隊**: AlchemyMind Team - TheArgus
-**適用角色**: 新進工程師、架構師、跨團隊協作
-**前置知識**: [00_overview.md](00_overview.md), [../01_data-flow.md](../01_data-flow.md)
+# TheArgus - 資料品質檢測系統
 
 ---
 

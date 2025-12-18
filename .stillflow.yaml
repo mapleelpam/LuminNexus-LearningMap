@@ -1,0 +1,25 @@
+# Stillflow Configuration for LearningMap
+# See: https://github.com/pgylee/LuminNexus-Stillflow
+
+version: "1"
+project: LearningMap
+mode: flat
+
+valid_status:
+  - active
+  - stable
+  - deprecated
+
+scan_paths:
+  - general/
+  - tools/
+  - data-sources/
+  - roles/
+  - projects/
+
+ignore_paths:
+  - archive/
+  - slides/
+  - .git/
+  - .venv/
+  - node_modules/

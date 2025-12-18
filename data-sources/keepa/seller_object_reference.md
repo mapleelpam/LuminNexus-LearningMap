@@ -1,3 +1,24 @@
+---
+title: "Keepa Seller Object 實戰備忘錄"
+type: reference
+status: active
+created: 2025-12-08
+version: "1.0"
+project: LearningMap
+author: leana
+tags:
+  - keepa
+  - seller-object
+  - api
+  - rating
+  - buy-box
+audience:
+  - crawler-engineer
+summary: |
+  Keepa API Seller Object 完整結構參考，涵蓋評分系統、Buy Box 統計、
+  CSV 歷史資料、分類/品牌統計等。
+---
+
 # Keepa Seller Object 實戰備忘錄 v1.0
 
 > **文件目的**：完整解釋 Keepa API Seller Object 的結構、欄位意義、使用場景，特別是評分系統、Buy Box 統計、分類/品牌統計的關係。

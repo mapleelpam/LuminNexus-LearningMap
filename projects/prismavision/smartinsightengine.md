@@ -1,10 +1,26 @@
-# SmartInsightEngine - 查詢引擎概覽
+---
+title: "SmartInsightEngine - 查詢引擎概覽"
+type: overview
+status: active
+created: 2025-12-09
+version: "1.0"
+project: LearningMap
+author: maple
+tags:
+  - prismavision
+  - smartinsightengine
+  - mdof
+  - query-engine
+related:
+  - 00_overview.md
+  - smart-insight-engine/00_overview.md
+audience:
+  - all
+summary: |
+  SmartInsightEngine 查詢引擎快速概覽，使用 MDOF 查詢語言從保健食品資料庫提取多維度洞察。
+---
 
-**版本**: 1.0
-**更新日期**: 2025-12-09
-**文檔類型**: 概覽
-**維護團隊**: PrismaVision Team
-**前置知識**: 00_architecture-overview.md
+# SmartInsightEngine - 查詢引擎概覽
 
 ---
 

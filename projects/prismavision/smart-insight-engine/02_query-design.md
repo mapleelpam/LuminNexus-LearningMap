@@ -1,11 +1,29 @@
-# 查詢設計進階
+---
+title: "查詢設計進階"
+type: topic
+status: active
+created: 2025-11-11
+version: "1.0"
+project: LearningMap
+author: maple
+tags:
+  - prismavision
+  - smartinsightengine
+  - mdof
+  - query-design
+  - optimization
+related:
+  - 00_overview.md
+  - 01_mdof-fundamentals.md
+audience:
+  - crawler-engineer
+  - tester
+summary: |
+  進階查詢設計技巧，涵蓋複雜需求拆解、Filter-Dimension 互動語義、
+  效能優化、邊界情況處理。
+---
 
-**版本**: 1.0
-**更新日期**: 2025-11-11
-**學習階段**: 進階
-**建議時間**: 2-3 天
-**前置知識**: 01_mdof-fundamentals.md
-**適用角色**: Data Analyst, Backend Engineer, Test & Business Analysis (選修)
+# 查詢設計進階
 
 ---
 

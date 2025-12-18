@@ -1,9 +1,26 @@
-# LuminNexus 資料流與系統串連
+---
+title: "LuminNexus 資料流與系統串連"
+type: guide
+status: active
+created: 2025-12-09
+version: "1.0"
+project: LearningMap
+author: maple
+tags:
+  - data-flow
+  - architecture
+  - etl
+  - cyclical
+related:
+  - 00_architecture-overview.md
+audience:
+  - all
+summary: |
+  LuminNexus 生態系統的資料傳遞與系統串連方式，涵蓋完整資料循環流程、
+  系統間介面規範、實際案例追蹤。
+---
 
-**版本**: 1.0
-**更新日期**: 2025-12-09
-**文檔類型**: 資料流說明
-**維護團隊**: Architecture Team + 各子系統團隊
+# LuminNexus 資料流與系統串連
 
 ---
 

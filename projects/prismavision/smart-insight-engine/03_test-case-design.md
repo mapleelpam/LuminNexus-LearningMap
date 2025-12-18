@@ -1,11 +1,29 @@
-# 測試案例設計
+---
+title: "測試案例設計"
+type: topic
+status: active
+created: 2025-11-11
+version: "1.0"
+project: LearningMap
+author: maple
+tags:
+  - prismavision
+  - smartinsightengine
+  - testing
+  - test-case
+  - json-schema
+related:
+  - 00_overview.md
+  - 01_mdof-fundamentals.md
+audience:
+  - tester
+  - crawler-engineer
+summary: |
+  Smart Insight Engine 測試策略與案例設計，涵蓋 JSON Schema、
+  等價類與邊界值分析、測試工具鏈使用。
+---
 
-**版本**: 1.0
-**更新日期**: 2025-11-11
-**學習階段**: 進階
-**建議時間**: 1-2 天
-**前置知識**: 01_mdof-fundamentals.md
-**適用角色**: Test & Business Analysis, Backend Engineer
+# 測試案例設計
 
 ---
 

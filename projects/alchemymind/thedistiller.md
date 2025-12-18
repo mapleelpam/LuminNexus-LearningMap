@@ -1,11 +1,26 @@
-# TheDistiller - 產品資料統一化 ETL Pipeline
+---
+title: "TheDistiller - 產品資料統一化 ETL Pipeline"
+type: spec
+status: active
+created: 2025-12-09
+version: "2.0"
+project: LearningMap
+author: maple
+tags:
+  - alchemymind
+  - thedistiller
+  - etl
+  - identity-resolution
+related:
+  - 00_overview.md
+audience:
+  - crawler-engineer
+summary: |
+  TheDistiller 資料統一化 ETL Pipeline，整合多資料來源、執行 Identity Resolution、
+  生成統一產品資料庫。
+---
 
-**版本**: 2.0
-**更新日期**: 2025-12-09
-**文檔類型**: 詳細說明
-**維護團隊**: AlchemyMind Team - TheDistiller
-**適用角色**: 資料工程師、架構師、後端工程師
-**前置知識**: [00_overview.md](00_overview.md), [../01_data-flow.md](../01_data-flow.md)
+# TheDistiller - 產品資料統一化 ETL Pipeline
 
 ---
 

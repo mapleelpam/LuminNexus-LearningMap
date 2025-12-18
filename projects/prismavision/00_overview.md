@@ -1,11 +1,26 @@
-# PrismaVision - 使用者介面與引擎層概覽
+---
+title: "PrismaVision - 使用者介面與引擎層概覽"
+type: overview
+status: active
+created: 2025-12-09
+version: "1.0"
+project: LearningMap
+author: maple
+tags:
+  - prismavision
+  - layer-3
+  - query-engine
+  - frontend
+related:
+  - ../00_architecture-overview.md
+audience:
+  - all
+summary: |
+  PrismaVision 系統概覽（Layer 3），涵蓋查詢引擎（SmartInsightEngine）、
+  前端介面（Next）、協議介面（MCP）等子系統。
+---
 
-**版本**: 1.0
-**更新日期**: 2025-12-09
-**文檔類型**: 概覽
-**維護團隊**: PrismaVision Team
-**適用角色**: 全員
-**前置知識**: [00_architecture-overview.md](../00_architecture-overview.md)
+# PrismaVision - 使用者介面與引擎層概覽
 
 ---
 

@@ -1,8 +1,22 @@
-# LuminNexus 專案文檔
+---
+title: "LuminNexus 專案文檔"
+type: index
+status: active
+created: 2025-12-09
+version: "1.0"
+project: LearningMap
+author: maple
+tags:
+  - index
+  - navigation
+  - projects
+audience:
+  - all
+summary: |
+  LuminNexus 生態系統專案文檔導航，包含三層架構所有子系統的文檔索引。
+---
 
-**版本**: 1.0
-**更新日期**: 2025-12-09
-**維護團隊**: Architecture Team
+# LuminNexus 專案文檔
 
 ---
 

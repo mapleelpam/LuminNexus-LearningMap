@@ -1,3 +1,23 @@
+---
+title: "資料來源與關聯欄位指南"
+type: guide
+status: active
+created: 2025-12-16
+project: LearningMap
+author: yijou14
+tags:
+  - data-sources
+  - upc
+  - asin
+  - dsld
+  - keepa
+audience:
+  - all
+summary: |
+  專案資料來源總覽與關鍵欄位說明，涵蓋 DSLD、iHerb、Keepa、品牌官網等，
+  以及 UPC、ASIN、brandCode 等識別碼的使用方式。
+---
+
 # 資料來源與關聯欄位指南
 
 本文件整理專案中可能用到的資料說明與注意事項，供日後使用參考。

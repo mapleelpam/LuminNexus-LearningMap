@@ -1,9 +1,24 @@
-# DSLD 資料庫快速指南
+---
+title: "DSLD 資料庫快速指南"
+type: guide
+status: active
+created: 2025-12-08
+version: "1.0"
+project: LearningMap
+author: leana
+tags:
+  - dsld
+  - nih
+  - dietary-supplement
+  - database
+audience:
+  - all
+summary: |
+  DSLD (Dietary Supplement Label Database) 資料庫概述，
+  涵蓋存取方式、資料規模、核心類型與標準化系統。
+---
 
-## 文件資訊
-- **建立日期**: 2025-12-08
-- **版本**: 1.0
-- **用途**: DSLD 資料庫概述、存取方式、基礎概念
+# DSLD 資料庫快速指南
 
 ---
 

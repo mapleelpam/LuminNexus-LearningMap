@@ -1,10 +1,30 @@
-# MDOF 查詢基礎
+---
+title: "MDOF 查詢基礎"
+type: topic
+status: active
+created: 2025-11-11
+version: "1.0"
+project: LearningMap
+author: maple
+tags:
+  - prismavision
+  - smartinsightengine
+  - mdof
+  - measures
+  - dimensions
+  - filters
+related:
+  - 00_overview.md
+audience:
+  - tester
+  - crawler-engineer
+  - all
+summary: |
+  MDOF 四大元素（Measures、Dimensions、Filters、Options）的用途與互動關係，
+  以及常見業務場景的查詢設計。
+---
 
-**版本**: 1.0
-**更新日期**: 2025-11-11
-**學習階段**: 基礎
-**建議時間**: 2-3 天
-**適用角色**: Test & Business Analysis, Data Analyst, Backend Engineer
+# MDOF 查詢基礎
 
 ---
 

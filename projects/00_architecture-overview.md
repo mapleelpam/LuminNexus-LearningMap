@@ -1,9 +1,23 @@
-# LuminNexus 系統架構全景
+---
+title: "LuminNexus 系統架構全景"
+type: overview
+status: active
+created: 2025-12-09
+version: "1.0"
+project: LearningMap
+author: maple
+tags:
+  - architecture
+  - luminnexus
+  - three-layer
+audience:
+  - all
+summary: |
+  LuminNexus 生態系統高層級架構概覽，介紹三層架構設計
+  （AtlasVault、AlchemyMind、PrismaVision）與各子系統職責。
+---
 
-**版本**: 1.0
-**更新日期**: 2025-12-09
-**文檔類型**: 架構概覽
-**維護團隊**: Architecture Team
+# LuminNexus 系統架構全景
 
 ---
 

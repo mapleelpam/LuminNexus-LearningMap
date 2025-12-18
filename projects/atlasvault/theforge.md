@@ -1,11 +1,26 @@
-# TheForge - ETL 層架構
+---
+title: "TheForge - ETL 層架構"
+type: spec
+status: active
+created: 2025-12-09
+version: "2.0.1"
+project: LearningMap
+author: maple
+tags:
+  - atlasvault
+  - theforge
+  - etl
+  - sqlite
+related:
+  - 00_overview.md
+audience:
+  - crawler-engineer
+summary: |
+  TheForge ETL 層架構，包含 Phase 1（Pure ETL）與 Phase 2（Unified Forge）、
+  Split Database Architecture（unified.db + weaver.db）。
+---
 
-**版本**: 2.0.1
-**更新日期**: 2025-12-09
-**文檔類型**: 詳細說明
-**維護團隊**: AtlasVault Team - TheForge
-**適用角色**: 資料工程師、架構師、後端工程師
-**前置知識**: [00_overview.md](00_overview.md), [../01_data-flow.md](../01_data-flow.md)
+# TheForge - ETL 層架構
 
 ---
 

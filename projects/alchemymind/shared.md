@@ -1,11 +1,24 @@
-# [文檔標題 - 待 AlchemyMind Team 補充]
+---
+title: "AlchemyMind Shared - 共用元件"
+type: spec
+status: active
+created: 2025-12-09
+version: "1.0"
+project: LearningMap
+author: maple
+tags:
+  - alchemymind
+  - shared
+  - components
+related:
+  - 00_overview.md
+audience:
+  - crawler-engineer
+summary: |
+  AlchemyMind 共用元件說明（待補充）。
+---
 
-**版本**: 1.0
-**更新日期**: 2025-12-09
-**文檔類型**: 詳細說明
-**維護團隊**: AlchemyMind Team
-**適用角色**: 工程師、架構師
-**前置知識**: [00_overview.md](00_overview.md), [../01_data-flow.md](../01_data-flow.md)
+# AlchemyMind Shared - 共用元件
 
 ---
 
