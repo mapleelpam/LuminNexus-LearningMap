@@ -1,8 +1,24 @@
-# Unix/Linux 基礎入門 - 給 Windows 使用者
+---
+title: "Unix/Linux 基礎入門 - 給 Windows 使用者"
+type: topic
+status: active
+created: 2025-11-11
+version: "1.0"
+project: LearningMap
+author: maple
+tags:
+  - unix
+  - linux
+  - cli
+  - shell
+audience:
+  - all
+summary: |
+  針對 Windows 使用者的 Unix/Linux 入門指南，涵蓋檔案系統哲學、
+  Shell 操作、權限管理、環境變數等核心概念。
+---
 
-**版本**: 1.0
-**更新日期**: 2025-11-10
-**適用對象**: 習慣 Windows 的使用者，第一次接觸 Unix/Linux 系統
+# Unix/Linux 基礎入門 - 給 Windows 使用者
 
 ---
 

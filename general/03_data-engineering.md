@@ -1,8 +1,22 @@
-# 資料工程基礎 (Data Engineering Fundamentals)
+---
+title: "資料工程基礎 (Data Engineering Fundamentals)"
+type: topic
+status: active
+created: 2025-11-11
+project: LearningMap
+author: maple
+tags:
+  - data-engineering
+  - json
+  - etl
+  - database
+audience:
+  - all
+summary: |
+  資料格式（JSON/CSV）、資料庫基礎、ETL 流程與資料充實技術。
+---
 
-> **學習階段**: 基礎
-> **建議時間**: 1-2 週
-> **適用角色**: 全員
+# 資料工程基礎 (Data Engineering Fundamentals)
 
 ---
 

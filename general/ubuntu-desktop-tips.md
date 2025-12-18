@@ -1,8 +1,24 @@
-# Ubuntu GNOME Desktop Tips
+---
+title: "Ubuntu GNOME Desktop Tips"
+type: guide
+status: active
+created: 2025-12-16
+updated: 2025-12-16
+version: "1.1"
+project: LearningMap
+author: maple
+tags:
+  - ubuntu
+  - gnome
+  - desktop
+  - byobu
+audience:
+  - all
+summary: |
+  Ubuntu GNOME 桌面環境實用技巧，包含 Byobu、Terminator 等工具使用。
+---
 
-**版本**: 1.1
-**更新日期**: 2025-12-16
-**適用角色**: 所有團隊成員
+# Ubuntu GNOME Desktop Tips
 
 ---
 

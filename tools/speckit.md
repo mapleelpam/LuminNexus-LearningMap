@@ -1,8 +1,25 @@
-# Speckit - 規格驅動開發工具
+---
+title: "Speckit - 規格驅動開發工具"
+type: guide
+status: active
+created: 2025-11-10
+version: "1.0"
+project: LearningMap
+author: maple
+tags:
+  - speckit
+  - sdd
+  - spec-driven-development
+  - testing
+audience:
+  - tester
+  - all
+summary: |
+  Speckit 工具指南，實踐 Spec-Driven Development (SDD)，
+  從規格自動生成測試案例並驗證實作。
+---
 
-**版本**: 1.0
-**更新日期**: 2025-11-10
-**專案**: LuminNexus-PrismaVision-SmartInsightEngine
+# Speckit - 規格驅動開發工具
 
 ---
 

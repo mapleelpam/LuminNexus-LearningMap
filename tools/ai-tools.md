@@ -1,3 +1,22 @@
+---
+title: "AI 工具參考"
+type: reference
+status: active
+created: 2025-12-16
+project: LearningMap
+author: yijou14
+tags:
+  - ai-tools
+  - claude-code
+  - gemini
+  - coding-agent
+audience:
+  - all
+summary: |
+  AI Coding Agent（Claude Code、Gemini CLI、Codex CLI、Cursor）、
+  研究工具（NotebookLM）與 AI API 快速參考。
+---
+
 # AI 工具參考
 
 AI Coding Agent、研究工具與 API 快速參考。

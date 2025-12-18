@@ -1,8 +1,24 @@
-# Claude Code CLI Tips
+---
+title: "Claude Code CLI Tips"
+type: guide
+status: active
+created: 2025-12-16
+updated: 2025-12-16
+version: "1.3"
+project: LearningMap
+author: maple
+tags:
+  - claude-code
+  - ai-tools
+  - cli
+audience:
+  - all
+summary: |
+  Claude Code CLI 實用技巧集，包含 Memory、Slash Commands、
+  Subagent、快捷鍵等使用方式。
+---
 
-**版本**: 1.3
-**更新日期**: 2025-12-16
-**適用角色**: 所有團隊成員
+# Claude Code CLI Tips
 
 ---
 

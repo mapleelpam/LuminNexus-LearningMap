@@ -1,3 +1,23 @@
+---
+title: "外部服務參考"
+type: reference
+status: active
+created: 2025-12-16
+project: LearningMap
+author: yijou14
+tags:
+  - external-services
+  - keepa
+  - oxylabs
+  - crawler
+audience:
+  - crawler-engineer
+  - all
+summary: |
+  爬蟲、代理、資料蒐集與網頁解析服務參考，涵蓋 Keepa、Apollo.io、
+  Oxylabs、Jina AI、MarkItDown 等。
+---
+
 # 外部服務參考
 
 爬蟲、代理、資料蒐集與網頁解析服務。

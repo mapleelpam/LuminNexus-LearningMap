@@ -1,8 +1,23 @@
-# General Learning Map - 通用核心能力大綱
+---
+title: "General Learning Map - 通用核心能力大綱"
+type: outline
+status: active
+created: 2025-11-10
+updated: 2025-12-16
+version: "2.6"
+project: LearningMap
+author: maple
+tags:
+  - learning-path
+  - onboarding
+audience:
+  - all
+summary: |
+  3-5 天通用核心能力學習路徑，涵蓋產品理解、資料工程、軟體工程、
+  測試 QA、AI 輔助開發等基礎，適用所有團隊角色。
+---
 
-**版本**: 2.6
-**更新日期**: 2025-12-16
-**適用角色**: 所有團隊成員 (Test & Business Analysis, Crawler Engineer)
+# General Learning Map - 通用核心能力大綱
 
 ---
 
