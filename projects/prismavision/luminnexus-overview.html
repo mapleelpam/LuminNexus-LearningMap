@@ -1,0 +1,1131 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LuminNexus — Intelligence Mesh</title>
+<style>
+:root {
+  /* Surfaces — pure white tech */
+  --white:         #ffffff;
+  --white-soft:    #fbfcfd;
+  --white-section: #f6f8fb;
+  --white-card:    #ffffff;
+
+  /* Ink — modern neutrals */
+  --ink:           #0a0e1a;
+  --ink-text:      #1d2433;
+  --ink-dim:       #4a5363;
+  --ink-muted:     #8b94a3;
+  --ink-fade:      #c7ccd6;
+
+  /* Lines */
+  --line:          #e6e9ef;
+  --line-bright:   #d3d8e0;
+  --line-faint:    #f1f3f7;
+
+  /* Accents — restrained tech palette */
+  --accent:        #4f46e5;       /* primary indigo */
+  --accent-soft:   rgba(79, 70, 229, 0.07);
+  --accent-glow:   rgba(79, 70, 229, 0.12);
+
+  --atlas:         #2563eb;       /* blue */
+  --apollo:        #ea580c;       /* orange */
+  --alchemy:       #7c3aed;       /* violet */
+
+  --eidos:         #7c3aed;
+  --argus:         #db2777;       /* magenta — vigilance */
+  --journalism:    #0891b2;       /* cyan — voice */
+
+  /* Typography */
+  --sans:  -apple-system, BlinkMacSystemFont, "Inter", "SF Pro Display", "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans TC", "PingFang TC", sans-serif;
+  --serif: "Iowan Old Style", "Apple Garamond", "EB Garamond", Baskerville, Georgia, "Noto Serif TC", serif;
+  --mono:  "JetBrains Mono", "SF Mono", "ui-monospace", Menlo, Consolas, monospace;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--white);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-weight: 400;
+  line-height: 1.65;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: "kern", "liga", "calt", "ss01", "cv11";
+}
+
+::selection { background: var(--accent-soft); color: var(--ink); }
+
+/* ============================================================
+   SCAFFOLD
+   ============================================================ */
+.act {
+  min-height: 100vh;
+  padding: 14vh 7vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+}
+
+.act-header { text-align: center; margin-bottom: 7rem; }
+
+.act-mark {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.85rem;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  margin-bottom: 1.6rem;
+}
+.act-mark::before {
+  content: '';
+  display: inline-block;
+  width: 0.4rem; height: 0.4rem;
+  background: var(--accent);
+  border-radius: 50%;
+}
+
+.act-title {
+  font-family: var(--sans);
+  font-size: clamp(2rem, 4.2vw, 3.2rem);
+  font-weight: 500;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+  line-height: 1.15;
+}
+
+.act-sub {
+  margin-top: 1.4rem;
+  font-size: 1.02rem;
+  color: var(--ink-dim);
+  letter-spacing: -0.005em;
+  max-width: 40rem;
+  margin-left: auto;
+  margin-right: auto;
+  font-weight: 400;
+}
+
+/* ============================================================
+   ACT I — HERO
+   ============================================================ */
+.act-hero {
+  align-items: center;
+  text-align: center;
+  background: var(--white);
+  overflow: hidden;
+}
+
+/* Dot-grid background — subtle tech texture */
+.hero-grid {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: radial-gradient(circle, rgba(10, 14, 26, 0.07) 1px, transparent 1px);
+  background-size: 28px 28px;
+  background-position: 0 0;
+  mask-image: radial-gradient(ellipse 80% 70% at center, black 35%, transparent 75%);
+  -webkit-mask-image: radial-gradient(ellipse 80% 70% at center, black 35%, transparent 75%);
+}
+
+/* Soft aurora glow at top/bottom */
+.hero-glow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 60% 40% at 30% 15%, rgba(79, 70, 229, 0.10), transparent 60%),
+    radial-gradient(ellipse 60% 40% at 70% 85%, rgba(8, 145, 178, 0.08), transparent 60%);
+}
+
+/* Faint constellation behind the title */
+.hero-nodes {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 520px; height: 520px;
+  max-width: 80vw; max-height: 80vw;
+  opacity: 0;
+  animation: nodeFade 2.6s ease-out 0.4s forwards;
+  pointer-events: none;
+}
+
+.hero-nodes circle {
+  fill: var(--accent);
+  opacity: 0.4;
+}
+.hero-nodes circle.large { r: 3.5; opacity: 0.55; }
+.hero-nodes line {
+  stroke: var(--accent);
+  stroke-width: 0.4;
+  opacity: 0.18;
+}
+
+@keyframes nodeFade {
+  from { opacity: 0; transform: translate(-50%, -50%) scale(0.92); }
+  to   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+
+@keyframes nodePulse {
+  0%, 100% { opacity: 0.4; }
+  50%      { opacity: 0.75; }
+}
+
+.hero-nodes circle.pulse-1 { animation: nodePulse 3s ease-in-out infinite; }
+.hero-nodes circle.pulse-2 { animation: nodePulse 3s ease-in-out 0.6s infinite; }
+.hero-nodes circle.pulse-3 { animation: nodePulse 3s ease-in-out 1.2s infinite; }
+.hero-nodes circle.pulse-4 { animation: nodePulse 3s ease-in-out 1.8s infinite; }
+
+.hero-mark {
+  position: relative;
+  z-index: 2;
+  font-family: var(--sans);
+  font-size: clamp(2.6rem, 8vw, 6rem);
+  font-weight: 600;
+  letter-spacing: -0.035em;
+  color: var(--ink);
+  opacity: 0;
+  animation: fadeUp 1.6s cubic-bezier(0.16, 1, 0.3, 1) 0.5s forwards;
+  background: linear-gradient(180deg, var(--ink) 0%, #4a5363 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero-rule {
+  position: relative; z-index: 2;
+  width: 0;
+  height: 1px;
+  background: var(--accent);
+  margin: 2rem auto 0;
+  opacity: 0.6;
+  animation: ruleGrow 1.6s cubic-bezier(0.16, 1, 0.3, 1) 1.4s forwards;
+}
+
+.hero-tagline {
+  position: relative; z-index: 2;
+  margin-top: 2.4rem;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: clamp(1.05rem, 1.45vw, 1.3rem);
+  color: var(--ink-dim);
+  letter-spacing: -0.005em;
+  max-width: 36rem;
+  opacity: 0;
+  animation: fadeUp 1.6s ease-out 1.0s forwards;
+}
+
+.hero-meta {
+  position: relative; z-index: 2;
+  margin-top: 4.5rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 1.4rem;
+  padding: 0.6rem 1.4rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--white);
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  color: var(--ink-muted);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  opacity: 0;
+  animation: fadeUp 1.6s ease-out 1.6s forwards;
+}
+
+.hero-meta .dot {
+  display: inline-block;
+  width: 3px; height: 3px;
+  background: var(--accent);
+  border-radius: 50%;
+}
+
+.scroll-cue {
+  position: absolute;
+  bottom: 3rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.32em;
+  color: var(--ink-muted);
+  opacity: 0;
+  animation: fadeIn 1.6s ease-out 2.2s forwards, drift 2.6s ease-in-out 3.4s infinite;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.scroll-cue svg {
+  width: 10px; height: 10px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.5;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes ruleGrow {
+  from { width: 0; opacity: 0; }
+  to   { width: 4.5rem; opacity: 0.6; }
+}
+@keyframes drift {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50%      { transform: translateX(-50%) translateY(6px); }
+}
+
+/* ============================================================
+   ACT II — THREE HOUSES
+   ============================================================ */
+.act-houses {
+  background: var(--white-section);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.houses {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.4rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+@media (max-width: 960px) {
+  .houses { grid-template-columns: 1fr; max-width: 36rem; }
+}
+
+.house {
+  background: var(--white-card);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 2.4rem 2rem 2rem;
+  position: relative;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(32px);
+  transition:
+    opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.35s,
+    box-shadow 0.35s,
+    transform 0.35s;
+}
+
+.house::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+
+.house.visible { opacity: 1; transform: translateY(0); }
+.house.visible:nth-child(1) { transition-delay: 0.05s; }
+.house.visible:nth-child(2) { transition-delay: 0.2s; }
+.house.visible:nth-child(3) { transition-delay: 0.35s; }
+
+.house:hover {
+  border-color: var(--accent);
+  box-shadow:
+    0 1px 2px rgba(10, 14, 26, 0.04),
+    0 12px 32px -12px rgba(10, 14, 26, 0.10);
+}
+.house:hover::before { opacity: 1; }
+
+.house-atlas    { --accent: var(--atlas); }
+.house-apollo   { --accent: var(--apollo); }
+.house-alchemy  { --accent: var(--alchemy); }
+
+.house-glyph-wrap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px; height: 44px;
+  background: var(--accent-soft, rgba(79, 70, 229, 0.08));
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  color: var(--accent);
+}
+.house-atlas   .house-glyph-wrap { background: rgba(37, 99, 235, 0.08); border-color: rgba(37, 99, 235, 0.2); }
+.house-apollo  .house-glyph-wrap { background: rgba(234, 88, 12, 0.08); border-color: rgba(234, 88, 12, 0.2); }
+.house-alchemy .house-glyph-wrap { background: rgba(124, 58, 237, 0.08); border-color: rgba(124, 58, 237, 0.2); }
+
+.house-glyph {
+  width: 22px; height: 22px;
+  color: var(--accent);
+}
+
+.house-name {
+  font-family: var(--sans);
+  font-size: 1.4rem;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+  margin-bottom: 0.3rem;
+}
+
+.house-role {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 1.4rem;
+}
+
+.house-desc {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 0.96rem;
+  color: var(--ink-dim);
+  line-height: 1.75;
+  margin-bottom: 1.8rem;
+  letter-spacing: -0.005em;
+}
+
+.house-works-label {
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  margin-bottom: 1rem;
+  padding-top: 1.4rem;
+  border-top: 1px solid var(--line);
+}
+
+.house-works { list-style: none; }
+
+.house-works li {
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--line-faint);
+  display: flex;
+  flex-direction: column;
+}
+.house-works li:last-child { border-bottom: none; padding-bottom: 0; }
+
+.work-name {
+  font-family: var(--sans);
+  font-weight: 600;
+  color: var(--ink);
+  font-size: 0.95rem;
+  letter-spacing: -0.01em;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.work-name::before {
+  content: '';
+  width: 4px; height: 4px;
+  background: var(--accent);
+  border-radius: 50%;
+}
+
+.work-tagline {
+  display: block;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 0.85rem;
+  color: var(--ink-muted);
+  margin-top: 0.2rem;
+  margin-left: 0.85rem;
+  letter-spacing: -0.005em;
+}
+
+/* ============================================================
+   ACT III — THE FLOW
+   ============================================================ */
+.act-pipeline {
+  background: var(--white);
+  min-height: 110vh;
+}
+
+.pipeline-wrap {
+  max-width: 1240px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.pipeline-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 2rem 0 4rem;
+  opacity: 0;
+  transition: opacity 1.2s ease-out;
+}
+
+.pipeline-svg.visible { opacity: 1; }
+
+.stage-label {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 2.4px;
+  text-transform: uppercase;
+  fill: var(--ink-muted);
+}
+
+.node-box {
+  fill: var(--white);
+  stroke: var(--line-bright);
+  stroke-width: 1;
+  rx: 6;
+}
+
+.node-text {
+  fill: var(--ink);
+  font-family: var(--sans);
+  font-size: 13.5px;
+  font-weight: 600;
+  text-anchor: middle;
+  dominant-baseline: middle;
+  letter-spacing: -0.3px;
+}
+
+.node-sub {
+  fill: var(--ink-muted);
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 1.4px;
+  text-anchor: middle;
+  text-transform: uppercase;
+}
+
+.node-num {
+  fill: var(--ink-muted);
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+.node-atlas      .node-box { stroke: var(--atlas);      stroke-width: 1.2; }
+.node-apollo     .node-box { stroke: var(--apollo);     stroke-width: 1.2; }
+.node-eidos      .node-box { stroke: var(--eidos);      stroke-width: 1.2; }
+.node-argus      .node-box { stroke: var(--argus);      stroke-width: 1.2; }
+.node-journalism .node-box { stroke: var(--journalism); stroke-width: 1.2; }
+.node-output     .node-box { stroke: var(--ink-text);   stroke-width: 1.2; }
+
+/* tiny accent dot on each named node */
+.node-atlas      .node-dot { fill: var(--atlas); }
+.node-apollo     .node-dot { fill: var(--apollo); }
+.node-eidos      .node-dot { fill: var(--eidos); }
+.node-argus      .node-dot { fill: var(--argus); }
+.node-journalism .node-dot { fill: var(--journalism); }
+.node-output     .node-dot { fill: var(--ink-text); }
+
+.flow-path {
+  fill: none;
+  stroke: var(--line-bright);
+  stroke-width: 1;
+  opacity: 0.7;
+}
+
+.flow-energy {
+  fill: none;
+  stroke-width: 1.4;
+  stroke-dasharray: 4 12;
+  animation: flowDash 2.8s linear infinite;
+  opacity: 0;
+  transition: opacity 1s ease-out;
+}
+
+.pipeline-svg.visible .flow-energy { opacity: 0.85; }
+
+@keyframes flowDash { to { stroke-dashoffset: -160; } }
+
+.flow-energy.from-atlas      { stroke: var(--atlas); }
+.flow-energy.from-apollo     { stroke: var(--apollo); animation-duration: 3.2s; }
+.flow-energy.from-eidos      { stroke: var(--eidos); animation-duration: 3.8s; }
+.flow-energy.from-refining   { stroke: var(--ink-muted); animation-duration: 2.6s; }
+.flow-energy.from-argus      { stroke: var(--argus); animation-duration: 3.4s; }
+.flow-energy.from-journalism { stroke: var(--journalism); animation-duration: 2.8s; }
+
+.pipeline-legend {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  margin-top: 3rem;
+}
+
+.legend-item {
+  padding: 1.3rem 1.4rem;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  position: relative;
+  overflow: hidden;
+}
+.legend-item::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 2px;
+  background: var(--swatch, var(--ink-muted));
+}
+
+.legend-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--swatch, var(--ink-muted));
+  margin-bottom: 0.55rem;
+}
+.legend-title::before {
+  content: '';
+  width: 5px; height: 5px;
+  background: var(--swatch, var(--ink-muted));
+  border-radius: 50%;
+}
+
+.legend-body {
+  font-family: var(--serif);
+  font-style: italic;
+  color: var(--ink-dim);
+  font-size: 0.93rem;
+  line-height: 1.7;
+}
+
+/* ============================================================
+   ACT IV — CRAFT
+   ============================================================ */
+.act-craft {
+  background: var(--white-section);
+  border-top: 1px solid var(--line);
+}
+
+.craft-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.2rem;
+  max-width: 1100px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.craft {
+  padding: 2rem 1.8rem;
+  background: var(--white-card);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.9s, transform 0.9s, border-color 0.3s;
+}
+
+.craft:hover { border-color: var(--accent); }
+
+.craft.visible { opacity: 1; transform: translateY(0); }
+.craft.visible:nth-child(2) { transition-delay: 0.1s; }
+.craft.visible:nth-child(3) { transition-delay: 0.2s; }
+.craft.visible:nth-child(4) { transition-delay: 0.3s; }
+.craft.visible:nth-child(5) { transition-delay: 0.4s; }
+.craft.visible:nth-child(6) { transition-delay: 0.5s; }
+
+.craft-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.8rem;
+}
+.craft-tag::before {
+  content: '';
+  width: 4px; height: 4px;
+  background: var(--accent);
+  border-radius: 50%;
+}
+
+.craft-title {
+  font-family: var(--sans);
+  font-size: 1.2rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.85rem;
+  color: var(--ink);
+}
+
+.craft-body {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 0.95rem;
+  color: var(--ink-dim);
+  line-height: 1.75;
+  letter-spacing: -0.005em;
+}
+
+.craft-list {
+  list-style: none;
+  margin-top: 0.8rem;
+  padding-left: 0;
+}
+.craft-list li {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 0.9rem;
+  color: var(--ink-dim);
+  padding: 0.32rem 0;
+  display: flex;
+  gap: 0.7rem;
+  align-items: baseline;
+}
+.craft-list li::before {
+  content: '';
+  width: 4px; height: 4px;
+  background: var(--accent);
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 0.55em;
+}
+.craft-list strong {
+  font-style: normal;
+  font-weight: 600;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+footer {
+  padding: 4rem 6vw 3rem;
+  text-align: center;
+  border-top: 1px solid var(--line);
+  background: var(--white);
+}
+
+footer .footer-mark {
+  font-family: var(--sans);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  color: var(--ink-text);
+  margin-bottom: 0.9rem;
+  font-size: 1.1rem;
+}
+
+footer .footer-meta {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+footer .footer-meta .dot {
+  width: 3px; height: 3px;
+  background: var(--accent);
+  border-radius: 50%;
+  display: inline-block;
+}
+
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     ACT I — HERO
+     ============================================================ -->
+<section class="act act-hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+
+  <!-- Constellation behind title -->
+  <svg class="hero-nodes" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+    <!-- connecting lines -->
+    <line x1="100" y1="40" x2="50" y2="80"/>
+    <line x1="100" y1="40" x2="150" y2="80"/>
+    <line x1="50" y1="80" x2="40" y2="140"/>
+    <line x1="150" y1="80" x2="160" y2="140"/>
+    <line x1="40" y1="140" x2="100" y2="170"/>
+    <line x1="160" y1="140" x2="100" y2="170"/>
+    <line x1="50" y1="80" x2="150" y2="80"/>
+    <line x1="50" y1="80" x2="160" y2="140"/>
+    <line x1="150" y1="80" x2="40" y2="140"/>
+    <line x1="100" y1="40" x2="100" y2="170"/>
+    <!-- nodes -->
+    <circle cx="100" cy="40"  r="3" class="large pulse-1"/>
+    <circle cx="50"  cy="80"  r="2.5" class="pulse-2"/>
+    <circle cx="150" cy="80"  r="2.5" class="pulse-3"/>
+    <circle cx="40"  cy="140" r="2.5" class="pulse-4"/>
+    <circle cx="160" cy="140" r="2.5" class="pulse-1"/>
+    <circle cx="100" cy="170" r="3" class="large pulse-2"/>
+  </svg>
+
+  <h1 class="hero-mark">LuminNexus</h1>
+  <div class="hero-rule"></div>
+  <p class="hero-tagline">An intelligence mesh — where identity, refinement, and voice converge under one craft.</p>
+  <p class="hero-meta">
+    <span>Three houses</span><span class="dot"></span><span>Five works</span><span class="dot"></span><span>One mesh</span>
+  </p>
+  <div class="scroll-cue">
+    SCROLL
+    <svg viewBox="0 0 12 12"><path d="M6 2 L6 10 M3 7 L6 10 L9 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </div>
+</section>
+
+<!-- ============================================================
+     ACT II — THREE HOUSES
+     ============================================================ -->
+<section class="act act-houses">
+  <header class="act-header">
+    <div class="act-mark">Act II · Houses</div>
+    <h2 class="act-title">Three houses, one mesh</h2>
+    <p class="act-sub">Each holds a different relation to the work — to gather it, to know it, to speak of it.</p>
+  </header>
+
+  <div class="houses">
+
+    <article class="house house-atlas">
+      <span class="house-glyph-wrap">
+        <svg class="house-glyph" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="9"/>
+          <path d="M12 3 L13.5 11 L21 12 L13.5 13 L12 21 L10.5 13 L3 12 L10.5 11 Z" fill="currentColor" fill-opacity="0.12" stroke-width="1"/>
+        </svg>
+      </span>
+      <h3 class="house-name">AtlasVault</h3>
+      <div class="house-role">Cartography · Custody</div>
+      <p class="house-desc">Charts presences across the open web. Marks what stands, what shifts, what fades.</p>
+      <div class="house-works-label">Works</div>
+      <ul class="house-works">
+        <li>
+          <span class="work-name">Rippletide</span>
+          <span class="work-tagline">A reading of the tides of presence.</span>
+        </li>
+      </ul>
+    </article>
+
+    <article class="house house-apollo">
+      <span class="house-glyph-wrap">
+        <svg class="house-glyph" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="4"/>
+          <line x1="12" y1="2"  x2="12" y2="5"/>
+          <line x1="12" y1="19" x2="12" y2="22"/>
+          <line x1="2"  y1="12" x2="5"  y2="12"/>
+          <line x1="19" y1="12" x2="22" y2="12"/>
+          <line x1="4.5"  y1="4.5"  x2="6.5"  y2="6.5"/>
+          <line x1="17.5" y1="17.5" x2="19.5" y2="19.5"/>
+          <line x1="4.5"  y1="19.5" x2="6.5"  y2="17.5"/>
+          <line x1="17.5" y1="6.5"  x2="19.5" y2="4.5"/>
+        </svg>
+      </span>
+      <h3 class="house-name">ApolloResearch</h3>
+      <div class="house-role">Illumination · Lineage</div>
+      <p class="house-desc">Traces the makers behind the work — the houses, the hands, the chains of provenance.</p>
+      <div class="house-works-label">Works</div>
+      <ul class="house-works">
+        <li>
+          <span class="work-name">ApolloResearch</span>
+          <span class="work-tagline">Records of those who make.</span>
+        </li>
+      </ul>
+    </article>
+
+    <article class="house house-alchemy">
+      <span class="house-glyph-wrap">
+        <svg class="house-glyph" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="9"/>
+          <path d="M12 4 L20 18 L4 18 Z" fill="currentColor" fill-opacity="0.10"/>
+          <line x1="7" y1="13" x2="17" y2="13"/>
+        </svg>
+      </span>
+      <h3 class="house-name">AlchemyMind</h3>
+      <div class="house-role">Transmutation · Voice</div>
+      <p class="house-desc">Where raw material becomes meaning. An identity backbone, an unsleeping witness, and a voice that turns measure into narrative.</p>
+      <div class="house-works-label">Works</div>
+      <ul class="house-works">
+        <li>
+          <span class="work-name">Eidos</span>
+          <span class="work-tagline">The naming of essences.</span>
+        </li>
+        <li>
+          <span class="work-name">TheArgus</span>
+          <span class="work-tagline">The hundred-eyed witness.</span>
+        </li>
+        <li>
+          <span class="work-name">TheJournalism</span>
+          <span class="work-tagline">The voice that speaks of the work.</span>
+        </li>
+      </ul>
+    </article>
+
+  </div>
+</section>
+
+<!-- ============================================================
+     ACT III — THE FLOW
+     ============================================================ -->
+<section class="act act-pipeline">
+  <header class="act-header">
+    <div class="act-mark">Act III · Flow</div>
+    <h2 class="act-title">Where currents converge</h2>
+    <p class="act-sub">From the unmapped, to the named, to the spoken.</p>
+  </header>
+
+  <div class="pipeline-wrap">
+    <svg class="pipeline-svg" viewBox="0 0 1200 520" preserveAspectRatio="xMidYMid meet" aria-label="LuminNexus flow">
+
+      <!-- Column markers -->
+      <text x="150"  y="48" class="stage-label" text-anchor="middle">01 · Gather</text>
+      <text x="375"  y="48" class="stage-label" text-anchor="middle">02 · Name</text>
+      <text x="620"  y="48" class="stage-label" text-anchor="middle">03 · Refine</text>
+      <text x="870"  y="48" class="stage-label" text-anchor="middle">04 · Witness · Voice</text>
+      <text x="1090" y="48" class="stage-label" text-anchor="middle">05 · Speak</text>
+
+      <line x1="60"  y1="70" x2="1160" y2="70" stroke="var(--line)" stroke-width="0.6"/>
+
+      <!-- ===== Flow paths (beneath nodes) ===== -->
+      <path class="flow-path" d="M210 160 C 340 160, 450 170, 540 180"/>
+      <path class="flow-energy from-atlas" d="M210 160 C 340 160, 450 170, 540 180"/>
+
+      <path class="flow-path" d="M210 360 C 340 360, 450 250, 540 240"/>
+      <path class="flow-energy from-apollo" d="M210 360 C 340 360, 450 250, 540 240"/>
+
+      <path class="flow-path" d="M385 290 C 470 290, 480 195, 540 195"/>
+      <path class="flow-energy from-eidos" d="M385 290 C 470 290, 480 195, 540 195"/>
+      <path class="flow-path" d="M385 290 C 470 290, 480 260, 540 260"/>
+      <path class="flow-energy from-eidos" d="M385 290 C 470 290, 480 260, 540 260"/>
+      <path class="flow-path" d="M385 290 C 470 290, 480 325, 540 325"/>
+      <path class="flow-energy from-eidos" d="M385 290 C 470 290, 480 325, 540 325"/>
+
+      <path class="flow-path" d="M620 175 L 620 215"/>
+      <path class="flow-energy from-refining" d="M620 175 L 620 215"/>
+      <path class="flow-path" d="M620 240 L 620 280"/>
+      <path class="flow-energy from-refining" d="M620 240 L 620 280"/>
+      <path class="flow-path" d="M620 305 L 620 345"/>
+      <path class="flow-energy from-refining" d="M620 305 L 620 345"/>
+
+      <path class="flow-path" d="M700 190 C 760 190, 780 200, 800 200"/>
+      <path class="flow-energy from-argus" d="M700 190 C 760 190, 780 200, 800 200"/>
+      <path class="flow-path" d="M700 255 C 760 255, 780 220, 800 220"/>
+      <path class="flow-energy from-argus" d="M700 255 C 760 255, 780 220, 800 220"/>
+
+      <path class="flow-path" d="M700 325 C 760 325, 780 355, 800 355"/>
+      <path class="flow-energy from-journalism" d="M700 325 C 760 325, 780 355, 800 355"/>
+
+      <path class="flow-path" d="M940 210 C 990 210, 1010 260, 1040 270"/>
+      <path class="flow-energy from-argus" d="M940 210 C 990 210, 1010 260, 1040 270"/>
+
+      <path class="flow-path" d="M940 360 C 990 360, 1010 290, 1040 280"/>
+      <path class="flow-energy from-journalism" d="M940 360 C 990 360, 1010 290, 1040 280"/>
+
+      <!-- ===== Nodes ===== -->
+
+      <g class="node node-atlas">
+        <rect class="node-box" x="80" y="135" width="130" height="58"/>
+        <circle class="node-dot" cx="92" cy="148" r="2.5"/>
+        <text x="145" y="160" class="node-text">Rippletide</text>
+        <text x="145" y="180" class="node-sub">Tides of Presence</text>
+      </g>
+
+      <g class="node node-apollo">
+        <rect class="node-box" x="80" y="335" width="130" height="58"/>
+        <circle class="node-dot" cx="92" cy="348" r="2.5"/>
+        <text x="145" y="360" class="node-text">ApolloResearch</text>
+        <text x="145" y="380" class="node-sub">Library of Makers</text>
+      </g>
+
+      <g class="node node-eidos">
+        <rect class="node-box" x="320" y="260" width="130" height="58"/>
+        <circle class="node-dot" cx="332" cy="273" r="2.5"/>
+        <text x="385" y="285" class="node-text">Eidos</text>
+        <text x="385" y="305" class="node-sub">Naming of Essences</text>
+      </g>
+
+      <!-- Refine — numbered stages -->
+      <g class="node">
+        <rect class="node-box" x="540" y="155" width="160" height="42"/>
+        <text x="555" y="181" class="node-num">01</text>
+        <text x="620" y="180" class="node-text" style="font-size:12px;">Refining</text>
+      </g>
+      <g class="node">
+        <rect class="node-box" x="540" y="220" width="160" height="42"/>
+        <text x="555" y="246" class="node-num">02</text>
+        <text x="620" y="245" class="node-text" style="font-size:12px;">Refining</text>
+      </g>
+      <g class="node">
+        <rect class="node-box" x="540" y="285" width="160" height="42"/>
+        <text x="555" y="311" class="node-num">03</text>
+        <text x="620" y="310" class="node-text" style="font-size:12px;">Refining</text>
+      </g>
+
+      <g class="node node-argus">
+        <rect class="node-box" x="800" y="180" width="140" height="58"/>
+        <circle class="node-dot" cx="812" cy="193" r="2.5"/>
+        <text x="870" y="205" class="node-text">TheArgus</text>
+        <text x="870" y="225" class="node-sub">百眼 · Witness</text>
+      </g>
+
+      <g class="node node-journalism">
+        <rect class="node-box" x="800" y="330" width="140" height="58"/>
+        <circle class="node-dot" cx="812" cy="343" r="2.5"/>
+        <text x="870" y="355" class="node-text">TheJournalism</text>
+        <text x="870" y="375" class="node-sub">The Voice</text>
+      </g>
+
+      <g class="node node-output">
+        <rect class="node-box" x="1040" y="245" width="120" height="58"/>
+        <circle class="node-dot" cx="1052" cy="258" r="2.5"/>
+        <text x="1100" y="270" class="node-text">Narrative</text>
+        <text x="1100" y="290" class="node-sub">Spoken Work</text>
+      </g>
+
+    </svg>
+
+    <div class="pipeline-legend">
+      <div class="legend-item" style="--swatch: var(--atlas);">
+        <div class="legend-title">Gather</div>
+        <div class="legend-body">We chart what the open web reveals — what stands, what shifts, what fades.</div>
+      </div>
+      <div class="legend-item" style="--swatch: var(--eidos);">
+        <div class="legend-title">Name</div>
+        <div class="legend-body">Every presence receives a name. The mesh joins on essence, not on guess.</div>
+      </div>
+      <div class="legend-item" style="--swatch: var(--ink-muted);">
+        <div class="legend-title">Refine</div>
+        <div class="legend-body">Materials pass through the chamber in patient stages. What enters as raw, leaves prepared.</div>
+      </div>
+      <div class="legend-item" style="--swatch: var(--argus);">
+        <div class="legend-title">Witness</div>
+        <div class="legend-body">What is made does not go unwatched. The hundred eyes do not sleep.</div>
+      </div>
+      <div class="legend-item" style="--swatch: var(--journalism);">
+        <div class="legend-title">Voice</div>
+        <div class="legend-body">And finally — the work speaks. Measure becomes meaning, in pages a reader can hold.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     ACT IV — CRAFT
+     ============================================================ -->
+<section class="act act-craft">
+  <header class="act-header">
+    <div class="act-mark">Act IV · Craft</div>
+    <h2 class="act-title">The shape of the craft</h2>
+    <p class="act-sub">What threads every house — a shared lexicon, a steady method.</p>
+  </header>
+
+  <div class="craft-grid">
+
+    <div class="craft">
+      <div class="craft-tag">Identity</div>
+      <div class="craft-title">Cards of essence</div>
+      <div class="craft-body">
+        Every entity in the mesh carries an identity card — names, lineages, provenance. The mesh joins on essence, never on guess.
+      </div>
+    </div>
+
+    <div class="craft">
+      <div class="craft-tag">Lexicon</div>
+      <div class="craft-title">Three axes of mark</div>
+      <div class="craft-body">
+        The marks that travel with the work are kept along three axes of provenance:
+        <ul class="craft-list">
+          <li><strong>WHAT</strong> — the substance itself</li>
+          <li><strong>HOW</strong> — the method of its making</li>
+          <li><strong>WHERE</strong> — the lineage of its origin</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="craft">
+      <div class="craft-tag">Philosophy</div>
+      <div class="craft-title">Four temperaments</div>
+      <div class="craft-body">
+        The disposition of every work in the mesh:
+        <ul class="craft-list">
+          <li><strong>Layered</strong> — mechanical kept apart from editorial</li>
+          <li><strong>Observable</strong> — every fact carries its provenance</li>
+          <li><strong>Repeatable</strong> — the same hand, the same line</li>
+          <li><strong>Interpretive</strong> — the angle is named, not hidden</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="craft">
+      <div class="craft-tag">Method</div>
+      <div class="craft-title">Contract before code</div>
+      <div class="craft-body">
+        Every work begins with its contract. Before the line is drawn, the shape is set; before the hand moves, the why is written.
+      </div>
+    </div>
+
+    <div class="craft">
+      <div class="craft-tag">Naming</div>
+      <div class="craft-title">A mythic lexicon</div>
+      <div class="craft-body">
+        Names from older books thread the mesh:
+        <ul class="craft-list">
+          <li><strong>Apollo</strong> — the light of knowledge</li>
+          <li><strong>Atlas</strong> — the bearer of charts</li>
+          <li><strong>Argus</strong> — the hundred-eyed watcher</li>
+          <li><strong>Eidos</strong> — the form, the essence</li>
+          <li><strong>Lumin · Alchemy</strong> — light and transmutation</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="craft">
+      <div class="craft-tag">Posture</div>
+      <div class="craft-title">Patient instruments</div>
+      <div class="craft-body">
+        We make instruments, not announcements. The work in the mesh is read by other works — quiet, joined, kept under one craft.
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <div class="footer-mark">LuminNexus</div>
+  <div class="footer-meta">
+    <span>Three houses</span><span class="dot"></span><span>Five works</span><span class="dot"></span><span>One mesh</span>
+  </div>
+</footer>
+
+<script>
+(function() {
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) e.target.classList.add('visible');
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -8% 0px' });
+
+  document.querySelectorAll('.house, .pipeline-svg, .craft').forEach(el => io.observe(el));
+})();
+</script>
+
+</body>
+</html>
