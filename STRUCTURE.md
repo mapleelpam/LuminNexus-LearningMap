@@ -1,4 +1,4 @@
-# LuminNexus Learning Map - 專案架構設計 v3 (極簡版)
+# LuminNexus Learning Map - 專案架構設計 v4
 
 ## 設計原則
 
@@ -6,91 +6,130 @@
 2. **編碼表達順序**: 用檔案編號表達學習路徑
 3. **內容優先**: 專注於文字內容，不依賴圖片
 4. **易於維護**: 結構簡單，易於協作
+5. **文檔治理**: 使用 Stillflow frontmatter 統一管理文件狀態
 
 ---
 
-## 最終專案結構
+## 專案結構（現況）
 
 ```
 LuminNexus-LearningMap/
 │
-├── README.md                         # 專案首頁、導航、使用說明
+├── CLAUDE.md                         # Claude Code 工作指引
 ├── STRUCTURE.md                      # 本檔案：架構設計說明
+├── .stillflow.yaml                   # Stillflow 設定（flat mode）
 │
-├── general/                          # 通用核心能力
-│   ├── README.md                     # 通用能力總覽與學習指引
+├── general/                          # 通用核心能力（所有角色）
 │   ├── 00_outline.md                 # 通用能力大綱
-│   ├── 01_product-business.md        # 產品與業務理解
-│   ├── 02_data-engineering.md        # 資料工程基礎
-│   ├── 03_software-engineering.md    # 軟體工程實踐
-│   ├── 04_testing-qa.md              # 測試與品質保證
-│   ├── 05_ai-assisted-dev.md         # AI 輔助開發
-│   ├── 06_web-technologies.md        # 網頁技術與資料蒐集
-│   ├── 07_data-analysis.md           # 資料分析與視覺化
-│   ├── 08_systems-architecture.md    # 系統思維與架構
-│   ├── 09_collaboration.md           # 協作與溝通
-│   ├── 10_security.md                # 安全性與最佳實踐
-│   └── unix-linux-basics.md          # Unix/Linux 基礎入門
+│   ├── 02_unix-linux-basics.md       # Unix/Linux 基礎
+│   ├── 03_data-engineering.md        # 資料工程基礎
+│   ├── ai-data-terminology.md        # Infer / Derive / Reasoning 術語
+│   ├── claude-agent-skill.md         # Claude Agent Skill 參考
+│   ├── claude-code-tips.md           # Claude Code CLI 使用技巧
+│   ├── claude-code-cli-discussion.md # Claude Code CLI 深度討論
+│   ├── claude-code-cli-discussion-advanced.md
+│   ├── contextops-discipline.md      # ContextOps 方法論
+│   ├── knowledge-management.md       # 知識管理 (PKM & Frontmatter)
+│   ├── progressive-disclosure.md     # Progressive Disclosure 參考
+│   └── ubuntu-desktop-tips.md        # Ubuntu Desktop 技巧
 │
 ├── roles/                            # 角色特定學習路徑
-│   ├── README.md                     # 角色說明與選擇指引
-│   ├── testing/                      # Testing 專業能力學習地圖
-│   │   ├── 00_outline.md             # Testing 學習大綱
-│   │   ├── 01_testing-fundamentals.md
-│   │   ├── 02_unit-integration-testing.md
-│   │   ├── 03_api-interface-testing.md
-│   │   ├── 04_e2e-ui-testing.md
-│   │   ├── 05_test-case-design.md
-│   │   ├── 06_data-quality-validation.md
-│   │   └── 07_business-analysis.md
-│   ├── crawler-engineer.md           # Crawler Engineer 角色
+│   ├── testing/                      # Testing & Business Analysis
+│   │   └── 00_outline.md             # Testing 學習大綱 (01-06 topics)
 │   └── project-manager.md            # Project Manager 角色
+│                                     # (crawler-engineer 角色規劃中)
 │
 ├── tools/                            # 工具文檔
-│   └── speckit.md                    # Speckit 工具介紹與使用指南
+│   ├── speckit.md                    # Speckit 工具指南 (SDD)
+│   ├── ai-tools.md                   # AI Coding Agent / Canvas / API 參考
+│   ├── external-services.md          # 外部服務 (Keepa, Oxylabs, Jina AI...)
+│   └── google-product-category-intro.md # Google 商品分類標準
 │
-├── smart-insight-engine/             # Smart Insight Engine 專區
-│   ├── 00_overview.md                # SI Engine 總覽
-│   ├── 01_mdof-fundamentals.md       # MDOF 查詢基礎 ⭐
-│   ├── 02_query-design.md            # 查詢設計進階
-│   └── 03_test-case-design.md        # 測試案例設計
+├── data-sources/                     # 資料來源文檔
+│   ├── data-sources-guide.md         # 資料來源與關聯欄位指南
+│   ├── dsld/                         # DSLD (NIH) 相關文檔
+│   ├── keepa/                        # Keepa API 文檔
+│   └── shopify/                      # Shopify 相關文檔
 │
-└── archive/                          # 歷史文檔存檔
-    └── 20251110_initial_draft.md
-
+├── projects/                         # LuminNexus 各系統文檔
+│   ├── 00_architecture-overview.md   # 三層架構總覽
+│   ├── 01_data-flow.md               # 資料流說明
+│   ├── DOCUMENTATION_POLICY.md       # 文檔撰寫規範
+│   ├── alchemymind/                  # Layer 2: 資料處理與 LLM 分析
+│   │   ├── 00_overview.md
+│   │   ├── therefinery.md / theweaver.md / theargus.md
+│   │   ├── thedistiller.md / factum.md / shared.md
+│   ├── atlasvault/                   # Layer 1: 資料蒐集與儲存
+│   │   ├── 00_overview.md
+│   │   ├── dsld-crawler.md / iherb-crawler.md
+│   │   ├── theforge.md / vault.md / dsldxkeepa.md
+│   ├── prismavision/                 # Layer 3: 查詢與展示
+│   │   ├── 00_overview.md
+│   │   ├── smart-insight-engine/     # SI Engine 學習專區
+│   │   │   ├── 00_overview.md
+│   │   │   ├── 01_mdof-fundamentals.md ⭐
+│   │   │   ├── 02_query-design.md
+│   │   │   └── 03_test-case-design.md
+│   │   ├── mcp.md / next.md / smartinsightengine.md
+│   └── stillflow/                    # 文檔治理工具
+│       └── 00_overview.md
+│
+├── slides/                           # Marp 簡報（不納入 Stillflow 掃描）
+│   ├── policy.md                     # 簡報管理規範
+│   ├── scripts/                      # merge-and-build.sh / build-document.sh
+│   └── YYYY-MM-DD/                   # 各場次簡報（NN_topic.md 分頁檔）
+│
+└── archive/                          # 歷史文檔（YYYYMMDD 前綴或版本後綴）
 ```
-
-**總計**: 5 個目錄、23 個檔案
 
 ---
 
 ## 檔案編號系統
 
-### 學習順序編碼
-
-**基礎階段 (01-05)**: 前 8 週必修
-```
-01 → 產品與業務理解        (第 1-2 週)
-02 → 資料工程基礎          (第 1-2 週)
-03 → 軟體工程實踐          (第 3-4 週)
-04 → 測試與品質保證        (第 5-6 週)
-05 → AI 輔助開發           (第 7-8 週)
-```
-
-**進階階段 (06-10)**: 第 3-5 個月
-```
-06 → 網頁技術與資料蒐集    (Month 3)
-07 → 資料分析與視覺化      (Month 3-4)
-08 → 系統思維與架構        (Month 4)
-09 → 協作與溝通            (Month 4-5)
-10 → 安全性與最佳實踐      (Month 5)
-```
-
 ### 編碼規則
-- **數字前綴**: 01-10，表達建議學習順序
-- **底線分隔**: `01_product-business.md`
+
+- **`00_outline.md` / `00_overview.md`**: 該領域的大綱或總覽
+- **數字前綴 01-10**: 表達建議學習順序
+- **底線分隔**: `01_mdof-fundamentals.md`
 - **小寫字母**: 全部使用小寫 + 連字符
-- **簡短描述性**: 檔名清楚表達內容
+- **無編號檔案**: 獨立參考文件（reference），不屬於循序學習路徑
+
+### 學習路徑定位
+
+- **general/**: 3-5 天可完成的通用基礎（編號檔）+ 隨時查閱的參考文件（無編號檔）
+- **roles/**: 角色專屬深入內容，前置為 general/ 基礎
+- **projects/prismavision/smart-insight-engine/**: MDOF 查詢專業路徑（01-03 循序學習）
+
+---
+
+## Stillflow 文檔治理
+
+本專案使用 **Stillflow**（flat mode）管理文件狀態。
+
+### 掃描範圍
+
+`scan_paths`: `general/`, `tools/`, `data-sources/`, `roles/`, `projects/`
+`ignore_paths`: `archive/`, `slides/`
+
+### Frontmatter 規範
+
+掃描範圍內所有 markdown 文件**必須**包含 YAML frontmatter：
+
+```yaml
+---
+title: "文件標題"
+type: guide              # guide, reference, outline, topic, spec, overview, policy
+status: active           # active, stable, deprecated
+created: 2025-12-18
+author: maple            # maple, leana, yijou14
+tags:
+  - tag1
+---
+```
+
+**必填欄位**: `title`, `type`, `status`, `created`
+
+詳細規範與 CLI 指令見 [CLAUDE.md](CLAUDE.md#stillflow-integration-contextops)。
 
 ---
 
@@ -98,248 +137,65 @@ LuminNexus-LearningMap/
 
 ### `general/` - 通用核心能力
 
-**用途**: 所有角色都需要學習的跨職能通用技能
+**用途**: 所有角色都需要的跨職能通用技能與參考文件
 
-**README.md 內容**:
-```markdown
-# 通用核心能力
-
-## 學習路徑
-
-### 基礎階段 (第 1-8 週)
-1. [產品與業務理解](01_product-business.md) - 1-2週
-2. [資料工程基礎](02_data-engineering.md) - 1-2週
-3. [軟體工程實踐](03_software-engineering.md) - 3-4週
-4. [測試與品質保證](04_testing-qa.md) - 5-6週
-5. [AI 輔助開發](05_ai-assisted-dev.md) - 7-8週
-
-### 進階階段 (第 3-5 個月)
-6. [網頁技術與資料蒐集](06_web-technologies.md)
-7. [資料分析與視覺化](07_data-analysis.md)
-8. [系統思維與架構](08_systems-architecture.md)
-9. [協作與溝通](09_collaboration.md)
-10. [安全性與最佳實踐](10_security.md)
-
-## 使用建議
-- 新人從 01 開始循序學習
-- 已有經驗者可跳過熟悉主題
-- 建議完成前 5 項後再進入進階階段
-```
-
-**10 個主題檔案**:
-- 每個檔案對應一個學習領域
-- 包含該領域的完整內容
-- 使用 Markdown heading 組織結構
-- 內部使用錨點連結方便跳轉
-
----
+**內容分兩類**:
+1. **編號主題檔**（循序學習）: 00_outline → 02_unix-linux-basics → 03_data-engineering
+2. **參考文件**（隨查隨用）: Claude Code 系列、ContextOps、知識管理、術語參考
 
 ### `roles/` - 角色特定學習路徑
 
 **用途**: 針對不同職位的專屬技能與學習建議
 
-**README.md 內容**:
-```markdown
-# 角色特定學習路徑
+**團隊角色**:
+1. **Test & Business Analysis** ([testing/00_outline.md](roles/testing/00_outline.md)) - 測試設計、業務分析、資料驗證；非技術背景友善
+2. **Project Manager** ([project-manager.md](roles/project-manager.md)) - 專案規劃、敏捷開發、風險管理
+3. **Crawler Engineer**（規劃中）- 資料蒐集、爬蟲開發
 
-## 團隊角色
-
-### 1. Test & Business Analysis
-- [查看完整學習路徑](testing/00_outline.md)
-- 職責：測試設計、業務分析、資料洞察
-
-### 2. Crawler Engineer
-- [查看完整學習路徑](crawler-engineer.md)
-- 職責：資料蒐集、爬蟲開發、資料清洗
-
-### 3. Project Manager
-- [查看完整學習路徑](project-manager.md)
-- 職責：專案規劃、進度管理、風險控制、團隊協作
-
-## 學習建議
-1. 先完成 `general/` 的基礎階段 (01-05)
-2. 再進入角色特定學習路徑
-3. 依需求學習 `general/` 的進階主題 (06-10)
-```
-
-**角色檔案結構**:
-```markdown
-# Test & Business Analysis 學習路徑
-
-## 角色概述
-- 職責說明
-- 核心能力要求
-
-## 通用能力清單
-- [ ] 01-05 基礎階段（必修）
-- [ ] 06-10 進階階段（依需求選修）
-
-## 角色專屬技能
-### 1. 查詢設計與分析
-內容...
-
-### 2. 測試案例設計進階
-內容...
-
-### 3. 業務智能分析
-內容...
-
-## 推薦學習順序
-第 1-8 週: General 基礎階段
-第 9-12 週: 角色專屬技能
-第 3-6 個月: General 進階 + 專案實作
-
-## 能力驗證
-- 自我評估檢查表
-- 實務專案建議
-```
-
----
+**學習建議**: 先完成 general/ 基礎，再進入角色路徑。
 
 ### `tools/` - 工具文檔
 
-**用途**: 專案中使用的工具與技術的介紹與使用指南
+**用途**: 專案使用的工具與服務的獨立完整文檔
 
-**speckit.md 內容**:
-```markdown
-# Speckit - 規格驅動開發工具
+每份文件保持獨立性與完整性，包含概述、使用方法、最佳實踐，並與其他文檔交叉引用。
 
-## 概述
-- 什麼是 Speckit
-- 為什麼需要 Speckit
-- 在 LuminNexus 的應用
+### `data-sources/` - 資料來源文檔
 
-## 核心功能
-- 規格文檔撰寫
-- 測試案例自動生成
-- 規格驗證
+**用途**: 各資料來源的欄位參考與串接指南
 
-## 使用方法
-- 規格文檔結構
-- 工作流程
-- 最佳實踐
+- `data-sources-guide.md`: UPC / ASIN / brandCode 等識別碼與跨平台串接
+- 子目錄依來源劃分: `dsld/`, `keepa/`, `shopify/`
 
-## 與其他方法的比較
-- Speckit vs TDD
-- 適用場景
+### `projects/` - LuminNexus 系統文檔
 
-## 實際範例
-- MDFO 查詢規格範例
-- 測試案例生成範例
+**用途**: LuminNexus 三層架構各系統的說明文檔
 
-## 學習資源
-- 內部文檔連結
-- 推薦閱讀
+```mermaid
+graph LR
+    A[AtlasVault<br/>Layer 1 蒐集] --> B[AlchemyMind<br/>Layer 2 處理]
+    B --> C[PrismaVision<br/>Layer 3 展示]
 ```
 
-**特色**:
-- 獨立完整的工具文檔
-- 包含實際範例和最佳實踐
-- 與 General Learning Map 交叉引用
-- 視覺化工作流程 (Mermaid)
+- 每個子系統有自己的 `00_overview.md`
+- Smart Insight Engine 學習專區位於 `prismavision/smart-insight-engine/`（MDOF 查詢 01-03 循序路徑）
+- 文檔撰寫規範見 `DOCUMENTATION_POLICY.md`
 
-**未來擴展**:
-- 可加入其他工具文檔 (資料分析工具、CI/CD 工具等)
-- 保持工具文檔的獨立性和完整性
+### `slides/` - 簡報
 
----
+**用途**: 團隊分享簡報（Marp 格式）
 
-### `smart-insight-engine/` - Smart Insight Engine 專區 ⭐ NEW
-
-**用途**: Smart Insight Engine 查詢語言（MDOF）專業學習路徑
-
-**README.md 內容**:
-```markdown
-# Smart Insight Engine 學習專區
-
-## 學習路徑
-
-### 基礎階段 (Day 1-3)
-1. [Smart Insight Engine 總覽](00_overview.md) - 1小時
-2. [MDOF 查詢基礎](01_mdof-fundamentals.md) - 2-3天 ⭐
-
-### 進階階段 (Day 4-7)
-3. [查詢設計進階](02_query-design.md) - 2-3天
-4. [測試案例設計](03_test-case-design.md) - 1-2天
-
-## 適用角色
-- Test & Business Analysis（必修：01, 03）
-- Data Analyst（必修：01, 02）
-- Backend Engineer（必修：全部）
-
-## 前置知識
-- 完成 General Learning Map 01-05 基礎階段
-- 理解 JSON 格式與 JSON Schema
-- 熟悉關聯式資料庫概念
-```
-
-**4 個主題檔案**:
-
-**00_overview.md** - Smart Insight Engine 總覽
-- 系統架構概覽
-- 核心概念速覽
-- MDOF 四大元素介紹
-- 學習路徑規劃
-- 角色導向學習建議
-
-**01_mdof-fundamentals.md** - MDOF 查詢基礎 ⭐ 核心
-- **M - Measures**: 度量指標（product_count, avg_price, price_statistics...）
-- **D - Dimensions**: 維度選擇（Brand, SupplementFact, DosageForm...）
-- **F - Filters**: 過濾邏輯（any/all bucket, cross_realms_logic）
-- **O - Options**: 選項配置（limit, offset, bin_size...）
-- CISC vs RISC 架構
-- 10 個業務場景實戰範例
-- 常見錯誤與除錯技巧
-
-**02_query-design.md** - 查詢設計進階
-- 從業務需求到 MDOF 查詢
-- 12+ 個查詢設計模式
-- Filter-Dimension 互動語義
-- 效能優化技巧
-- 業務場景實戰（市場研究、產品設計、定價策略）
-
-**03_test-case-design.md** - 測試案例設計
-- 測試策略（Simple / Complex / Business Scenarios）
-- 測試案例 JSON Schema 規範
-- 等價類與邊界值分析
-- 測試工具鏈使用（v3_test_case_runner, si_validate, si_query）
-- 除錯技巧與流程
-
-**特色**:
-- **漸進式學習**: 從概念 → 元素 → 組合 → 實戰
-- **豐富範例**: 50+ 個實戰查詢範例
-- **視覺化**: 使用 Mermaid 圖表輔助理解
-- **實務導向**: 涵蓋真實業務場景
-- **工具整合**: 完整的測試與除錯工具鏈
-
-**學習時間規劃**:
-- Test & Business Analysis: 3-5 天（01 + 03）
-- Data Analyst: 5-7 天（01 + 02）
-- Backend Engineer: 7-9 天（全部）
-
-**能力驗證**:
-完成學習後，學員應能夠：
-- ✅ 獨立設計 MDOF 查詢回答業務問題
-- ✅ 選擇合適的 Measure 和 Dimension 組合
-- ✅ 設計正確的 Filter 邏輯（any/all/cross_realms）
-- ✅ 優化查詢效能
-- ✅ 設計完整的測試案例
-- ✅ 使用工具鏈除錯查詢問題
-
----
+- 資料夾以 `YYYY-MM-DD` 命名，每場一個資料夾
+- 分頁檔用 `NN_topic.md` 編號，`00_meta.md` 放 Marp 設定
+- 產出物（`merged.md`, `document.md`, `*.pdf`, `*.pptx`）由 scripts/ 生成並被 gitignore
+- 完整規範見 [slides/policy.md](slides/policy.md)
+- **不納入 Stillflow 掃描**，不需 frontmatter
 
 ### `archive/` - 歷史文檔
 
 **用途**: 保存重要的歷史版本和草稿
 
-**命名規則**: `YYYYMMDD_description.md`
-
-**範例**:
-```
-20251110_initial_draft.md
-20251115_v1_revision.md
-20260201_restructure_notes.md
-```
+**命名規則**: `YYYYMMDD_description.md` 或版本後綴（如 `STRUCTURE_v3.md`）
 
 ---
 
@@ -377,17 +233,14 @@ sequenceDiagram
 ```
 ```
 
-#### 3. 學習路徑圖
+#### 3. 心智圖 (Mindmap) - 學習路徑
 ```markdown
 ```mermaid
-graph TD
-    A[新人入職] --> B[Week 1-2: 產品與資料]
-    B --> C[Week 3-4: 軟體工程]
-    C --> D[Week 5-6: 測試]
-    D --> E[Week 7-8: AI 工具]
-    E --> F{選擇角色}
-    F -->|Test| G[Test 專屬技能]
-    F -->|Crawler| H[Crawler 專屬技能]
+mindmap
+  root((主題<br/>3-5天))
+    Day 1
+      Chapter 1
+      Chapter 2
 ```
 ```
 
@@ -398,20 +251,12 @@ graph TB
     subgraph "通用能力"
         G1[產品理解]
         G2[資料工程]
-        G3[測試]
     end
-
     subgraph "角色特定"
         R1[Test Analyst]
-        R2[Crawler Engineer]
     end
-
     G1 --> R1
     G2 --> R1
-    G3 --> R1
-
-    G1 --> R2
-    G2 --> R2
 ```
 ```
 
@@ -423,55 +268,42 @@ graph TB
 
 ### 1. 單一檔案完整性
 - 每個主題檔案包含該領域的完整內容
-- 使用 H2 (##) 組織主要段落
-- 使用 H3 (###) 組織子主題
+- 使用 H2 (##) 組織主要段落、H3 (###) 組織子主題
 - 避免過度拆分檔案
 
-### 2. 錨點連結導航
-```markdown
-## 目錄
-- [核心概念](#核心概念)
-- [實務應用](#實務應用)
-- [常見問題](#常見問題)
-
-## 核心概念
-內容...
-
-## 實務應用
-內容...
-```
+### 2. 大綱與主題分離
+- `00_outline.md` 只放高層路線圖：章節摘要、學習階段、FAQ
+- 大綱**不放**詳細範例、逐步教學、程式碼
+- 詳細內容放編號主題檔
 
 ### 3. 交叉引用
 ```markdown
-詳見 [軟體工程實踐 - Git 版本控制](../general/03_software-engineering.md#git-版本控制)
-
-這個概念在 [Test Analyst 角色](../roles/test-business-analyst.md#測試案例設計) 中有更深入的說明。
+詳見 [資料工程基礎](../general/03_data-engineering.md#etl)
 ```
 
-### 4. 前置元數據（Front Matter）- 可選
-```yaml
----
-title: 產品與業務理解
-order: 1
-stage: foundation
-duration: 1-2 weeks
-difficulty: beginner
-tags: [產品, 業務, 領域知識]
----
-```
-
-**用途**: 未來轉換成網頁時，可用於自動生成導航、標籤、排序等功能
+### 4. 內容重疊防範
+- general/ 與 roles/ 內容不重複
+- 「產品是什麼」(高層) 與「怎麼用 MDOF」(細節) 分屬不同文件
 
 ---
 
-## 檔案內容範本
+## 主題檔案範本
 
-### 通用能力檔案範本
 ```markdown
+---
+title: "主題名稱"
+type: topic
+status: active
+created: YYYY-MM-DD
+author: maple
+tags:
+  - tag1
+---
+
 # [主題名稱]
 
 > **學習階段**: 基礎/進階
-> **建議時間**: X 週
+> **建議時間**: X 天
 > **適用角色**: 全員
 
 ## 概述
@@ -483,98 +315,24 @@ tags: [產品, 業務, 領域知識]
 - [最佳實踐](#最佳實踐)
 - [常見問題](#常見問題)
 
----
-
 ## 核心概念
-
 ### 1.1 子主題一
 內容...
 
-### 1.2 子主題二
-內容...
-
 ## 實務技能
-
 ### 2.1 技能一
 內容...
 
-### 2.2 技能二
-內容...
-
 ## 最佳實踐
-
 ### 3.1 建議一
 內容...
 
 ## 常見問題
-
 **Q: 問題一？**
 A: 回答...
 
----
-
 ## 延伸閱讀
 - [相關主題連結](link)
-- 外部資源連結
-```
-
----
-
-## 未來網頁化考量
-
-### 靜態網站生成器適配性
-
-此架構可無縫對接以下工具：
-
-**VitePress**:
-```javascript
-// .vitepress/config.js
-export default {
-  themeConfig: {
-    sidebar: {
-      '/general/': [
-        { text: '產品與業務', link: '/general/01_product-business' },
-        { text: '資料工程', link: '/general/02_data-engineering' },
-        // ...
-      ],
-      '/roles/': [
-        { text: 'Test Analyst', link: '/roles/test-business-analyst' },
-        { text: 'Crawler Engineer', link: '/roles/crawler-engineer' },
-      ]
-    }
-  }
-}
-```
-
-**Docusaurus**:
-```javascript
-// sidebars.js
-module.exports = {
-  general: [
-    'general/01_product-business',
-    'general/02_data-engineering',
-    // ...
-  ],
-  roles: [
-    'roles/test-business-analyst',
-    'roles/crawler-engineer',
-  ]
-};
-```
-
-**MkDocs**:
-```yaml
-# mkdocs.yml
-nav:
-  - 首頁: index.md
-  - 通用能力:
-    - general/README.md
-    - 產品與業務: general/01_product-business.md
-    - 資料工程: general/02_data-engineering.md
-  - 角色路徑:
-    - roles/README.md
-    - Test Analyst: roles/test-business-analyst.md
-    - Crawler Engineer: roles/crawler-engineer.md
 ```
 
 ---
@@ -582,40 +340,25 @@ nav:
 ## 維護流程
 
 ### 新增內容
-1. 確定屬於 `general/` 或 `roles/`
-2. 如果是新的通用主題，使用下一個編號
-3. 更新對應的 README.md
-4. Commit 並 Push
+1. 確定目錄歸屬（general / roles / tools / data-sources / projects）
+2. 循序主題使用下一個編號；參考文件用描述性檔名
+3. 加上 Stillflow frontmatter（必填: title, type, status, created）
+4. 更新相關的 outline 或 overview
+5. Commit 並 Push
 
 ### 更新內容
 1. 直接編輯對應的 Markdown 檔案
-2. 重大變更可選擇保存舊版到 `archive/`
-3. Commit message 清楚說明變更內容
+2. 重大變更可保存舊版到 `archive/`
+3. 更新文件內版本號與版本歷史表
 
 ### 重構調整
-1. 如果檔案編號需要調整，批次重新命名
+1. 檔案改名或搬移用 `git mv` 保留歷史
 2. 更新所有內部連結
-3. 測試連結有效性
+3. 同步更新 CLAUDE.md 與本檔案的目錄結構
 
 ---
 
 ## 協作規範
-
-### Git Workflow
-```bash
-# 1. 創建功能分支
-git checkout -b update/general-01-product
-
-# 2. 編輯內容
-# ...
-
-# 3. 提交變更
-git add general/01_product-business.md
-git commit -m "docs: 更新產品理解章節，新增分類法案例"
-
-# 4. 推送並發起 PR
-git push origin update/general-01-product
-```
 
 ### Commit Message 規範
 ```
@@ -633,90 +376,15 @@ chore: 其他維護性工作
 
 ---
 
-## 優勢總結
+## 版本歷史
 
-| 特點 | 說明 |
-|------|------|
-| **極簡** | 只有 3 個目錄、16 個檔案 |
-| **清晰** | 檔案編號直接表達學習順序 |
-| **獨立** | 不依賴圖片、外部資源 |
-| **通用** | 不綁定任何網頁框架 |
-| **易維護** | 結構簡單，容易協作 |
-| **可視化** | 使用 Mermaid 語法製作圖表 |
-| **可擴展** | 需要時可輕易新增檔案 |
+| 版本 | 日期 | 變更說明 |
+|------|------|----------|
+| 4.0 | 2026-07-04 | 對齊現況：新增 data-sources/、projects/、slides/ 說明；smart-insight-engine 移至 projects/prismavision/；加入 Stillflow 治理章節；移除未實現的 general/ 01-10 規劃與遷移步驟（v3 存於 archive/STRUCTURE_v3.md） |
+| 3.0 | 2025-11-10 | 極簡版架構設計 |
 
 ---
 
-## 遷移步驟
-
-### 從現有檔案到新架構
-
-1. **建立目錄結構**
-```bash
-mkdir -p general roles archive
-```
-
-2. **拆分 General Learning Map**
-- 將 `General_Learning_Map.md` 拆分成 10 個檔案
-- 移動到 `general/01_*.md` ~ `general/10_*.md`
-
-3. **建立 README 檔案**
-- `README.md` (專案首頁)
-- `general/README.md` (通用能力總覽)
-- `roles/README.md` (角色說明)
-
-4. **建立角色檔案**
-- `roles/test-business-analyst.md`
-- `roles/crawler-engineer.md`
-
-5. **歸檔舊檔案**
-```bash
-mv General_Learning_Map.md archive/20251110_initial_draft.md
-mv 20251110_General_Learning_Map.md archive/
-```
-
-6. **驗證連結**
-- 檢查所有內部連結有效性
-- 測試 Markdown 渲染
-
----
-
-**版本**: 3.0 (極簡版)
-**日期**: 2025-11-10
+**版本**: 4.0
+**日期**: 2026-07-04
 **設計者**: Learning Team
-
----
-
-## 附錄：完整檔案清單
-
-```
-LuminNexus-LearningMap/
-├── README.md                          [專案首頁]
-├── STRUCTURE.md                       [架構說明]
-├── general/
-│   ├── README.md                      [通用能力總覽]
-│   ├── 00_outline.md                  [通用能力大綱]
-│   ├── 01_product-business.md         [產品與業務理解]
-│   ├── 02_data-engineering.md         [資料工程基礎]
-│   ├── 03_software-engineering.md     [軟體工程實踐]
-│   ├── 04_testing-qa.md               [測試與品質保證]
-│   ├── 05_ai-assisted-dev.md          [AI 輔助開發]
-│   ├── 06_web-technologies.md         [網頁技術與資料蒐集]
-│   ├── 07_data-analysis.md            [資料分析與視覺化]
-│   ├── 08_systems-architecture.md     [系統思維與架構]
-│   ├── 09_collaboration.md            [協作與溝通]
-│   ├── 10_security.md                 [安全性與最佳實踐]
-│   └── unix-linux-basics.md           [Unix/Linux 基礎入門]
-├── roles/
-│   ├── README.md                      [角色說明]
-│   ├── testing/                       [Testing 路徑]
-│   │   └── 00_outline.md              [Testing 大綱]
-│   ├── crawler-engineer.md            [Crawler 路徑]
-│   └── project-manager.md             [Project Manager 路徑]
-├── tools/
-│   └── speckit.md                     [Speckit 工具文檔]
-└── archive/
-    └── 20251110_initial_draft.md      [歷史文檔]
-```
-
-**總計**: 19 個檔案

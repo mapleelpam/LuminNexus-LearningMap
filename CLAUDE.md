@@ -202,7 +202,7 @@ From STRUCTURE.md and conversation context:
 
 **Planned but not yet created**. When creating:
 - Follow numbering from outline
-- Use template from STRUCTURE.md lines 320-371
+- Use template from STRUCTURE.md「主題檔案範本」section
 - Include: Overview, Core Concepts, Practical Skills, Best Practices, FAQ
 - Use Mermaid diagrams instead of images
 - Support both markdown reading and future web conversion
@@ -284,7 +284,7 @@ graph LR
 ```
 ```
 
-See STRUCTURE.md lines 210-270 for more diagram types.
+See STRUCTURE.md「視覺化內容策略」section for more diagram types.
 
 ## File Creation Policy
 
