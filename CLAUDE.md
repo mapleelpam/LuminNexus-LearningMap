@@ -20,23 +20,40 @@ LuminNexus-LearningMap/
 │   ├── 00_outline.md        # General learning outline
 │   ├── 02_unix-linux-basics.md
 │   ├── 03_data-engineering.md
-│   ├── claude-code-tips.md  # Claude Code CLI 使用技巧
+│   ├── ai-data-terminology.md        # Infer / Derive / Reasoning 術語
+│   ├── claude-agent-skill.md
+│   ├── claude-code-tips.md           # Claude Code CLI 使用技巧
+│   ├── claude-code-cli-discussion.md # Claude Code CLI 深度討論
+│   ├── claude-code-cli-discussion-advanced.md
+│   ├── contextops-discipline.md
+│   ├── knowledge-management.md
+│   ├── progressive-disclosure.md
 │   └── ubuntu-desktop-tips.md
 ├── roles/                   # Role-specific learning paths
 │   ├── testing/             # Testing & Business Analysis role
 │   │   └── 00_outline.md    # Testing learning outline (01-06 topics)
-│   ├── crawler-engineer.md  # Crawler Engineer role (planned)
 │   └── project-manager.md   # Project Manager role
 ├── tools/                   # Tool documentation
 │   ├── speckit.md           # Speckit tool guide (SDD implementation)
 │   ├── ai-tools.md          # AI Coding Agent, Canvas, API 參考
-│   └── external-services.md # 外部服務 (Keepa, Oxylabs, Jina AI, MarkItDown)
+│   ├── external-services.md # 外部服務 (Keepa, Oxylabs, Jina AI, MarkItDown)
+│   └── google-product-category-intro.md # Google 商品分類標準
 ├── data-sources/            # Data source documentation
 │   ├── data-sources-guide.md # 資料來源與關聯欄位指南
 │   ├── dsld/                # DSLD 相關文檔
 │   ├── keepa/               # Keepa API 文檔
 │   └── shopify/             # Shopify 相關文檔
-├── projects/                # Project-specific documentation
+├── projects/                # LuminNexus 各系統文檔
+│   ├── 00_architecture-overview.md
+│   ├── 01_data-flow.md
+│   ├── alchemymind/         # AlchemyMind (TheRefinery, TheWeaver, TheArgus, Factum...)
+│   ├── atlasvault/          # AtlasVault (crawlers, vault, theforge)
+│   ├── prismavision/        # PrismaVision (Smart Insight Engine, MCP)
+│   └── stillflow/           # Stillflow 文檔
+├── slides/                  # Marp 簡報 (Stillflow ignore_paths，不需 frontmatter)
+│   ├── policy.md            # 簡報管理規範 (YYYY-MM-DD 資料夾命名)
+│   ├── scripts/             # merge-and-build.sh, build-document.sh
+│   └── YYYY-MM-DD/          # 各場次簡報 (NN_topic.md 分頁檔)
 └── archive/                 # Historical versions with YYYYMMDD prefix
 ```
 
@@ -55,10 +72,12 @@ LuminNexus-LearningMap/
 
 **Current State vs. Planned State**:
 - STRUCTURE.md describes the **target architecture**
-- **general/** has outline and topic files (unix-linux-basics, data-engineering, claude-code-tips, ubuntu-desktop-tips)
-- **roles/** has outline files and role guides (project-manager.md)
-- **tools/** has: speckit.md, ai-tools.md, external-services.md
+- **general/** has outline, topic files, and reference docs (unix-linux, data-engineering, Claude Code 系列, ContextOps, terminology 等)
+- **roles/** has outline files and role guides (project-manager.md); crawler-engineer role is planned
+- **tools/** has: speckit.md, ai-tools.md, external-services.md, google-product-category-intro.md
 - **data-sources/** has: data-sources-guide.md and subdirectories (dsld, keepa, shopify)
+- **projects/** has per-system docs (alchemymind, atlasvault, prismavision, stillflow)
+- **slides/** holds Marp presentations; folders use `YYYY-MM-DD` naming (see slides/policy.md); generated files (merged.md, document.md, *.pdf) are gitignored
 
 ## Stillflow Integration (ContextOps)
 
@@ -350,6 +369,6 @@ ContextOps 方法論參考：
 
 ---
 
-**Document Version**: 1.5
-**Last Updated**: 2025-12-18
+**Document Version**: 1.6
+**Last Updated**: 2026-07-04
 **Maintained by**: LuminNexus Team
