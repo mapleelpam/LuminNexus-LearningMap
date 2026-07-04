@@ -32,6 +32,7 @@ LuminNexus-LearningMap/
 ├── roles/                   # Role-specific learning paths
 │   ├── testing/             # Testing & Business Analysis role
 │   │   └── 00_outline.md    # Testing learning outline (01-06 topics)
+│   ├── crawler-engineer.md  # Crawler Engineer role（導覽既有教材）
 │   └── project-manager.md   # Project Manager role
 ├── tools/                   # Tool documentation
 │   ├── speckit.md           # Speckit tool guide (SDD implementation)
@@ -73,7 +74,7 @@ LuminNexus-LearningMap/
 **Current State vs. Planned State**:
 - STRUCTURE.md describes the **target architecture**
 - **general/** has outline, topic files, and reference docs (unix-linux, data-engineering, Claude Code 系列, ContextOps, terminology 等)
-- **roles/** has outline files and role guides (project-manager.md); crawler-engineer role is planned
+- **roles/** has outline files and role guides (testing, crawler-engineer, project-manager)
 - **tools/** has: speckit.md, ai-tools.md, external-services.md, google-product-category-intro.md
 - **data-sources/** has: data-sources-guide.md and subdirectories (dsld, keepa, shopify)
 - **projects/** has per-system docs (alchemymind, atlasvault, prismavision, stillflow)
