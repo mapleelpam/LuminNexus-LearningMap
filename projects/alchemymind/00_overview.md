@@ -55,6 +55,7 @@ graph TB
         R[TheRefinery<br/>Data Processing]
         W[TheWeaver<br/>LLM Analysis]
         A[TheArgus<br/>Anomaly Detection]
+        D[TheDistiller<br/>Data Unification]
         F[Factum<br/>Image OCR/VLM]
         S[Shared<br/>Common Utilities]
 
@@ -62,6 +63,9 @@ graph TB
         R --> W
         W --> A
         A -.-> R
+
+        W --> D
+        D --> PDB[product_info.db<br/>Canonical Products]
 
         IMG --> F
         F --> DSLD[DSLD JSON]
@@ -78,6 +82,7 @@ graph TB
     style R fill:#fff3e0
     style W fill:#fff3e0
     style A fill:#f3e5f5
+    style D fill:#fce4ec
     style F fill:#e3f2fd
     style S fill:#e8f5e9
 ```
@@ -132,7 +137,15 @@ graph TB
 - **輸出**: 異常報告、品質指標
 - **詳細文檔**: [theargus.md](theargus.md)
 
-### 4. Factum - Supplement Facts 圖片解析
+### 4. TheDistiller - 產品資料統一化
+
+- **職責**: 資料統一化 ETL Pipeline，整合多資料來源、執行 Identity Resolution
+- **輸入**: `unified.db`, `enriched.db`, `weaver.db`
+- **輸出**: `product_info.db` (Canonical products, 27 tables)
+- **規模**: 211,585 raw products → 144,625 canonical products
+- **詳細文檔**: [thedistiller.md](thedistiller.md)
+
+### 5. Factum - Supplement Facts 圖片解析
 
 - **職責**: 從產品圖片提取 Supplement Facts，生成 DSLD 相容 JSON
 - **處理內容**:
@@ -144,7 +157,7 @@ graph TB
 - **輸出**: `working/dsld/{asin}/*.dsld.json`
 - **詳細文檔**: [factum.md](factum.md)
 
-### 5. Shared - 共用元件
+### 6. Shared - 共用元件
 
 - **職責**: 提供各子系統共用的工具與函式庫
 - **內容**:
@@ -261,6 +274,7 @@ sequenceDiagram
 - [therefinery.md](therefinery.md) - TheRefinery 詳細說明
 - [theweaver.md](theweaver.md) - TheWeaver 詳細說明
 - [theargus.md](theargus.md) - TheArgus 詳細說明
+- [thedistiller.md](thedistiller.md) - TheDistiller 詳細說明
 - [factum.md](factum.md) - Factum 詳細說明
 - [shared.md](shared.md) - Shared 元件說明
 

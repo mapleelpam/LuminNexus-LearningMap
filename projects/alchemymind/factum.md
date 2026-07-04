@@ -2,7 +2,7 @@
 title: "Factum - Supplement Facts 圖片解析"
 type: reference
 status: active
-created: 2025-01-19
+created: 2026-01-19
 version: "1.0"
 project: LearningMap
 author: maple
@@ -243,7 +243,7 @@ uv run python scripts/batch_vlm_pipeline.py --asin-list asins.txt
 
 | 版本 | 日期 | 作者 | 變更說明 |
 |------|------|------|----------|
-| 1.0 | 2025-01-19 | maple | 初版建立 |
+| 1.0 | 2026-01-19 | maple | 初版建立 |
 
 ### 維護職責
 - **主要維護者**: AlchemyMind Team

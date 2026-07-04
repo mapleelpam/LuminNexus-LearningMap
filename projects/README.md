@@ -1,6 +1,6 @@
 ---
 title: "LuminNexus 專案文檔"
-type: index
+type: overview
 status: active
 created: 2025-12-09
 version: "1.0"
@@ -59,20 +59,26 @@ projects/
 │
 ├── alchemymind/                   # Layer 2: 資料處理與分析
 │   ├── 00_overview.md
+│   ├── thedistiller.md
 │   ├── theweaver.md
 │   ├── therefinery.md
 │   ├── theargus.md
+│   ├── factum.md
 │   └── shared.md
 │
-└── prismavision/                  # Layer 3: 使用者介面與引擎
-    ├── 00_overview.md
-    ├── smart-insight-engine/      # 查詢引擎 (完整學習路徑)
-    │   ├── 00_overview.md
-    │   ├── 01_mdof-fundamentals.md
-    │   ├── 02_query-design.md
-    │   └── 03_test-case-design.md
-    ├── next.md
-    └── mcp.md
+├── prismavision/                  # Layer 3: 使用者介面與引擎
+│   ├── 00_overview.md
+│   ├── smart-insight-engine/      # 查詢引擎 (完整學習路徑)
+│   │   ├── 00_overview.md
+│   │   ├── 01_mdof-fundamentals.md
+│   │   ├── 02_query-design.md
+│   │   └── 03_test-case-design.md
+│   ├── smartinsightengine.md
+│   ├── next.md
+│   └── mcp.md
+│
+└── stillflow/                     # 文檔治理工具
+    └── 00_overview.md
 ```
 
 ---
@@ -87,9 +93,11 @@ projects/
 **詳細文檔**: [atlasvault/00_overview.md](atlasvault/00_overview.md)
 
 ### Layer 2: AlchemyMind - 資料處理與分析
+- **TheDistiller**: 資料統一化 ETL (Identity Resolution)
 - **TheRefinery**: 資料精煉、品質檢查
 - **TheWeaver**: LLM 分析生成 (10 Knowledge Realms)
 - **TheArgus**: 異常檢測與驗證
+- **Factum**: Supplement Facts 圖片解析 (OCR + VLM)
 
 **詳細文檔**: [alchemymind/00_overview.md](alchemymind/00_overview.md)
 
@@ -160,19 +168,22 @@ PrismaVision (SmartInsightEngine → Next/MCP → End Users)
 - [x] 01_data-flow.md - 資料流與串連
 - [x] DOCUMENTATION_POLICY.md - 文檔撰寫規範
 - [x] prismavision/smart-insight-engine/ - 完整學習路徑 (4個文檔)
+- [x] prismavision/mcp.md
+- [x] atlasvault/vault.md
+- [x] atlasvault/theforge.md
+- [x] alchemymind/thedistiller.md
+- [x] alchemymind/theweaver.md
+- [x] alchemymind/therefinery.md
+- [x] alchemymind/theargus.md
+- [x] alchemymind/factum.md
+- [x] stillflow/00_overview.md
 
 ### 🚧 待各團隊補充 (Skeleton 已建立)
-- [ ] atlasvault/vault.md
-- [ ] atlasvault/theforge.md
 - [ ] atlasvault/dsld-crawler.md
 - [ ] atlasvault/iherb-crawler.md
 - [ ] atlasvault/dsldxkeepa.md
-- [ ] alchemymind/theweaver.md
-- [ ] alchemymind/therefinery.md
-- [ ] alchemymind/theargus.md
 - [ ] alchemymind/shared.md
 - [ ] prismavision/next.md
-- [ ] prismavision/mcp.md
 
 ---
 
@@ -273,6 +284,7 @@ PrismaVision (SmartInsightEngine → Next/MCP → End Users)
 | 版本 | 日期 | 作者 | 變更說明 |
 |------|------|------|----------|
 | 1.0 | 2025-12-09 | Architecture Team | 初版建立,專案文檔架構完成 |
+| 1.1 | 2026-07-04 | maple | 更新文檔狀態表（多數文件已完成）、結構樹補 thedistiller/factum/stillflow |
 
 ### 下一步
 - [ ] 各團隊補充 skeleton 文檔
