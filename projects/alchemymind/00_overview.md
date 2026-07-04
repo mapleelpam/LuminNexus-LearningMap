@@ -50,10 +50,12 @@ summary: |
 graph TB
     subgraph "AlchemyMind - Layer 2"
         IN[From AtlasVault:<br/>Unified DB]
+        IMG[Product Images]
 
         R[TheRefinery<br/>Data Processing]
         W[TheWeaver<br/>LLM Analysis]
         A[TheArgus<br/>Anomaly Detection]
+        F[Factum<br/>Image OCR/VLM]
         S[Shared<br/>Common Utilities]
 
         IN --> R
@@ -61,9 +63,13 @@ graph TB
         W --> A
         A -.-> R
 
+        IMG --> F
+        F --> DSLD[DSLD JSON]
+
         R --> S
         W --> S
         A --> S
+        F --> S
 
         W --> OUT1[To AtlasVault:<br/>Analysis Results]
         R --> OUT2[To PrismaVision:<br/>SmartInsightEngine]
@@ -72,6 +78,7 @@ graph TB
     style R fill:#fff3e0
     style W fill:#fff3e0
     style A fill:#f3e5f5
+    style F fill:#e3f2fd
     style S fill:#e8f5e9
 ```
 
@@ -125,7 +132,19 @@ graph TB
 - **輸出**: 異常報告、品質指標
 - **詳細文檔**: [theargus.md](theargus.md)
 
-### 4. Shared - 共用元件
+### 4. Factum - Supplement Facts 圖片解析
+
+- **職責**: 從產品圖片提取 Supplement Facts，生成 DSLD 相容 JSON
+- **處理內容**:
+  - OCR 文字辨識 (PaddleOCR)
+  - Supplement Facts 結構化解析
+  - VLM (Claude Vision) 增強
+  - DSLD JSON 轉換
+- **輸入**: Amazon/Keepa 產品圖片
+- **輸出**: `working/dsld/{asin}/*.dsld.json`
+- **詳細文檔**: [factum.md](factum.md)
+
+### 5. Shared - 共用元件
 
 - **職責**: 提供各子系統共用的工具與函式庫
 - **內容**:
@@ -242,12 +261,14 @@ sequenceDiagram
 - [therefinery.md](therefinery.md) - TheRefinery 詳細說明
 - [theweaver.md](theweaver.md) - TheWeaver 詳細說明
 - [theargus.md](theargus.md) - TheArgus 詳細說明
+- [factum.md](factum.md) - Factum 詳細說明
 - [shared.md](shared.md) - Shared 元件說明
 
 ### 外部專案文檔
 - `LuminNexus-AlchemyMind-TheWeaver/README.md` - TheWeaver README
 - `LuminNexus-AlchemyMind-TheRefinery/README.md` - TheRefinery README
 - `LuminNexus-AlchemyMind-TheArgus/README.md` - TheArgus README
+- `LuminNexus-AlchemyMind-Factum/CLAUDE.md` - Factum 專案說明
 
 ---
 
