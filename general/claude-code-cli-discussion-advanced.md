@@ -1,3 +1,20 @@
+---
+title: "Claude Code CLI 進階討論：補充篇"
+type: reference
+status: active
+created: 2025-12-31
+version: "1.0"
+project: LearningMap
+author: maple
+tags:
+  - claude-code
+  - cli
+  - ai-tools
+summary: |
+  深入探討主文件未涵蓋的進階概念與設計哲學，
+  包含主動式 Context Management、Skills vs Commands 設計哲學。
+---
+
 # Claude Code CLI 進階討論：補充篇
 
 > **文件版本**: v1.0

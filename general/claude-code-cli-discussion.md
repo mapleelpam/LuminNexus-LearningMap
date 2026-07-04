@@ -1,3 +1,20 @@
+---
+title: "Claude Code CLI 深度討論文件"
+type: reference
+status: active
+created: 2025-12-31
+version: "1.0"
+project: LearningMap
+author: maple
+tags:
+  - claude-code
+  - cli
+  - ai-tools
+summary: |
+  團隊內部討論 Claude Code CLI 的進階使用技巧與最佳實踐，
+  涵蓋 Context 管理、開發流程、Skills、Headless Mode。
+---
+
 # Claude Code CLI 深度討論文件
 
 > **文件版本**: v1.0
