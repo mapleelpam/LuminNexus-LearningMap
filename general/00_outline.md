@@ -4,7 +4,7 @@ type: outline
 status: active
 created: 2025-11-10
 updated: 2026-07-04
-version: "2.7"
+version: "2.8"
 project: LearningMap
 author: maple
 tags:
@@ -752,6 +752,10 @@ mindmap
 - [knowledge-management.md](./knowledge-management.md) - PKM 與 Frontmatter
 - [progressive-disclosure.md](./progressive-disclosure.md) - Progressive Disclosure 概念
 
+### 概念基礎
+- [emergence-data-compute.md](./emergence-data-compute.md) - Emergence 湧現：Data、Compute 與遞歸循環
+- [compute-state-context.md](./compute-state-context.md) - Compute、State 與 Context：Stateless 設計（姊妹篇）
+
 ### 術語與環境
 - [ai-data-terminology.md](./ai-data-terminology.md) - Infer / Derive / Reasoning 術語辨析
 - [ubuntu-desktop-tips.md](./ubuntu-desktop-tips.md) - Ubuntu Desktop 環境技巧
@@ -771,6 +775,7 @@ mindmap
 | 2.5 | 2025-11-11 | 新增 ETL 與 Enrich 資料處理流程 (2.3 章節)，創建完整的 03_data-engineering.md | Learning Team |
 | 2.6 | 2025-12-16 | 新增 Claude Code CLI Tips 和 Ubuntu GNOME Desktop Tips 補充文檔 | Learning Team |
 | 2.7 | 2026-07-04 | 標注章節檔案狀態（僅 02、03 有獨立檔）、修正 Day 計畫檔名引用、新增參考文件索引收編 9 份參考文件 | maple |
+| 2.8 | 2026-07-05 | 新增概念基礎系列：emergence-data-compute.md（湧現、Data/Compute 差異、遞歸循環）與 compute-state-context.md（Stateless 設計與 Context 本質），收入參考文件索引 | maple |
 
 ---
 

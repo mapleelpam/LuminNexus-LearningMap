@@ -25,7 +25,9 @@ LuminNexus-LearningMap/
 │   ├── claude-code-tips.md           # Claude Code CLI 使用技巧
 │   ├── claude-code-cli-discussion.md # Claude Code CLI 深度討論
 │   ├── claude-code-cli-discussion-advanced.md
+│   ├── compute-state-context.md      # Stateless 設計與 Context 本質
 │   ├── contextops-discipline.md
+│   ├── emergence-data-compute.md     # 湧現、Data/Compute 差異與遞歸循環
 │   ├── knowledge-management.md
 │   ├── progressive-disclosure.md
 │   └── ubuntu-desktop-tips.md
