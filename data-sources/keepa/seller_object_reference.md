@@ -979,5 +979,5 @@ print(f"競爭力評級: {comp['competitiveness']}")
 **建立日期**：2025-12-05
 **維護者**：LuminNexus-AtlasVault-DSLD Keepa 團隊
 **相關文件**：
-- [Keepa Product Object 參考文件](./keepa_product_object_reference_v2.md)
-- [Seller Analysis Stage 2 實作](../docs/asin_enrichment/20251128_stage2_seller_filtering_and_storefront_query.md)
+- [Keepa Product Object 參考文件](./product_object_reference.md)
+- Seller Analysis Stage 2 實作（位於 LuminNexus-AtlasVault 專案 repo：`docs/asin_enrichment/20251128_stage2_seller_filtering_and_storefront_query.md`）

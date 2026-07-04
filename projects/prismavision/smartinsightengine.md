@@ -309,10 +309,12 @@ graph LR
 
 ### 深入學習
 - [smart-insight-engine/](smart-insight-engine/) - 完整學習路徑
-  - 01_getting_started.md - 快速開始
-  - 02_query_language.md - 查詢語言詳解
-  - 03_measures_reference.md - 度量參考手冊
-  - 04_dimensions_reference.md - 維度參考手冊
+  - [00_overview.md](smart-insight-engine/00_overview.md) - SI Engine 總覽
+  - [01_mdof-fundamentals.md](smart-insight-engine/01_mdof-fundamentals.md) - MDOF 查詢基礎
+  - [02_query-design.md](smart-insight-engine/02_query-design.md) - 查詢設計進階
+  - [03_test-case-design.md](smart-insight-engine/03_test-case-design.md) - 測試案例設計
+
+> 術語說明：MDOF 與 MDFO（Measure / Dimensions / Filters / Options）指同一查詢結構，正式拼法以 **MDFO** 為準；smart-insight-engine/ 教材與檔名沿用 MDOF。
 
 ### 系統文檔
 - [00_architecture-overview.md](../00_architecture-overview.md) - 系統架構全景
@@ -355,7 +357,7 @@ graph LR
 
 ### Q3: 如何開始使用？
 **A**:
-1. 閱讀 [smart-insight-engine/01_getting_started.md](smart-insight-engine/01_getting_started.md)
+1. 閱讀 [smart-insight-engine/01_mdof-fundamentals.md](smart-insight-engine/01_mdof-fundamentals.md)
 2. 查看測試案例: `tests/testcase/measures/`
 3. 使用測試執行器: `python tests/v3_test_case_runner.py --all-measures`
 

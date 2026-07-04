@@ -597,9 +597,9 @@ A:
 ## 延伸閱讀
 
 ### 內部資源
-- [軟體工程實踐 - API 設計](./03_software-engineering.md)
-- [測試與品質保證](./04_testing-qa.md)
 - [Crawler Engineer 學習路徑](../roles/crawler-engineer.md)
+- [資料來源與關聯欄位指南](../data-sources/data-sources-guide.md)
+- 軟體工程實踐、測試與品質保證（規劃中，尚未成文）
 
 ### 外部資源
 - [JSON Schema 官方文檔](https://json-schema.org/)
