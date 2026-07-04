@@ -1,0 +1,13 @@
+# Node.js (local tooling, not part of the docs repo)
+node_modules/
+package.json
+package-lock.json
+
+# macOS
+.DS_Store
+
+# Editor temporary files
+*~
+*.swp
+*.swo
+.vscode/
