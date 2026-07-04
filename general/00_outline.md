@@ -3,8 +3,8 @@ title: "General Learning Map - 通用核心能力大綱"
 type: outline
 status: active
 created: 2025-11-10
-updated: 2025-12-16
-version: "2.6"
+updated: 2026-07-04
+version: "2.7"
 project: LearningMap
 author: maple
 tags:
@@ -37,6 +37,10 @@ summary: |
 
 - 01-05：基礎核心能力（必修）
 - 06-09：進階主題（依角色需求選修）
+
+> **📌 檔案狀態說明**：目前只有 **02 (Unix/Linux)** 與 **03 (資料工程)** 拆分為獨立檔案；
+> 其餘章節（01、04-09）的內容以本大綱各節摘要為準，獨立主題檔為**規劃中**、尚未成文。
+> 編號說明：02 為 Unix/Linux 基礎、03 為資料工程（心智圖中的概念編號與檔案編號不完全對應，以檔名為準）。
 
 ### 🗺️ 學習地圖
 
@@ -683,22 +687,22 @@ mindmap
 **目標**: 建立基本概念，快速了解全貌，不求精通
 
 **Day 1: 產品與資料基礎**
-- 上午：01_product-business.md（快速瀏覽 1.1-1.4）
-- 下午：02_data-engineering.md（快速瀏覽）
+- 上午：產品與業務理解（本大綱 01 節，1.1-1.4）
+- 下午：[03_data-engineering.md](./03_data-engineering.md)（快速瀏覽）＋ [02_unix-linux-basics.md](./02_unix-linux-basics.md)（依需求）
 
 **Day 2: 工程實踐**
-- 上午：03_software-engineering.md（Git 基礎、文檔概念）
-- 下午：04_testing-qa.md（測試思維）
+- 上午：軟體工程實踐（本大綱 03 節：Git 基礎、文檔概念）
+- 下午：測試與品質保證（本大綱 04 節：測試思維）
 
 **Day 3: AI 工具與進階概念**
-- 上午：05_ai-assisted-dev.md（AI 代理、Prompt、ML 名詞）⭐
-- 下午：01_product-business.md（1.5 本體論）⭐
+- 上午：AI 輔助開發（本大綱 05 節：AI 代理、Prompt、ML 名詞）⭐
+- 下午：產品與業務理解（本大綱 01 節，1.5 本體論）⭐
 
-**Day 4-5: 進階主題（依角色選修）**
-- 06_web-basics.md（網頁基礎）
-- 07_data-analysis.md（資料分析）
-- 08_systems-thinking.md（系統思維）
-- 09_code-quality.md（程式碼品質）
+**Day 4-5: 進階主題（依角色選修，皆為本大綱章節摘要）**
+- 06 網頁基礎
+- 07 資料分析
+- 08 系統思維
+- 09 程式碼品質
 
 ### 學習重點
 
@@ -733,6 +737,27 @@ mindmap
 
 ---
 
+## 📚 參考文件索引（隨查隨用）
+
+以下為 general/ 目錄下的獨立參考文件，不屬於 Day 1-5 循序路徑，依需求查閱：
+
+### Claude Code 系列（建議閱讀順序）
+1. [claude-code-tips.md](./claude-code-tips.md) - CLI 使用技巧入門（Memory、Slash Commands、快捷鍵）
+2. [claude-code-cli-discussion.md](./claude-code-cli-discussion.md) - 深度討論（Context 管理、開發流程、Skills、Headless）
+3. [claude-code-cli-discussion-advanced.md](./claude-code-cli-discussion-advanced.md) - 進階補充篇（設計哲學）
+4. [claude-agent-skill.md](./claude-agent-skill.md) - Agent Skill 參考
+
+### 文檔治理與知識管理
+- [contextops-discipline.md](./contextops-discipline.md) - ContextOps 方法論
+- [knowledge-management.md](./knowledge-management.md) - PKM 與 Frontmatter
+- [progressive-disclosure.md](./progressive-disclosure.md) - Progressive Disclosure 概念
+
+### 術語與環境
+- [ai-data-terminology.md](./ai-data-terminology.md) - Infer / Derive / Reasoning 術語辨析
+- [ubuntu-desktop-tips.md](./ubuntu-desktop-tips.md) - Ubuntu Desktop 環境技巧
+
+---
+
 ## 🔄 版本歷史
 
 | 版本 | 日期 | 變更內容 | 作者 |
@@ -745,6 +770,7 @@ mindmap
 | 2.4 | 2025-11-11 | 新增 JSON Schema (2.1 章節) 和 URI Schema (3.3 章節) | Learning Team |
 | 2.5 | 2025-11-11 | 新增 ETL 與 Enrich 資料處理流程 (2.3 章節)，創建完整的 03_data-engineering.md | Learning Team |
 | 2.6 | 2025-12-16 | 新增 Claude Code CLI Tips 和 Ubuntu GNOME Desktop Tips 補充文檔 | Learning Team |
+| 2.7 | 2026-07-04 | 標注章節檔案狀態（僅 02、03 有獨立檔）、修正 Day 計畫檔名引用、新增參考文件索引收編 9 份參考文件 | maple |
 
 ---
 
