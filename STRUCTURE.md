@@ -37,7 +37,8 @@ LuminNexus-LearningMap/
 │
 ├── roles/                            # 角色特定學習路徑
 │   ├── testing/                      # Testing & Business Analysis
-│   │   └── 00_outline.md             # Testing 學習大綱 (01-06 topics)
+│   │   ├── 00_outline.md             # Testing 學習大綱
+│   │   └── 01-06_*.md                # 六個主題檔（產品理解～測試結果分析）
 │   ├── crawler-engineer.md           # Crawler Engineer 角色（導覽既有教材）
 │   └── project-manager.md            # Project Manager 角色
 │

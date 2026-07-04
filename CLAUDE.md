@@ -33,7 +33,8 @@ LuminNexus-LearningMap/
 │   └── ubuntu-desktop-tips.md
 ├── roles/                   # Role-specific learning paths
 │   ├── testing/             # Testing & Business Analysis role
-│   │   └── 00_outline.md    # Testing learning outline (01-06 topics)
+│   │   ├── 00_outline.md    # Testing learning outline
+│   │   └── 01-06_*.md       # 六個主題檔（產品理解～測試結果分析）
 │   ├── crawler-engineer.md  # Crawler Engineer role（導覽既有教材）
 │   └── project-manager.md   # Project Manager role
 ├── tools/                   # Tool documentation
