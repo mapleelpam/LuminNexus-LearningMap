@@ -1,0 +1,528 @@
+<meta charset="utf-8">
+<title>Isomorphic Tension — 投影到同一個 S-P-O 空間</title>
+<style>
+:root{
+  --ground:#EEF1F4; --surface:#FFFFFF; --line:#D6DCE2; --line2:#E5EAEF;
+  --ink:#14202A; --ink2:#4C5D6A; --ink3:#7C8B98;
+  --health:#2a78d6; --health-ink:#1F5EAE; --health-bg:rgba(42,120,214,.10);
+  --pdp:#C65A1E; --pdp-ink:#A24A17; --pdp-bg:rgba(198,90,30,.10);
+  --sigma:#0E7C8C; --sigma-bg:rgba(14,124,140,.10);
+  --pro:#2E8A50; --con:#C24D40; --neu:#8A9598;
+  --shadow:0 1px 2px rgba(20,32,42,.05),0 8px 26px rgba(20,32,42,.07);
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --ground:#0E1418; --surface:#161F26; --line:#28353E; --line2:#1E2A32;
+    --ink:#E7EDF1; --ink2:#95A7B3; --ink3:#63737E;
+    --health:#3987e5; --health-ink:#6FA8ED; --health-bg:rgba(57,135,229,.15);
+    --pdp:#D95926; --pdp-ink:#E58A5A; --pdp-bg:rgba(217,89,38,.15);
+    --sigma:#22A7BC; --sigma-bg:rgba(34,167,188,.15);
+    --pro:#3E9E63; --con:#D96559; --neu:#5E6D71;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px rgba(0,0,0,.38);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0E1418; --surface:#161F26; --line:#28353E; --line2:#1E2A32;
+  --ink:#E7EDF1; --ink2:#95A7B3; --ink3:#63737E;
+  --health:#3987e5; --health-ink:#6FA8ED; --health-bg:rgba(57,135,229,.15);
+  --pdp:#D95926; --pdp-ink:#E58A5A; --pdp-bg:rgba(217,89,38,.15);
+  --sigma:#22A7BC; --sigma-bg:rgba(34,167,188,.15);
+  --pro:#3E9E63; --con:#D96559; --neu:#5E6D71;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px rgba(0,0,0,.38);
+}
+:root[data-theme="light"]{
+  --ground:#EEF1F4; --surface:#FFFFFF; --line:#D6DCE2; --line2:#E5EAEF;
+  --ink:#14202A; --ink2:#4C5D6A; --ink3:#7C8B98;
+  --health:#2a78d6; --health-ink:#1F5EAE; --health-bg:rgba(42,120,214,.10);
+  --pdp:#C65A1E; --pdp-ink:#A24A17; --pdp-bg:rgba(198,90,30,.10);
+  --sigma:#0E7C8C; --sigma-bg:rgba(14,124,140,.10);
+  --pro:#2E8A50; --con:#C24D40; --neu:#8A9598;
+  --shadow:0 1px 2px rgba(20,32,42,.05),0 8px 26px rgba(20,32,42,.07);
+}
+*{box-sizing:border-box}
+html,body{height:100%;overflow:hidden}
+body{
+  margin:0;background:var(--ground);color:var(--ink);
+  font-family:system-ui,-apple-system,"Segoe UI",sans-serif;
+  font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;
+}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;font-variant-numeric:tabular-nums}
+
+.stage{position:fixed;inset:0;overflow-y:auto;overflow-x:hidden;scroll-snap-type:y proximity;scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){.stage{scroll-behavior:auto}}
+
+/* 幻燈骨架 */
+.slide{
+  min-height:100vh;min-height:100dvh;scroll-snap-align:start;
+  display:flex;flex-direction:column;justify-content:center;
+  padding:7vh 40px 7vh 92px;position:relative;
+}
+.slide-inner{width:100%;max-width:1080px;margin:0 auto}
+.tag{
+  font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--ink3);margin:0 0 16px;display:flex;align-items:center;gap:12px;
+}
+.tag .n{color:var(--sigma);font-weight:600}
+.tag .bar{height:1px;flex:1;background:var(--line);max-width:120px}
+h1{font-size:clamp(34px,5.2vw,60px);font-weight:800;letter-spacing:-.025em;line-height:1.08;margin:0 0 20px;text-wrap:balance}
+h2{font-size:clamp(26px,3.6vw,42px);font-weight:750;letter-spacing:-.02em;line-height:1.14;margin:0 0 16px;text-wrap:balance}
+.lede{font-size:clamp(16px,1.55vw,19px);color:var(--ink2);max-width:66ch;margin:0 0 8px}
+.lede b{color:var(--ink);font-weight:650}
+.note{font-size:13.5px;color:var(--ink3);max-width:74ch;line-height:1.6}
+.hl-h{color:var(--health-ink);font-weight:650}
+.hl-p{color:var(--pdp-ink);font-weight:650}
+.hl-s{color:var(--sigma);font-weight:650}
+
+/* 進度軌 */
+.rail{position:fixed;left:0;top:0;bottom:0;width:66px;z-index:10;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px}
+.rail a{width:8px;height:8px;border-radius:2px;background:var(--line);display:block;position:relative;transition:background .3s,transform .3s;transform:rotate(45deg)}
+.rail a.cur{background:var(--ink);transform:rotate(45deg) scale(1.4)}
+.rail a span{position:absolute;left:20px;top:50%;transform:translateY(-50%) rotate(-45deg);transform-origin:left center;font-family:ui-monospace,Menlo,monospace;font-size:11px;letter-spacing:.1em;color:var(--ink2);white-space:nowrap;opacity:0;transition:opacity .2s;pointer-events:none;background:var(--surface);padding:3px 8px;border:1px solid var(--line);border-radius:4px}
+.rail a:hover span,.rail a:focus-visible span{opacity:1}
+.rail a:focus-visible{outline:2px solid var(--sigma);outline-offset:4px}
+@media (max-width:780px){.rail{display:none}.slide{padding-left:28px;padding-right:28px}}
+
+/* 進場 */
+.rv{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease;transition-delay:var(--d,0s)}
+.on .rv{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}}
+
+/* S-P-O 三元組 pill chain */
+.spo{display:inline-flex;flex-wrap:wrap;align-items:center;gap:8px;font-family:ui-monospace,Menlo,monospace;font-size:14px;margin:4px 0}
+.pill{padding:5px 12px;border-radius:7px;border:1px solid var(--line);background:var(--surface);white-space:nowrap}
+.pill.s{border-color:var(--ink3);font-weight:650}
+.pill.p{background:var(--sigma-bg);border-color:var(--sigma);color:var(--sigma)}
+.pill.o{border-style:dashed}
+.pill.val-pro{color:var(--pro);border-color:var(--pro)}
+.pill.val-con{color:var(--con);border-color:var(--con)}
+.arr{color:var(--ink3);letter-spacing:-.05em}
+
+/* 域標籤 */
+.dom{display:inline-flex;align-items:center;gap:7px;font-family:ui-monospace,Menlo,monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:600;padding:3px 10px;border-radius:99px}
+.dom.h{background:var(--health-bg);color:var(--health-ink)}
+.dom.p{background:var(--pdp-bg);color:var(--pdp-ink)}
+.dom.s{background:var(--sigma-bg);color:var(--sigma)}
+.dot{width:8px;height:8px;border-radius:2px;transform:rotate(45deg);display:inline-block}
+.dot.h{background:var(--health)}.dot.p{background:var(--pdp)}.dot.s{background:var(--sigma)}
+
+/* 通用卡 / 網格 */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:22px 0 6px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:22px 0 6px}
+@media (max-width:820px){.grid2,.grid3{grid-template-columns:1fr}}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:20px 22px;box-shadow:var(--shadow)}
+.card.h{border-top:3px solid var(--health)}
+.card.p{border-top:3px solid var(--pdp)}
+.card.s{border-top:3px solid var(--sigma)}
+.card h3{margin:0 0 8px;font-size:17px;font-weight:700}
+.card p{margin:6px 0 0;font-size:14px;color:var(--ink2)}
+.card .k{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--ink3);margin-top:10px;line-height:1.7}
+
+/* 三條件清單 */
+.conds{display:grid;gap:10px;margin:22px 0 6px;counter-reset:c}
+.cond{display:flex;gap:14px;align-items:flex-start;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 18px;box-shadow:var(--shadow)}
+.cond::before{counter-increment:c;content:counter(c);font-family:ui-monospace,Menlo,monospace;font-weight:700;color:var(--sigma);background:var(--sigma-bg);width:26px;height:26px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:13px}
+.cond .t{font-size:14.5px;color:var(--ink2)}
+.cond .t b{color:var(--ink)}
+
+/* 投影圖 */
+.proj{display:grid;grid-template-columns:1fr auto 1fr;gap:14px;align-items:center;margin:26px 0 8px}
+@media (max-width:820px){.proj{grid-template-columns:1fr;text-align:center}.proj .mid{transform:rotate(90deg)}}
+.proj .side{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px 20px;box-shadow:var(--shadow)}
+.proj .side.h{border-left:3px solid var(--health)}
+.proj .side.p{border-left:3px solid var(--pdp)}
+.proj .mid{font-family:ui-monospace,Menlo,monospace;font-size:13px;color:var(--sigma);text-align:center;font-weight:600}
+.proj .mid .g{font-size:26px;line-height:1}
+.sigma-box{margin:12px auto 0;max-width:560px;background:var(--sigma-bg);border:1.5px solid var(--sigma);border-radius:12px;padding:16px 20px;text-align:center}
+.sigma-box .lbl{font-family:ui-monospace,Menlo,monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--sigma);font-weight:600;margin-bottom:8px}
+
+/* 力矩陣表 */
+.tbl-scroll{overflow-x:auto;margin:20px 0 6px}
+table.force{border-collapse:collapse;width:100%;min-width:640px;font-size:13.5px}
+table.force th{font-family:ui-monospace,Menlo,monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);font-weight:600;text-align:left;padding:9px 14px;border-bottom:1.5px solid var(--line)}
+table.force td{padding:11px 14px;border-bottom:1px solid var(--line2);vertical-align:middle}
+table.force td:first-child{font-family:ui-monospace,Menlo,monospace;font-size:12.5px;color:var(--ink);font-weight:600}
+table.force .fx{font-family:ui-monospace,Menlo,monospace;font-size:12px;font-weight:700}
+.fx.contra{color:var(--con)}.fx.gap{color:var(--pdp-ink)}.fx.consensus{color:var(--pro)}.fx.none{color:var(--ink3)}
+
+/* 兩層：力 / 張力 */
+.layers{display:grid;gap:14px;margin:22px 0 6px}
+.layer{border-radius:12px;padding:18px 22px;box-shadow:var(--shadow);border:1px solid var(--line)}
+.layer.force{background:var(--surface)}
+.layer.tension{background:var(--sigma-bg);border-color:var(--sigma)}
+.layer .lh{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:6px}
+.layer .lh h3{margin:0;font-size:18px;font-weight:750}
+.layer .lh .badge{font-family:ui-monospace,Menlo,monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);border:1px solid var(--line);border-radius:99px;padding:2px 10px}
+.layer p{margin:4px 0 0;font-size:14px;color:var(--ink2)}
+.layer .eq{font-family:ui-monospace,Menlo,monospace;font-size:14px;color:var(--ink);background:var(--ground);border:1px solid var(--line);border-radius:8px;padding:8px 14px;margin:12px 0 0;display:inline-block}
+
+/* 角色權重 */
+.roles{display:flex;flex-wrap:wrap;gap:10px;margin:16px 0 4px}
+.role{font-family:ui-monospace,Menlo,monospace;font-size:12.5px;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:8px 13px;color:var(--ink2)}
+.role b{color:var(--ink)}
+
+/* MDFO lens 選擇器示意 */
+.lens{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0}
+.lens .chip{font-family:ui-monospace,Menlo,monospace;font-size:13px;padding:7px 14px;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--ink2)}
+.lens .chip.on{background:var(--sigma-bg);border-color:var(--sigma);color:var(--sigma);font-weight:700}
+
+/* callout */
+.callout{border-left:3px solid var(--sigma);padding:4px 0 4px 18px;margin:20px 0 4px;max-width:70ch}
+.callout .big{font-size:clamp(18px,2vw,23px);font-weight:700;line-height:1.35;color:var(--ink);text-wrap:balance}
+.callout p{margin:8px 0 0;font-size:14px;color:var(--ink2)}
+
+/* slide 04：假同構 / 影子 —— 投影失敗圖 */
+.dual{background:var(--sigma-bg);border:1px solid var(--sigma);border-radius:10px;padding:12px 18px;margin:18px 0 4px;font-size:14.5px;color:var(--ink);max-width:76ch}
+.dual b{color:var(--sigma)}
+.fail{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:20px 0 6px}
+@media (max-width:820px){.fail{grid-template-columns:1fr}}
+.fp{background:var(--surface);border:1px solid var(--line);border-top:3px solid var(--con);border-radius:12px;padding:16px 18px;box-shadow:var(--shadow)}
+.fp .fh{font-family:ui-monospace,Menlo,monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--con);font-weight:700;margin-bottom:12px}
+.fp .row{display:flex;flex-wrap:wrap;align-items:center;gap:7px;font-family:ui-monospace,Menlo,monospace;font-size:12.5px}
+.fp .cap{font-size:12.5px;color:var(--ink3);margin-top:11px;line-height:1.55}
+.fp .cap b{color:var(--ink2)}
+.shadow{padding:5px 11px;border-radius:7px;border:1px dashed var(--ink3);background:var(--ground);color:var(--ink2);white-space:nowrap}
+.kernel{display:flex;flex-wrap:wrap;gap:0;margin:18px 0 4px;border:1px solid var(--line);border-radius:10px;overflow:hidden;font-family:ui-monospace,Menlo,monospace;font-size:13px}
+.kernel > div{padding:12px 18px;flex:1;min-width:240px}
+.kernel .ker{background:rgba(194,77,64,.10);color:var(--ink)}
+.kernel .bas{background:var(--surface);color:var(--ink2)}
+.kernel .lab{font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);display:block;margin-bottom:4px}
+.kernel .ker b{color:var(--con)}
+@media (prefers-color-scheme: dark){.kernel .ker{background:rgba(217,101,89,.14)}}
+:root[data-theme="dark"] .kernel .ker{background:rgba(217,101,89,.14)}
+
+/* 待決清單 */
+.decide{display:grid;gap:12px;margin:22px 0 6px;max-width:820px}
+.decide li{list-style:none;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 18px;box-shadow:var(--shadow);font-size:14.5px;color:var(--ink2)}
+.decide li b{color:var(--ink);display:block;margin-bottom:2px}
+.decide ul{margin:0;padding:0}
+
+footer{padding:26px 40px 60px 92px;color:var(--ink3);font-size:12.5px;max-width:1080px}
+@media (max-width:780px){footer{padding-left:28px}}
+.kbd-hint{margin-top:34px;font-size:13px;color:var(--ink3)}
+.kbd-hint kbd{font-family:ui-monospace,Menlo,monospace;font-size:11px;border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;padding:2px 7px;margin:0 2px;background:var(--surface)}
+</style>
+
+<div class="stage" id="stage">
+<nav class="rail" aria-label="投影片導覽">
+  <a href="#s0" data-s="s0"><span>00 · 命題</span></a>
+  <a href="#s1" data-s="s1"><span>01 · 問題</span></a>
+  <a href="#s2" data-s="s2"><span>02 · Isomorphism</span></a>
+  <a href="#s3" data-s="s3"><span>03 · PDP = 第四平台</span></a>
+  <a href="#s4" data-s="s4"><span>04 · O 對齊</span></a>
+  <a href="#s5" data-s="s5"><span>05 · 力 = 向量</span></a>
+  <a href="#s6" data-s="s6"><span>06 · 力 / 張力兩層</span></a>
+  <a href="#s7" data-s="s7"><span>07 · partial 力</span></a>
+  <a href="#s8" data-s="s8"><span>08 · 接回哲學</span></a>
+  <a href="#s9" data-s="s9"><span>09 · 待拍板</span></a>
+</nav>
+
+<main>
+
+<!-- 00 命題 -->
+<section class="slide" id="s0">
+  <div class="slide-inner">
+    <p class="tag rv"><span class="n">ISOMORPHIC TENSION</span><span class="bar"></span>engineering methodology · v0.1</p>
+    <h1 class="rv" style="--d:.06s">兩種宣稱，投影到<br>同一個 S-P-O 空間</h1>
+    <p class="lede rv" style="--d:.14s">
+      把 <span class="hl-h">health-claims</span>（KOL／科學：claims + relation）與
+      <span class="hl-p">PDP benefit-claims</span>（產品頁抓到的功效訴求）
+      <b>保結構地投影到同一個表示空間 Σ</b>。一旦可通約，兩者之間的「<span class="hl-s">力</span>」就從
+      「只能感受的氣氛差」變成<b>可計算的向量</b>——再從不同 position 投影，才叫「張力」。
+    </p>
+    <div class="spo rv" style="--d:.22s;margin-top:20px">
+      <span class="pill s">S</span><span class="arr">──[</span><span class="pill p">P</span><span class="arr">,</span>
+      <span class="pill">valence</span><span class="arr">]──▶</span><span class="pill o">O</span>
+    </div>
+    <p class="kbd-hint rv" style="--d:.3s">捲動，或按 <kbd>→</kbd> / <kbd>↓</kbd> 翻頁 · 這是給 team 想事情用的工作稿</p>
+  </div>
+</section>
+
+<!-- 01 問題 -->
+<section class="slide" id="s1">
+  <div class="slide-inner">
+    <p class="tag rv"><span class="n">01</span><span class="bar"></span>問題 · 兩種語言不可比較</p>
+    <h2 class="rv" style="--d:.06s">今天，這兩句話活在不同的宇宙</h2>
+    <div class="grid2">
+      <div class="card h rv" style="--d:.12s">
+        <span class="dom h"><span class="dot h"></span>health-claim · KOL/科學</span>
+        <p style="margin-top:12px;font-size:15px;color:var(--ink)">「Ashwagandha 顯著降低皮質醇、改善壓力反應。」</p>
+        <div class="spo" style="margin-top:12px">
+          <span class="pill s">ashwagandha</span><span class="arr">─[</span><span class="pill p">efficacy</span><span class="arr">,</span><span class="pill val-pro">pro</span><span class="arr">]▶</span><span class="pill o">stress</span>
+        </div>
+        <div class="k">強、可證偽、帶 evidence（RCT）</div>
+      </div>
+      <div class="card p rv" style="--d:.2s">
+        <span class="dom p"><span class="dot p"></span>benefit-claim · PDP</span>
+        <p style="margin-top:12px;font-size:15px;color:var(--ink)">「含 KSM-66® 南非醉茄，支持每日的平靜與放鬆。」</p>
+        <div class="spo" style="margin-top:12px">
+          <span class="pill s">ashwagandha</span><span class="arr">─[</span><span class="pill p">composition</span><span class="arr">]▶</span><span class="pill o">"calm"</span>
+        </div>
+        <div class="k">弱、hedged、法規閹割（structure-function）</div>
+      </div>
+    </div>
+    <p class="note rv" style="--d:.28s;margin-top:14px">
+      同一顆成分、同一個訴求方向，但「說法」的<b>型別</b>不同——一個在講因果、一個只敢講成分。
+      人眼看得出「不對勁」，但系統看不出來，因為兩者的 schema 不同、不可運算。要找張力，得先讓它們落進同一個空間。
+    </p>
+  </div>
+</section>
+
+<!-- 02 Isomorphism -->
+<section class="slide" id="s2">
+  <div class="slide-inner">
+    <p class="tag rv"><span class="n">02</span><span class="bar"></span>Isomorphism · 精確主張</p>
+    <h2 class="rv" style="--d:.06s">存在共同空間 Σ，兩個保結構投影</h2>
+    <div class="proj rv" style="--d:.12s">
+      <div class="side h">
+        <span class="dom h"><span class="dot h"></span>health-claims</span>
+        <p class="mono" style="font-size:13px;color:var(--ink2);margin-top:10px">已存在<br>IG / YT / 科學語料</p>
+      </div>
+      <div class="mid"><span class="g">π<sub>H</sub> ▶</span><br>&nbsp;<br><span class="g">◀ π<sub>B</sub></span></div>
+      <div class="side p">
+        <span class="dom p"><span class="dot p"></span>PDP benefit-claims</span>
+        <p class="mono" style="font-size:13px;color:var(--ink2);margin-top:10px">待建<br>產品頁 grab source</p>
+      </div>
+    </div>
+    <div class="sigma-box rv" style="--d:.2s">
+      <div class="lbl">Σ · 共同表示空間</div>
+      <div class="spo" style="justify-content:center">
+        <span class="pill s">S</span><span class="arr">─[</span><span class="pill p">P</span><span class="arr">,</span><span class="pill">valence</span><span class="arr">,</span><span class="pill">evidence</span><span class="arr">]▶</span><span class="pill o">O</span>
+      </div>
+    </div>
+    <p class="lede rv" style="--d:.26s;margin-top:20px">「保結構」有<b>三條硬條件</b>，缺一則兩邊落進 Σ 也對不齊：</p>
+    <div class="conds rv" style="--d:.32s">
+      <div class="cond"><div class="t"><b>S 對到同一 canonical entity space</b>——ashwagandha 就是 ashwagandha，不管來自 reel 還是產品頁。</div></div>
+      <div class="cond"><div class="t"><b>O 對到同一 canonical outcome space</b>——KOL 的 <span class="mono">stress</span> 要能對上 PDP 的 <span class="mono">"calm"</span>。（見 04）</div></div>
+      <div class="cond"><div class="t"><b>P 對到同一 predicate enum</b>——efficacy / mechanism / composition… 是共用的一組維度。（見 05）</div></div>
+    </div>
+    <p class="note rv" style="--d:.4s;margin-top:12px">紅利：一旦三條成立，跨 domain 比較從「不可通約的兩種語言」變成「同一空間的向量運算」。不必造第二套分析工具。</p>
+  </div>
+</section>
+
+<!-- 03 PDP = 第四平台 -->
+<section class="slide" id="s3">
+  <div class="slide-inner">
+    <p class="tag rv"><span class="n">03</span><span class="bar"></span>不用拆兩層 · product 是容器</p>
+    <h2 class="rv" style="--d:.06s">PDP 就是第四個 platform，<br>不是第二個維度</h2>
+    <p class="lede rv" style="--d:.12s">
+      <b>product 不是 Σ 裡的一個 S</b>——它是<b>容器</b>。product 對 ingredient-claim，
+      就像 post 對 claims。Σ 裡只有一種 S（canonical 成分），product 只是 provenance，跟 <span class="mono">account_handle</span> 同一層。
+    </p>
+    <div class="grid3 rv" style="--d:.2s">
+      <div class="card"><h3 class="mono" style="font-size:14px">post → claims</h3><p>一則 reel／貼文 distill 成多條 S-P-O</p><div class="k">既有</div></div>
+      <div class="card"><h3 class="mono" style="font-size:14px">PDP → claims</h3><p>一個產品頁 distill 成多條 <span class="hl-p">ingredient 層</span> S-P-O</p><div class="k">同一條路</div></div>
+      <div class="card s"><h3 class="mono" style="font-size:14px">product → ingredient</h3><p>一對多的<b>投影函數</b>，不是新 schema</p><div class="k">= Identity Resolution</div></div>
+    </div>
+    <div class="callout rv" style="--d:.3s">
+      <p class="big">忠實層 = PDP 字面訴求　·　統一層 = 投影到成分後對齊 Σ</p>
+      <p>這正是 <span class="mono">tension-value-perspective §3</span> 的「統一 vs 忠實：統一層疊在原始層之上，不覆蓋它」。一個 S-P-O 層 + 來源標註，你現有 schema 已經有了。</p>
+    </div>
+  </div>
+</section>
+
+<!-- 04 O 對齊 · 假同構與影子 -->
+<section class="slide" id="s4">
+  <div class="slide-inner">
+    <p class="tag rv"><span class="n">04</span><span class="bar"></span>O 對齊 · 假同構與影子</p>
+    <h2 class="rv" style="--d:.06s">「語氣像」不是「講同一件事」</h2>
+    <p class="lede rv" style="--d:.12s">
+      embedding 是把句子<b>投影</b>到「語義相似度」空間的一個 projection。任何 projection 都有 <span class="mono">kernel</span>（被壓成零、不可回復的那些維度）——
+      而它壓掉的，恰好是我們要的<b>指稱</b>。cosine 在影子空間的近，<b>拉不回</b>物件空間的同一。
+    </p>
+    <div class="dual rv" style="--d:.18s">
+      同樣是投影，差別在 <b>kernel 裡裝了什麼</b>：Σ 投影<b>保留</b>指稱（這是真同構的目標，見 02）；
+      embedding 投影<b>壓掉</b>指稱——把「影子相似 ⇒ 物件同一」當成保結構映射，就是<b>假同構</b>。
+    </div>
+    <div class="fail rv" style="--d:.24s">
+      <div class="fp">
+        <div class="fh">假同構 · 高 cosine，錯</div>
+        <div class="row">
+          <span class="pill o">weight-loss</span><span class="pill o">weight-gain</span>
+          <span class="arr">──▶</span><span class="shadow">≈ 同一向量</span>
+        </div>
+        <div class="cap"><b>不同指稱、同一影子</b>（投影非單射）。共享 "weight" 就被判相似——語氣像 ⇏ 同一件事。</div>
+      </div>
+      <div class="fp">
+        <div class="fh">漏抓 · 低 cosine，也錯</div>
+        <div class="row">
+          <span class="pill o">stress-relief</span><span class="arr">──▶</span>
+          <span class="shadow">"promotes calm"</span><span class="shadow">reduce cortisol</span>
+        </div>
+        <div class="cap"><b>同一指稱、兩個散影子</b>。跨語域（行銷 vs 臨床）／跨語言，向量離很開——講同件事 ⇏ 語氣像。</div>
+      </div>
+    </div>
+    <div class="kernel rv" style="--d:.3s">
+      <div class="ker"><span class="lab">embedding 的 kernel（壓成零）</span><b>指稱 · 方向 · valence</b></div>
+      <div class="bas"><span class="lab">embedding 的主軸（保留）</span>語氣 · 語域 · 字面</div>
+    </div>
+    <div class="callout rv" style="--d:.36s">
+      <p class="big">把影子當物件：任何單一報告都是投影。</p>
+      <p>忘了這件事的人，會拿自己的影子跟別人的影子吵「誰才是真的」——兩個都是影子。工程結論：<b>存物件，不存影子</b>——存 S-P-O／力（見 06），不存 embedding 向量或某個視角的報告。判定靠 LLM 讀 proposition（讀物件本身）；embedding 只做 blocking（便宜預聚群）。</p>
+    </div>
+    <div class="spo rv" style="--d:.42s;margin-top:16px;font-size:14px">
+      <span class="pill o">stress_reduction</span><span class="pill o">"promotes calm"</span><span class="pill o">"支持放鬆"</span>
+      <span class="arr">──vocab-judge──▶</span>
+      <span class="pill o" style="border-style:solid;border-color:var(--sigma);color:var(--sigma);font-weight:700">stress-relief</span>
+    </div>
+  </div>
+</section>
+
+<!-- 05 力 = 向量 -->
+<section class="slide" id="s5">
+  <div class="slide-inner">
+    <p class="tag rv"><span class="n">05</span><span class="bar"></span>力 = 向量 · predicate 是 facet 不是 scale</p>
+    <h2 class="rv" style="--d:.06s">一次看 1–2 個 predicate，<br>不塌成一個「強度」純量</h2>
+    <p class="lede rv" style="--d:.12s">
+      predicate enum 的每個成員<b>本身就是一個力的維度</b>，彼此不可通約、也不該通約。
+      強度序（lattice）會把多維的力壓成一個數——那恰恰<b>摧毀了「價值多元」</b>。
+      選哪個 predicate = 選一個 lens。這就是 MDFO：<span class="hl-s">predicate 是一個可 filter 的 Dimension</span>。
+    </p>
+    <div class="lens rv" style="--d:.2s">
+      <span class="chip on">efficacy</span><span class="chip">mechanism</span><span class="chip">safety</span>
+      <span class="chip on">composition</span><span class="chip">association</span><span class="chip">comparison</span>
+    </div>
+    <div class="tbl-scroll rv" style="--d:.26s">
+      <table class="force">
+        <tr><th>lens（選定 predicate）</th><th>health 端</th><th>PDP 端</th><th>讀出的力</th></tr>
+        <tr><td>efficacy</td><td>pro（有 RCT）</td><td>— 缺席</td><td class="fx gap">coverage gap ▸ 品牌沒跟上背書</td></tr>
+        <tr><td>efficacy</td><td>con</td><td>pro</td><td class="fx contra">正面對撞 ▸ 監管紅旗</td></tr>
+        <tr><td>composition</td><td>— 缺席</td><td>pro（含 X mg）</td><td class="fx gap">裸宣稱 ▸ 有成分無實證</td></tr>
+        <tr><td>safety</td><td>con（劑量警告）</td><td>— 缺席</td><td class="fx contra">風險落差 ▸ 揭露缺口</td></tr>
+        <tr><td>efficacy</td><td>pro</td><td>pro（s-f 措辭）</td><td class="fx consensus">一致 ▸ 可信定位</td></tr>
+      </table>
+    </div>
+    <p class="note rv" style="--d:.34s;margin-top:12px">
+      力是<b>向量</b>：分量 index by〈predicate × valence × 在場 × evidence〉。永不塌成純量——每個 lens 顯示一種不同的力。
+    </p>
+  </div>
+</section>
+
+<!-- 06 兩層 -->
+<section class="slide" id="s6">
+  <div class="slide-inner">
+    <p class="tag rv"><span class="n">06</span><span class="bar"></span>兩層 · 力（客觀單一）／張力（主觀多元）</p>
+    <h2 class="rv" style="--d:.06s">力存在資料層，張力發生在視角層</h2>
+    <div class="layers">
+      <div class="layer force rv" style="--d:.12s">
+        <div class="lh"><h3>力 · Force</h3><span class="badge">客觀 · 單一 · 收斂</span></div>
+        <p>Σ 圖上的 typed edge。對一組 (S,O) 對齊的宣稱，力是各 lens 分量組成的向量——市場的「truth」，收斂成一張圖。</p>
+        <span class="eq mono">F(h, b) = ⟨ per-predicate: Δvalence, Δ在場, Δevidence ⟩</span>
+      </div>
+      <div class="layer tension rv" style="--d:.2s">
+        <div class="lh"><h3 class="hl-s">張力 · Tension</h3><span class="badge">主觀 · 多元 · 不收斂</span></div>
+        <p>某個 position 拿自己的權重去投影那個力向量。同一張力圖，不同角色看見不同張力——市場的「value」，永不收斂成一個。</p>
+        <span class="eq mono">T<sub>position</sub> = w<sub>position</sub> · F</span>
+      </div>
+    </div>
+    <div class="roles rv" style="--d:.28s">
+      <span class="role"><b>監管端</b> ▸ 重 Δpredicate + Δevidence（越界/裸奔）</span>
+      <span class="role"><b>品牌商</b> ▸ 重 coverage gap（錯過的定位）</span>
+      <span class="role"><b>原料商</b> ▸ 重 S 層 aggregate（聲量 vs 採用）</span>
+      <span class="role"><b>學術端</b> ▸ 重 Δevidence 全貌（實證縫隙）</span>
+    </div>
+    <p class="note rv" style="--d:.36s;margin-top:12px">這就是 <span class="mono">tension-value-perspective §2</span>「事實單一、價值多元」的工程化：<b>存力，不存張力</b>。系統不偏袒任何角度，因為它存的是客觀的力。</p>
+  </div>
+</section>
+
+<!-- 07 partial -->
+<section class="slide" id="s7">
+  <div class="slide-inner">
+    <p class="tag rv"><span class="n">07</span><span class="bar"></span>partial 也是力 · negative space</p>
+    <h2 class="rv" style="--d:.06s">只共享 S、或只共享 O，<br>就是機會地圖</h2>
+    <p class="lede rv" style="--d:.12s">力不需要 S 和 O 都對齊。<b>partial match 是不同維度的力</b>——空缺（negative space）往往比對撞更值錢：</p>
+    <div class="grid3 rv" style="--d:.2s">
+      <div class="card s"><h3>full match</h3><p>S ✓ O ✓ → 直接比較（對撞／一致／落差）</p><div class="k">最尖銳</div></div>
+      <div class="card h"><h3>只共享 S</h3><p>同成分、不同訴求 → 這顆成分在 health 端被賦予哪些 O、PDP 端只賣哪些 O</p><div class="k">原料商：訴求缺口</div></div>
+      <div class="card p"><h3>只共享 O</h3><p>同訴求、不同成分 → 誰在爭奪「helps sleep」這個位置</p><div class="k">品牌商：定位競逐</div></div>
+    </div>
+    <p class="note rv" style="--d:.3s;margin-top:14px">
+      每種 partial 是一個獨立維度的力，不混。要不要分級（先跑 full、partial 當第二階）是個工程取捨——見待拍板。
+    </p>
+  </div>
+</section>
+
+<!-- 08 接回哲學 -->
+<section class="slide" id="s8">
+  <div class="slide-inner">
+    <p class="tag rv"><span class="n">08</span><span class="bar"></span>接回 tension-value-perspective</p>
+    <h2 class="rv" style="--d:.06s">力是 truth，張力是 value；<br>看見全局的只有平台</h2>
+    <div class="grid2">
+      <div class="card rv" style="--d:.12s">
+        <h3>這套方法論做的事</h3>
+        <p>把哲學文件變成可計算的資料結構：</p>
+        <div class="k" style="line-height:2">
+          §2 事實單一價值多元 ▸ <span class="hl-s">力收斂 / 張力不收斂</span><br>
+          §3 統一 vs 忠實 ▸ <span class="hl-s">product 容器 / 成分投影</span><br>
+          §5 B 端不是一種人 ▸ <span class="hl-s">w<sub>position</sub> 五組權重</span><br>
+          §7 對位 ▸ <span class="hl-s">同一 (S,O)、多聲部的力</span>
+        </div>
+      </div>
+      <div class="card rv" style="--d:.2s;border-top:3px solid var(--sigma)">
+        <h3>棋盤：控制遊戲的人</h3>
+        <p>每個角色只看得到自己那一角的張力（自己的 w）。<b>能同時看見整張力圖的，只有平台</b>——因為只有平台存的是客觀的力，而非某個視角的張力。</p>
+        <div class="k">§4「看得見真實張力的人，控制遊戲。」</div>
+      </div>
+    </div>
+    <div class="callout rv" style="--d:.3s">
+      <p class="big">我們賣的不是資料，是棋感——把市場的力攤開給看得懂的人。</p>
+    </div>
+  </div>
+</section>
+
+<!-- 09 待拍板 -->
+<section class="slide" id="s9">
+  <div class="slide-inner">
+    <p class="tag rv"><span class="n">09</span><span class="bar"></span>待拍板 · 這幾點會定 schema</p>
+    <h2 class="rv" style="--d:.06s">下一步：schema 先行，還是資料先行？</h2>
+    <ul class="decide rv" style="--d:.12s">
+      <li><b>A · O canonical map 的建法</b>走既有 vocab workflow（cluster→propose→reconcile）套 object slot；embedding 僅 blocking。要不要為 PDP 的 benefit-language 開一個 O 專屬的 alias family？</li>
+      <li><b>B · partial 力要不要分級</b>full match 先跑，只共享 S / 只共享 O 當第二階？還是一開始就全圖（會爆量）。</li>
+      <li><b>C · predicate enum 要補 structure-function</b>PDP 主力是 s-f 措辭，現有 enum（efficacy/mechanism/composition…）還沒這個成員。補一個，還是把它併進 composition + 弱 valence？</li>
+      <li><b>D · 先驗一個假設</b>抓一小批 PDP 投影進 Σ，看 predicate 分佈——若大量落在 s-f/composition（像 LinkedIn 品牌頁 90% discourse），那力的主體是「health-efficacy ↔ PDP-composition 的系統性錯配」，跟 Fugue 的「兩種沉默」同源。</li>
+    </ul>
+    <p class="note rv" style="--d:.24s;margin-top:8px">我的建議：先做 D（一小批 PDP 實測，一天內），用真實 predicate 分佈決定 A/C 的形狀，再定 schema。</p>
+  </div>
+</section>
+
+</main>
+<footer>
+  Isomorphic Tension methodology · working draft v0.1 · 2026-07-05 ·
+  <span class="mono">π<sub>H</sub>, π<sub>B</sub> → Σ(S,P,O,valence,evidence)</span> ·
+  <span style="color:var(--health-ink)">■</span> health-claims　<span style="color:var(--pdp-ink)">■</span> PDP benefit-claims　<span style="color:var(--sigma)">■</span> Σ / 結構 ·
+  接續 general/tension-value-perspective.md
+</footer>
+</div>
+
+<script>
+(function(){
+  var reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var slides = document.querySelectorAll('.slide');
+  var railLinks = {};
+  document.querySelectorAll('.rail a').forEach(function(a){ railLinks[a.dataset.s] = a; });
+  var stage = document.getElementById('stage');
+  var io = new IntersectionObserver(function(es){
+    es.forEach(function(e){ if(e.isIntersecting) e.target.classList.add('on'); });
+  }, {root: stage, threshold: 0.25});
+  slides.forEach(function(s){ io.observe(s); });
+
+  function updateRail(){
+    var mid = innerHeight/2, cur = 's0';
+    slides.forEach(function(s){ var r=s.getBoundingClientRect(); if(r.top<=mid && r.bottom>mid) cur=s.id; });
+    Object.keys(railLinks).forEach(function(k){ railLinks[k].classList.toggle('cur', k===cur); });
+  }
+  var t; stage.addEventListener('scroll', function(){ clearTimeout(t); t=setTimeout(updateRail,80); }, {passive:true});
+  updateRail();
+
+  var order = Array.prototype.map.call(slides, function(s){ return s.id; });
+  function curIdx(){ var b=0,bd=Infinity; slides.forEach(function(s,i){ var d=Math.abs(s.getBoundingClientRect().top); if(d<bd){bd=d;b=i;} }); return b; }
+  document.addEventListener('keydown', function(ev){
+    if(ev.metaKey||ev.ctrlKey||ev.altKey) return;
+    var i=curIdx(), n=null;
+    if(ev.key==='ArrowDown'||ev.key==='ArrowRight'||ev.key==='PageDown'||ev.key===' ') n=Math.min(i+1,order.length-1);
+    else if(ev.key==='ArrowUp'||ev.key==='ArrowLeft'||ev.key==='PageUp') n=Math.max(i-1,0);
+    else return;
+    ev.preventDefault();
+    document.getElementById(order[n]).scrollIntoView({behavior: reduced?'auto':'smooth'});
+  });
+})();
+</script>
