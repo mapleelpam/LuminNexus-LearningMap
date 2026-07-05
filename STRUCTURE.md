@@ -31,6 +31,8 @@ LuminNexus-LearningMap/
 │   ├── compute-state-context.md      # Stateless 設計與 Context 本質
 │   ├── contextops-discipline.md      # ContextOps 方法論
 │   ├── emergence-data-compute.md     # 湧現、Data/Compute 差異與遞歸循環
+│   ├── tension-value-perspective.md  # 張力、事實單一價值多元
+│   ├── isomorphism-projection.md     # 同構與投影：系列數學骨架
 │   ├── knowledge-management.md       # 知識管理 (PKM & Frontmatter)
 │   ├── progressive-disclosure.md     # Progressive Disclosure 參考
 │   └── ubuntu-desktop-tips.md        # Ubuntu Desktop 技巧

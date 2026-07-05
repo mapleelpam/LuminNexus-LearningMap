@@ -4,7 +4,7 @@ type: outline
 status: active
 created: 2025-11-10
 updated: 2026-07-04
-version: "2.8"
+version: "2.9"
 project: LearningMap
 author: maple
 tags:
@@ -754,7 +754,9 @@ mindmap
 
 ### 概念基礎
 - [emergence-data-compute.md](./emergence-data-compute.md) - Emergence 湧現：Data、Compute 與遞歸循環
-- [compute-state-context.md](./compute-state-context.md) - Compute、State 與 Context：Stateless 設計（姊妹篇）
+- [compute-state-context.md](./compute-state-context.md) - Compute、State 與 Context：Stateless 設計（系列第二篇）
+- [tension-value-perspective.md](./tension-value-perspective.md) - Tension 張力：不同角度的 Value（系列第三篇）
+- [isomorphism-projection.md](./isomorphism-projection.md) - Isomorphism 與 Projection：可比較的前提（系列第四篇・骨架）
 
 ### 術語與環境
 - [ai-data-terminology.md](./ai-data-terminology.md) - Infer / Derive / Reasoning 術語辨析
@@ -776,6 +778,7 @@ mindmap
 | 2.6 | 2025-12-16 | 新增 Claude Code CLI Tips 和 Ubuntu GNOME Desktop Tips 補充文檔 | Learning Team |
 | 2.7 | 2026-07-04 | 標注章節檔案狀態（僅 02、03 有獨立檔）、修正 Day 計畫檔名引用、新增參考文件索引收編 9 份參考文件 | maple |
 | 2.8 | 2026-07-05 | 新增概念基礎系列：emergence-data-compute.md（湧現、Data/Compute 差異、遞歸循環）與 compute-state-context.md（Stateless 設計與 Context 本質），收入參考文件索引 | maple |
+| 2.9 | 2026-07-05 | 新增系列第三篇 tension-value-perspective.md（張力、事實單一價值多元、B 端多角色視角）與第四篇 isomorphism-projection.md（同構與投影：系列的數學骨架） | maple |
 
 ---
 

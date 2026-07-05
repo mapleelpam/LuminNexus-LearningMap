@@ -28,6 +28,8 @@ LuminNexus-LearningMap/
 │   ├── compute-state-context.md      # Stateless 設計與 Context 本質
 │   ├── contextops-discipline.md
 │   ├── emergence-data-compute.md     # 湧現、Data/Compute 差異與遞歸循環
+│   ├── tension-value-perspective.md  # 張力、事實單一價值多元
+│   ├── isomorphism-projection.md     # 同構與投影：系列數學骨架
 │   ├── knowledge-management.md
 │   ├── progressive-disclosure.md
 │   └── ubuntu-desktop-tips.md
