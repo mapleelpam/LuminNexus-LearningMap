@@ -4,7 +4,7 @@ type: outline
 status: active
 created: 2025-11-10
 updated: 2026-07-04
-version: "2.11"
+version: "2.12"
 project: LearningMap
 author: maple
 tags:
@@ -757,6 +757,7 @@ mindmap
 - [compute-state-context.md](./compute-state-context.md) - Compute、State 與 Context：Stateless 設計（系列第二篇）
 - [tension-value-perspective.md](./tension-value-perspective.md) - Tension 張力：不同角度的 Value（系列第三篇）
 - [isomorphism-projection.md](./isomorphism-projection.md) - Isomorphism 與 Projection：可比較的前提（系列第四篇・骨架）
+- [no-one-is-home.md](./no-one-is-home.md) - 沒有人在家：運算、基質與湧現的所在（湧現也發生在資料裡）
 - [paradigm-shift-task-to-wish.md](./paradigm-shift-task-to-wish.md) - 範式轉移：從描述任務到許願（實務層前篇）
 - [know-your-unknowns.md](./know-your-unknowns.md) - Know Your Unknowns：四象限與三階段技巧（實務層第一篇）
 
@@ -783,6 +784,7 @@ mindmap
 | 2.9 | 2026-07-05 | 新增系列第三篇 tension-value-perspective.md（張力、事實單一價值多元、B 端多角色視角）與第四篇 isomorphism-projection.md（同構與投影：系列的數學骨架） | maple |
 | 2.10 | 2026-07-06 | 新增 paradigm-shift-task-to-wish.md（範式轉移：兩次反轉、2025-02 錨點、許願四部分）；Claude Code 系列三篇加時代標注 | maple |
 | 2.11 | 2026-07-06 | 新增 know-your-unknowns.md（Thariq 四象限與三階段技巧，整合 null space / re-entry / 假湧現概念） | maple |
+| 2.12 | 2026-07-06 | 新增 no-one-is-home.md（Vehicles / 中文房間 / 螞蟻：湧現在耦合裡，也發生在累積的 ontology 裡） | maple |
 
 ---
 

@@ -200,6 +200,7 @@ graph TB
 - [compute-state-context.md](./compute-state-context.md) - 系列第二篇：Stateless 設計與 Context 的本質（單次計算的視角）
 - [tension-value-perspective.md](./tension-value-perspective.md) - 系列第三篇：張力——不同角度的 Value（視角）
 - [isomorphism-projection.md](./isomorphism-projection.md) - 系列第四篇（骨架）：§2.3 同構承載意義的展開
+- [no-one-is-home.md](./no-one-is-home.md) - 湧現也發生在資料裡：本篇「蛻殼」的另一半（耦合）
 - [ai-data-terminology.md](./ai-data-terminology.md) - Derived vs Inferred：衍生層的兩種性質
 - [03_data-engineering.md](./03_data-engineering.md) - ETL 與資料處理實務
 - [../projects/01_data-flow.md](../projects/01_data-flow.md) - LuminNexus 資料循環全貌
