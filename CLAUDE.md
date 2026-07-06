@@ -30,6 +30,8 @@ LuminNexus-LearningMap/
 │   ├── emergence-data-compute.md     # 湧現、Data/Compute 差異與遞歸循環
 │   ├── tension-value-perspective.md  # 張力、事實單一價值多元
 │   ├── isomorphism-projection.md     # 同構與投影：系列數學骨架
+│   ├── paradigm-shift-task-to-wish.md # 範式轉移：從描述任務到許願
+│   ├── know-your-unknowns.md         # 四象限與三階段技巧（實務層）
 │   ├── knowledge-management.md
 │   ├── progressive-disclosure.md
 │   └── ubuntu-desktop-tips.md

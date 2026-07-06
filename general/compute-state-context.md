@@ -3,7 +3,7 @@ title: "Compute、State 與 Context：Stateless 設計與 Context 的本質"
 type: topic
 status: active
 created: 2026-07-05
-version: "1.0"
+version: "1.1"
 project: LearningMap
 author: maple
 tags:
@@ -11,13 +11,15 @@ tags:
   - state
   - stateless
   - context
+  - reentrant
   - philosophy
 audience:
   - all
 summary: |
   從 stateful vs stateless 的設計差異出發，說明 context 的本質：
-  交給無記憶的 compute 的那一片 state。呼應 emergence-data-compute.md
-  的 data/compute 二分，並解釋 LLM 與 ContextOps 為什麼是同一件事。
+  交給無記憶的 compute 的那一片 state。展開 reentrant/re-entry 對偶
+  與四個尺度（單次 predict / agent loop / context management / pipeline），
+  呼應 emergence-data-compute.md 的 data/compute 二分。
 ---
 
 # Compute、State 與 Context：Stateless 設計與 Context 的本質
@@ -31,6 +33,7 @@ summary: |
 1. **Stateful 與 Stateless 設計**差在哪裡？為什麼現代系統偏愛 stateless？
 2. **Context 到底是什麼**？為什麼這個詞突然無所不在？
 3. 為什麼「管理 context」會變成一門學問（ContextOps）？
+4. **Re-entry** 發生在哪些尺度？單次 predict 的 context 和 agent loop 的 context 差在哪？
 
 ---
 
@@ -50,6 +53,8 @@ f(input) → output
 - **可替換**：換一台機器、換一個實作、換一代模型，只要輸入輸出介面不變，沒人察覺。
 - **可平行**：一萬個請求可以分給一萬個副本，因為副本之間不需要共享任何記憶。
 - **可測試**：給輸入、看輸出，不需要「先把系統弄到某個狀態」。
+
+這組性質在工程上有一個正式的名字：**reentrant（可重入）**——一個函數可以在執行到一半時被打斷、被再次進入而不出錯，條件正是它不持有任何共享的可變 state。這個詞根第 5 節會回來，它比表面看起來重要得多。
 
 注意這四個性質，正是 [emergence-data-compute.md](./emergence-data-compute.md) 說「compute 可以整代替換」的技術基礎。**Compute 之所以能被無情地換代，正因為它被設計成不擁有任何東西。**
 
@@ -126,7 +131,40 @@ graph LR
 
 ---
 
-## 5. 呼應 Emergence：同一個世界觀的兩個切面
+## 5. Re-entry：同一個動詞，好幾個尺度
+
+§1 埋下的那個詞根，現在可以展開了。它有兩張臉：
+
+- **Reentrant（可重入）**是 compute 的性質：*我隨時可以被再次進入，因為我什麼都不記得。*
+- **Re-entry（重新進入）**是 state 的宿命：*我必須每一輪重新進場，因為對面什麼都不記得。*
+
+同一個字根，兩個視角——合起來就是這篇文章真正想說的一句話：
+
+> **Stateless 設計不是消滅 state，而是紀律化 re-entry：**
+> 所有 state 只能從正門（context）進來，不准走後門。
+> Stateful 系統的病從來不是「有 state」，是 state 從後門滲入——
+> 藏在記憶體、session、某人腦子裡，在你看不見的地方重新進入計算。
+
+用這個透鏡回看前面的一切：REST 要求每個請求自帶完整狀態，是**強制走正門**；reentrant code 之所以安全，是**保證沒有後門**；「把決定寫下來」，是把人腦裡的 state 搬到正門口排隊。
+
+### 新人最常搞混的：re-entry 發生在哪個尺度
+
+「context」這個詞在四個尺度上各有意思。混在一起用，想像就會出錯：
+
+| 尺度 | 「一次」是什麼 | context 是什麼 | re-entry 誰負責 | 常見誤解 |
+|---|---|---|---|---|
+| **單次 predict** | 一次模型呼叫（純函數） | 這一次餵入的全部 | 沒有 re-entry——進去一次就結束 | 以為模型「記得」上一次呼叫 |
+| **Agent loop** | 多次 predict 串成的迴圈 | 每輪重新組裝：指令＋歷史＋工具結果 | harness 每一輪做 | 以為 agent 是一個持續活著的心智 |
+| **Context management** | 跨輪、跨 session 的治理 | 有限的門寬 vs 無限的 state | 你——設計 memory、compaction、CLAUDE.md | 以為這是模型的事；其實是呼叫者的工程 |
+| **系統 pipeline** | 一整代處理循環 | 從 Vault 切出的資料集 | pipeline 的回存與排程 | 以為算出來的結果「系統就知道了」——不回存，下一輪它不存在 |
+
+第二列值得對新人多說一句：**agent 不是一個持續思考的心智**。它是一串離散的、各自完整的 predict，被 harness 的 re-entry 一針一針縫起來的。兩次呼叫之間，agent 沒有在「想」——**兩次呼叫之間，它不存在**。你感覺到的連續性，全部是 re-entry 工程的品質。
+
+尺度分清楚之後，前面的現象各就各位：compaction 是第三尺度在第二尺度門口做的分流；CLAUDE.md 是讓重要 state 每一輪都拿到 re-entry 的門票；[emergence 篇](./emergence-data-compute.md)的 Strange Loop 則是第四尺度的 re-entry。**同一個動詞，從毫秒級跑到月級。**
+
+---
+
+## 6. 呼應 Emergence：同一個世界觀的兩個切面
 
 把兩篇放在一起看：
 
@@ -147,7 +185,7 @@ graph TB
     O[輸出]
 
     V --> A --> C --> O
-    O -->|回存（帶 lineage 與版本）| V
+    O -->|回存 = 宏觀的 re-entry<br/>（帶 lineage 與版本）| V
 
     style V fill:#e8f5e9
     style A fill:#fff3e0
@@ -160,12 +198,13 @@ LuminNexus 的 pipeline 正是這樣設計的：**state 全部住在 Vault**（S
 
 ---
 
-## 6. 對新人的實務守則
+## 7. 對新人的實務守則
 
 1. **State 永遠放在 compute 外面**：寫進檔案、資料庫、Vault——不要留在記憶體裡、對話裡、或某個人的腦子裡。
 2. **把 compute 設計成可以隨時被砍掉**：如果砍掉一個程序會遺失資訊，代表有 state 藏錯了地方。
 3. **和 LLM 工作時，你是 context 的組裝者**：它每一輪都是第一次醒來。重要的決定與結論，隨手外部化（寫進文件），不要指望「對話」替你記得。
 4. **Context 是預算，不是倉庫**：塞得越多不等於答得越好——選對片段比塞滿更重要。這條對 LLM 成立，對你自己的注意力也成立。
+5. **設計 re-entry 的門，而不是消滅 state**：問題從來不是 state 太多，是它從哪裡進來。把正門做明確（context、schema、回存介面），把後門封死。遇到「context」相關的討論，先問一句：我們在講哪個尺度的 re-entry？
 
 ---
 
@@ -192,6 +231,7 @@ LuminNexus 的 pipeline 正是這樣設計的：**state 全部住在 Vault**（S
 | 版本 | 日期 | 作者 | 變更說明 |
 |------|------|------|----------|
 | 1.0 | 2026-07-05 | maple | 初版建立 |
+| 1.1 | 2026-07-06 | maple | 新增 §5 Re-entry：reentrant/re-entry 對偶、正門/後門、四尺度表（單次 predict / agent loop / context management / 系統 pipeline）；§1 補 reentrant 學名；守則加第 5 條 |
 
 ---
 

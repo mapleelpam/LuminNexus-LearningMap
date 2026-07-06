@@ -17,6 +17,8 @@ summary: |
 
 # Claude Code CLI 進階討論：補充篇
 
+> 📌 **時代標注**：本文寫於 2025-12（許願範式早期）。判讀基準同主文件——見[範式轉移：從描述任務到許願](./paradigm-shift-task-to-wish.md)。
+
 > **文件版本**: v1.0
 > **建立日期**: 2025-12-31
 > **前置文件**: [claude-code-cli-discussion.md](./claude-code-cli-discussion.md)
