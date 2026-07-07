@@ -40,6 +40,9 @@ LuminNexus-LearningMap/
 │   ├── testing/             # Testing & Business Analysis role
 │   │   ├── 00_outline.md    # Testing learning outline
 │   │   └── 01-06_*.md       # 六個主題檔（產品理解～測試結果分析）
+│   ├── ui-ux/               # UI/UX 評估素養（跨角色、跨產品通用）
+│   │   ├── 00_outline.md    # UI/UX learning outline
+│   │   └── 01-06_*.md       # 六個主題檔（共同語言～報告協作），理論接 HCI 文獻
 │   ├── crawler-engineer.md  # Crawler Engineer role（導覽既有教材）
 │   └── project-manager.md   # Project Manager role
 ├── tools/                   # Tool documentation
@@ -82,7 +85,7 @@ LuminNexus-LearningMap/
 **Current State vs. Planned State**:
 - STRUCTURE.md describes the **target architecture**
 - **general/** has outline, topic files, and reference docs (unix-linux, data-engineering, Claude Code 系列, ContextOps, terminology 等)
-- **roles/** has outline files and role guides (testing, crawler-engineer, project-manager)
+- **roles/** has outline files and role guides (testing, ui-ux, crawler-engineer, project-manager)
 - **tools/** has: speckit.md, ai-tools.md, external-services.md, google-product-category-intro.md
 - **data-sources/** has: data-sources-guide.md and subdirectories (dsld, keepa, shopify)
 - **projects/** has per-system docs (alchemymind, atlasvault, prismavision, stillflow)
@@ -329,6 +332,7 @@ Team roles being trained:
 1. **Test & Business Analysis** - Testing, BA, data validation
 2. **Crawler Engineer** - Web scraping, data collection (planned)
 3. **Project Manager** - Project planning, agile development, risk management
+4. **UI/UX 評估素養** - Evaluation methodology, walkthrough principles, finding quality (cross-role, cross-product)
 
 ## Common Pitfalls to Avoid
 

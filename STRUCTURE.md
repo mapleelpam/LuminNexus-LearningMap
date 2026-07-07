@@ -44,6 +44,9 @@ LuminNexus-LearningMap/
 │   ├── testing/                      # Testing & Business Analysis
 │   │   ├── 00_outline.md             # Testing 學習大綱
 │   │   └── 01-06_*.md                # 六個主題檔（產品理解～測試結果分析）
+│   ├── ui-ux/                        # UI/UX 評估素養（跨角色、跨產品通用）
+│   │   ├── 00_outline.md             # UI/UX 學習大綱
+│   │   └── 01-06_*.md                # 六個主題檔（共同語言～報告協作）
 │   ├── crawler-engineer.md           # Crawler Engineer 角色（導覽既有教材）
 │   └── project-manager.md            # Project Manager 角色
 │
@@ -159,6 +162,7 @@ tags:
 1. **Test & Business Analysis** ([testing/00_outline.md](roles/testing/00_outline.md)) - 測試設計、業務分析、資料驗證；非技術背景友善
 2. **Project Manager** ([project-manager.md](roles/project-manager.md)) - 專案規劃、敏捷開發、風險管理
 3. **Crawler Engineer** ([crawler-engineer.md](roles/crawler-engineer.md)) - 資料蒐集、爬蟲開發；導覽 data-sources/ 與 atlasvault/ 既有教材
+4. **UI/UX 評估素養** ([ui-ux/00_outline.md](roles/ui-ux/00_outline.md)) - 評估方法設計、走查原理、發現品質、機械檢查；跨角色、跨產品通用，理論接 HCI 文獻
 
 **學習建議**: 先完成 general/ 基礎，再進入角色路徑。
 
