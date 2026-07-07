@@ -760,6 +760,7 @@ mindmap
 - [no-one-is-home.md](./no-one-is-home.md) - 沒有人在家：運算、基質與湧現的所在（湧現也發生在資料裡）
 - [paradigm-shift-task-to-wish.md](./paradigm-shift-task-to-wish.md) - 範式轉移：從描述任務到許願（實務層前篇）
 - [know-your-unknowns.md](./know-your-unknowns.md) - Know Your Unknowns：四象限與三階段技巧（實務層第一篇）
+- [atomization-context-isolation.md](./atomization-context-isolation.md) - 原子化＝Context 隔離：什麼時候切、什麼時候絕不能切（沙漏、L1–L4 複用、TheJournalism v4 案例）
 
 ### 術語與環境
 - [ai-data-terminology.md](./ai-data-terminology.md) - Infer / Derive / Reasoning 術語辨析
@@ -785,6 +786,7 @@ mindmap
 | 2.10 | 2026-07-06 | 新增 paradigm-shift-task-to-wish.md（範式轉移：兩次反轉、2025-02 錨點、許願四部分）；Claude Code 系列三篇加時代標注 | maple |
 | 2.11 | 2026-07-06 | 新增 know-your-unknowns.md（Thariq 四象限與三階段技巧，整合 null space / re-entry / 假湧現概念） | maple |
 | 2.12 | 2026-07-06 | 新增 no-one-is-home.md（Vehicles / 中文房間 / 螞蟻：湧現在耦合裡，也發生在累積的 ontology 裡） | maple |
+| 2.13 | 2026-07-07 | 新增 atomization-context-isolation.md（原子化判準、Truth/Worth 兩軸、承諾物、四層推理鏈複用；TheJournalism v4 四切口案例） | leana |
 
 ---
 
