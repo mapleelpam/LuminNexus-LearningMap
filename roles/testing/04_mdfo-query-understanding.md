@@ -3,7 +3,7 @@ title: "MDFO 查詢理解"
 type: topic
 status: active
 created: 2026-07-05
-version: "1.0"
+version: "1.1"
 project: LearningMap
 author: maple
 tags:
@@ -108,6 +108,8 @@ Measure 決定這次查詢「算出的是什麼數字」。沒有它，就只是
 ```json
 { "measure": "product_count" }   // 這次要算「產品數量」
 ```
+
+> ⚠️ 本章範例裡 `//` 之後的文字是幫助你閱讀的說明。**實際的 JSON 不允許註解**——複製使用時請把 `//` 與其後的文字刪掉，否則會收到 400 錯誤。
 
 #### D — Dimensions（按什麼分組）
 
@@ -262,3 +264,4 @@ graph LR
 | 版本 | 日期 | 作者 | 說明 |
 |------|------|------|------|
 | 1.0 | 2026-07-05 | maple | 初版建立 |
+| 1.1 | 2026-07-07 | maple | 補 JSON 範例註解提醒（實際 JSON 不允許 `//` 註解） |
