@@ -6,7 +6,7 @@ created: 2026-07-07
 version: "1.1"
 updated: 2026-07-07
 project: LearningMap
-author: maple
+author: leana
 tags:
   - ui-ux
   - evaluation

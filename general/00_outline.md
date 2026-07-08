@@ -3,8 +3,8 @@ title: "General Learning Map - 通用核心能力大綱"
 type: outline
 status: active
 created: 2025-11-10
-updated: 2026-07-04
-version: "2.12"
+updated: 2026-07-07
+version: "2.13"
 project: LearningMap
 author: maple
 tags:

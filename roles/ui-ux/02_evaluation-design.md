@@ -5,7 +5,7 @@ status: active
 created: 2026-07-07
 version: "1.1"
 project: LearningMap
-author: maple
+author: leana
 tags:
   - ui-ux
   - evaluation

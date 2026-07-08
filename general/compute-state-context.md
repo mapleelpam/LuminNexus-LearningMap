@@ -218,6 +218,7 @@ LuminNexus 的 pipeline 正是這樣設計的：**state 全部住在 Vault**（S
 - [emergence-data-compute.md](./emergence-data-compute.md) - 系列第一篇：Data 與 Compute 的時間軸視角
 - [tension-value-perspective.md](./tension-value-perspective.md) - 系列第三篇：張力——不同角度的 Value（視角）
 - [isomorphism-projection.md](./isomorphism-projection.md) - 系列第四篇（骨架）：context 的選擇也是一次投影
+- [atomization-context-isolation.md](./atomization-context-isolation.md) - 續篇：切開工作＝切開單元之間的 context，什麼時候該切、什麼時候絕不能切
 - [contextops-discipline.md](./contextops-discipline.md) - ContextOps：把 context 當 pipeline 管理
 - [claude-code-tips.md](./claude-code-tips.md) - Memory、compaction 的實際操作
 - [ai-data-terminology.md](./ai-data-terminology.md) - Derived / Inferred：回存 state 時的兩種產物
