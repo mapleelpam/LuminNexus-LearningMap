@@ -35,7 +35,9 @@ LuminNexus-LearningMap/
 │   ├── isomorphism-projection.md     # 同構與投影：系列數學骨架
 │   ├── no-one-is-home.md             # 運算、基質與湧現的所在（耦合）
 │   ├── paradigm-shift-task-to-wish.md # 範式轉移：從描述任務到許願
+│   ├── clarification-wish-and-plan.md # 許願與計畫一體兩面（實務層鉸鏈）
 │   ├── know-your-unknowns.md         # 四象限與三階段技巧（實務層）
+│   ├── agent-work-forms.md           # Pairing/委派/自主 Loop（實務層收頂）
 │   ├── knowledge-management.md       # 知識管理 (PKM & Frontmatter)
 │   ├── progressive-disclosure.md     # Progressive Disclosure 參考
 │   └── ubuntu-desktop-tips.md        # Ubuntu Desktop 技巧

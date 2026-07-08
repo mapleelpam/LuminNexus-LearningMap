@@ -131,9 +131,11 @@ Thariq 的核心原則：**過度具體與過度模糊都是病**。
 ## 相關文檔
 
 - [paradigm-shift-task-to-wish.md](./paradigm-shift-task-to-wish.md) - 前篇：範式轉移——本篇是它 §4「許願 ≠ 免驗收」的展開
+- [clarification-wish-and-plan.md](./clarification-wish-and-plan.md) - 姊妹篇：把反向訪談/盲點掃描升級成「澄清」階段的框架；本篇是它的工具箱
 - [emergence-data-compute.md](./emergence-data-compute.md) - 假湧現三問：quiz 的概念根源
 - [compute-state-context.md](./compute-state-context.md) - re-entry：unknown knowns 為什麼陰險
 - [isomorphism-projection.md](./isomorphism-projection.md) - null space：為什麼靠自己反省找不到盲區
+- [agent-work-forms.md](./agent-work-forms.md) - 續篇：把單次委派規模化成 loop 時的形態選擇
 
 ---
 

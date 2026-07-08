@@ -3,8 +3,8 @@ title: "General Learning Map - 通用核心能力大綱"
 type: outline
 status: active
 created: 2025-11-10
-updated: 2026-07-07
-version: "2.13"
+updated: 2026-07-08
+version: "2.15"
 project: LearningMap
 author: maple
 tags:
@@ -759,7 +759,9 @@ mindmap
 - [isomorphism-projection.md](./isomorphism-projection.md) - Isomorphism 與 Projection：可比較的前提（系列第四篇・骨架）
 - [no-one-is-home.md](./no-one-is-home.md) - 沒有人在家：運算、基質與湧現的所在（湧現也發生在資料裡）
 - [paradigm-shift-task-to-wish.md](./paradigm-shift-task-to-wish.md) - 範式轉移：從描述任務到許願（實務層前篇）
-- [know-your-unknowns.md](./know-your-unknowns.md) - Know Your Unknowns：四象限與三階段技巧（實務層第一篇）
+- [clarification-wish-and-plan.md](./clarification-wish-and-plan.md) - 澄清：許願與計畫的一體兩面（實務層鉸鏈）
+- [know-your-unknowns.md](./know-your-unknowns.md) - Know Your Unknowns：四象限與三階段技巧（實務層工具箱）
+- [agent-work-forms.md](./agent-work-forms.md) - 與 Agent 協作的形態：Pairing / 委派 / 自主 Loop（實務層收頂）
 - [atomization-context-isolation.md](./atomization-context-isolation.md) - 原子化＝Context 隔離：什麼時候切、什麼時候絕不能切（沙漏、L1–L4 複用、TheJournalism v4 案例）
 
 ### 術語與環境
@@ -787,6 +789,8 @@ mindmap
 | 2.11 | 2026-07-06 | 新增 know-your-unknowns.md（Thariq 四象限與三階段技巧，整合 null space / re-entry / 假湧現概念） | maple |
 | 2.12 | 2026-07-06 | 新增 no-one-is-home.md（Vehicles / 中文房間 / 螞蟻：湧現在耦合裡，也發生在累積的 ontology 裡） | maple |
 | 2.13 | 2026-07-07 | 新增 atomization-context-isolation.md（原子化判準、Truth/Worth 兩軸、承諾物、四層推理鏈複用；TheJournalism v4 四切口案例） | leana |
+| 2.14 | 2026-07-08 | 新增 agent-work-forms.md（實務層收頂：Pairing/委派/自主 Loop、停止條件品質、blast radius 與正門紀律） | maple |
+| 2.15 | 2026-07-08 | 新增 clarification-wish-and-plan.md（實務層鉸鏈：許願與計畫一體兩面、計畫換了作者、澄清 loop 的停止點）；agent-work-forms 加「回望」coda 點破實務層四相位同構 | maple |
 
 ---
 
