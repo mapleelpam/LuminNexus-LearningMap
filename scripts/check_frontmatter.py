@@ -21,7 +21,14 @@ import re
 import sys
 from pathlib import Path
 
-import yaml
+try:
+    import yaml
+except ImportError:
+    # hook 模式：環境缺 pyyaml 時靜默放行，不要用 traceback 噪音干擾編輯流程
+    if "--hook" in sys.argv:
+        sys.exit(0)
+    print("需要 pyyaml：uv pip install pyyaml", file=sys.stderr)
+    sys.exit(1)
 
 ROOT = Path(__file__).resolve().parent.parent
 SCAN_DIRS = ["general", "roles", "tools", "data-sources", "projects"]
