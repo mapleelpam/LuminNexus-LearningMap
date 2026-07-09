@@ -3,6 +3,7 @@ title: "原子化＝畫 Compute 邊界：什麼時候切、什麼時候絕不能
 type: topic
 status: active
 created: 2026-07-07
+updated: 2026-07-08
 version: "1.4"
 project: LearningMap
 author: leana

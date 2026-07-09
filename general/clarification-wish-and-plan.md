@@ -3,6 +3,7 @@ title: "澄清：許願與計畫的一體兩面"
 type: topic
 status: active
 created: 2026-07-08
+updated: 2026-07-08
 version: "1.0"
 project: LearningMap
 author: maple

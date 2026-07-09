@@ -3,6 +3,7 @@ title: "AI 與資料術語：Infer / Derive / Reasoning"
 type: reference
 status: active
 created: 2026-07-04
+updated: 2026-07-04
 version: "1.0"
 project: LearningMap
 author: maple
@@ -14,6 +15,8 @@ tags:
 summary: |
   解釋 infer / derive / reasoning 三組英文術語的差異，
   以及在 AI、資料工程、type system 中的實際用法。
+audience:
+  - all
 ---
 
 # AI 與資料術語：Infer / Derive / Reasoning

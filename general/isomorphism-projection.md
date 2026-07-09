@@ -3,6 +3,7 @@ title: "Isomorphism 與 Projection：可比較的前提，與視角的代價"
 type: topic
 status: active
 created: 2026-07-05
+updated: 2026-07-05
 version: "1.0"
 project: LearningMap
 author: maple

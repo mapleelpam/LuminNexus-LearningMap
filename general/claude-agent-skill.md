@@ -3,6 +3,9 @@ title: "Claude Code Agent 能力擴展：Skill 與 Sub-agent"
 type: reference
 status: active
 created: 2025-12-23
+updated: 2025-12-23
+version: "1.0"
+project: LearningMap
 author: maple
 tags:
   - claude-code

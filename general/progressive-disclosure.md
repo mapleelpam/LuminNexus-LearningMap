@@ -3,6 +3,9 @@ title: "Progressive Disclosure：Agent Context 載入策略"
 type: reference
 status: active
 created: 2025-12-23
+updated: 2025-12-23
+version: "1.0"
+project: LearningMap
 author: maple
 tags:
   - progressive-disclosure

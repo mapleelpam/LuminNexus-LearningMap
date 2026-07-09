@@ -3,6 +3,7 @@ title: "發現的品質 - 看起來像洞察，不代表是真的"
 type: topic
 status: active
 created: 2026-07-07
+updated: 2026-07-07
 version: "1.0"
 project: LearningMap
 author: leana

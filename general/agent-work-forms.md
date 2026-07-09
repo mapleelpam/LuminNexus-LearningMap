@@ -3,6 +3,7 @@ title: "與 Agent 協作的形態：Pairing、委派、自主 Loop"
 type: topic
 status: active
 created: 2026-07-08
+updated: 2026-07-08
 version: "1.0"
 project: LearningMap
 author: maple

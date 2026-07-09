@@ -3,6 +3,8 @@ title: "資料工程基礎 (Data Engineering Fundamentals)"
 type: topic
 status: active
 created: 2025-11-11
+updated: 2025-11-11
+version: "1.0"
 project: LearningMap
 author: maple
 tags:

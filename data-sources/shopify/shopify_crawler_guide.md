@@ -3,6 +3,7 @@ title: "Shopify 爬蟲技術指南"
 type: guide
 status: active
 created: 2025-12-08
+updated: 2025-12-08
 version: "1.0"
 project: LearningMap
 author: leana

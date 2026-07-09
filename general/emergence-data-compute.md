@@ -3,6 +3,7 @@ title: "Emergence 湧現：Data、Compute 與遞歸循環"
 type: topic
 status: active
 created: 2026-07-04
+updated: 2026-07-04
 version: "1.0"
 project: LearningMap
 author: maple

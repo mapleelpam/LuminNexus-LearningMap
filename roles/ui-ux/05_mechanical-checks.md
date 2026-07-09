@@ -3,6 +3,7 @@ title: "機械檢查的設計 - 把「感覺亂」變成可勾清單"
 type: topic
 status: active
 created: 2026-07-07
+updated: 2026-07-07
 version: "1.1"
 project: LearningMap
 author: leana

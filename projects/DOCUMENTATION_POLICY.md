@@ -3,6 +3,7 @@ title: "LuminNexus 專案文檔撰寫規範"
 type: policy
 status: active
 created: 2025-12-09
+updated: 2025-12-15
 version: "1.0"
 project: LearningMap
 author: maple

@@ -3,6 +3,7 @@ title: "Google Product Category 介紹"
 type: reference
 status: active
 created: 2025-12-24
+updated: 2025-12-24
 version: "1.0"
 project: LearningMap
 author: maple
@@ -13,6 +14,8 @@ tags:
 summary: |
   Google 官方商品分類標準（Google Product Taxonomy）介紹，
   用於 Google Shopping 和 Merchant Center。
+audience:
+  - all
 ---
 
 # Google Product Category

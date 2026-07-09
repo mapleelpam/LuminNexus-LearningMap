@@ -3,6 +3,7 @@ title: "Project Manager Learning Path - 專案管理學習路徑"
 type: guide
 status: active
 created: 2025-11-10
+updated: 2025-11-10
 version: "1.0"
 project: LearningMap
 author: maple

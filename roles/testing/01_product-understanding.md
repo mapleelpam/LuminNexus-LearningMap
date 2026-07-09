@@ -3,6 +3,7 @@ title: "產品理解 - Smart Insight Engine"
 type: topic
 status: active
 created: 2026-07-05
+updated: 2026-07-05
 version: "1.0"
 project: LearningMap
 author: maple

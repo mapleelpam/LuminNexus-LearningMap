@@ -3,6 +3,7 @@ title: "Tension 張力：同一個系統，不同角度的 Value"
 type: topic
 status: active
 created: 2026-07-05
+updated: 2026-07-05
 version: "1.0"
 project: LearningMap
 author: maple

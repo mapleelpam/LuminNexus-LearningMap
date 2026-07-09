@@ -3,6 +3,7 @@ title: "Amazon & Keepa 基礎概念完全指南"
 type: guide
 status: active
 created: 2025-12-08
+updated: 2025-12-08
 version: "1.2"
 project: LearningMap
 author: leana

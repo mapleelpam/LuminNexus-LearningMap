@@ -3,6 +3,7 @@ title: "走查的設計原理 - 為什麼評估者不能假裝第一次"
 type: topic
 status: active
 created: 2026-07-07
+updated: 2026-07-07
 version: "1.1"
 project: LearningMap
 author: leana

@@ -3,6 +3,7 @@ title: "LuminNexus 資料流與系統串連"
 type: guide
 status: active
 created: 2025-12-09
+updated: 2025-12-09
 version: "1.0"
 project: LearningMap
 author: maple

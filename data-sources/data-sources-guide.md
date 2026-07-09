@@ -3,6 +3,8 @@ title: "資料來源與關聯欄位指南"
 type: guide
 status: active
 created: 2025-12-16
+updated: 2025-12-16
+version: "1.0"
 project: LearningMap
 author: yijou14
 tags:

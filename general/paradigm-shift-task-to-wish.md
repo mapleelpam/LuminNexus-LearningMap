@@ -3,6 +3,7 @@ title: "範式轉移：從描述任務到許願"
 type: topic
 status: active
 created: 2026-07-06
+updated: 2026-07-06
 version: "1.0"
 project: LearningMap
 author: maple

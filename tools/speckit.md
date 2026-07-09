@@ -3,6 +3,7 @@ title: "Speckit - 規格驅動開發工具"
 type: guide
 status: active
 created: 2025-11-10
+updated: 2025-11-10
 version: "1.0"
 project: LearningMap
 author: maple

@@ -3,6 +3,7 @@ title: "Factum - Supplement Facts 圖片解析"
 type: reference
 status: active
 created: 2026-01-19
+updated: 2026-01-19
 version: "1.0"
 project: LearningMap
 author: maple

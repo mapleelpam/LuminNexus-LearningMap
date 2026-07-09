@@ -3,6 +3,7 @@ title: "DSLD Crawler - DSLD 資料爬蟲"
 type: spec
 status: active
 created: 2025-12-09
+updated: 2025-12-09
 version: "1.0"
 project: LearningMap
 author: maple

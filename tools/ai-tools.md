@@ -3,6 +3,8 @@ title: "AI 工具參考"
 type: reference
 status: active
 created: 2025-12-16
+updated: 2025-12-16
+version: "1.0"
 project: LearningMap
 author: yijou14
 tags:

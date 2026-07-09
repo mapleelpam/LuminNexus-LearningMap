@@ -3,12 +3,20 @@ title: "Knowledge Management: PKM 與 Frontmatter"
 type: guide
 status: active
 created: 2025-12-18
+updated: 2025-12-18
+version: "1.0"
+project: LearningMap
 author: maple
 tags:
   - pkm
   - frontmatter
   - contextops
   - stillflow
+audience:
+  - all
+summary: |
+  ContextOps 的延伸閱讀，介紹 PKM（個人知識管理）的捕捉—組織—連結—創造循環，
+  以及 Frontmatter 作為文檔治理 metadata 的欄位設計與 Stillflow 中的角色。
 ---
 
 # Knowledge Management: PKM 與 Frontmatter

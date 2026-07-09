@@ -3,6 +3,7 @@ title: "TheForge - ETL 層架構"
 type: spec
 status: active
 created: 2025-12-09
+updated: 2025-12-09
 version: "2.0.1"
 project: LearningMap
 author: maple

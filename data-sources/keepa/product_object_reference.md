@@ -3,6 +3,7 @@ title: "Keepa Product Object 實戰備忘錄"
 type: reference
 status: active
 created: 2025-12-08
+updated: 2025-12-11
 version: "3.0"
 project: LearningMap
 author: leana

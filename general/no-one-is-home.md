@@ -1,8 +1,9 @@
 ---
-title: "沒有人在家：運算、基質,與湧現真正的所在"
+title: "沒有人在家：運算、基質，與湧現真正的所在"
 type: topic
 status: active
 created: 2026-07-06
+updated: 2026-07-06
 version: "1.0"
 project: LearningMap
 author: maple
@@ -20,7 +21,7 @@ summary: |
   ontology 的理由:湧現不只發生在模型裡,也發生在資料裡。
 ---
 
-# 沒有人在家:運算、基質,與湧現真正的所在
+# 沒有人在家：運算、基質，與湧現真正的所在
 
 ---
 
