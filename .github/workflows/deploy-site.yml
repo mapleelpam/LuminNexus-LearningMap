@@ -28,6 +28,8 @@ jobs:
       # 或取消下一行註解直接寫入 CNAME
       # - run: echo "learningmap.prisma.vision" > site/dist/CNAME
       - uses: actions/configure-pages@v5
+        with:
+          enablement: true
       - uses: actions/upload-pages-artifact@v3
         with:
           path: site/dist
