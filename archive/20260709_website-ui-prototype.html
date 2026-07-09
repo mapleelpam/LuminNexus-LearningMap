@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LearningMap UI Prototype</title>
+<style>
+  :root {
+    --accent: #3455a4;
+    --accent-soft: #eaeef8;
+    --bg: #faf9f6;
+    --card: #ffffff;
+    --ink: #2b2926;
+    --ink-2: #6f6a61;
+    --line: #e9e4da;
+    --prism: linear-gradient(90deg,#e8654f,#e8a13d,#3d9970,#3878c7,#7a5fc7);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif; background:#eceae5; color:var(--ink); line-height:1.75; }
+  a { color:var(--accent); text-decoration:none; }
+
+  /* ===== prototype 控制列（不屬於網站本體）===== */
+  .proto-bar { position:sticky; top:0; z-index:99; background:#2b2926; color:#fff; padding:.55rem 1.2rem; display:flex; align-items:center; gap:1rem; flex-wrap:wrap; font-size:.85rem; }
+  .proto-bar b { color:#f5c88a; }
+  .proto-tabs { display:flex; gap:.4rem; }
+  .proto-tabs button { background:#454138; color:#ddd; border:0; padding:.32rem .85rem; border-radius:99px; cursor:pointer; font-size:.83rem; }
+  .proto-tabs button.on { background:#f5c88a; color:#2b2926; font-weight:700; }
+  .proto-accents { display:flex; gap:.45rem; align-items:center; margin-left:auto; }
+  .proto-accents span { font-size:.78rem; color:#aaa; }
+  .swatch { width:22px; height:22px; border-radius:50%; border:2px solid transparent; cursor:pointer; }
+  .swatch.on { border-color:#fff; }
+
+  .screen { display:none; min-height:100vh; background:var(--bg); }
+  .screen.on { display:block; }
+
+  /* ===== 網站頂欄 ===== */
+  .site-head { background:var(--card); border-bottom:1px solid var(--line); padding:.7rem 2rem; display:flex; align-items:center; gap:1.4rem; position:sticky; top:44px; z-index:50; }
+  .logo { font-weight:800; font-size:1.05rem; cursor:pointer; white-space:nowrap; }
+  .logo i { font-style:normal; background:var(--prism); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  .search { flex:1; max-width:420px; background:var(--bg); border:1px solid var(--line); border-radius:8px; padding:.42rem .9rem; color:var(--ink-2); font-size:.87rem; }
+  .head-links { margin-left:auto; display:flex; gap:1.2rem; font-size:.88rem; }
+  .head-links span { cursor:pointer; color:var(--ink-2); }
+
+  /* ===== 首頁 ===== */
+  .hero { max-width:1060px; margin:0 auto; padding:3.6rem 2rem 2.4rem; text-align:center; }
+  .hero h1 { font-size:2rem; letter-spacing:.02em; }
+  .hero .underline { display:block; width:150px; height:5px; border-radius:99px; background:var(--prism); margin:.9rem auto 1.1rem; }
+  .hero p { color:var(--ink-2); max-width:560px; margin:0 auto; }
+  .home-sec { max-width:1060px; margin:0 auto; padding:0 2rem 2.5rem; }
+  .sec-title { font-size:1.12rem; font-weight:700; margin-bottom:1rem; display:flex; align-items:center; gap:.6rem; }
+  .sec-title small { font-weight:400; color:var(--ink-2); font-size:.84rem; }
+  .roles { display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:1.1rem; }
+  .role { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:1.35rem 1.3rem 1.15rem; cursor:pointer; transition:.18s; position:relative; overflow:hidden; }
+  .role::before { content:""; position:absolute; top:0; left:0; right:0; height:4px; background:var(--prism); opacity:0; transition:.18s; }
+  .role:hover { transform:translateY(-3px); box-shadow:0 8px 22px rgba(60,50,30,.1); }
+  .role:hover::before { opacity:1; }
+  .role .ic { font-size:1.7rem; }
+  .role h3 { font-size:1.03rem; margin:.5rem 0 .15rem; }
+  .role .en { font-size:.74rem; color:var(--ink-2); letter-spacing:.05em; text-transform:uppercase; }
+  .role p { font-size:.85rem; color:var(--ink-2); margin:.55rem 0 .8rem; min-height:3.2em; }
+  .role .meta { display:flex; gap:.5rem; font-size:.75rem; }
+  .role .meta em { font-style:normal; background:var(--accent-soft); color:var(--accent); border-radius:99px; padding:.1rem .6rem; }
+  .general-band { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:1.3rem 1.5rem; }
+  .general-band .row { display:flex; align-items:baseline; gap:.8rem; flex-wrap:wrap; margin-bottom:.6rem; }
+  .general-band h3 { font-size:1rem; }
+  .chips { display:flex; flex-wrap:wrap; gap:.45rem; }
+  .chip { font-size:.8rem; background:var(--bg); border:1px solid var(--line); border-radius:99px; padding:.18rem .75rem; color:var(--ink-2); cursor:pointer; }
+  .chip:hover { border-color:var(--accent); color:var(--accent); }
+  .chip.tag { border-style:dashed; }
+
+  /* general 呈現方案切換 */
+  .var-toggle { margin-left:auto; display:flex; gap:0; border:1px solid var(--line); border-radius:8px; overflow:hidden; }
+  .var-toggle button { border:0; background:var(--card); color:var(--ink-2); font-size:.76rem; padding:.25rem .7rem; cursor:pointer; }
+  .var-toggle button.on { background:var(--accent); color:#fff; }
+  .gvar { display:none; }
+  .gvar.on { display:block; }
+  /* A 分軌清單 */
+  .tracks { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:1.2rem; margin-top:.4rem; }
+  .track h4 { font-size:.85rem; margin-bottom:.35rem; padding-bottom:.3rem; border-bottom:2px solid var(--accent-soft); }
+  .track a { display:block; font-size:.84rem; color:var(--ink-2); padding:.17rem 0; cursor:pointer; }
+  .track a:hover { color:var(--accent); }
+  /* B 分軌卡片 */
+  .gcards { display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:1rem; }
+  .gcard { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:1rem 1.1rem; cursor:pointer; transition:.15s; }
+  .gcard:hover { border-color:var(--accent); box-shadow:0 4px 14px rgba(60,50,30,.08); }
+  .gcard .ic { font-size:1.4rem; }
+  .gcard h4 { font-size:.95rem; margin:.3rem 0 .2rem; }
+  .gcard p { font-size:.8rem; color:var(--ink-2); min-height:3em; }
+  .gcard em { font-style:normal; font-size:.74rem; background:var(--accent-soft); color:var(--accent); border-radius:99px; padding:.08rem .55rem; }
+  /* C 階段地圖 */
+  .stages { display:flex; align-items:stretch; gap:.5rem; flex-wrap:wrap; margin-top:.5rem; }
+  .stage { flex:1; min-width:150px; background:var(--bg); border:1px solid var(--line); border-radius:10px; padding:.7rem .9rem; }
+  .stage b { display:block; font-size:.85rem; margin-bottom:.35rem; }
+  .stage span { display:block; font-size:.8rem; color:var(--ink-2); padding:.12rem 0; cursor:pointer; }
+  .stage span:hover { color:var(--accent); }
+  .sarrow { align-self:center; color:var(--accent); font-weight:700; }
+  /* 參考資料庫 */
+  .reflib { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:1rem; }
+  .ref { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:1rem 1.2rem; font-size:.84rem; }
+  .ref .rhead { display:flex; align-items:center; gap:.5rem; padding-bottom:.5rem; margin-bottom:.4rem; border-bottom:1px solid var(--line); }
+  .ref .rhead b { font-size:.95rem; }
+  .ref .rhead em { font-style:normal; margin-left:auto; font-size:.72rem; background:var(--bg); border:1px solid var(--line); border-radius:99px; padding:.05rem .55rem; color:var(--ink-2); }
+  .ref .ric { font-size:1.1rem; }
+  .ref a { display:block; color:var(--ink-2); padding:.16rem 0; cursor:pointer; }
+  .ref a:hover { color:var(--accent); }
+  .ref .rgrp { font-size:.72rem; font-weight:700; color:var(--accent); margin-top:.45rem; letter-spacing:.05em; }
+
+  /* ===== 路徑頁 ===== */
+  .path-wrap { max-width:880px; margin:0 auto; padding:2.2rem 2rem 4rem; }
+  .crumb { font-size:.82rem; color:var(--ink-2); margin-bottom:1.4rem; }
+  .crumb a { cursor:pointer; }
+  .path-head { display:flex; align-items:flex-start; gap:1.2rem; flex-wrap:wrap; margin-bottom:.6rem; }
+  .path-head .ic { font-size:2.4rem; }
+  .path-head h1 { font-size:1.55rem; }
+  .path-head p { color:var(--ink-2); font-size:.92rem; max-width:560px; }
+  .progress { margin:1.2rem 0 2rem; }
+  .progress .bar { height:8px; background:#eee7db; border-radius:99px; overflow:hidden; }
+  .progress .fill { height:100%; width:0%; background:var(--prism); border-radius:99px; transition:width .4s; }
+  .progress .lbl { font-size:.8rem; color:var(--ink-2); margin-top:.35rem; }
+  .day { position:relative; padding-left:2rem; margin-bottom:1.6rem; }
+  .day::before { content:""; position:absolute; left:8px; top:8px; bottom:-1.2rem; width:2px; background:var(--line); }
+  .day:last-of-type::before { display:none; }
+  .day::after { content:""; position:absolute; left:2px; top:6px; width:14px; height:14px; border-radius:50%; background:var(--accent); border:3px solid var(--bg); }
+  .day h2 { font-size:1rem; margin-bottom:.7rem; }
+  .day h2 small { color:var(--ink-2); font-weight:400; margin-left:.5rem; font-size:.8rem; }
+  .topic { background:var(--card); border:1px solid var(--line); border-radius:11px; padding:.85rem 1.1rem; margin-bottom:.65rem; display:flex; gap:.9rem; align-items:center; cursor:pointer; transition:.15s; }
+  .topic:hover { border-color:var(--accent); box-shadow:0 3px 12px rgba(60,50,30,.07); }
+  .topic .no { font-weight:800; color:var(--accent); font-size:.95rem; min-width:2em; }
+  .topic .tt { flex:1; }
+  .topic .tt b { font-size:.94rem; display:block; }
+  .topic .tt span { font-size:.8rem; color:var(--ink-2); }
+  .topic .dur { font-size:.75rem; color:var(--ink-2); white-space:nowrap; }
+  .topic input[type=checkbox] { width:19px; height:19px; accent-color:var(--accent); cursor:pointer; }
+  .topic.done { opacity:.62; }
+  .topic.done .tt b { text-decoration:line-through; }
+  .deep { background:transparent; border:1.5px dashed var(--line); border-radius:12px; padding:1rem 1.2rem; margin-top:2rem; }
+  .deep h3 { font-size:.92rem; color:var(--ink-2); margin-bottom:.4rem; }
+  .deep .chips { margin-top:.3rem; }
+
+  /* ===== 閱讀頁 ===== */
+  .read { display:grid; grid-template-columns:250px minmax(0,1fr) 200px; gap:0; max-width:1280px; margin:0 auto; }
+  .side { padding:1.6rem 1.2rem; border-right:1px solid var(--line); font-size:.86rem; position:sticky; top:104px; align-self:start; max-height:calc(100vh - 104px); overflow:auto; }
+  .side .grp { font-weight:700; margin:.9rem 0 .3rem; font-size:.8rem; color:var(--ink-2); letter-spacing:.04em; }
+  .side a { display:block; padding:.28rem .6rem; border-radius:7px; color:var(--ink); cursor:pointer; }
+  .side a:hover { background:var(--accent-soft); }
+  .side a.now { background:var(--accent-soft); color:var(--accent); font-weight:700; border-left:3px solid var(--accent); }
+  .art { padding:2.2rem 3rem 4rem; min-width:0; }
+  .art .crumb { margin-bottom:1rem; }
+  .art h1 { font-size:1.6rem; margin-bottom:.4rem; }
+  .art .fm { display:flex; gap:.5rem; margin:.6rem 0 1.6rem; flex-wrap:wrap; }
+  .art .fm span { font-size:.74rem; background:var(--accent-soft); color:var(--accent); border-radius:99px; padding:.12rem .65rem; }
+  .art h2 { font-size:1.2rem; margin:1.8rem 0 .7rem; padding-bottom:.3rem; border-bottom:1px solid var(--line); }
+  .art p { margin-bottom:.9rem; font-size:.94rem; }
+  .art .mermaid-box { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:1.3rem; text-align:center; color:var(--ink-2); font-size:.85rem; margin:1rem 0; }
+  .art .mermaid-box svg { max-width:100%; }
+  .callout { background:var(--accent-soft); border-left:4px solid var(--accent); border-radius:0 8px 8px 0; padding:.7rem 1rem; font-size:.88rem; margin:1rem 0; }
+  .pn { display:flex; gap:1rem; margin-top:2.6rem; }
+  .pn a { flex:1; background:var(--card); border:1px solid var(--line); border-radius:10px; padding:.7rem 1rem; font-size:.85rem; cursor:pointer; }
+  .pn a:hover { border-color:var(--accent); }
+  .pn a small { display:block; color:var(--ink-2); font-size:.72rem; }
+  .pn .next { text-align:right; }
+  .toc { padding:1.8rem 1rem; font-size:.8rem; position:sticky; top:104px; align-self:start; }
+  .toc .t { font-weight:700; color:var(--ink-2); margin-bottom:.5rem; font-size:.76rem; letter-spacing:.05em; }
+  .toc a { display:block; padding:.2rem .6rem; color:var(--ink-2); border-left:2px solid var(--line); cursor:pointer; }
+  .toc a.now { color:var(--accent); border-left-color:var(--accent); font-weight:700; }
+
+  @media (max-width:900px){ .read { grid-template-columns:1fr; } .side,.toc{ display:none; } .art{ padding:1.5rem 1.3rem; } }
+</style>
+</head>
+<body>
+
+<!-- prototype 控制列 -->
+<div class="proto-bar">
+  <b>UI Prototype</b>
+  <div class="proto-tabs">
+    <button data-s="home" class="on">① 首頁</button>
+    <button data-s="path">② 學習路徑頁</button>
+    <button data-s="read">③ 文章閱讀頁</button>
+  </div>
+  <div class="proto-accents">
+    <span>主色：</span>
+    <div class="swatch on" style="background:#3455a4" data-c="#3455a4" data-soft="#eaeef8" title="靛藍"></div>
+    <div class="swatch" style="background:#b8563a" data-c="#b8563a" data-soft="#f8ece7" title="磚橘"></div>
+    <div class="swatch" style="background:#2e7d5b" data-c="#2e7d5b" data-soft="#e7f3ee" title="森綠"></div>
+  </div>
+</div>
+
+<!-- ========== ① 首頁 ========== -->
+<div class="screen on" id="s-home">
+  <div class="site-head">
+    <div class="logo">🔺 <i>Prisma</i> Learning Map</div>
+    <div class="search">🔍 搜尋教材……（中文分詞全文搜尋）</div>
+    <div class="head-links"><span>通用能力</span><span>工具</span><span>資料來源</span><span>系統文檔</span></div>
+  </div>
+  <div class="hero">
+    <h1>新人 3–5 天，快速上手</h1>
+    <span class="underline"></span>
+    <p>先建立通用基礎，再進入你的角色路徑。目標是建立概念、看懂全貌，不求一次精通。</p>
+  </div>
+  <div class="home-sec">
+    <div class="sec-title">① 通用核心能力 <small>所有角色的共同起點，穿插在各路徑的 Day 1–3</small>
+      <span class="var-toggle">
+        <button data-v="a" class="on">A 分軌清單</button><button data-v="b">B 分軌卡片</button><button data-v="c">C 階段地圖</button>
+      </span>
+    </div>
+
+    <!-- 方案 A：分軌清單（sitemap 式，四欄直式連結） -->
+    <div class="gvar on" id="gv-a">
+      <div class="general-band">
+        <div class="row"><h3>📚 General Learning Map</h3><a>完整大綱 →</a></div>
+        <div class="tracks">
+          <div class="track">
+            <h4>🧱 基礎核心</h4>
+            <a>Unix/Linux 基礎</a><a>資料工程</a>
+          </div>
+          <div class="track">
+            <h4>🤖 AI 協作</h4>
+            <a>Claude Code 使用技巧</a><a>ContextOps 方法論</a><a>知識管理</a><a>Progressive Disclosure</a>
+          </div>
+          <div class="track">
+            <h4>💭 理論系列</h4>
+            <a>湧現與 Data/Compute</a><a>張力與價值多元</a><a>同構與投影</a><a>範式轉移：任務到許願</a>
+          </div>
+          <div class="track">
+            <h4>🛠️ 實務層</h4>
+            <a>許願與計畫</a><a>四象限技巧</a><a>Agent 工作形態</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 方案 B：分軌卡片（與角色卡同語言，小一號） -->
+    <div class="gvar" id="gv-b">
+      <div class="gcards">
+        <div class="gcard"><div class="ic">🧱</div><h4>基礎核心</h4><p>Unix/Linux 與資料工程，看懂團隊的工作環境</p><em>2 篇</em></div>
+        <div class="gcard"><div class="ic">🤖</div><h4>AI 協作</h4><p>Claude Code、ContextOps、知識管理的日常實務</p><em>4 篇</em></div>
+        <div class="gcard"><div class="ic">💭</div><h4>理論系列</h4><p>湧現、張力、同構——理解 AI 協作的思想底層</p><em>6 篇</em></div>
+        <div class="gcard"><div class="ic">🛠️</div><h4>實務層</h4><p>許願與計畫、四象限、Agent 工作形態</p><em>3 篇</em></div>
+      </div>
+    </div>
+
+    <!-- 方案 C：階段地圖（橫向流，帶學習順序） -->
+    <div class="gvar" id="gv-c">
+      <div class="general-band">
+        <div class="row"><h3>📚 General Learning Map</h3><small style="color:var(--ink-2);font-size:.8rem">建議由左往右</small><a style="margin-left:auto">完整大綱 →</a></div>
+        <div class="stages">
+          <div class="stage"><b>🧱 基礎核心</b><span>Unix/Linux</span><span>資料工程</span></div>
+          <div class="sarrow">→</div>
+          <div class="stage"><b>🤖 AI 協作</b><span>Claude Code</span><span>ContextOps</span><span>知識管理</span></div>
+          <div class="sarrow">→</div>
+          <div class="stage"><b>💭 理論系列</b><span>湧現</span><span>張力</span><span>同構</span><span>範式轉移</span></div>
+          <div class="sarrow">→</div>
+          <div class="stage"><b>🛠️ 實務層</b><span>許願與計畫</span><span>四象限</span><span>Agent 工作形態</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="home-sec">
+    <div class="sec-title">② 選擇你的角色 <small>點擊卡片進入該角色的學習路徑</small></div>
+    <div class="roles">
+      <div class="role" onclick="go('path')">
+        <div class="ic">🧪</div>
+        <h3>測試與商業分析</h3>
+        <div class="en">Testing &amp; BA</div>
+        <p>從使用者視角理解產品與測試，非技術背景友善。涵蓋 MDFO 查詢、Postman 實務、結果分析。</p>
+        <div class="meta"><em>6 個主題</em><em>3–5 天</em></div>
+      </div>
+      <div class="role">
+        <div class="ic">🎨</div>
+        <h3>UI/UX 評估素養</h3>
+        <div class="en">UI/UX Evaluation</div>
+        <p>評估方法、walkthrough 原則、發現品質。跨角色、跨產品通用，理論接 HCI 文獻。</p>
+        <div class="meta"><em>6 個主題</em><em>跨角色</em></div>
+      </div>
+      <div class="role">
+        <div class="ic">🕸️</div>
+        <h3>爬蟲工程師</h3>
+        <div class="en">Crawler Engineer</div>
+        <p>資料蒐集系統導覽：AtlasVault 爬蟲架構、代理服務、資料品質檢測。</p>
+        <div class="meta"><em>導覽式</em><em>3–5 天</em></div>
+      </div>
+      <div class="role">
+        <div class="ic">📋</div>
+        <h3>專案經理</h3>
+        <div class="en">Project Manager</div>
+        <p>專案規劃、敏捷開發、風險管理，以及與 AI 協作的專案節奏。</p>
+        <div class="meta"><em>導覽式</em><em>3–5 天</em></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="home-sec">
+    <div class="sec-title">③ 參考資料庫 <small>不用循序讀，需要時查閱</small></div>
+    <div class="reflib">
+      <div class="ref">
+        <div class="rhead"><span class="ric">🔧</span><b>工具</b><em>4 篇</em></div>
+        <a>Speckit（SDD 實作）</a>
+        <a>AI 工具總覽（Coding Agent / Canvas / API）</a>
+        <a>外部服務（Keepa、Oxylabs、Jina AI…）</a>
+        <a>Google 商品分類標準</a>
+      </div>
+      <div class="ref">
+        <div class="rhead"><span class="ric">🗃️</span><b>資料來源</b><em>9 篇</em></div>
+        <a>資料來源與關聯欄位指南</a>
+        <div class="rgrp">DSLD</div><a>資料庫指南</a><a>JSON 結構參考</a>
+        <div class="rgrp">Keepa</div><a>Amazon 概念、API 查詢、物件參考…</a>
+        <div class="rgrp">Shopify</div><a>爬蟲指南、Response 參考</a>
+      </div>
+      <div class="ref">
+        <div class="rhead"><span class="ric">🏗️</span><b>系統文檔</b><em>21 篇</em></div>
+        <a>整體架構總覽</a><a>資料流</a>
+        <div class="rgrp">各系統</div>
+        <a>AlchemyMind（TheRefinery、TheWeaver…）</a>
+        <a>AtlasVault（爬蟲、Vault、TheForge）</a>
+        <a>PrismaVision（Smart Insight Engine、MCP）</a>
+        <a>Stillflow</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== ② 學習路徑頁 ========== -->
+<div class="screen" id="s-path">
+  <div class="site-head">
+    <div class="logo" onclick="go('home')">🔺 <i>Prisma</i> Learning Map</div>
+    <div class="search">🔍 搜尋教材……</div>
+    <div class="head-links"><span>通用能力</span><span>工具</span><span>資料來源</span><span>系統文檔</span></div>
+  </div>
+  <div class="path-wrap">
+    <div class="crumb"><a onclick="go('home')">首頁</a> / 角色路徑 / 測試與商業分析</div>
+    <div class="path-head">
+      <div class="ic">🧪</div>
+      <div>
+        <h1>測試與商業分析 學習路徑</h1>
+        <p>3–5 天建立測試基礎。表層優先、實務導向，適合資訊背景較弱的 BA 角色。目標：理解產品與測試概念、能執行測試任務、能解讀測試結果。</p>
+      </div>
+    </div>
+    <div class="progress">
+      <div class="bar"><div class="fill" id="pfill"></div></div>
+      <div class="lbl" id="plbl">已完成 0 / 6 個主題（勾選右側核取方塊試試 → 進度存在你的瀏覽器，不需帳號）</div>
+    </div>
+
+    <div class="day">
+      <h2>Day 1 <small>產品與測試基礎</small></h2>
+      <div class="topic" onclick="go('read')">
+        <div class="no">01</div>
+        <div class="tt"><b>產品理解</b><span>Smart Insight Engine 是什麼、Heimdallr 架構、核心功能與資料結構</span></div>
+        <div class="dur">0.5 天</div>
+        <input type="checkbox" onclick="event.stopPropagation()" onchange="tick(this)">
+      </div>
+      <div class="topic">
+        <div class="no">02</div>
+        <div class="tt"><b>測試基礎概念</b><span>為什麼測試、測試類型、測試流程</span></div>
+        <div class="dur">0.5 天</div>
+        <input type="checkbox" onclick="event.stopPropagation()" onchange="tick(this)">
+      </div>
+      <div class="topic">
+        <div class="no">03</div>
+        <div class="tt"><b>REST API 基礎</b><span>API 概念、HTTP 方法、Request / Response</span></div>
+        <div class="dur">0.5 天</div>
+        <input type="checkbox" onclick="event.stopPropagation()" onchange="tick(this)">
+      </div>
+    </div>
+    <div class="day">
+      <h2>Day 2–3 <small>查詢測試實務</small></h2>
+      <div class="topic">
+        <div class="no">04</div>
+        <div class="tt"><b>MDFO 查詢理解</b><span>Measure / Dimensions / Filters / Options 查詢結構</span></div>
+        <div class="dur">1 天</div>
+        <input type="checkbox" onclick="event.stopPropagation()" onchange="tick(this)">
+      </div>
+      <div class="topic">
+        <div class="no">05</div>
+        <div class="tt"><b>測試執行實務</b><span>Postman、瀏覽器 F12、Excel 實際操作</span></div>
+        <div class="dur">1 天</div>
+        <input type="checkbox" onclick="event.stopPropagation()" onchange="tick(this)">
+      </div>
+    </div>
+    <div class="day">
+      <h2>Day 4 <small>資料分析能力</small></h2>
+      <div class="topic">
+        <div class="no">06</div>
+        <div class="tt"><b>測試結果分析</b><span>解讀測試結果、發現問題、回報格式</span></div>
+        <div class="dur">1 天</div>
+        <input type="checkbox" onclick="event.stopPropagation()" onchange="tick(this)">
+      </div>
+    </div>
+
+    <div class="deep">
+      <h3>🔬 深度教材（進階選修）— 讀完主題檔後，依需求進階</h3>
+      <div class="chips">
+        <span class="chip">Smart Insight Engine 產品總覽</span>
+        <span class="chip">MDFO 全解（內容較深）</span>
+        <span class="chip">測試案例設計</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== ③ 文章閱讀頁 ========== -->
+<div class="screen" id="s-read">
+  <div class="site-head">
+    <div class="logo" onclick="go('home')">🔺 <i>Prisma</i> Learning Map</div>
+    <div class="search">🔍 搜尋教材……</div>
+    <div class="head-links"><span>通用能力</span><span>工具</span><span>資料來源</span><span>系統文檔</span></div>
+  </div>
+  <div class="read">
+    <nav class="side">
+      <div class="grp">🧪 測試與商業分析</div>
+      <a onclick="go('path')">📍 學習路徑總覽</a>
+      <a class="now">01 產品理解</a>
+      <a>02 測試基礎概念</a>
+      <a>03 REST API 基礎</a>
+      <a>04 MDFO 查詢理解</a>
+      <a>05 測試執行實務</a>
+      <a>06 測試結果分析</a>
+      <div class="grp">🔬 深度教材</div>
+      <a>產品總覽</a>
+      <a>MDFO 全解</a>
+      <a>測試案例設計</a>
+    </nav>
+    <article class="art">
+      <div class="crumb"><a onclick="go('home')">首頁</a> / <a onclick="go('path')">測試與商業分析</a> / 01 產品理解</div>
+      <h1>產品理解</h1>
+      <div class="fm"><span>topic</span><span>active</span><span>約 0.5 天</span><span>作者 leana</span></div>
+      <p>（以下為版型示意，非真實內文）本章帶你從使用者視角認識 Smart Insight Engine——它是什麼、解決什麼問題、資料從哪裡來。</p>
+      <h2 id="h1">Smart Insight Engine 是什麼</h2>
+      <p>營養補充品資料分析平台，提供約 13 萬筆產品資料、13 個維度的查詢分析能力。你不需要理解它的內部實作，但需要知道它的輸入與輸出長什麼樣子。</p>
+      <div class="callout">💡 <b>術語對照</b>：Heimdallr 是承載 Smart Insight Engine 的 Django 專案名稱；文件中的 PrismaVision 指同一產品線。</div>
+      <h2 id="h2">資料流概覽</h2>
+      <div class="mermaid-box">
+        <svg viewBox="0 0 620 90" width="620" height="90" xmlns="http://www.w3.org/2000/svg">
+          <g font-family="sans-serif" font-size="13">
+            <rect x="5" y="25" width="130" height="40" rx="8" fill="#eaeef8" stroke="#3455a4"/><text x="70" y="50" text-anchor="middle">資料蒐集</text>
+            <path d="M140 45 h40" stroke="#999" marker-end="url(#a)"/>
+            <rect x="185" y="25" width="130" height="40" rx="8" fill="#eaeef8" stroke="#3455a4"/><text x="250" y="50" text-anchor="middle">清洗與整併</text>
+            <path d="M320 45 h40" stroke="#999" marker-end="url(#a)"/>
+            <rect x="365" y="25" width="130" height="40" rx="8" fill="#eaeef8" stroke="#3455a4"/><text x="430" y="50" text-anchor="middle">分析引擎</text>
+            <path d="M500 45 h40" stroke="#999" marker-end="url(#a)"/>
+            <rect x="545" y="25" width="70" height="40" rx="8" fill="#3455a4"/><text x="580" y="50" text-anchor="middle" fill="#fff">API</text>
+            <defs><marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 z" fill="#999"/></marker></defs>
+          </g>
+        </svg>
+        <div>教材中的 Mermaid 圖會在網站上原生渲染（此處為示意 SVG）</div>
+      </div>
+      <h2 id="h3">核心功能</h2>
+      <p>查詢分析是核心：使用者組出 MDFO 查詢（Measure / Dimensions / Filters / Options），引擎回傳統計結果。第 04 章會詳細展開。</p>
+      <h2 id="h4">常見問題</h2>
+      <p>Q：我需要看得懂程式碼嗎？—— 不需要。本路徑聚焦表層行為與資料邏輯。</p>
+      <div class="pn">
+        <a onclick="go('path')"><small>← 上一頁</small>學習路徑總覽</a>
+        <a class="next"><small>下一頁 →</small>02 測試基礎概念</a>
+      </div>
+    </article>
+    <aside class="toc">
+      <div class="t">本頁目錄</div>
+      <a class="now">Smart Insight Engine 是什麼</a>
+      <a>資料流概覽</a>
+      <a>核心功能</a>
+      <a>常見問題</a>
+    </aside>
+  </div>
+</div>
+
+<script>
+function go(s){
+  document.querySelectorAll('.screen').forEach(e=>e.classList.remove('on'));
+  document.getElementById('s-'+s).classList.add('on');
+  document.querySelectorAll('.proto-tabs button').forEach(b=>b.classList.toggle('on', b.dataset.s===s));
+  window.scrollTo(0,0);
+}
+document.querySelectorAll('.proto-tabs button').forEach(b=>b.addEventListener('click',()=>go(b.dataset.s)));
+document.querySelectorAll('.var-toggle button').forEach(b=>b.addEventListener('click',()=>{
+  document.querySelectorAll('.var-toggle button').forEach(x=>x.classList.toggle('on',x===b));
+  document.querySelectorAll('.gvar').forEach(g=>g.classList.toggle('on', g.id==='gv-'+b.dataset.v));
+}));
+document.querySelectorAll('.swatch').forEach(s=>s.addEventListener('click',()=>{
+  document.documentElement.style.setProperty('--accent', s.dataset.c);
+  document.documentElement.style.setProperty('--accent-soft', s.dataset.soft);
+  document.querySelectorAll('.swatch').forEach(x=>x.classList.toggle('on', x===s));
+}));
+function tick(cb){
+  cb.closest('.topic').classList.toggle('done', cb.checked);
+  const all=document.querySelectorAll('#s-path .topic input');
+  const done=[...all].filter(c=>c.checked).length;
+  document.getElementById('pfill').style.width=(done/all.length*100)+'%';
+  document.getElementById('plbl').textContent=`已完成 ${done} / ${all.length} 個主題`;
+}
+</script>
+</body>
+</html>

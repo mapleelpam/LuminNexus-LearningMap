@@ -68,8 +68,23 @@ LuminNexus-LearningMap/
 │   ├── policy.md            # 簡報管理規範 (YYYY-MM-DD 資料夾命名)
 │   ├── scripts/             # merge-and-build.sh, build-document.sh
 │   └── YYYY-MM-DD/          # 各場次簡報 (NN_topic.md 分頁檔)
+├── site/                    # Learning Map 網站 (自建 SPA，見下方 Website 一節)
+│   ├── config.json          # 策展資料：角色 Day 結構、general 分軌、參考庫分類
+│   ├── build.py             # 建置腳本 (掃描內容 + frontmatter → site/dist/，gitignored)
+│   ├── index.html           # SPA 外殼
+│   └── assets/              # app.js、style.css、vendor (marked、mermaid)
 └── archive/                 # Historical versions with YYYYMMDD prefix
 ```
+
+## Website (site/)
+
+教材網站是自建的單頁應用 (SPA)，直接讀取本 repo 的 md 原檔渲染，**教材內容不需為網站做任何改動**：
+
+- **建置**：`python3 site/build.py` → 產出 `site/dist/`（掃描 general/roles/tools/data-sources/projects，解析 frontmatter 產生導覽與搜尋索引；config 引用了不存在的檔案會輸出警告）
+- **本地預覽**：`python3 -m http.server 8619 -d site/dist`
+- **部署**：push 到 main 後由 `.github/workflows/deploy-site.yml` 自動建置並發佈到 GitHub Pages
+- **策展資料**：角色學習路徑的 Day 分組、general 四分軌、深度教材清單都在 `site/config.json`——新增主題檔後在此登記；未登記的檔案仍會被掃描、可搜尋、出現在參考資料庫
+- **功能**：角色分流首頁、Day 時間軸路徑頁、三欄閱讀頁（側欄＋TOC）、Mermaid 原生渲染、中文全文搜尋、相對 .md 連結自動轉路由、文件尾部 meta（文件版本／最後更新等）自動重排為統一小字格式
 
 ### Content Organization Philosophy
 

@@ -11,3 +11,4 @@ package-lock.json
 *.swp
 *.swo
 .vscode/
+site/dist/

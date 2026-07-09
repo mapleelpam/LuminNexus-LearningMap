@@ -1,0 +1,194 @@
+{
+  "siteName": "PrismaVision Learning Map",
+  "tagline": "歡迎加入，從這裡開始",
+  "heroText": "先打好通用基礎，再走角色專屬的學習路徑；要查資料時，參考資料庫隨時都在。多數主題花 3–5 天建立概念、看懂全貌就好，不求一次精通。",
+  "contentDirs": ["general", "roles", "tools", "data-sources", "projects"],
+  "generalOutline": "general/00_outline.md",
+  "generalTracks": [
+    {
+      "icon": "🧱",
+      "title": "基礎核心",
+      "files": [
+        "general/02_unix-linux-basics.md",
+        "general/03_data-engineering.md",
+        "general/ai-data-terminology.md",
+        "general/ubuntu-desktop-tips.md"
+      ]
+    },
+    {
+      "icon": "🤖",
+      "title": "AI 協作",
+      "files": [
+        "general/claude-code-tips.md",
+        "general/claude-code-cli-discussion.md",
+        "general/claude-code-cli-discussion-advanced.md",
+        "general/claude-agent-skill.md",
+        "general/contextops-discipline.md",
+        "general/knowledge-management.md",
+        "general/progressive-disclosure.md"
+      ]
+    },
+    {
+      "icon": "💭",
+      "title": "理論系列",
+      "files": [
+        "general/compute-state-context.md",
+        "general/emergence-data-compute.md",
+        "general/tension-value-perspective.md",
+        "general/isomorphism-projection.md",
+        "general/no-one-is-home.md",
+        "general/paradigm-shift-task-to-wish.md",
+        "general/atomization-context-isolation.md"
+      ]
+    },
+    {
+      "icon": "🛠️",
+      "title": "實務層",
+      "files": [
+        "general/clarification-wish-and-plan.md",
+        "general/know-your-unknowns.md",
+        "general/agent-work-forms.md"
+      ]
+    }
+  ],
+  "roles": [
+    {
+      "id": "testing",
+      "icon": "🧪",
+      "title": "測試與商業分析",
+      "en": "Testing & BA",
+      "blurb": "非技術友善，從使用者視角理解產品與測試：MDFO 查詢、Postman、結果分析。",
+      "meta": ["6 個主題", "3–5 天"],
+      "type": "path",
+      "outline": "roles/testing/00_outline.md",
+      "intro": "3–5 天建立測試基礎。表層優先、實務導向，適合資訊背景較弱的 BA 角色。目標：理解產品與測試概念、能執行測試任務、能解讀測試結果。",
+      "days": [
+        {
+          "label": "Day 1",
+          "sub": "產品與測試基礎",
+          "topics": [
+            { "file": "roles/testing/01_product-understanding.md", "dur": "0.5 天", "desc": "Smart Insight Engine 是什麼、Heimdallr 架構、核心功能與資料結構" },
+            { "file": "roles/testing/02_testing-basics.md", "dur": "0.5 天", "desc": "為什麼測試、測試類型、測試流程" },
+            { "file": "roles/testing/03_rest-api-basics.md", "dur": "0.5 天", "desc": "API 概念、HTTP 方法、Request / Response" }
+          ]
+        },
+        {
+          "label": "Day 2–3",
+          "sub": "查詢測試實務",
+          "topics": [
+            { "file": "roles/testing/04_mdfo-query-understanding.md", "dur": "1 天", "desc": "Measure / Dimensions / Filters / Options 查詢結構" },
+            { "file": "roles/testing/05_test-execution-practice.md", "dur": "1 天", "desc": "Postman、瀏覽器 F12、Excel 實際操作" }
+          ]
+        },
+        {
+          "label": "Day 4",
+          "sub": "資料分析能力",
+          "topics": [
+            { "file": "roles/testing/06_test-result-analysis.md", "dur": "1 天", "desc": "解讀測試結果、發現問題、回報格式" }
+          ]
+        }
+      ],
+      "deep": {
+        "label": "深度教材（進階選修）— 讀完主題檔後，依需求進階",
+        "files": [
+          "projects/prismavision/smart-insight-engine/00_overview.md",
+          "projects/prismavision/smart-insight-engine/01_mdof-fundamentals.md",
+          "projects/prismavision/smart-insight-engine/03_test-case-design.md"
+        ]
+      }
+    },
+    {
+      "id": "ui-ux",
+      "icon": "🎨",
+      "title": "UI/UX 評估素養",
+      "en": "UI/UX Evaluation",
+      "blurb": "評估方法、walkthrough 原則與發現品質，跨角色通用，理論接 HCI 文獻。",
+      "meta": ["6 個主題", "跨角色"],
+      "type": "path",
+      "outline": "roles/ui-ux/00_outline.md",
+      "intro": "跨角色、跨產品通用的 UI/UX 評估素養。從共同語言到報告協作，理論接 HCI 文獻。",
+      "days": [
+        {
+          "label": "Day 1",
+          "sub": "共同語言",
+          "topics": [
+            { "file": "roles/ui-ux/01_uiux-fundamentals.md", "dur": "1 天", "desc": "UI/UX 基礎、設計流程、保真度光譜" }
+          ]
+        },
+        {
+          "label": "Day 2",
+          "sub": "方法選擇",
+          "topics": [
+            { "file": "roles/ui-ux/02_evaluation-design.md", "dur": "1 天", "desc": "評估方法的選擇與設計" }
+          ]
+        },
+        {
+          "label": "Day 2–3",
+          "sub": "走查原理",
+          "topics": [
+            { "file": "roles/ui-ux/03_walkthrough-principles.md", "dur": "1 天", "desc": "Walkthrough 方法原理" }
+          ]
+        },
+        {
+          "label": "Day 3",
+          "sub": "發現品質",
+          "topics": [
+            { "file": "roles/ui-ux/04_finding-quality.md", "dur": "1 天", "desc": "發現的品質工程" }
+          ]
+        },
+        {
+          "label": "Day 4",
+          "sub": "機械檢查與交付",
+          "topics": [
+            { "file": "roles/ui-ux/05_mechanical-checks.md", "dur": "0.5 天", "desc": "機械式檢查" },
+            { "file": "roles/ui-ux/06_reporting-collaboration.md", "dur": "0.5 天", "desc": "報告與協作" }
+          ]
+        }
+      ],
+      "note": "Day 5 實例復盤為選修，需產品 repo 權限。"
+    },
+    {
+      "id": "crawler",
+      "icon": "🕸️",
+      "title": "爬蟲工程師",
+      "en": "Crawler Engineer",
+      "blurb": "資料蒐集系統導覽：AtlasVault 爬蟲架構、代理服務與資料品質檢測。",
+      "meta": ["導覽式", "3–5 天"],
+      "type": "doc",
+      "doc": "roles/crawler-engineer.md"
+    },
+    {
+      "id": "pm",
+      "icon": "📋",
+      "title": "專案經理",
+      "en": "Project Manager",
+      "blurb": "涵蓋專案規劃、敏捷開發與風險管理，以及與 AI 協作的專案節奏。",
+      "meta": ["導覽式", "3–5 天"],
+      "type": "doc",
+      "doc": "roles/project-manager.md"
+    }
+  ],
+  "refSections": [
+    { "id": "projects", "icon": "🏗️", "title": "系統文檔", "dir": "projects", "order": ["atlasvault", "alchemymind", "prismavision", "stillflow"] },
+    { "id": "data-sources", "icon": "🗃️", "title": "資料來源", "dir": "data-sources" },
+    { "id": "tools", "icon": "🔧", "title": "工具", "dir": "tools" }
+  ],
+  "excludeFromDist": [
+    "projects/LuminNexus：資料煉金術的循環之旅.png"
+  ],
+  "hideFromNav": [
+    "projects/README.md"
+  ],
+  "dirLabels": {
+    "dsld": "DSLD",
+    "keepa": "Keepa",
+    "shopify": "Shopify",
+    "alchemymind": "AlchemyMind",
+    "atlasvault": "AtlasVault",
+    "prismavision": "PrismaVision",
+    "stillflow": "Stillflow",
+    "smart-insight-engine": "Smart Insight Engine",
+    "testing": "測試與商業分析",
+    "ui-ux": "UI/UX 評估素養"
+  }
+}
