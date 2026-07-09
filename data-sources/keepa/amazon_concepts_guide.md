@@ -21,8 +21,7 @@ summary: |
   1P/3P 銷售模式、FBA/FBM 履約方式、品牌與賣家關係等。
 ---
 
-# Amazon & Keepa 基礎概念完全指南 v1.2
-
+# Amazon & Keepa 基礎概念完全指南
 > **文件目的**：完整解釋 Amazon 電商生態系統和 Keepa 價格追蹤系統的核心概念，包括 ASIN、Buy Box、1P/3P、履約模式、價格類型、品牌與賣家關係等。
 >
 > **適用對象**：Amazon 賣家、市場分析師、數據工程師、電商研究者
@@ -1289,9 +1288,6 @@ def is_profitable_opportunity(product):
 
 ---
 
-**文件版本**：v1.2
-**建立日期**：2025-12-08
-**最後更新**：2025-12-08（重要澄清：Brand Store ≠ Seller）
 **維護者**：LuminNexus-AtlasVault-DSLD Keepa 團隊
 **相關文件**：
 - [Keepa Product Object 參考文件](./product_object_reference.md)

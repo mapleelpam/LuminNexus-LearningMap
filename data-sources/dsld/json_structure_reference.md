@@ -1204,6 +1204,4 @@ FDA Unique Ingredient Identifier
 
 ---
 
-**文件版本**: 1.0
-**最後更新**: 2025-12-08
 **JSON Schema 版本**: DSLD 2025-07-24

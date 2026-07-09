@@ -20,8 +20,7 @@ summary: |
   stats.current 對應、品牌商店、營養補充品欄位等。
 ---
 
-# Keepa Product Object 實戰備忘錄 v3.0
-
+# Keepa Product Object 實戰備忘錄
 > **文件目的**：完整解釋 Keepa API Product Object 的結構、欄位意義、使用場景，特別是 `csv` 和 `stats.current` 的對應關係。
 >
 > **⚠️ 重要聲明**：
@@ -1430,8 +1429,6 @@ for t, p, s in zip(times, prices, shipping):
 
 ---
 
-**文件版本**：v3.0
-**最後更新**：2025-12-11
 **維護者**：LuminNexus-AtlasVault-DSLD Keepa 團隊
 
 **變更記錄**：
@@ -1712,5 +1709,4 @@ for i in range(0, len(used_history), 4):
 ---
 
 **附錄 B 完成**
-**最後更新**：2025-12-05
 

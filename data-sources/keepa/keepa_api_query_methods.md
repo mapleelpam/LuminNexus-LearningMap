@@ -684,5 +684,4 @@ def datetime_to_keepa_time(dt: datetime) -> int:
 
 ---
 
-**最後更新**: 2025-12-08
 **維護者**: LuminNexus Team

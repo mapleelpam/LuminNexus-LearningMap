@@ -1792,6 +1792,4 @@ print(f"Barcodes: {parser.extract_all_barcodes(product)}")
 
 ---
 
-**文件版本**: 1.0
-**最後更新**: 2025-12-08
 **相關文件**: [shopify_crawler_guide.md](./shopify_crawler_guide.md)

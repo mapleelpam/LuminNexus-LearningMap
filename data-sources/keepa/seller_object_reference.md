@@ -2,7 +2,7 @@
 title: "Keepa Seller Object 實戰備忘錄"
 type: reference
 status: active
-created: 2025-12-08
+created: 2025-12-05
 updated: 2025-12-08
 version: "1.0"
 project: LearningMap
@@ -20,8 +20,7 @@ summary: |
   CSV 歷史資料、分類/品牌統計等。
 ---
 
-# Keepa Seller Object 實戰備忘錄 v1.0
-
+# Keepa Seller Object 實戰備忘錄
 > **文件目的**：完整解釋 Keepa API Seller Object 的結構、欄位意義、使用場景，特別是評分系統、Buy Box 統計、分類/品牌統計的關係。
 >
 > **⚠️ 重要聲明**：
@@ -976,8 +975,6 @@ print(f"競爭力評級: {comp['competitiveness']}")
 
 ---
 
-**文件版本**：v1.0
-**建立日期**：2025-12-05
 **維護者**：LuminNexus-AtlasVault-DSLD Keepa 團隊
 **相關文件**：
 - [Keepa Product Object 參考文件](./product_object_reference.md)
