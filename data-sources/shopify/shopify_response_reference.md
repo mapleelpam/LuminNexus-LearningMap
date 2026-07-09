@@ -1494,7 +1494,7 @@ print(json.dumps(comparison, indent=2))
 
 ---
 
-## 5. 資料類型與驗證
+## 6. 資料類型與驗證
 
 ### 5.1 資料類型對照
 

@@ -6,7 +6,7 @@ created: 2025-12-16
 updated: 2025-12-16
 version: "1.0"
 project: LearningMap
-author: yijou14
+author: "Yu-Shin, leana"
 tags:
   - data-sources
   - upc
@@ -189,6 +189,3 @@ DSLD 產品 ──UPC──▶ iHerb 產品 ──brandCode──▶ 品牌
 
 - **重點**：品牌官網通常沒有 UPC/GTIN，應找 SKU 或 product_id 作為內部識別碼
 
----
-
-Author: Hu, Yu-Shin

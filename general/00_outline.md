@@ -321,7 +321,7 @@ mindmap
   - 從規格自動生成測試案例
 
 - **相關連結**
-  - [TDD 測試驅動開發](#44-測試驅動開發-test-driven-development-tdd)
+  - [TDD 測試驅動開發](#45-測試驅動開發-test-driven-development-tdd)
   - [Speckit 工具使用](../tools/speckit.md)
 
 ---
