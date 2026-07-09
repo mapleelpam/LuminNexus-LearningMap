@@ -130,14 +130,23 @@ title: "文件標題"
 type: guide              # guide, reference, outline, topic, spec, overview, policy
 status: active           # active, stable, deprecated
 created: 2025-12-18
-author: maple            # maple, leana, yijou14
+updated: 2025-12-18      # 最後更新日期（>= created）
+version: "1.0"
+project: LearningMap
+author: maple            # maple, leana, yijou14；外部轉錄文件可改用 source 記出處
 tags:
   - tag1
   - tag2
+audience:
+  - all
+summary: |
+  一兩句說明文章涵蓋什麼（目錄頁卡片的簡介來源）。
 ---
 ```
 
-**Required fields**: `title`, `type`, `status`, `created`
+**Required fields**（由 hook 強制）：`title`, `type`, `status`, `created`, `updated`, `version`, `project`, `tags`, `audience`, `summary`，以及 `author`（有 `source` 者可免）。選用欄位：`related`（關聯文件）、`source`（外部出處）。
+
+**Frontmatter 檢查 hook**：`.claude/settings.json` 掛了 PostToolUse hook，Claude 每次 Edit/Write 教材 md 後自動跑 `scripts/check_frontmatter.py` 驗證上述規範，不符合會把錯誤回饋給 Claude 要求修正。手動全檢：`python3 scripts/check_frontmatter.py --all`
 
 ### CLI Commands
 
