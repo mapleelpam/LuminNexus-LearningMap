@@ -4,7 +4,7 @@ type: overview
 status: active
 created: 2025-12-09
 updated: 2026-07-04
-version: "1.0"
+version: "1.2"
 project: LearningMap
 author: maple
 tags:
@@ -65,6 +65,7 @@ projects/
 │   ├── therefinery.md
 │   ├── theargus.md
 │   ├── factum.md
+│   ├── eidos.md
 │   └── shared.md
 │
 ├── prismavision/                  # Layer 3: 使用者介面與引擎
@@ -99,6 +100,7 @@ projects/
 - **TheWeaver**: LLM 分析生成 (10 Knowledge Realms)
 - **TheArgus**: 異常檢測與驗證
 - **Factum**: Supplement Facts 圖片解析 (OCR + VLM)
+- **Eidos**: 供應鏈身分登記 (DogTag 身分卡)
 
 **詳細文檔**: [alchemymind/00_overview.md](alchemymind/00_overview.md)
 
@@ -177,6 +179,7 @@ PrismaVision (SmartInsightEngine → Next/MCP → End Users)
 - [x] alchemymind/therefinery.md
 - [x] alchemymind/theargus.md
 - [x] alchemymind/factum.md
+- [x] alchemymind/eidos.md
 - [x] stillflow/00_overview.md
 
 ### 🚧 待各團隊補充 (Skeleton 已建立)
@@ -286,6 +289,7 @@ PrismaVision (SmartInsightEngine → Next/MCP → End Users)
 |------|------|------|----------|
 | 1.0 | 2025-12-09 | Architecture Team | 初版建立,專案文檔架構完成 |
 | 1.1 | 2026-07-04 | maple | 更新文檔狀態表（多數文件已完成）、結構樹補 thedistiller/factum/stillflow |
+| 1.2 | 2026-07-20 | Dustin | 結構樹、Layer 2 清單、checklist 補上 eidos |
 
 ### 下一步
 - [ ] 各團隊補充 skeleton 文檔
