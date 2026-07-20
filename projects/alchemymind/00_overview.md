@@ -4,7 +4,7 @@ type: overview
 status: active
 created: 2025-12-09
 updated: 2025-12-09
-version: "1.0"
+version: "1.1"
 project: LearningMap
 author: maple
 tags:
@@ -18,7 +18,8 @@ audience:
   - all
 summary: |
   AlchemyMind 系統概覽（Layer 2），涵蓋資料精煉（TheRefinery）、
-  LLM 分析（TheWeaver）、異常檢測（TheArgus）等子系統。
+  LLM 分析（TheWeaver）、異常檢測（TheArgus）、資料統一化（TheDistiller）、
+  圖片解析（Factum）與供應鏈身分登記（Eidos）等子系統。
 ---
 
 # AlchemyMind - 資料處理與分析層概覽
@@ -42,6 +43,9 @@ summary: |
 - 資料精煉與品質檢查 (TheRefinery)
 - LLM 驅動的知識領域分析 (TheWeaver)
 - 異常檢測與驗證 (TheArgus)
+- 產品資料統一化 (TheDistiller)
+- Supplement Facts 圖片解析 (Factum)
+- 供應鏈身分登記 (Eidos)
 
 ---
 
@@ -58,6 +62,7 @@ graph TB
         A[TheArgus<br/>Anomaly Detection]
         D[TheDistiller<br/>Data Unification]
         F[Factum<br/>Image OCR/VLM]
+        E[Eidos<br/>Identity System]
         S[Shared<br/>Common Utilities]
 
         IN --> R
@@ -67,6 +72,9 @@ graph TB
 
         W --> D
         D --> PDB[product_info.db<br/>Canonical Products]
+
+        R --> E
+        E --> DT[profiles/**/*.md<br/>DogTag 身分卡]
 
         IMG --> F
         F --> DSLD[DSLD JSON]
@@ -85,6 +93,7 @@ graph TB
     style A fill:#f3e5f5
     style D fill:#fce4ec
     style F fill:#e3f2fd
+    style E fill:#ede7f6
     style S fill:#e8f5e9
 ```
 
@@ -146,7 +155,15 @@ graph TB
 - **規模**: 211,585 raw products → 144,625 canonical products
 - **詳細文檔**: [thedistiller.md](thedistiller.md)
 
-### 5. Factum - Supplement Facts 圖片解析
+### 5. Eidos - 供應鏈身分系統
+
+- **職責**: curate 品牌 / 公司 / 網域 / 商標 / 菌株的持久身分事實,每筆附來源證據
+- **與 pipeline 的差別**: 處理「實體身分」而非產品資料,不在逐批處理的產品流水線上
+- **輸入**: `enriched.db` (TheRefinery)、DSLD 官方標籤庫 (另有 iherb / keepa / weaver.db)
+- **輸出**: `profiles/**/*.md` DogTag 身分卡 (24,000+ 張, 7 種實體類型)
+- **詳細文檔**: [eidos.md](eidos.md)
+
+### 6. Factum - Supplement Facts 圖片解析
 
 - **職責**: 從產品圖片提取 Supplement Facts，生成 DSLD 相容 JSON
 - **處理內容**:
@@ -158,7 +175,7 @@ graph TB
 - **輸出**: `working/dsld/{asin}/*.dsld.json`
 - **詳細文檔**: [factum.md](factum.md)
 
-### 6. Shared - 共用元件
+### 7. Shared - 共用元件
 
 - **職責**: 提供各子系統共用的工具與函式庫
 - **內容**:
@@ -276,6 +293,7 @@ sequenceDiagram
 - [theweaver.md](theweaver.md) - TheWeaver 詳細說明
 - [theargus.md](theargus.md) - TheArgus 詳細說明
 - [thedistiller.md](thedistiller.md) - TheDistiller 詳細說明
+- [eidos.md](eidos.md) - Eidos 詳細說明
 - [factum.md](factum.md) - Factum 詳細說明
 - [shared.md](shared.md) - Shared 元件說明
 
@@ -284,6 +302,7 @@ sequenceDiagram
 - `LuminNexus-AlchemyMind-TheRefinery/README.md` - TheRefinery README
 - `LuminNexus-AlchemyMind-TheArgus/README.md` - TheArgus README
 - `LuminNexus-AlchemyMind-Factum/CLAUDE.md` - Factum 專案說明
+- `LuminNexus-AlchemyMind-Eidos/CLAUDE.md` - Eidos 專案說明
 
 ---
 
@@ -312,6 +331,7 @@ sequenceDiagram
 | 版本 | 日期 | 作者 | 變更說明 |
 |------|------|------|----------|
 | 1.0 | 2025-12-09 | Architecture Team | 初版建立 (待 AlchemyMind Team 補充) |
+| 1.1 | 2026-07-20 | Dustin | 補充 Eidos 子系統說明,同步 summary 與架構圖 |
 
 ### 維護職責
 - **主要維護者**: AlchemyMind Team
