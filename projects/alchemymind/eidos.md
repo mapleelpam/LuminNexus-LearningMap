@@ -3,7 +3,7 @@ title: "Eidos - 供應鏈身分系統"
 type: spec
 status: active
 created: 2026-07-20
-version: "1.0"
+version: "1.1"
 project: LearningMap
 author: Dustin
 tags:
@@ -16,6 +16,7 @@ related:
   - 00_overview.md
   - therefinery.md
   - theargus.md
+  - thedistiller.md
 audience:
   - all
 summary: |
@@ -30,14 +31,14 @@ summary: |
 
 ## 📋 文檔目的
 
-本文檔提供 **Eidos** 的完整說明，特別為**非技術背景的新人**設計，幫助讀者理解：
+本文檔提供 **Eidos** 的系統導覽，幫助**新人建立對這套系統的整體理解**：
 
 - Eidos 的系統職責與在 AlchemyMind 層的定位（它跟 pipeline 有何不同）
 - 它的核心比喻：七種「DogTag 身分卡」
 - 輸入 / 輸出資料格式與上下游介面
 - 一份把系統術語翻成白話的**名詞對照表**（放在「🔑 關鍵概念」）
 
-> **給你的閱讀建議**：先看「🎯 系統職責」的命名由來與「🪪 七種 DogTag 身分卡」建立直覺，再看「🔑 關鍵概念」的名詞對照表時**只讀標 🔴 的 11 個**即可上手；其餘 🟡 / ⚪ 用到再回來查。
+> **給你的閱讀建議**：先看「🎯 系統職責」的命名由來與「🪪 七種 DogTag 身分卡」建立直覺，再看「🔑 關鍵概念」的名詞對照表時**只讀標 🔴 的 11 個**即可上手；其餘 🟡 用到再回來查。
 
 > **完整技術文檔**：Eidos 專案的 `CLAUDE.md` 與 `specs/DogTag/README.md`
 > **操作指南**：`.claude/skills/` 目錄下的 21 個專用 skill
@@ -363,7 +364,7 @@ git commit -m "feat: Add new brand profile"
 
 ## 🔑 關鍵概念
 
-> 本節是**給非技術新人的核心價值**：把導覽地圖上的技術名詞，依「你會遇到的順序」翻成白話。**重要度**：🔴 必懂（不懂就看不懂系統）/ 🟡 該懂（理解原理需要）/ ⚪ 進階（用到再查）。
+> 把系統術語翻成白話。分兩層：**🔴 必懂**（不懂就看不懂系統，先只記這些）與 **🟡 該懂**（理解運作原理時需要）。更細的日常操作術語不在此列，請查專案的 `specs/DogTag/README.md`。
 
 ### 🔴 最小必懂集合（先只記這 11 個）
 
@@ -381,72 +382,32 @@ git commit -m "feat: Add new brand profile"
 | **BI / BT / BP** | 三種商標：成分(WHAT)/ 技術(HOW)/ 來源(WHO)。 |
 | **DSLD** | 美國政府官方的「膳食補充品標籤資料庫」，最主要的原始進料。 |
 
-### 一、工具鏈（有哪些程式 / 檔案）
+### 🟡 該懂：資料怎麼組織
 
-| 名詞 | 白話 | 重要度 |
-|---|---|---|
-| **muster** | 點名整隊+檢查工具。指令 `uv run muster ./profiles` | 🔴 |
-| **dogtag (CLI)** | 查卡查詢機。`uv run dogtag brand "..."` | 🔴 |
-| **census** | 「人口普查」：從資料庫**算出**品牌統計(不是查證的)。 | 🟡 |
-| **classify** | 自動判斷「這是什麼類型」的分類器。 | ⚪ |
-| **uv / uv run** | 這專案的 Python 執行工具，指令前都加 `uv run`。 | 🟡 |
-| **五個 .db**(dsld/iherb/keepa/weaver/enriched) | 五個原料資料庫(官方標籤/iHerb/Amazon/交叉對應/加值)，是「進料倉庫」。 | 🟡 |
-| **output/eidos.db** | 把所有卡打包成一個資料庫，給下游用。 | ⚪ |
-| **_index.yaml** | muster 自動產的「總目錄檔」，人不用手改。 | 🟡 |
-| **_census/** | census 產的統計資料夾。 | ⚪ |
-| **brand_profiles/** | 可重生的統計版品牌 JSON，不進 git，用再跑。 | ⚪ |
+| 名詞 | 白話 |
+|---|---|
+| **YAML / Markdown** | frontmatter 的「欄位: 值」寫法叫 YAML；整張卡的檔案格式叫 Markdown。 |
+| **schema / schema_version** | 「該有哪些欄位」的規格書，及它的版本號（如網域目前 v0.13）。 |
+| **source tier** | 來源的可信度等級：人工查證 > LLM 判斷 > 內容分類 > 直接探測 > 種子匯入。 |
+| **FK（外鍵）** | 「這張卡指向另一張卡」的連結（如品牌 → 母公司）。 |
+| **slug / kebab-case** | 卡片檔名代號；命名規則是小寫 + 連字號（`nature-made`）。 |
+| **eidos_scope** | 判定「算不算我們要收的補充品範圍」。 |
+| **draft** | 卡片還在草稿、未核准的標記。 |
+| **branded_ingredient / technology / provenance** | BI / BT / BP 三類商標的完整名稱，也是 `profiles/marks/` 下的資料夾名。 |
 
-### 二、概念（怎麼組織資料）
+### 🟡 該懂：工具與流程
 
-| 名詞 | 白話 | 重要度 |
-|---|---|---|
-| **DogTag / profile** | 身分卡 / 一張卡=一個 `.md` 檔。 | 🔴 |
-| **frontmatter** | 檔案開頭 `---` 夾住的欄位區。 | 🔴 |
-| **YAML / Markdown** | frontmatter 的「欄位: 值」寫法叫 YAML；整張卡格式叫 Markdown。 | 🟡 |
-| **schema / schema_version** | 「該有哪些欄位」的規格書，及它的版本號(如網域目前 v0.13)。 | 🟡 |
-| **provenance / provenance gate** | 來源記錄 + 「低信不蓋高信」的閘門。 | 🔴 |
-| **source tier** | 來源的可信度等級(人工查證 > LLM 判斷 > 內容分類 > 直接探測 > 種子匯入)。 | 🟡 |
-| **FK(外鍵)** | 「這張卡指向另一張卡」的連結(如品牌→母公司)。 | 🟡 |
-| **slug / kebab-case** | 卡片檔名代號；命名規則是小寫+連字號(`nature-made`)。 | 🟡 |
-| **eidos_scope** | 判定「算不算我們要收的補充品範圍」。 | 🟡 |
-| **draft** | 卡片還在草稿、未核准的標記。 | 🟡 |
-| **farm-batch** | 一次批量產出的卡片批次，品質參差，需統一驗收。 | ⚪ |
-
-### 三、品質關卡（怎麼擋錯誤）
-
-| 名詞 | 白話 | 重要度 |
-|---|---|---|
-| **pre-commit / hook** | 送出前的自動檢查關卡。 | 🔴 |
-| **muster --strict** | muster 嚴格模式：有 ERROR 就擋。 | 🔴 |
-| **BLOCK / WARN / INFO** | 三級嚴重度；有一個 BLOCK 就不通過。 | 🟡 |
-| **acceptance_review.py** | 批次「驗收總關卡」：把散落檢查收成一個過/不過結論。 | 🟡 |
-| **ruff** | 檢查 Python 程式碼格式的工具。 | ⚪ |
-| **CI** | 在 GitHub 上自動跑的檢查(不在你電腦上)。 | ⚪ |
-| **bypass-proof** | 「繞不過」的設計：檢查放在送出當下，壞資料無法從舊分支偷渡。 | ⚪ |
-| **corpus ERROR gate** | 針對「整個資料庫全體」的錯誤閘門。 | ⚪ |
-
-### 四、流程（日常怎麼運作）
-
-| 名詞 | 白話 | 重要度 |
-|---|---|---|
-| **SSOT** | 唯一真相來源。 | 🔴 |
-| **issue lifecycle** | GitHub issue 生命週期：issue 本身是工作說明書+唯一狀態來源。 | 🟡 |
-| **domain-probe (L0–L3)** | 幫網域填卡的四步：身分→建站技術→範圍→年份/地區。 | 🟡 |
-| **TheRefinery / TheArgus** | 上下游姊妹系統(精煉層 / 檢測層)；市場數據由下游算。 | 🟡 |
-| **disposition report** | issue 做完貼的成果總結(數量、commit、驗證結果)。 | ⚪ |
-| **HTTP probe / RDAP / Wayback / sitemap / PDP** | 探網站的各種手段：連首頁探技術 / 查註冊年份 / 查最早存檔 / 數網頁清單 / 商品詳情頁。 | ⚪ |
-| **marketplace-brand-sweep** | 從電商平台掃出新品牌並建卡的流水線。 | ⚪ |
-| **blacklist** | 黑名單：排除垃圾/詐騙/湊名賣家。 | ⚪ |
-| **git worktree** | 多分支各用獨立資料夾同時進行，不互相踩到。 | ⚪ |
-
-### 五、實體/商標
-
-| 名詞 | 白話 | 重要度 |
-|---|---|---|
-| **BI / BT / BP** | 成分(WHAT)/ 技術(HOW)/ 來源(WHO)三種商標。 | 🟡 |
-| **branded_ingredient / technology / provenance** | 上面三類的完整名稱與資料夾名。 | 🟡 |
-| **strain** | 菌株，益生菌等的特定品系，也有專屬卡。 | ⚪ |
-| **variant_of** | 「這是某產品線的子款」的連結，子款指回母款。 | ⚪ |
+| 名詞 | 白話 |
+|---|---|
+| **census** | 「人口普查」：從資料庫**算出**品牌統計（不是查證來的）。 |
+| **uv / uv run** | 這專案的 Python 執行工具，所有指令前都加 `uv run`。 |
+| **五個 .db**（dsld / iherb / keepa / weaver / enriched） | 五個原料資料庫（官方標籤 / iHerb / Amazon / 交叉對應 / 加值），是「進料倉庫」。 |
+| **_index.yaml** | muster 自動產的「總目錄檔」，人不用手改。 |
+| **muster --strict** | muster 的嚴格模式：有 ERROR 就擋下，CI 與 pre-commit 用的就是它。 |
+| **acceptance_review.py** | 批次「驗收總關卡」：把散落的檢查收成一個過 / 不過結論。 |
+| **issue lifecycle** | GitHub issue 生命週期：issue 本身是工作說明書，也是它自己狀態的唯一來源。 |
+| **domain-probe (L0–L3)** | 幫網域填卡的四步：身分 → 建站技術 → 範圍 → 年份 / 地區。 |
+| **TheRefinery / TheArgus** | 上下游姊妹系統（精煉層 / 檢測層）；市場數據由下游算，不在 Eidos。 |
 
 ---
 
@@ -486,6 +447,34 @@ git commit -m "feat: Add new brand profile"
 
 ---
 
+## 🎯 適用角色
+
+### 新進工程師
+- ✅ 建立「身分層 vs 產品層」的基本分野
+- ✅ 看懂一張 DogTag 身分卡的組成（frontmatter + 內文）
+- ✅ 知道七種身分卡各代表什麼、彼此如何互相指認
+- 📖 建議先閱讀: [00_overview.md](00_overview.md), [therefinery.md](therefinery.md)
+
+### 身分卡維護者
+- ✅ 掌握 muster / dogtag / census 的日常用法
+- ✅ 理解 provenance gate 為何存在，以及 source tier 的高低順序
+- ✅ 記住「只 commit 源檔、衍生物用再重生」的工作流程
+- 📖 建議先閱讀: 本文檔「🚀 使用方式」+ 專案 `specs/DogTag/README.md`
+
+### 跨團隊協作
+- ✅ 明確 Eidos 的輸入來自 TheRefinery `enriched.db`
+- ✅ 知道身分卡會回頭供應 brand-id matching
+- ✅ 分清市場 / 定位數據不在 Eidos，而在 TheArgus / census
+- 📖 建議先閱讀: [../01_data-flow.md](../01_data-flow.md), [theargus.md](theargus.md)
+
+### 架構師
+- ✅ 掌握 Eidos 在 AlchemyMind 層的定位（不在逐批處理的產品流水線上）
+- ✅ 評估 SSOT 以 Markdown 為真相來源的取捨
+- ✅ 規劃身分資料與產品資料的整合邊界
+- 📖 建議先閱讀: [../00_architecture-overview.md](../00_architecture-overview.md)
+
+---
+
 ## 📚 相關文檔
 
 ### Learning Map 文檔
@@ -514,6 +503,7 @@ git commit -m "feat: Add new brand profile"
 | 版本 | 日期 | 作者 | 變更說明 |
 |------|------|------|----------|
 | 1.0 | 2026-07-20 | Dustin | 初版：對齊子系統文檔結構（系統職責 / 架構圖 / 七種 DogTag / 名詞白話對照表）；schema 概念外連 general/，profile 數字與 schema 版本對齊實檔 |
+| 1.1 | 2026-07-20 | Dustin | 定位改為新人系統導覽（非「非技術背景」）；關鍵概念砍 ⚪ 進階詞、消除重複定義、五表併兩表；新增「適用角色」；related 補 thedistiller |
 
 ### 維護職責
 - **主要維護者**: Dustin
@@ -534,4 +524,4 @@ git commit -m "feat: Add new brand profile"
 
 **文檔結束**
 
-> **注意**：本文檔為給非技術新人的白話概覽，詳細技術實作請參考 Eidos 專案的 `CLAUDE.md` 與 `specs/DogTag/`。profile 數量會隨批次上架成長，如與現況落差過大請重新核對。
+> **注意**：本文檔為新人導覽用的系統概覽，詳細技術實作請參考 Eidos 專案的 `CLAUDE.md` 與 `specs/DogTag/`。profile 數量會隨批次上架成長，如與現況落差過大請重新核對。
