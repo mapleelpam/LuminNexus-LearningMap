@@ -155,13 +155,33 @@ tags:
 audience:
   - all
 summary: |
-  一兩句說明文章涵蓋什麼（目錄頁卡片的簡介來源）。
+  一兩句說明文章涵蓋什麼（目錄頁卡片的簡介來源，也是 Summary-First 檢索的索引）。
 ---
 ```
 
 **Required fields**（由 hook 強制）：`title`, `type`, `status`, `created`, `updated`, `version`, `project`, `tags`, `audience`, `summary`，以及 `author`（有 `source` 者可免）。選用欄位：`related`（關聯文件）、`source`（外部出處）。
 
 **Frontmatter 檢查 hook**：`.claude/settings.json` 掛了 PostToolUse hook，Claude 每次 Edit/Write 教材 md 後自動跑 `scripts/check_frontmatter.py` 驗證上述規範，不符合會把錯誤回饋給 Claude 要求修正。手動全檢：`python3 scripts/check_frontmatter.py --all`
+
+### Summary-First Retrieval（摘要優先檢索法）
+
+當被問到「哪些文件在講 X」「怎麼學 X」「這批文件的關係」等**跨檔案內容問題**時，**優先讀 frontmatter 的 `summary` 欄位，不要用 `grep` 標題或掃內文**。
+
+**為什麼**：`summary` 是作者濃縮過的高訊噪比索引；`grep` 標題只拿到骨架、掃全文則塞爆 context。這正是本專案 ContextOps 精神的落地——先讀索引，需要細節時才進正文（呼應 `general/progressive-disclosure.md`）。
+
+**如何取出所有 summary**（`summary: |` 是多行區塊）：
+
+```bash
+# 掃某資料夾所有檔的 summary，當作檢索索引
+for f in general/*.md; do
+  echo "===== $f ====="
+  awk 'f==0 && /^---$/{f=1; next} f==1 && /^---$/{exit} \
+       f==1 && /^summary:/{s=1; next} \
+       f==1 && s==1 && /^[a-zA-Z_]/{s=0} s==1{print}' "$f"
+done
+```
+
+**流程**：① 讀相關資料夾的 summary 索引 → ② 依 summary 判斷相關檔案與彼此關係 → ③ 只對真正需要的檔案讀正文。（`summary` 為 hook 強制的必填欄位，正常情況下不會缺；遇到缺漏的舊檔直接補上。）
 
 ### CLI Commands
 
