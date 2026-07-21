@@ -182,6 +182,7 @@ Vault (Archive) ← 循環完成!
 - [prismavision/smart-insight-engine/](prismavision/smart-insight-engine/) - 查詢引擎 (完整學習路徑)
 - [prismavision/next.md](prismavision/next.md) - 前端介面
 - [prismavision/mcp.md](prismavision/mcp.md) - MCP 協議介面
+- [prismavision/thejournalism.md](prismavision/thejournalism.md) - 資料詮釋與報告生成
 
 ---
 

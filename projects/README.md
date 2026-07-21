@@ -4,7 +4,7 @@ type: overview
 status: active
 created: 2025-12-09
 updated: 2026-07-04
-version: "1.2"
+version: "1.3"
 project: LearningMap
 author: maple
 tags:
@@ -77,7 +77,8 @@ projects/
 │   │   └── 03_test-case-design.md
 │   ├── smartinsightengine.md
 │   ├── next.md
-│   └── mcp.md
+│   ├── mcp.md
+│   └── thejournalism.md
 │
 └── stillflow/                     # 文檔治理工具
     └── 00_overview.md
@@ -108,6 +109,7 @@ projects/
 - **SmartInsightEngine**: MDOF 查詢引擎
 - **PrismaVision-Next**: 前端介面
 - **MCP**: 協議介面
+- **TheJournalism**: 資料詮釋與報告生成 (Extract / Report / Narrate)
 
 **詳細文檔**: [prismavision/00_overview.md](prismavision/00_overview.md)
 
@@ -180,6 +182,7 @@ PrismaVision (SmartInsightEngine → Next/MCP → End Users)
 - [x] alchemymind/theargus.md
 - [x] alchemymind/factum.md
 - [x] alchemymind/eidos.md
+- [x] prismavision/thejournalism.md
 - [x] stillflow/00_overview.md
 
 ### 🚧 待各團隊補充 (Skeleton 已建立)
@@ -290,6 +293,7 @@ PrismaVision (SmartInsightEngine → Next/MCP → End Users)
 | 1.0 | 2025-12-09 | Architecture Team | 初版建立,專案文檔架構完成 |
 | 1.1 | 2026-07-04 | maple | 更新文檔狀態表（多數文件已完成）、結構樹補 thedistiller/factum/stillflow |
 | 1.2 | 2026-07-20 | Dustin | 結構樹、Layer 2 清單、checklist 補上 eidos |
+| 1.3 | 2026-07-21 | Dustin | 新增 thejournalism，定位於 Layer 3 PrismaVision（資料消費側）|
 
 ### 下一步
 - [ ] 各團隊補充 skeleton 文檔
