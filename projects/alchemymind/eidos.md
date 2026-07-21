@@ -3,7 +3,7 @@ title: "Eidos - 供應鏈身分系統"
 type: spec
 status: active
 created: 2026-07-20
-version: "1.1"
+version: "1.2"
 project: LearningMap
 author: Dustin
 tags:
@@ -64,8 +64,8 @@ summary: |
 
 - **身分即真相**：把雜亂的供應鏈關係萃取成結構化、可查證的身分卡
 - **互相指認**：品牌卡寫「屬於哪間公司」、成分卡寫「擁有者是誰、用了哪項技術」，連起來成一張供應鏈關係網
-- **provenance 可追**：每筆欄位都記「哪來的、多可信」，資料才不會越改越糟
-- **身分 ≠ 市場表現**：只記持久身分事實，不記市占 / 銷量這類會變的數字（那是下游 TheArgus 的工作）
+
+> 支撐這兩點的五條設計原則（含「身分 ≠ 市場表現」與 provenance 的取捨），見本文「💡 設計原則」。
 
 ### 命名由來
 
@@ -208,7 +208,7 @@ profiles/
 
 ---
 
-## 🔧 核心功能
+## 🔧 核心功能與機制
 
 ### 1. 四個工具鏈（都用 `uv run`）
 
@@ -221,13 +221,9 @@ profiles/
 
 ### 2. Provenance Gate（來源可信度閘門）
 
-每筆資料都記「哪來的、多可信」；閘門規定 **「低可信來源不准覆蓋高可信」**，避免多個程式互改打架。可信度等級（source tier）由高到低：人工查證 > LLM 判斷 > 內容分類 > 直接探測 > 種子匯入。
+每筆資料都記「哪來的、多可信」；閘門規定 **「低可信來源不准覆蓋高可信」**。可信度等級（source tier）由高到低：人工查證 > LLM 判斷 > 內容分類 > 直接探測 > 種子匯入。（為什麼要有這道閘門，見「💡 設計原則 → 3」）
 
-### 3. SSOT（唯一真相來源）
-
-某件事只以一個地方為準。例：`profiles/**/*.md` 是身分的唯一真相；`_index.yaml` 等衍生物不是。issue 是它自己狀態的唯一真相，commit 訊息不算。
-
-### 4. 品質關卡（pre-commit / muster --strict）
+### 3. 品質關卡（pre-commit / muster --strict）
 
 送出前的自動檢查關卡：存進 git 前先跑一輪 `muster --strict`，有 ERROR 就擋下。批次產出另有 `acceptance_review.py` 驗收總關卡，把散落檢查收成一個過 / 不過結論（訊息分 **BLOCK / WARN / INFO** 三級，有一個 BLOCK 就不通過）。
 
@@ -285,8 +281,6 @@ Eidos 的身分卡會**回頭供應** brand-id matching，幫上游把散落的 
 ### 3. TheArgus / census（下游 - 市場數據）
 
 **這是 Eidos 不做的那半**：市場覆蓋、定位、銷量、市占等**會變動的數字**由下游 TheArgus / census 層**從產品資料計算**，不在 Eidos curate。
-
-> **一條最重要的界線：身分 ≠ 市場表現。** 分清這條線，是理解 Eidos 的第一把鑰匙。
 
 ---
 
@@ -436,7 +430,7 @@ git commit -m "feat: Add new brand profile"
 
 ### Q4: 為什麼一直強調 provenance / 可信度？
 
-**A**：因為 Eidos 的價值是「可信的身分」。同一個欄位可能被多個程式想寫，provenance gate 確保「低可信來源不會蓋掉人工查證的值」，資料才不會越改越糟。
+**A**：因為 Eidos 的價值是「可信的身分」——同一個欄位可能被多個程式想寫，沒有來源記錄就無從判斷該信誰。完整理由見「💡 設計原則 → 3. Provenance Over Silence」。
 
 ### Q5: muster --strict 沒過怎麼辦？
 
@@ -444,6 +438,55 @@ git commit -m "feat: Add new brand profile"
 1. 看訊息前綴：`✗` = ERROR（必修）、`⚠` = WARN、`ℹ` = INFO。
 2. 常見 ERROR：重複 `company_name`、非 kebab-case 的 company slug、遺漏必要欄位、frontmatter YAML 語法錯。
 3. 只驗單檔快速回饋：`uv run muster profiles/brands/xxx.md --strict`。
+
+---
+
+## 💡 設計原則
+
+### 1. Identity Is Not Market Performance
+
+Eidos 只 curate 不隨時間變動的持久身分事實
+
+**不收**:
+- 市占 / 銷量 / 定價
+- 市場覆蓋與定位
+- 任何需要重算的數字
+
+### 2. Single Source of Truth
+
+`profiles/**/*.md` 是身分的唯一真相，其餘皆為衍生物
+
+**好處**:
+- 改一個地方就好
+- 衍生物永遠可重生
+- git 歷史即身分變更史
+
+### 3. Provenance Over Silence
+
+每筆值都記來源，低可信來源不得覆蓋高可信
+
+**好處**:
+- 每筆值都能回答「哪來的」
+- 人工查證不會被機器蓋掉
+- 資料不會越改越糟
+
+### 4. Human-Curated, Machine-Verified
+
+身分由人查證撰寫，機器只負責驗證與統計
+
+**分工**:
+- 人：判斷 ownership、寫入身分事實
+- muster：檢查格式與參照完整性
+- census：從資料庫算統計
+
+### 5. Quality Gate Before Commit
+
+沒過關卡的卡片進不了 git
+
+**關卡**:
+- pre-commit 跑 `muster --strict`
+- 批次另過 `acceptance_review.py`
+- 一個 BLOCK 就不通過
 
 ---
 
@@ -504,6 +547,7 @@ git commit -m "feat: Add new brand profile"
 |------|------|------|----------|
 | 1.0 | 2026-07-20 | Dustin | 初版：對齊子系統文檔結構（系統職責 / 架構圖 / 七種 DogTag / 名詞白話對照表）；schema 概念外連 general/，profile 數字與 schema 版本對齊實檔 |
 | 1.1 | 2026-07-20 | Dustin | 定位改為新人系統導覽（非「非技術背景」）；關鍵概念砍 ⚪ 進階詞、消除重複定義、五表併兩表；新增「適用角色」；related 補 thedistiller |
+| 1.2 | 2026-07-21 | Dustin | 新增「設計原則」五條（對齊 thedistiller.md 模板）；消除跨章節重複——核心功能改名為「核心功能與機制」並刪去 SSOT 小節、核心價值砍為兩點、介面說明刪重複引言、Q4 改為指路。章節分工：核心功能答「怎麼運作」、設計原則答「為什麼這樣定」、關鍵概念答「這個詞什麼意思」 |
 
 ### 維護職責
 - **主要維護者**: Dustin
