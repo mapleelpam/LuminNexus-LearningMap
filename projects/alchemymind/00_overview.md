@@ -4,7 +4,7 @@ type: overview
 status: active
 created: 2025-12-09
 updated: 2025-12-09
-version: "1.1"
+version: "1.2"
 project: LearningMap
 author: maple
 tags:
@@ -72,6 +72,7 @@ graph TB
 
         W --> D
         D --> PDB[product_info.db<br/>Canonical Products]
+        D --> OUT3[To PrismaVision:<br/>TheJournalism]
 
         R --> E
         E --> DT[profiles/**/*.md<br/>DogTag 身分卡]
@@ -295,6 +296,7 @@ sequenceDiagram
 - [thedistiller.md](thedistiller.md) - TheDistiller 詳細說明
 - [eidos.md](eidos.md) - Eidos 詳細說明
 - [factum.md](factum.md) - Factum 詳細說明
+- [../prismavision/thejournalism.md](../prismavision/thejournalism.md) - TheJournalism（Layer 3，TheDistiller 的下游消費者）
 - [shared.md](shared.md) - Shared 元件說明
 
 ### 外部專案文檔
@@ -332,6 +334,7 @@ sequenceDiagram
 |------|------|------|----------|
 | 1.0 | 2025-12-09 | Architecture Team | 初版建立 (待 AlchemyMind Team 補充) |
 | 1.1 | 2026-07-20 | Dustin | 補充 Eidos 子系統說明,同步 summary 與架構圖 |
+| 1.2 | 2026-07-21 | Dustin | TheJournalism 改列 PrismaVision (Layer 3)，本層僅保留 TheDistiller 的下游出口與連結 |
 
 ### 維護職責
 - **主要維護者**: AlchemyMind Team

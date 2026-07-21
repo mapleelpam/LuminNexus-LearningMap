@@ -4,7 +4,7 @@ type: spec
 status: active
 created: 2025-12-09
 updated: 2025-12-09
-version: "2.0"
+version: "2.1"
 project: LearningMap
 author: maple
 tags:
@@ -372,6 +372,16 @@ TheDistiller 的輸出 (`product_info.db`) 被以下系統使用：
 
 **介面**: REST API (MDOF Query Language)
 
+### 4. TheJournalism
+
+**用途**: 資料詮釋層,把產品資料轉成多視角分析報告與互動儀表板
+
+**架構**: 唯讀存取,不寫回任何上游資料庫
+
+**介面**: Clip URI (`{scope}/{key}/{view}#{renderer}`)
+
+**詳細文檔**: [../prismavision/thejournalism.md](../prismavision/thejournalism.md)（Layer 3，跨層下游）
+
 ---
 
 ## 🚀 使用方式
@@ -568,6 +578,7 @@ Stage 10 強制驗證資料完整性
 
 | 版本 | 日期 | 作者 | 變更說明 |
 |------|------|------|----------|
+| 2.1 | 2026-07-21 | Dustin | 下游系統整合補上 TheJournalism |
 | 2.0 | 2025-12-09 | AlchemyMind Team | TheDistiller v2.0 完整實作 |
 | 1.0 | 2025-11-xx | AlchemyMind Team | 初版設計與實作 |
 
@@ -585,6 +596,7 @@ Stage 10 強制驗證資料完整性
 
 **下游依賴**:
 - PrismaVision Team (SmartInsightEngine) - product_info.db
+- PrismaVision Team (TheJournalism) - distiller.db (唯讀,跨層)
 
 ---
 

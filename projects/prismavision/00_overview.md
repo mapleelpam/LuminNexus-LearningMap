@@ -4,7 +4,7 @@ type: overview
 status: active
 created: 2025-12-09
 updated: 2025-12-09
-version: "1.0"
+version: "1.1"
 project: LearningMap
 author: maple
 tags:
@@ -12,13 +12,14 @@ tags:
   - layer-3
   - query-engine
   - frontend
+  - interpretation
 related:
   - ../00_architecture-overview.md
 audience:
   - all
 summary: |
   PrismaVision 系統概覽（Layer 3），涵蓋查詢引擎（SmartInsightEngine）、
-  前端介面（Next）、協議介面（MCP）等子系統。
+  前端介面（Next）、協議介面（MCP）與資料詮釋（TheJournalism）等子系統。
 ---
 
 # PrismaVision - 使用者介面與引擎層概覽
@@ -51,22 +52,29 @@ summary: |
 graph TB
     subgraph "PrismaVision - Layer 3"
         IN[From AlchemyMind:<br/>Refined DB]
+        IN2[From AlchemyMind:<br/>distiller.db]
 
         SI[SmartInsightEngine<br/>Query Engine]
         UI[PrismaVision-Next<br/>Frontend]
         MCP[MCP Interface<br/>Protocol Support]
+        TJ[TheJournalism<br/>Interpretation Layer]
 
         IN --> SI
         SI --> UI
         SI --> MCP
 
+        IN2 --> TJ
+        TJ --> RPT[Reports / Charts<br/>Dashboards]
+
         UI --> USER[End Users]
         MCP --> TOOLS[External Tools]
+        RPT --> USER
     end
 
     style SI fill:#e8f5e9
     style UI fill:#e3f2fd
     style MCP fill:#f3e5f5
+    style TJ fill:#fff3e0
 ```
 
 ---
@@ -107,6 +115,15 @@ graph TB
 - **職責**: MCP (Model Context Protocol) 協議支援
 - **用途**: 讓外部工具 (如 AI Agents) 可以查詢 SmartInsightEngine
 - **詳細文檔**: [mcp.md](mcp.md)
+
+### 4. TheJournalism - 資料詮釋層
+
+- **職責**: 把 `distiller.db` 的結構化資料轉成人可讀的多視角分析報告
+- **與查詢引擎的差別**: SmartInsightEngine 回答「查詢」,TheJournalism 回答「這批資料在講什麼故事」
+- **三層架構**: Extract (萃取) / Report (呈現) / Narrate (敘事),以「選擇是否固化在程式碼裡」劃分
+- **輸入**: `distiller.db` (AlchemyMind - TheDistiller,唯讀)、`config/*.yaml` 範圍定義
+- **輸出**: 圖表 PNG、互動儀表板、中英雙語研究報告 (md / PDF / HTML)
+- **詳細文檔**: [thejournalism.md](thejournalism.md)
 
 ---
 
@@ -151,12 +168,14 @@ sequenceDiagram
 
 ### 資料流入
 - **AlchemyMind (TheRefinery)** → SmartInsightEngine (Refined DB)
+- **AlchemyMind (TheDistiller)** → TheJournalism (`distiller.db`,唯讀)
 
 ### 資料流出
 - SmartInsightEngine → **PrismaVision-Next** (JSON API)
 - SmartInsightEngine → **MCP** (JSON API)
 - PrismaVision-Next → **End Users** (Web UI)
 - MCP → **External Tools** (API)
+- TheJournalism → **End Users** (報告 / 圖表 / 儀表板)
 
 **詳細說明**: 參考 [01_data-flow.md](../01_data-flow.md)
 
@@ -213,11 +232,13 @@ sequenceDiagram
 - [smart-insight-engine/](smart-insight-engine/) - **SmartInsightEngine 完整學習路徑** ⭐
 - [next.md](next.md) - PrismaVision-Next 詳細說明
 - [mcp.md](mcp.md) - MCP 協議介面
+- [thejournalism.md](thejournalism.md) - TheJournalism 資料詮釋層
 
 ### 外部專案文檔
 - `LuminNexus-PrismaVision-SmartInsightEngine/README.md` - SI Engine README
 - `LuminNexus-PrismaVision-Next/README.md` - Next Frontend README
 - `LuminNexus-PrismaVision-SmartInsightEngine-MCP/README.md` - MCP README
+- `LuminNexus-AlchemyMind-TheJournalism/CLAUDE.md` - TheJournalism 專案說明
 
 ---
 
@@ -263,6 +284,7 @@ sequenceDiagram
 | 版本 | 日期 | 作者 | 變更說明 |
 |------|------|------|----------|
 | 1.0 | 2025-12-09 | Architecture Team | 初版建立 (待 PrismaVision Team 補充) |
+| 1.1 | 2026-07-21 | Dustin | 納入 TheJournalism 子系統 (自 AlchemyMind 移入),同步 summary、架構圖與資料流 |
 
 ### 維護職責
 - **主要維護者**: PrismaVision Team
