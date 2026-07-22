@@ -3,6 +3,7 @@ title: "Eidos - 供應鏈身分系統"
 type: spec
 status: active
 created: 2026-07-20
+updated: 2026-07-22
 version: "1.2"
 project: LearningMap
 author: Dustin

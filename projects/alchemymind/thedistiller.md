@@ -3,7 +3,7 @@ title: "TheDistiller - 產品資料統一化 ETL Pipeline"
 type: spec
 status: active
 created: 2025-12-09
-updated: 2025-12-09
+updated: 2026-07-22
 version: "2.1"
 project: LearningMap
 author: maple

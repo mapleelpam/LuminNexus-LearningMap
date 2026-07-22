@@ -3,7 +3,7 @@ title: "AlchemyMind - 資料處理與分析層概覽"
 type: overview
 status: active
 created: 2025-12-09
-updated: 2025-12-09
+updated: 2026-07-22
 version: "1.2"
 project: LearningMap
 author: maple
