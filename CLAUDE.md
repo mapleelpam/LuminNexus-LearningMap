@@ -148,7 +148,7 @@ created: 2025-12-18
 updated: 2025-12-18      # 最後更新日期（>= created）
 version: "1.0"
 project: LearningMap
-author: maple            # maple, leana, yijou14；外部轉錄文件可改用 source 記出處
+author: maple            # maple, leana, yijou14, Dustin；外部轉錄文件可改用 source 記出處
 tags:
   - tag1
   - tag2

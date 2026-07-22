@@ -3,6 +3,7 @@ title: "TheJournalism - 資料詮釋層"
 type: spec
 status: active
 created: 2026-07-21
+updated: 2026-07-22
 version: "1.0"
 project: LearningMap
 author: Dustin
