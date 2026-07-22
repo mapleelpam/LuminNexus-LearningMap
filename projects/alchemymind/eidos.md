@@ -4,7 +4,7 @@ type: spec
 status: active
 created: 2026-07-20
 updated: 2026-07-22
-version: "1.2"
+version: "1.3"
 project: LearningMap
 author: Dustin
 tags:
@@ -78,7 +78,7 @@ summary: |
 ### 系統定位
 - **Layer**: AlchemyMind (Layer 2)
 - **上游**: TheRefinery（產出 `enriched.db`）
-- **下游**: TheArgus / census（市場 / 定位數據）；並回頭供應 brand-id matching
+- **下游**: TheArgus / census（市場 / 定位數據）、TheDistiller（消費 `eidos.db` 作為 BrandedIngredients 的 canonical 來源）；並回頭供應 brand-id matching
 
 ---
 
@@ -549,6 +549,7 @@ Eidos 只 curate 不隨時間變動的持久身分事實
 | 1.0 | 2026-07-20 | Dustin | 初版：對齊子系統文檔結構（系統職責 / 架構圖 / 七種 DogTag / 名詞白話對照表）；schema 概念外連 general/，profile 數字與 schema 版本對齊實檔 |
 | 1.1 | 2026-07-20 | Dustin | 定位改為新人系統導覽（非「非技術背景」）；關鍵概念砍 ⚪ 進階詞、消除重複定義、五表併兩表；新增「適用角色」；related 補 thedistiller |
 | 1.2 | 2026-07-21 | Dustin | 新增「設計原則」五條（對齊 thedistiller.md 模板）；消除跨章節重複——核心功能改名為「核心功能與機制」並刪去 SSOT 小節、核心價值砍為兩點、介面說明刪重複引言、Q4 改為指路。章節分工：核心功能答「怎麼運作」、設計原則答「為什麼這樣定」、關鍵概念答「這個詞什麼意思」 |
+| 1.3 | 2026-07-22 | leana | merge 前查證：下游補 TheDistiller（消費 eidos.db） |
 
 ### 維護職責
 - **主要維護者**: Dustin
@@ -563,6 +564,7 @@ Eidos 只 curate 不隨時間變動的持久身分事實
 
 **下游依賴**：
 - TheArgus / census - 使用身分卡計算市場 / 定位數據
+- TheDistiller - 消費 `eidos.db` 作為 BrandedIngredients 的 canonical 來源
 - brand-id matching - 回頭供應上游對應
 
 ---

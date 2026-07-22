@@ -4,7 +4,7 @@ type: spec
 status: active
 created: 2025-12-09
 updated: 2026-07-22
-version: "2.1"
+version: "2.2"
 project: LearningMap
 author: maple
 tags:
@@ -136,6 +136,8 @@ TheDistiller 從三個資料庫讀取資料：
 ### product_info.db
 
 **檔案名稱**: `product_info.{version}.db` (目前: `dsld_distiller.db`)
+
+> **命名與規模演進**：本文檔記載 v2.0（2025-12）時代的架構。現行 TheDistiller repo（v3.x）的輸出已更名為 `distiller.db`（55 表、約 2 GB），資料規模亦從「僅 DSLD 的 144,625 筆」成長為多來源（DSLD + Amazon + iHerb）的數十萬筆——下游文檔（如 [thejournalism.md](../prismavision/thejournalism.md)）引用的較大數字即由此而來。精確現況以 `LuminNexus-AlchemyMind-TheDistiller/CLAUDE.md` 為準。
 
 **資料庫大小**: 647 MB
 
@@ -579,6 +581,7 @@ Stage 10 強制驗證資料完整性
 | 版本 | 日期 | 作者 | 變更說明 |
 |------|------|------|----------|
 | 2.1 | 2026-07-21 | Dustin | 下游系統整合補上 TheJournalism |
+| 2.2 | 2026-07-22 | leana | 補命名與規模演進註記（現行 v3.x 輸出已更名 distiller.db、多來源規模） |
 | 2.0 | 2025-12-09 | AlchemyMind Team | TheDistiller v2.0 完整實作 |
 | 1.0 | 2025-11-xx | AlchemyMind Team | 初版設計與實作 |
 

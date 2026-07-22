@@ -4,7 +4,7 @@ type: spec
 status: active
 created: 2026-07-21
 updated: 2026-07-22
-version: "1.0"
+version: "1.1"
 project: LearningMap
 author: Dustin
 tags:
@@ -84,6 +84,8 @@ summary: |
 - **同層**: SmartInsightEngine（查詢引擎）、PrismaVision-Next（前端介面）
 - **下游**: 對外交付的報告、簡報與儀表板
 
+> **repo 名與層歸屬**：實際 repo 名為 `LuminNexus-AlchemyMind-TheJournalism`（源 repo 的自述目前也仍寫 AlchemyMind），這是命名沿革的歷史因素；層歸屬以本文為準——產出面向人的資料消費側，與 SmartInsightEngine 同屬 Layer 3。
+
 ---
 
 ## 🏗️ 系統架構
@@ -96,7 +98,7 @@ graph TB
     end
 
     subgraph L0["🔍 L0 — Extract"]
-        EX[70 個 view<br/>記憶體，不落檔]
+        EX[數十個 view<br/>記憶體，不落檔]
     end
 
     subgraph L1["🎨 L1 — Report"]
@@ -140,7 +142,7 @@ graph TB
 **資料流說明**：
 
 1. **範圍先定義，再取數** —— `config/markets/*.yaml` 宣告「什麼算是關節健康市場」，L0 依此組出產品集
-2. **L0 不落檔** —— 70 個 view 是函式呼叫，回傳記憶體中的 JSON，程式結束即消失
+2. **L0 不落檔** —— view 是函式呼叫，回傳記憶體中的 JSON，程式結束即消失
 3. **Clip URI 是唯一介面** —— L1 與 L2 都透過同一組 URI 取數，沒有第二條路徑
 4. **產出由消費端決定** —— 同一包資料，存成 PNG 是圖、存成 factlist 是事實庫、不存就只是終端上一段輸出
 
@@ -178,7 +180,7 @@ graph TB
 
 ### 1. L0 產物 —— 沒有檔案
 
-L0 的 70 個 view **沒有磁碟寫入**。它們是函式，回傳 `dict`，用完即丟。系統中不存在 `output/l0/` 這類目錄。
+L0 的數十個 view **沒有磁碟寫入**。它們是函式，回傳 `dict`，用完即丟。系統中不存在 `output/l0/` 這類目錄。
 
 這是新人最常見的誤解。正確理解是：**L0 提供內容，檔案由消費端決定要不要存。**
 
@@ -254,7 +256,7 @@ uv run journalism clip "market/joint_health/brand_distribution#hbar"
 
 同一個 view 換 renderer 即換呈現方式，**不需修改任何程式碼**。這正是「編輯選擇固化在程式碼裡」的具體實作 —— 選擇存在，但它被寫成一段可重現的字串。
 
-### 2. 七個 Scope 與 70 個 View
+### 2. 七個 Scope 與數十個 View
 
 | Scope | 分析單位 | key 來源 |
 |-------|---------|---------|
@@ -660,12 +662,14 @@ L1 有選擇，但選擇被寫成程式碼與 URI 字串，因此可重現、可
 | 版本 | 日期 | 作者 | 變更說明 |
 |------|------|------|---------|
 | 1.0 | 2026-07-21 | Dustin | 初版：系統職責、三層架構比喻、Clip URI 介面、名詞白話對照表。定位於 PrismaVision (Layer 3) 資料消費側 |
+| 1.1 | 2026-07-22 | leana | merge 前查證補註：repo 名沿革、層歸屬警戒線、view 數改約數、下游依賴改為對外交付端 |
 
 ### 維護職責
 
 - **文檔擁有者**: TheJournalism Team
 - **更新時機**: 三層架構調整、Clip URI 語法變更、上下游介面變動時
 - **維護原則**: **不在本文檔內嵌可變動的清單或數字**（view 數量、市場數量等）。需要時改寫成查詢指令，避免文檔與程式碼漂移
+- **層歸屬警戒線**: 目前 L0 view 不落檔、L1 產物僅供本系統呈現，屬純資料消費側；**若未來 L0 / L1 產物開始落檔並被其他系統當資料消費**，本系統即長出資料服務性質，Layer 3 歸屬需重新評估
 
 ### 系統依賴
 
@@ -674,7 +678,7 @@ L1 有選擇，但選擇被寫成程式碼與 URI 字串，因此可重現、可
 - Eidos / Factum —— 間接依賴，資料品質問題須回溯至此
 
 **下游依賴**：
-- PrismaVision —— 儀表板部署
+- 對外交付端 —— 報告 / 簡報 / 儀表板（VPS 靜態部署）
 
 ---
 
