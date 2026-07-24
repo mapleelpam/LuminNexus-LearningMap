@@ -3,8 +3,8 @@ title: "Isomorphism 與 Projection：可比較的前提，與視角的代價"
 type: topic
 status: active
 created: 2026-07-05
-updated: 2026-07-05
-version: "1.0"
+updated: 2026-07-24
+version: "1.1"
 project: LearningMap
 author: maple
 tags:
@@ -198,6 +198,7 @@ T_position = w_position · F = Σᵢ wᵢ Fᵢ
 
 ## 相關文檔
 
+- [isomorphic-tension.html](./isomorphic-tension.html) - **本篇的應用版簡報**（engineer 版，10 頁）：把同構與投影套到實際問題——兩種宣稱如何投影到同一個 S-P-O 空間、力與張力分屬哪一層、null space 造成的盲區。新分頁開啟
 - [emergence-data-compute.md](./emergence-data-compute.md) - 系列第一篇：§2.3「意義從形式中湧現」——同構承載意義的出處
 - [compute-state-context.md](./compute-state-context.md) - 系列第二篇：context = 從 state 切一片，也是一次投影
 - [tension-value-perspective.md](./tension-value-perspective.md) - 系列第三篇：本篇是它的幾何化——力收斂、張力不收斂
@@ -212,6 +213,7 @@ T_position = w_position · F = Σᵢ wᵢ Fᵢ
 | 版本 | 日期 | 作者 | 變更說明 |
 |------|------|------|----------|
 | 1.0 | 2026-07-05 | maple | 初版建立 |
+| 1.1 | 2026-07-24 | leana | 相關文檔補上應用版簡報 isomorphic-tension.html（原本無任何文件連向它，站上連不到） |
 
 ---
 
