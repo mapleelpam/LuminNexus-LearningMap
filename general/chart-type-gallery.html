@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sensor Tower《State of AI 2026》圖表窮舉與類型圖鑑</title>
+<style>
+  :root{
+    --bg:#fafaf9; --panel:#f2f2f0; --white:#fff;
+    --bd:rgba(18,18,23,.10); --bd2:rgba(18,18,23,.18);
+    --ink:#1a1a1f; --ink2:#46464d; --ink3:#6c6c75;
+    --accent:#5b62e8; --accent-soft:#eceefe;
+    --astra:#4dd4e8; --polaris:#ffb057; --smart:#9da3ff;
+    --spectrum:linear-gradient(90deg,#ff6b6b,#ffa94d,#ffd43b,#51cf66,#4dd4e8,#4d8bf0,#9775fa);
+    --new:#e8f8ee; --new-bd:#51cf66; --gap:#fff4e6; --gap-bd:#ffb057;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:Inter,-apple-system,"Segoe UI","Noto Sans TC","PingFang TC",sans-serif;
+    line-height:1.6;font-size:15px;-webkit-font-smoothing:antialiased}
+  .spectrum-bar{height:6px;background:var(--spectrum)}
+  header{max-width:1180px;margin:0 auto;padding:46px 28px 8px}
+  .kicker{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:700}
+  h1{font-size:34px;font-weight:800;margin:.25em 0 .15em;letter-spacing:-.01em}
+  .sub{color:var(--ink2);font-size:16px;max-width:760px}
+  .meta{color:var(--ink3);font-size:13px;margin-top:10px}
+  main{max-width:1180px;margin:0 auto;padding:8px 28px 80px}
+  section{margin-top:40px}
+  h2{font-size:23px;font-weight:800;margin:0 0 4px;display:flex;align-items:center;gap:10px}
+  h2 .n{display:inline-flex;width:30px;height:30px;border-radius:8px;background:var(--accent);color:#fff;
+    font-size:15px;align-items:center;justify-content:center;font-weight:700}
+  .lead{color:var(--ink2);margin:.2em 0 18px;max-width:840px}
+
+  /* stat strip */
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:22px}
+  .stat{background:var(--white);border:1px solid var(--bd);border-radius:14px;padding:16px 18px}
+  .stat .v{font-size:30px;font-weight:900;color:var(--accent);line-height:1}
+  .stat .l{font-size:13px;color:var(--ink3);margin-top:6px}
+  @media(max-width:720px){.stats{grid-template-columns:repeat(2,1fr)}}
+
+  /* interaction chips */
+  .chips{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+  .chip{background:var(--white);border:1px solid var(--bd);border-radius:14px;padding:15px 16px}
+  .chip h4{margin:0 0 4px;font-size:15px;display:flex;align-items:center;gap:8px}
+  .chip p{margin:0;color:var(--ink2);font-size:13.5px}
+  .chip .eg{margin-top:8px;font-size:12px;color:var(--ink3)}
+  .dot{width:9px;height:9px;border-radius:50%;display:inline-block}
+
+  /* gallery */
+  .gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px}
+  .card{background:var(--white);border:1px solid var(--bd);border-radius:16px;overflow:hidden;
+    display:flex;flex-direction:column;transition:box-shadow .15s,transform .15s}
+  .card:hover{box-shadow:0 8px 28px rgba(18,18,23,.09);transform:translateY(-2px)}
+  .card .viz{background:linear-gradient(180deg,#fbfbfa,#f4f4f2);border-bottom:1px solid var(--bd);
+    padding:14px;display:flex;align-items:center;justify-content:center;min-height:148px}
+  .card .body{padding:14px 16px 16px}
+  .tcode{font-size:11px;font-weight:800;letter-spacing:.06em;color:var(--accent);
+    background:var(--accent-soft);padding:2px 8px;border-radius:20px}
+  .card h3{font-size:16px;margin:9px 0 6px;font-weight:800}
+  .card .purpose{font-size:13.5px;color:var(--ink2);margin:0 0 9px}
+  .row{font-size:12.5px;color:var(--ink3);margin:3px 0}
+  .row b{color:var(--ink2);font-weight:600}
+  .rend{display:inline-block;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11.5px;
+    background:#eef0ff;color:#3b3fb0;border-radius:6px;padding:1px 6px}
+  .rend.gapr{background:var(--gap);color:#b06a12}
+  .tag-new{font-size:10.5px;font-weight:700;color:#1f7a3d;background:var(--new);border:1px solid var(--new-bd);
+    border-radius:20px;padding:1px 7px;margin-left:6px}
+
+  /* table */
+  .ctrls{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:6px 0 14px}
+  .ctrls input{flex:1;min-width:220px;padding:10px 13px;border:1px solid var(--bd2);border-radius:10px;
+    font-size:14px;background:var(--white);color:var(--ink)}
+  .ctrls select{padding:10px 13px;border:1px solid var(--bd2);border-radius:10px;background:var(--white);font-size:14px;color:var(--ink)}
+  .count{font-size:13px;color:var(--ink3)}
+  table{width:100%;border-collapse:collapse;background:var(--white);border:1px solid var(--bd);
+    border-radius:14px;overflow:hidden;font-size:13.5px}
+  thead th{background:#1e1e28;color:#fff;text-align:left;padding:11px 12px;font-weight:600;
+    cursor:pointer;user-select:none;white-space:nowrap;position:sticky;top:0}
+  thead th:hover{background:#2a2a38}
+  thead th .ar{opacity:.5;font-size:11px}
+  tbody td{padding:10px 12px;border-top:1px solid var(--bd);vertical-align:top}
+  tbody tr:hover{background:#f7f7fb}
+  td.num{font-weight:800;color:var(--accent);text-align:center;width:38px}
+  td.pg{text-align:center;color:var(--ink3);width:42px}
+  .ty{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:#3b3fb0;font-weight:700;white-space:nowrap}
+  .ix{font-size:11px;color:var(--ink3)}
+  .ix .b{display:inline-block;background:var(--panel);border:1px solid var(--bd);border-radius:5px;padding:0 5px;margin:1px 2px 0 0}
+
+  footer{max-width:1180px;margin:0 auto;padding:10px 28px 50px;color:var(--ink3);font-size:12.5px}
+  .legend{display:flex;gap:16px;flex-wrap:wrap;margin:10px 0 0;font-size:12.5px;color:var(--ink3)}
+  .legend span{display:inline-flex;align-items:center;gap:6px}
+  a{color:var(--accent)}
+  /* mini svg helpers */
+  svg .ax{stroke:#c9c9cf;stroke-width:1}
+  svg .mut{fill:#c4c4cc}
+  svg .hero{fill:var(--accent)}
+  svg .s2{fill:var(--astra)} svg .s3{fill:var(--polaris)} svg .s4{fill:var(--smart)}
+  svg text{font-family:Inter,sans-serif}
+</style>
+</head>
+<body>
+<div class="spectrum-bar"></div>
+<header>
+  <div class="kicker">LearningMap · Reference · 圖表素養</div>
+  <h1>Sensor Tower《State of AI 2026》圖表窮舉與類型圖鑑</h1>
+  <p class="sub">逐頁看完 65 頁網頁報告，窮舉出 <b>58 張資料圖表</b>，整理成 <b>22 種類型</b> 的示意圖＋目的＋適合場景，可作為「市場情報報告該怎麼畫圖」的型錄與選型參考。</p>
+  <div class="meta">原始盤點 2026-06-25 · leana · 教材版快照 2026-07-24 · 來源報告：Sensor Tower《State of AI 2026》</div>
+  <div class="stats">
+    <div class="stat"><div class="v">58</div><div class="l">資料圖表（不含封面 / 數字卡 / logo 牆 / TOC / 分隔頁）</div></div>
+    <div class="stat"><div class="v">22</div><div class="l">不同圖表「型」</div></div>
+    <div class="stat"><div class="v">7</div><div class="l">反覆出現的互動 / 呈現手法</div></div>
+    <div class="stat"><div class="v">65</div><div class="l">逐頁看完的報告頁數</div></div>
+  </div>
+</header>
+
+<main>
+
+<!-- ===== 互動手法 ===== -->
+<section id="interactions">
+  <h2><span class="n">1</span>反覆出現的互動 / 呈現手法</h2>
+  <p class="lead">整份報告只用「兩色＋主角高亮」，圖表卻不單調——靠少數幾個<b>可重複機制</b>撐起 58 張圖。這些正是 design study「抄結構、不抄品牌」要對齊的部分。</p>
+  <div class="chips">
+    <div class="chip"><h4><span class="dot" style="background:var(--accent)"></span>下拉選單 ◀▶</h4><p>同一張圖換維度（市場 / 國家 / app / genre）。同一 extractor 換 filter，天生可重複、零手填。</p><div class="eg">例：#3、#6、#16–18、#21、#28、#38–40、#46、#50</div></div>
+    <div class="chip"><h4><span class="dot" style="background:var(--astra)"></span>分頁切換 tab</h4><p>同一張圖換指標或對象（Downloads ↔ Market Share、各 advertiser）。</p><div class="eg">例：#19、#20、#26、#33、#43、#44</div></div>
+    <div class="chip"><h4><span class="dot" style="background:var(--polaris)"></span>hover tooltip / Interact</h4><p>互動圖鼓勵 hover 顯數值；部分點圖直接標「Interact」。</p><div class="eg">例：#36（週末使用定位）</div></div>
+    <div class="chip"><h4><span class="dot" style="background:var(--smart)"></span>標註框 callout</h4><p>把結論畫在圖上：「+228%」框、虛線橢圓圈主角、坐標軸語意箭頭。</p><div class="eg">例：#4、#9、#11、#25、#31、#32、#38</div></div>
+    <div class="chip"><h4><span class="dot" style="background:#ff6b6b"></span>嵌入截圖當證據</h4><p>真實 app 畫面 / 官方聲明 / 廣告創意截圖直接放進圖內。</p><div class="eg">例：#4、#12、#44、#49、#56、#57</div></div>
+    <div class="chip"><h4><span class="dot" style="background:#4d8bf0"></span>icon / logo 當標籤</h4><p>app icon、品牌 logo 取代文字軸標 / 柱端標籤。</p><div class="eg">例：#1、#10、#28、#34、#56、#57</div></div>
+    <div class="chip"><h4><span class="dot" style="background:#9775fa"></span>主角高亮、其餘壓灰</h4><p>hero 塗品牌色、其他深灰，一秒鎖定焦點。</p><div class="eg">例：#1、#50</div></div>
+  </div>
+</section>
+
+<!-- ===== 類型圖鑑 ===== -->
+<section id="gallery">
+  <h2><span class="n">2</span>圖表類型圖鑑（22 種型 · 含示意圖）</h2>
+  <p class="lead">每張示意圖手繪自報告實樣。<span class="tag-new">新 renderer</span> = 我們目前沒有、M2 需新增；<span class="rend gapr">擴充</span> = 既有 renderer 要加通用能力。</p>
+  <div class="gal" id="galGrid"></div>
+</section>
+
+<!-- ===== 完整清單 ===== -->
+<section id="list">
+  <h2><span class="n">3</span>完整圖表清單（58 張 · 可搜尋排序）</h2>
+  <div class="ctrls">
+    <input id="q" placeholder="搜尋標題 / 類型 / 目的…（例：地圖、堆疊、ChatGPT、留存）">
+    <select id="fType"><option value="">全部類型</option></select>
+    <span class="count" id="cnt"></span>
+  </div>
+  <table id="tbl">
+    <thead><tr>
+      <th data-k="id"># <span class="ar">↕</span></th>
+      <th data-k="pg">頁 <span class="ar">↕</span></th>
+      <th data-k="title">標題 <span class="ar">↕</span></th>
+      <th data-k="type">類型 <span class="ar">↕</span></th>
+      <th data-k="purpose">目的</th>
+      <th data-k="ix">互動</th>
+    </tr></thead>
+    <tbody id="tb"></tbody>
+  </table>
+</section>
+
+<!-- ===== 啟示 ===== -->
+<section id="takeaway">
+  <h2><span class="n">4</span>從這份盤點學到什麼</h2>
+  <div class="gal">
+    <div class="card"><div class="body"><span class="tcode">覆蓋率</span><h3>¾ 的圖只用了六種基本型</h3><p class="purpose">58 張裡大多落在 <span class="rend">#bar</span> <span class="rend">#line</span> <span class="rend">#donut</span> <span class="rend">#heatmap</span> <span class="rend">#quadrant</span> <span class="rend">#table</span>。<b>表現力不在型的稀有度,在用法</b>——把基本型用到位,比追求罕見圖型有效得多。</p></div></div>
+    <div class="card"><div class="body"><span class="tcode">選型的起點</span><h3>缺什麼型,反映你想主張什麼</h3><p class="purpose">這份報告另外用了地理地圖、旭日圖、文字雲、堆疊面積。地圖之所以關鍵,是因為它是「跨地區比較」這個主張的唯一載體——<b>選型的起點是主張,不是美感</b>。</p></div></div>
+    <div class="card"><div class="body"><span class="tcode">真正的差距</span><h3>拉開差距的是修辭,不是圖型</h3><p class="purpose">callout 標註(含軸語意箭頭、虛線圈主角)、事件標記、icon 端標、主角高亮、diverging 排列、「主圖＋companion 成長圖」多面板——這些跨圖型的手法決定讀者看不看得懂重點。<b>同一張長條圖,有沒有標註是兩件事</b>。</p></div></div>
+    <div class="card"><div class="body"><span class="tcode">互動</span><h3>下拉 · 分頁 · hover 是機制,不是亮點</h3><p class="purpose">三種互動在報告中反覆出現,作用是<b>在有限版面裡承載更多資料</b>。先問「這裡需要互動嗎」,再問「用哪一種」——不需要而加,只是增加讀者的操作成本。</p></div></div>
+  </div>
+  <p class="purpose" style="margin-top:18px">這份盤點原是 TheJournalism 的 design study 附件,曾用來決定該系統 renderer 的開發優先級;含開發脈絡的工作版本見 <code>LuminNexus-AlchemyMind-TheJournalism/docs/20260625_sensortower_chart_inventory.html</code>。</p>
+</section>
+</main>
+
+<footer>
+  <div class="legend">
+    <span><span class="dot" style="background:var(--accent)"></span>主角 / accent</span>
+    <span><span class="dot" style="background:var(--astra)"></span>astraline</span>
+    <span><span class="dot" style="background:var(--polaris)"></span>polaris</span>
+    <span><span class="dot" style="background:var(--smart)"></span>smartinsight</span>
+    <span><span class="dot" style="background:#c4c4cc"></span>壓灰 / 其餘</span>
+  </div>
+  <p>示意圖為手繪 inline SVG，僅示意版型與資料映射，非還原原圖。配色取自 prisma.vision。單檔自包含、離線可開。</p>
+</footer>
+
+<script>
+/* ---------- mini SVG schematic factory ---------- */
+const W=300,H=140;
+function svg(inner){return `<svg viewBox="0 0 ${W} ${H}" width="100%" height="148">${inner}</svg>`}
+const ax=(x1,y1,x2,y2)=>`<line class="ax" x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}"/>`;
+function rect(x,y,w,h,c){return `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="2" fill="${c}"/>`}
+function poly(pts,c,sw){return `<polyline points="${pts}" fill="none" stroke="${c}" stroke-width="${sw||2.4}" stroke-linecap="round" stroke-linejoin="round"/>`}
+
+const SCH={
+ T1(){ // ranking hbar + hero
+   let r='';const lab=[110,80,62,50,40];const cy=[18,42,66,90,114];
+   lab.forEach((w,i)=>{r+=rect(70,cy[i],w*1.3,16,i==0?'var(--accent)':'#c4c4cc')});
+   [18,42,66,90,114].forEach((y,i)=>{r+=`<circle cx="${72+lab[i]*1.3+9}" cy="${y+8}" r="8" fill="${i==0?'#5b62e8':'#3a3a44'}"/>`});
+   return svg(ax(68,8,68,130)+r);
+ },
+ T2(){let r=ax(28,8,28,120)+ax(28,120,292,120);
+   r+=poly('30,96 80,78 130,84 180,55 230,40 285,30','var(--accent)');
+   r+=poly('30,110 80,104 130,98 180,92 230,70 285,52','var(--astra)');
+   r+=poly('30,116 80,114 130,112 180,108 230,104 285,96','var(--polaris)');
+   return svg(r);},
+ T3(){let r=ax(28,8,28,120)+ax(28,120,292,120);
+   r+=`<path d="M28,120 L28,40 L160,30 L292,22 L292,120 Z" fill="var(--accent)" opacity=".85"/>`;
+   r+=`<path d="M28,40 L160,30 L292,22 L292,12 L160,16 L28,28 Z" fill="var(--astra)" opacity=".8"/>`;
+   r+=`<path d="M28,28 L160,16 L292,12 L292,8 L160,10 L28,20 Z" fill="var(--polaris)" opacity=".8"/>`;
+   return svg(r);},
+ T4(){let r=ax(28,8,28,120)+ax(28,120,292,120);
+   r+=`<path d="M28,120 L28,100 L120,72 L210,52 L292,40 L292,120 Z" fill="var(--accent)" opacity=".8"/>`;
+   r+=`<path d="M28,100 L120,72 L210,52 L292,40 L292,30 L210,40 L120,60 L28,90 Z" fill="var(--astra)" opacity=".75"/>`;
+   return svg(r);},
+ T5(){let r=ax(28,8,28,120)+ax(28,120,292,120);
+   r+=`<line x1="150" y1="14" x2="150" y2="120" stroke="#bbb" stroke-dasharray="4 4"/>`;
+   r+=poly('30,100 70,92 110,96 150,30 190,72 230,66 285,58','var(--accent)');
+   r+=poly('30,104 70,100 110,98 150,90 190,80 230,84 285,70','var(--polaris)');
+   r+=`<rect x="178" y="14" width="104" height="30" rx="6" fill="#fff" stroke="var(--astra)" stroke-width="1.4"/><text x="230" y="33" font-size="12" font-weight="700" fill="var(--accent)" text-anchor="middle">+202%</text>`;
+   return svg(r);},
+ T6(){let r=ax(20,12,20,108)+ax(20,108,148,108)+ax(168,12,168,108)+ax(168,108,292,108);
+   r+=poly('22,86 60,70 100,76 145,52','var(--accent)')+poly('22,96 60,90 100,86 145,80','var(--astra)');
+   r+=poly('170,80 210,60 250,66 289,44','var(--accent)')+poly('170,90 210,84 250,70 289,64','var(--polaris)');
+   r+=`<rect x="20" y="118" width="128" height="0"/>`;
+   return svg(r);},
+ T7(){let r=ax(28,8,28,120)+ax(28,120,292,120);let x=44;
+   for(let g=0;g<4;g++){r+=rect(x,120-40,11,40,'#3a3a44')+rect(x+12,120-58,11,58,'var(--smart)')+rect(x+24,120-72,11,72,'var(--astra)');x+=62;}
+   return svg(r);},
+ T8(){let r=ax(28,8,28,120)+ax(28,120,292,120);let x=44;const h=[18,30,42,60,78,96];
+   h.forEach(v=>{r+=rect(x,120-v,26,v,'var(--accent)');x+=42;});return svg(r);},
+ T9(){let r=ax(28,8,28,120)+ax(28,120,292,120);
+   const cols=[60,120,180,240];const cs=['var(--accent)','#3a3a44','var(--smart)','var(--polaris)'];
+   cols.forEach((cx,i)=>{[30,52,74,96].forEach((cy,j)=>{r+=`<circle cx="${cx}" cy="${cy+(i%2?6:0)}" r="5" fill="${cs[j]}"/>`});
+     if(i==0)r+=`<ellipse cx="${cx}" cy="63" rx="13" ry="42" fill="none" stroke="#bbb" stroke-dasharray="3 3"/>`;});
+   return svg(r);},
+ T10(){let r=`<g transform="translate(78,72)"><circle r="42" fill="none" stroke="var(--accent)" stroke-width="16"/>`+
+   `<path d="M0,-42 A42,42 0 0,1 40,-12" fill="none" stroke="var(--polaris)" stroke-width="16"/>`+
+   `<path d="M0,-42 A42,42 0 0,0 -36,22" fill="none" stroke="var(--smart)" stroke-width="16"/></g>`;
+   [0,1,2,3,4].forEach(i=>{r+=rect(170,22+i*20,90-i*14,13,i==0?'var(--accent)':'#c4c4cc')});
+   return svg(r);},
+ T11(){let r='';const cs=['#eceefe','#cfd3fb','#9da3ff','#5b62e8','#3b3fb0'];
+   for(let y=0;y<4;y++)for(let x=0;x<7;x++){r+=rect(40+x*34,20+y*26,30,22,cs[(x*3+y*2)%5])}
+   r+=`<text x="20" y="34" font-size="9" fill="#888">●</text>`;return svg(r);},
+ T12(){let r=ax(24,8,24,86)+ax(24,86,150,86)+ax(168,8,168,86)+ax(168,86,292,86);
+   let x=36;[20,34,52,70].forEach(v=>{r+=rect(x,86-v,18,v,'var(--astra)');x+=28;});
+   x=180;[22,40,58,76].forEach(v=>{r+=rect(x,86-v,18,v,'var(--smart)');x+=28;});
+   r+=ax(24,118,24,134)+ax(24,134,150,134);let x2=40;[8,16,12,20].forEach(v=>{r+=rect(x2,134-v,16,v,'#c79cf0');x2+=28;});
+   return svg(r);},
+ T13(){ // world choropleth (abstract blobs)
+   let r=`<rect x="20" y="14" width="260" height="112" rx="8" fill="#eef1ff"/>`;
+   r+=`<path d="M40,40 q30,-12 60,4 q20,18 -6,30 q-40,10 -54,-8 z" fill="var(--accent)"/>`;
+   r+=`<path d="M130,34 q40,-8 70,10 q14,26 -20,38 q-44,6 -54,-14 z" fill="var(--smart)"/>`;
+   r+=`<path d="M118,86 q26,-6 40,8 q6,16 -18,22 q-28,2 -30,-14 z" fill="var(--polaris)"/>`;
+   r+=`<path d="M210,80 q24,-4 34,10 q2,14 -18,18 q-22,0 -22,-12 z" fill="#c4c4cc"/>`;
+   return svg(r);},
+ T14(){ // US states + table
+   let r=`<path d="M22,40 q60,-16 130,-4 q30,18 6,46 q-70,18 -130,2 z" fill="#dcd6fb"/>`;
+   r+=`<path d="M60,46 q26,-4 30,16 q-8,16 -28,12 q-12,-14 -2,-28z" fill="var(--accent)"/>`;
+   r+=`<path d="M100,52 q22,0 22,16 q-10,12 -26,6 q-6,-16 4,-22z" fill="#9da3ff"/>`;
+   for(let i=0;i<5;i++){r+=rect(196,22+i*20,86,14,i%2?'#f2f2f0':'#fff');r+=`<line x1="196" y1="${36+i*20}" x2="282" y2="${36+i*20}" stroke="#e6e6ea"/>`}
+   return svg(r);},
+ T15(){let r=ax(150,10,150,128)+ax(24,69,292,69);
+   r+=`<text x="156" y="20" font-size="9" fill="#999">▲</text><text x="285" y="64" font-size="9" fill="#999">▶</text>`;
+   [[90,40,16,'var(--accent)'],[200,52,10,'var(--astra)'],[120,95,13,'var(--polaris)'],[225,92,8,'var(--smart)'],[70,82,7,'#3a3a44']].forEach(b=>{r+=`<circle cx="${b[0]}" cy="${b[1]}" r="${b[2]}" fill="${b[3]}" opacity=".8"/>`});
+   return svg(r);},
+ T16(){let r=ax(28,8,28,120)+ax(28,120,292,120);let x=46;
+   for(let g=0;g<5;g++){const tot=104;r+=rect(x,16,30,tot*.5,'var(--accent)')+rect(x,16+tot*.5,30,tot*.25,'var(--astra)')+rect(x,16+tot*.75,30,tot*.15,'var(--polaris)')+rect(x,16+tot*.9,30,tot*.1,'#c4c4cc');x+=50;}
+   return svg(r);},
+ T17(){let r=ax(28,8,28,120)+ax(28,120,292,120);let x=40;const hs=[18,26,34,46,60,78,98];
+   hs.forEach(v=>{let y=120;[[.45,'var(--accent)'],[.25,'var(--smart)'],[.18,'var(--polaris)'],[.12,'#c4c4cc']].forEach(s=>{const h=v*s[0];y-=h;r+=rect(x,y,22,h,s[1])});x+=36;});
+   return svg(r);},
+ T18(){let r=`<g transform="translate(150,72)">`;
+   const seg=(r1,r2,a1,a2,c)=>{const p=(a,rr)=>[Math.cos(a)*rr,Math.sin(a)*rr];const[x1,y1]=p(a1,r1),[x2,y2]=p(a2,r1),[x3,y3]=p(a2,r2),[x4,y4]=p(a1,r2);return `<path d="M${x1},${y1} A${r1},${r1} 0 0,1 ${x2},${y2} L${x3},${y3} A${r2},${r2} 0 0,0 ${x4},${y4} Z" fill="${c}"/>`};
+   r+=seg(20,34,-1.4,1.0,'var(--accent)')+seg(20,34,1.0,2.0,'var(--polaris)')+seg(20,34,2.0,4.88,'#c4c4cc');
+   r+=seg(36,52,-1.4,-.2,'var(--astra)')+seg(36,52,-.2,.5,'#9da3ff')+seg(36,52,.5,1.0,'#7d83f0')+seg(36,52,1.0,1.7,'#ffd07a')+seg(36,52,1.7,4.88,'#d8d8de');
+   return svg(r+'</g>');},
+ T19(){let r=`<g transform="translate(80,72)"><circle r="40" fill="none" stroke="var(--smart)" stroke-width="15"/><path d="M0,-40 A40,40 0 0,1 28,-28" fill="none" stroke="var(--accent)" stroke-width="15"/><path d="M0,-40 A40,40 0 0,0 -34,20" fill="none" stroke="var(--astra)" stroke-width="15"/></g>`;
+   r+=`<g transform="translate(220,72)"><circle r="40" fill="none" stroke="var(--accent)" stroke-width="15"/><path d="M0,-40 A40,40 0 0,1 38,12" fill="none" stroke="var(--polaris)" stroke-width="15"/><path d="M0,-40 A40,40 0 0,0 -22,-33" fill="none" stroke="#c4c4cc" stroke-width="15"/></g>`;
+   return svg(r);},
+ T20(){const words=[['powered',26,150,60,'var(--ink)'],['assistant',18,150,82,'var(--ink2)'],['technology',16,150,98,'var(--ink2)'],['chatbot',13,80,46,'var(--accent)'],['image',13,225,52,'var(--astra)'],['music',12,238,90,'#ff6b6b'],['tutor',12,210,108,'var(--polaris)'],['smart',12,70,98,'var(--smart)'],['photo',12,235,30,'var(--accent)'],['agent',11,90,120,'var(--ink3)'],['video',11,210,30,'var(--ink3)']];
+   let r='';words.forEach(w=>{r+=`<text x="${w[2]}" y="${w[3]}" font-size="${w[1]}" font-weight="700" fill="${w[4]}" text-anchor="middle">${w[0]}</text>`});return svg(r);},
+ T21(){let r=ax(150,8,150,124);
+   const rows=[28,48,68,88,108];const lw=[110,70,46,30,20];const rw=[120,60,40,26,16];
+   rows.forEach((y,i)=>{r+=rect(150-lw[i],y-8,lw[i],14,'var(--astra)')+rect(150,y-8,rw[i],14,'var(--accent)')});
+   return svg(r);},
+ T22(){let r='';[26,60,94].forEach((y,i)=>{let x=30;[[.18,'var(--astra)'],[.14,'var(--accent)'],[.2,'var(--smart)'],[.1,'var(--polaris)'],[.16,'#3a3a44'],[.22,'#c4c4cc']].forEach(s=>{const w=s[0]*250;r+=rect(x,y,w,22,s[1]);x+=w});});
+   return svg(r);},
+ T23(){let r='';for(let y=0;y<4;y++){r+=rect(24,16+y*28,252,24,y%2?'#f7f7fb':'#fff');r+=`<circle cx="40" cy="28+${y*28}" r="8" fill="${y==0?'var(--accent)':'#cdd0e8'}"/>`;}
+   // redo with proper y
+   r='';for(let y=0;y<4;y++){const yy=16+y*28;r+=rect(24,yy,252,24,y%2?'#f7f7fb':'#fff')+`<rect x="34" y="${yy+5}" width="14" height="14" rx="3" fill="${y==0?'var(--accent)':'#cdd0e8'}"/>`+rect(58,yy+8,120,8,'#d6d6dc')+rect(210,yy+8,40,8,'var(--astra)')}
+   return svg(r);},
+ T24(){let r=ax(28,8,28,118)+ax(28,118,292,118);
+   r+=poly('40,30 120,92 200,104 280,110','var(--accent)');
+   r+=poly('40,22 120,86 200,98 280,102','var(--polaris)');
+   ['40','120','200','280'].forEach(x=>r+=`<circle cx="${x}" cy="118" r="2.5" fill="#999"/>`);
+   return svg(r);},
+ T25(){let r=ax(28,8,28,120)+ax(28,120,292,120);let x=46;[26,46,70,98].forEach(v=>{r+=rect(x,120-v,30,v,i=>'')||rect(x,120-v,30,v,'var(--accent)');x+=46;});
+   r+=`<circle cx="250" cy="40" r="26" fill="var(--astra)"/><text x="250" y="44" font-size="12" font-weight="800" fill="#0a3" text-anchor="middle">+228%</text>`;
+   r=ax(28,8,28,120)+ax(28,120,222,120);x=46;[26,46,70,98].forEach(v=>{r+=rect(x,120-v,26,v,'var(--accent)');x+=42;});
+   r+=`<circle cx="258" cy="44" r="26" fill="var(--astra)"/><text x="258" y="40" font-size="11" font-weight="800" fill="#0a6" text-anchor="middle">+228</text><text x="258" y="52" font-size="8" fill="#0a6" text-anchor="middle">vs Q1</text>`;
+   return svg(r);}
+};
+
+/* ---------- type catalog ---------- */
+const TYPES=[
+ ['T1','橫向長條（排名）+ 圖示端標 + 主角高亮','排序比較、一眼看出領先者','少數實體排名（速度、規模、聲量）','#1 達 10 億最快 · #50 子類排名 · #56 零售商/廣告主','#hbar','擴充：icon端標+主角高亮'],
+ ['T2','多系列折線（時間序列）','趨勢、競品隨時間消長','3–9 條系列、時間軸','#2 用戶量 · #7/#8 導流佔比 · #35 使用頻率 · #41 TV曝光','#line',''],
+ ['T3','100% 堆疊面積（份額隨時間）','組成份額如何隨時間移動','市佔此消彼長','#3 True Audience 市佔（ChatGPT 跌破 50%）','','新增 area'],
+ ['T4','堆疊面積（量隨時間）','總量成長 + 內部組成','量 + 組成同時看','#6 導流量 · #46 加 AI 詞的 app 數','','新增 area'],
+ ['T5','標註折線 + 事件標記 + 嵌截圖','把因果 / 事件釘在趨勢上','需要解釋「為什麼這裡跳」','#4 解除安裝 +202% · #11 轉換 · #36 週末','#line','擴充：callout+事件'],
+ ['T6','並排雙折線（+下拉）','同結構兩面切換比較','兩個對象 / 兩個 segment','#5 用戶分群 · #22 ARPU/付費 · #37 親和度','#line ×2',''],
+ ['T7','群組柱（clustered column）','多類別 × 多系列比較','類別少、系列 2–5','#10 Rufus/Sparky · #34 各 app 各季 · #40 兩期 · #49/#51','#bar (group_by)',''],
+ ['T8','單指標柱（時間 / 年比）','單一量隨時間 / 年增','最樸素的量比較','#13 看廣告佔比 · #53 投放年比','#bar',''],
+ ['T9','群組點圖 / 類別散點 + callout','多指標散布在多類別上比較','一個類別軸、多個指標點','#9 流量vs引用 · #32 人物誌傾向','#scatter','擴充：類別分組+callout'],
+ ['T10','甜甜圈 + 橫條 組合','組成（donut）+ 明細排名（bar）','主組成 + 細項排行','#14 ChatGPT 廣告品類','#donut + #hbar',''],
+ ['T11','熱力圖矩陣','兩維交叉、整面比強弱','行列各 5–15、看模式','#15 通路 × 品類','#heatmap',''],
+ ['T12','多面板柱 + 成長 companion（+下拉）','主指標 + 其 HoH/YoY 成長並陳','量 + 成長率一起講','#16 下載/營收 · #17 時間/工作階段 · #18 網站','#bar 多面板','擴充：companion組裝'],
+ ['T13','類別世界地圖（choropleth）','各國領先者 / 地理分布','地理、類別著色','#23 各國 MAU 領先 · #24 成長領先','','新增 geo map'],
+ ['T14','連續美國州地圖 + 表','州級強弱 + 明細表','美國市場深掘','#43 各州投放 + metro 排名','','新增 US states'],
+ ['T15','泡泡 / 象限定位','兩軸定位、競爭格局','把對象放進兩維象限','#25 導流依賴 · #31 年輕×女性 · #36 週末','#quadrant',''],
+ ['T16','100% 堆疊柱（組成）','各對象內部組成佔比','各對象組成對比','#21 發行商國別 · #26 新進者 · #29 性別','#bar (stacked,normalize)',''],
+ ['T17','堆疊柱（時間 × genre）','多類別量隨時間堆疊','長時間 × 多 genre','#47/#48 下載/營收 · #54 創意數 · #58 搜尋下載','#bar (group_by+stacked)',''],
+ ['T18','旭日圖 / 巢狀甜甜圈','階層組成（channel→platform）','兩層以上階層佔比','#39 通路→平台','','新增 sunburst'],
+ ['T19','甜甜圈對照（前後）','兩期組成對比','before/after 組成','#44 創意主題 H1 25 vs YTD 26','#donut ×2',''],
+ ['T20','文字雲','高頻關鍵詞概覽','文字頻率、氛圍','#45 描述中 AI 後高頻詞','','新增 word cloud'],
+ ['T21','發散 / 雙向長條（inbound↔outbound）','雙向量對稱比較','進 vs 出、正 vs 負','#33 通路導流 進出','#hbar','擴充：diverging'],
+ ['T22','100% 堆疊橫條（標籤段）','少數年份的組成對比','2–4 列、每段標數字','#42 NFL 分配 · #55 投放品類年比','#hbar (stacked,normalize)',''],
+ ['T23','排行榜 icon 表格 / 縮圖資料表','排名榜（icon）/ 範例明細表','榜單、明細、含圖','#28 各市場榜 · #57 產品×創意','#table','擴充：icon/縮圖'],
+ ['T24','留存曲線','留存（Day1/7/14/30）','留存對比','#52 companions vs dating','#line',''],
+ ['T25','柱 + 成長 callout 泡泡 + 側欄清單','量 + 成長率 + 條件說明','量 + 醒目成長 + 補充','#38 各國廣告投放','#bar','擴充：callout泡泡'],
+];
+
+const gal=document.getElementById('galGrid');
+TYPES.forEach(t=>{
+  const isNew=t[6].includes('新增');const isExt=t[6].includes('擴充');
+  const rendHtml = t[5]? t[5].split(' + ').map(x=>`<span class="rend">${x}</span>`).join(' ') : '<span class="rend gapr">無對應</span>';
+  const tagExtra = isNew?'<span class="tag-new" style="background:var(--gap);border-color:var(--gap-bd);color:#b06a12">新 renderer</span>'
+                   :isExt?'<span class="tag-new">擴充既有</span>':'';
+  const noteHtml = t[6]?`<div class="row"><b>落差：</b><span class="${isNew?'rend gapr':'rend'}">${t[6]}</span></div>`:'';
+  const card=document.createElement('div');card.className='card';
+  card.innerHTML=`<div class="viz">${(SCH[t[0]]||(()=>''))()}</div>
+    <div class="body">
+      <span class="tcode">${t[0]}</span>${tagExtra}
+      <h3>${t[1]}</h3>
+      <p class="purpose">${t[2]}</p>
+      <div class="row"><b>適合：</b>${t[3]}</div>
+      <div class="row"><b>例子：</b>${t[4]}</div>
+      <div class="row"><b>renderer：</b>${rendHtml}</div>
+      ${noteHtml}
+    </div>`;
+  gal.appendChild(card);
+});
+
+/* ---------- full list ---------- */
+const FIG=[
+ [1,6,'Years to Reach 1 Billion Monthly Active Users','T1','ChatGPT 達 10 億用戶最快 → 排序比較','主角高亮'],
+ [2,8,'True Audience for Top AI Assistants','T2','9 家助理用戶量隨時間',''],
+ [3,9,'True Audience Market Share','T3','市佔隨時間移動（ChatGPT 跌破 50%）','地區下拉'],
+ [4,10,'Indexed Uninstalls for Top AI Assistants','T5','事件 → 解除安裝飆 +202%','callout、嵌截圖'],
+ [5,11,'User Segments for Top AI Assistants','T6','留存/新增/流失 結構，可按 app/segment 切','下拉×2'],
+ [6,13,'GenAI Traffic to Shopping Websites by Subgenre','T4','GenAI 導流量隨時間（各零售站）','品類下拉'],
+ [7,13,'% of Total Visits from GenAI','T2','GenAI 佔比隨時間（各品類）',''],
+ [8,14,'Share of Referral Traffic from GenAI (Top Shopping)','T2','各零售站 GenAI 佔比走勢',''],
+ [9,15,'Share of Traffic and Citations by Shopping Subgenre','T9','4 指標 × 各品類對照（流量 vs 引用）','虛線圈+callout'],
+ [10,16,'AI Shopping Assistant Adoption Growth (Rufus/Sparky)','T7','兩零售助理 MAU/DAU/Time 指數成長',''],
+ [11,17,'Rufus vs Non-Rufus Time-to-Conversion & Conv Rate','T5','用 Rufus 轉換更快更高','事件標記、callout'],
+ [12,19,'Weekly Ads for ChatGPT','T2','ChatGPT 廣告量 ~7x','嵌廣告截圖'],
+ [13,19,'Average Daily Share of Users with Ads','T8','看到廣告的用戶佔比上升',''],
+ [14,20,'Top Genres and Subgenres for ChatGPT Ads','T10','廣告主品類組成 + 子類排名','顏色連動'],
+ [15,21,'Share of Ad Impressions by Category (ChatGPT vs Social)','T11','通路 × 品類交叉強弱',''],
+ [16,23,'Yearly Download & IAP Revenue Trends (GenAI Apps)','T12','下載/營收 + HoH 成長','地區下拉'],
+ [17,24,'Yearly Time Spent & Session Trends (GenAI Apps)','T12','時間/工作階段 + HoH','地區下拉'],
+ [18,25,'Yearly Time Spent & Visits (GenAI Websites)','T12','訪問/時間 + YoY','地區下拉'],
+ [19,26,'GenAI App Download Trends by Region','T2','各區下載走勢（亞洲首次下滑）','Downloads/Market Share 分頁'],
+ [20,27,'GenAI IAP Revenue Trends by Region','T2','各區營收走勢（美國重奪份額）','Revenue/Market Share 分頁'],
+ [21,28,'Publisher Headquarter Share by Market','T16','各市場發行商總部國別組成','Downloads/IAP 下拉'],
+ [22,29,'IAP Monetization Trends (ARPU + Premium Share)','T6','ARPU 與付費滲透隨時間',''],
+ [23,30,'Top AI Assistant Mobile Apps by MAUs','T13','各國領先助理',''],
+ [24,30,'Top AI Assistant by Absolute MAU Growth','T13','各國成長最快助理',''],
+ [25,31,'Cross-Platform Traffic Flows Among GenAI Platforms','T15','平台間導流依賴度定位','軸語意箭頭、泡泡大小'],
+ [26,32,'New Entrant Share of Top 50 GenAI Apps','T16','新進者份額下滑（3 子類）','地區分頁'],
+ [27,33,'Share of Time Spent from Top 3 Apps by Subgenre','T2','集中度隨時間（3 子類）',''],
+ [28,34,'Q1 2026 Rankings by Market','T23','各市場 app 排名榜','地區/指標下拉、Download data'],
+ [29,36,'Gender Distribution for GenAI App Users','T16','各 app 性別組成',''],
+ [30,36,'Age Distribution for GenAI App Users','T16','各 app 年齡組成',''],
+ [31,36,'Demographics for GenAI App Users','T15','年輕 × 女性 兩軸定位','軸語意箭頭'],
+ [32,37,'Likelihood of Users Belonging to Consumer Personas','T9','各 app 用戶人物誌傾向','callout'],
+ [33,38,'Traffic Flow Across GenAI Assistant Platforms','T21','inbound vs outbound（genre/website）','platform 下拉'],
+ [34,39,'Average Time Spent per Month for Top GenAI Apps','T7','各 app 各季時間（icon 軸）',''],
+ [35,40,'Average Days Used per Month: GenAI vs Social','T2','使用頻率（vs Threads/Reddit/X）',''],
+ [36,41,'Core Weekday vs Weekend Usage Ratio','T15','工作日/週末傾向','hover「Interact」、callout'],
+ [37,42,'Affinity of AI Usage Among Canva & CapCut Users','T6','創作者對各助理的親和度走勢',''],
+ [38,44,'Digital Ad Spend & Impressions by Country','T25','廣告投資爆發（+228%/+249%）','國家下拉、通路清單側欄'],
+ [39,45,'Share of Digital Ad Spend by Channel','T18','通路組成 + channel→platform 階層','國家下拉、清單側欄'],
+ [40,46,'Share of Ad Spend by Channel (Top Advertisers)','T7','各廣告主 H1 25 vs YTD 26 通路移轉','advertiser 下拉'],
+ [41,47,'Daily Linear TV Ad Impressions by GenAI Advertisers','T2','TV 投放集中於 NFL 週日',''],
+ [42,47,'Linear TV Spend Allocation Across NFL Season','T22','各廣告主 賽季/季後/超級盃 分配',''],
+ [43,48,'Share of Ad Impressions by State','T14','各州投放強弱 + metro 排名表','advertiser 分頁'],
+ [44,49,'Top 50 Creatives: Share by Creative Count','T19','創意主題 H1 25 vs YTD 26 對比','advertiser 分頁、嵌創意截圖'],
+ [45,51,'Common Keywords Following "AI" in App Descriptions','T20','App 描述中 AI 後高頻詞',''],
+ [46,52,'Number of Apps Adding AI-Related Terms by Genre','T4','加 AI 詞的 app 數隨時間','genre 下拉'],
+ [47,53,'Downloads for Apps Featuring AI-Related Terms by Genre','T17','AI 詞 app 下載量（各 genre）',''],
+ [48,54,'IAP Revenue for Apps Featuring AI-Related Terms by Genre','T17','AI 詞 app 營收（各 genre）',''],
+ [49,55,'Top Subgenres by Growth in Apps Adding AI Terms','T7','兩期比較 + YoY 成長 companion',''],
+ [50,56,'Top Subgenres by Number of Apps Adding AI','T1','子類排名 + 範例用途表','子類下拉、example 表'],
+ [51,57,'Total Hours Spent (AI Companions vs Dating)','T7','兩品類時間此消彼長',''],
+ [52,57,'Retention Curve (Companions vs Dating)','T24','Day 1/7/14/30 留存對比',''],
+ [53,59,'Digital Ad Spend & Impressions (AI Creatives)','T8','投放/曝光 年增',''],
+ [54,60,'Number of Unique Ad Creatives by Category','T17','各品類獨立創意數',''],
+ [55,61,'Category Breakdown for Digital Advertising (AI Terms)','T22','投放/曝光 品類組成（年比）',''],
+ [56,62,'Top Retail Media Retailers & Advertisers (AI Impressions)','T1','零售商/廣告主排名（含 logo）','嵌廣告截圖'],
+ [57,63,'Top Products Mentioning AI by Retail Media Impressions','T23','共同品牌廣告主×產品×範例創意','嵌創意縮圖'],
+ [58,64,'App Downloads Driven by Searches Containing "AI"','T17','由 AI 搜尋帶動的下載（各 genre）',''],
+];
+const TYNAME={};TYPES.forEach(t=>TYNAME[t[0]]=t[1]);
+const tb=document.getElementById('tb'),q=document.getElementById('q'),fType=document.getElementById('fType'),cnt=document.getElementById('cnt');
+[...new Set(FIG.map(f=>f[3]))].sort().forEach(ty=>{const o=document.createElement('option');o.value=ty;o.textContent=`${ty} ${TYNAME[ty]}`;fType.appendChild(o);});
+let sortK='id',sortDir=1;
+function render(){
+  const term=q.value.trim().toLowerCase(),ft=fType.value;
+  let rows=FIG.filter(f=>{
+    const hay=(f[0]+' '+f[1]+' '+f[2]+' '+f[3]+' '+TYNAME[f[3]]+' '+f[4]+' '+f[5]).toLowerCase();
+    return (!term||hay.includes(term))&&(!ft||f[3]===ft);
+  });
+  const ki={id:0,pg:1,title:2,type:3,purpose:4,ix:5}[sortK];
+  rows.sort((a,b)=>{let x=a[ki],y=b[ki];if(ki==0||ki==1){return (x-y)*sortDir}return (''+x).localeCompare(''+y,'zh')*sortDir;});
+  tb.innerHTML=rows.map(f=>`<tr>
+    <td class="num">${f[0]}</td><td class="pg">${f[1]}</td>
+    <td>${f[2]}</td>
+    <td><span class="ty">${f[3]}</span><div class="ix" style="color:var(--ink3)">${TYNAME[f[3]]}</div></td>
+    <td>${f[4]}</td>
+    <td class="ix">${f[5]?f[5].split('、').map(s=>`<span class="b">${s}</span>`).join(''):'<span style="color:#bbb">—</span>'}</td>
+  </tr>`).join('');
+  cnt.textContent=`顯示 ${rows.length} / ${FIG.length} 張`;
+}
+q.oninput=render;fType.onchange=render;
+document.querySelectorAll('thead th').forEach(th=>{th.onclick=()=>{const k=th.dataset.k;if(sortK===k)sortDir*=-1;else{sortK=k;sortDir=1;}render();};});
+render();
+</script>
+</body>
+</html>
