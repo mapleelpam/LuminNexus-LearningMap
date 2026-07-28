@@ -4,7 +4,7 @@ type: outline
 status: active
 created: 2025-11-10
 updated: 2026-07-28
-version: "2.16"
+version: "2.17"
 project: LearningMap
 author: maple
 tags:
@@ -113,7 +113,7 @@ mindmap
 - 產業認證標準（NSF、USP、GMP）
 - 法規環境
 
-> 📖 本節的術語對照已獨立成 [supplement-industry-terminology.md](./supplement-industry-terminology.md)（認證標準與法規環境尚未收錄）
+> 📖 本節的術語對照已獨立成 [supplement-industry-terminology.md](./supplement-industry-terminology.md)（含認證標準與法規環境）
 
 #### 1.3 分類法 (Taxonomy) 設計思維
 - 什麼是分類法？
@@ -795,6 +795,7 @@ mindmap
 | 2.14 | 2026-07-08 | 新增 agent-work-forms.md（實務層收頂：Pairing/委派/自主 Loop、停止條件品質、blast radius 與正門紀律） | maple |
 | 2.15 | 2026-07-08 | 新增 clarification-wish-and-plan.md（實務層鉸鏈：許願與計畫一體兩面、計畫換了作者、澄清 loop 的停止點）；agent-work-forms 加「回望」coda 點破實務層四相位同構 | maple |
 | 2.16 | 2026-07-28 | 術語與環境索引收錄 supplement-industry-terminology.md；1.2 營養補充品產業知識加指路（標明認證標準與法規環境尚未收錄） | Dustin |
+| 2.17 | 2026-07-28 | 術語文 v0.4 補齊認證標準（USP/NSF/GMP）與法規環境（DSHEA、structure-function claim），1.2 指路的「尚未收錄」註記解除 | Dustin |
 
 ---
 
