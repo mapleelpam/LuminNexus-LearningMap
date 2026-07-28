@@ -3,8 +3,8 @@ title: "General Learning Map - 通用核心能力大綱"
 type: outline
 status: active
 created: 2025-11-10
-updated: 2026-07-08
-version: "2.15"
+updated: 2026-07-28
+version: "2.16"
 project: LearningMap
 author: maple
 tags:
@@ -112,6 +112,8 @@ mindmap
 - 常見成分與功效
 - 產業認證標準（NSF、USP、GMP）
 - 法規環境
+
+> 📖 本節的術語對照已獨立成 [supplement-industry-terminology.md](./supplement-industry-terminology.md)（認證標準與法規環境尚未收錄）
 
 #### 1.3 分類法 (Taxonomy) 設計思維
 - 什麼是分類法？
@@ -766,6 +768,7 @@ mindmap
 
 ### 術語與環境
 - [ai-data-terminology.md](./ai-data-terminology.md) - Infer / Derive / Reasoning 術語辨析
+- [supplement-industry-terminology.md](./supplement-industry-terminology.md) - 保健食品產業術語：標籤結構、成分角色、BI/BT/BP、voice 家族
 - [ubuntu-desktop-tips.md](./ubuntu-desktop-tips.md) - Ubuntu Desktop 環境技巧
 
 ---
@@ -791,6 +794,7 @@ mindmap
 | 2.13 | 2026-07-07 | 新增 atomization-context-isolation.md（原子化判準、Truth/Worth 兩軸、承諾物、四層推理鏈複用；TheJournalism v4 四切口案例） | leana |
 | 2.14 | 2026-07-08 | 新增 agent-work-forms.md（實務層收頂：Pairing/委派/自主 Loop、停止條件品質、blast radius 與正門紀律） | maple |
 | 2.15 | 2026-07-08 | 新增 clarification-wish-and-plan.md（實務層鉸鏈：許願與計畫一體兩面、計畫換了作者、澄清 loop 的停止點）；agent-work-forms 加「回望」coda 點破實務層四相位同構 | maple |
+| 2.16 | 2026-07-28 | 術語與環境索引收錄 supplement-industry-terminology.md；1.2 營養補充品產業知識加指路（標明認證標準與法規環境尚未收錄） | Dustin |
 
 ---
 

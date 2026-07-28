@@ -3,8 +3,8 @@ title: "DSLD 資料庫快速指南"
 type: guide
 status: active
 created: 2025-12-08
-updated: 2025-12-08
-version: "1.0"
+updated: 2026-07-28
+version: "1.1"
 project: LearningMap
 author: leana
 tags:
@@ -341,6 +341,12 @@ https://api.ods.od.nih.gov/dsld/s3/pdf/10098.pdf
 ---
 
 ## 8. 參考資源
+
+### Learning Map 相關文檔
+
+- [../../general/supplement-industry-terminology.md](../../general/supplement-industry-terminology.md) —— DSLD、LanguaL、UNII 等縮寫的白話說明，以及標籤結構（Supplement Facts / Other Ingredients）的產業意義
+- [../data-sources-guide.md](../data-sources-guide.md) —— 各資料來源與關聯欄位（UPC / ASIN 跨平台串接）
+- [json_structure_reference.md](./json_structure_reference.md) —— DSLD JSON 結構逐欄位參考
 
 ### 官方資源
 
