@@ -3,8 +3,8 @@ title: "資料來源與關聯欄位指南"
 type: guide
 status: active
 created: 2025-12-16
-updated: 2025-12-16
-version: "1.0"
+updated: 2026-07-28
+version: "1.1"
 project: LearningMap
 author: "Yu-Shin, leana"
 tags:
@@ -188,4 +188,12 @@ DSLD 產品 ──UPC──▶ iHerb 產品 ──brandCode──▶ 品牌
 | 抓取難度 | 較容易       | 需 Selenium          |
 
 - **重點**：品牌官網通常沒有 UPC/GTIN，應找 SKU 或 product_id 作為內部識別碼
+
+---
+
+## 🔗 相關文檔
+
+- [../general/supplement-industry-terminology.md](../general/supplement-industry-terminology.md) —— 保健食品產業術語白話對照（UPC / ASIN 以外的產業詞：BI/BT/BP、劑型、market vs category）
+- [dsld/dsld_database_guide.md](./dsld/dsld_database_guide.md) —— DSLD 資料庫快速指南
+- [keepa/keepa_api_query_methods.md](./keepa/keepa_api_query_methods.md) —— Keepa API 查詢方式
 

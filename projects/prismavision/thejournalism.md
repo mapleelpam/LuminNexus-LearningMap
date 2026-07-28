@@ -3,8 +3,8 @@ title: "TheJournalism - 資料詮釋層"
 type: spec
 status: active
 created: 2026-07-21
-updated: 2026-07-22
-version: "1.1"
+updated: 2026-07-28
+version: "1.2"
 project: LearningMap
 author: Dustin
 tags:
@@ -644,6 +644,7 @@ L1 有選擇，但選擇被寫成程式碼與 URI 字串，因此可重現、可
 - [../../general/03_data-engineering.md](../../general/03_data-engineering.md) - 資料庫與 ETL 基礎
 - [../../general/tension-value-perspective.md](../../general/tension-value-perspective.md) - 事實單一、價值多元（呼應「💡 設計原則 → 1. Every Interpretation Has Bias」。注意該文談的是不同**角色**的價值差異，與本系統依「是否含選擇」切分的 L0/L1/L2 是兩種切法）
 - [../../general/claude-agent-skill.md](../../general/claude-agent-skill.md) - Skill 機制（Narrate 層的實作形式）
+- [../../general/supplement-industry-terminology.md](../../general/supplement-industry-terminology.md) - 保健食品產業術語白話入口（本文「🔑 關鍵概念」的非技術版；精確定義仍以 `specs/terms.yaml` 為準）
 
 ### TheJournalism 專案文檔
 
@@ -663,6 +664,7 @@ L1 有選擇，但選擇被寫成程式碼與 URI 字串，因此可重現、可
 |------|------|------|---------|
 | 1.0 | 2026-07-21 | Dustin | 初版：系統職責、三層架構比喻、Clip URI 介面、名詞白話對照表。定位於 PrismaVision (Layer 3) 資料消費側 |
 | 1.1 | 2026-07-22 | leana | merge 前查證補註：repo 名沿革、層歸屬警戒線、view 數改約數、下游依賴改為對外交付端 |
+| 1.2 | 2026-07-28 | Dustin | 相關文檔加入產業術語文（與「🔑 關鍵概念」形成集中入口／情境內教學的雙向分工） |
 
 ### 維護職責
 

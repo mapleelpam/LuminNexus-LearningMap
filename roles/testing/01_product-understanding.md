@@ -3,8 +3,8 @@ title: "產品理解 - Smart Insight Engine"
 type: topic
 status: active
 created: 2026-07-05
-updated: 2026-07-05
-version: "1.0"
+updated: 2026-07-28
+version: "1.1"
 project: LearningMap
 author: maple
 tags:
@@ -226,6 +226,7 @@ Smart Insight Engine 是「引擎功能」本身；Heimdallr 是「裝著這個�
 
 - [smart-insight-engine/00_overview.md](../../projects/prismavision/smart-insight-engine/00_overview.md) —— SI Engine 深度學習教材（含完整架構圖與 MDFO 細節）
 - [smartinsightengine.md](../../projects/prismavision/smartinsightengine.md) —— 查詢引擎快速概覽（Input/Output 格式）
+- [../../general/supplement-industry-terminology.md](../../general/supplement-industry-terminology.md) —— 保健食品產業術語白話對照（本章「13 個維度」提到的劑型、成分、品牌原料，這裡有完整說明）
 - [02_testing-basics.md](./02_testing-basics.md) —— 下一章：測試基礎概念
 - [00_outline.md](./00_outline.md) —— 測試角色學習大綱
 
@@ -236,3 +237,4 @@ Smart Insight Engine 是「引擎功能」本身；Heimdallr 是「裝著這個�
 | 版本 | 日期 | 作者 | 變更說明 |
 |------|------|------|----------|
 | 1.0 | 2026-07-05 | maple | 初版建立 |
+| 1.1 | 2026-07-28 | Dustin | 相關文檔加入產業術語文（補「13 個維度」提到的劑型／成分產業語意的出口） |
