@@ -4,7 +4,7 @@ type: reference
 status: active
 created: 2026-07-28
 updated: 2026-07-28
-version: "0.6"
+version: "0.7"
 project: LearningMap
 author: Dustin
 tags:
@@ -290,6 +290,7 @@ summary: |
 |---|---|
 | **DSLD** | 美國 NIH 膳食補充劑辦公室（ODS）維護的補充劑標籤資料庫。擷取狀態見 [dsld-crawler.md](../projects/atlasvault/dsld-crawler.md) |
 | **LanguaL** | 一套國際食品描述的分類編碼系統，DSLD 用它來標劑型 |
+| **facet（面向）** | LanguaL 用來切分類的**軸**——同一個產品可以同時被好幾個 facet 描述，彼此不衝突。DSLD 的劑型就標在 **Facet A**。發音近 /ˈfæsɪt/（「花-sit」，不是「法-sei」） |
 | **UNII** | FDA 給每個成分的唯一識別碼，用來跨系統對齊「這兩個名字是不是同一個成分」 |
 | **ASIN** | Amazon 的商品編號 |
 | **UPC** | 商品條碼，實體零售的通用識別碼 |
@@ -335,6 +336,9 @@ summary: |
 | hero ingredient | 主角成分 | — |
 | clinical dose | 臨床劑量 | — |
 | MVM | 綜合維他命 | — |
+| certification | 認證標章 | 第 4 節。不要譯成「證書」——它指標籤上那排標記 |
+| structure-function claim | 結構功能宣稱 | **法規用語，勿自創譯法**。與下一列是法規上界線分明的對立詞 |
+| disease claim | 疾病宣稱 | **法規用語，勿自創譯法**。跨線即「未核准新藥」，見第 5 節 |
 
 ---
 
@@ -349,7 +353,8 @@ summary: |
 - [../data-sources/data-sources-guide.md](../data-sources/data-sources-guide.md) —— 各資料來源與關聯欄位
 - [../roles/testing/01_product-understanding.md](../roles/testing/01_product-understanding.md) —— 測試角色的產品理解（本文補的正是它「資料維度」那節沒展開的產業語意）
 - [ai-data-terminology.md](./ai-data-terminology.md) —— AI / 資料術語（infer / derive / reasoning）
-- **（待補）** 分類體系術語文 —— taxonomy / facet / set / realm / macro 等邏輯概念詞，見 LearningMap issue #2
+- [../data-sources/dsld/json_structure_reference.md](../data-sources/dsld/json_structure_reference.md) —— DSLD 的 LanguaL Facets 逐項對照（第 10 節 facet 的實際欄位）
+- **（待補）** 分類體系術語文 —— taxonomy / facet / set / realm / macro 等**當通用邏輯概念用**的詞。本文只收了 facet 在 LanguaL 脈絡下的產業義（第 10 節），泛用義待該文收錄
 
 ---
 
@@ -435,7 +440,8 @@ issue #2 / #5 都提議「或許所有 term 都可以有視覺化的教學」，
   - `HHI`（市場集中度）—— 全庫僅一處，且是被當 L0/L1/L2 的舉例用；`terms.yaml` 有現成 5 級閾值
   - `brand archetype` / `competitive position`（Kotler 四分）—— 全庫零出現，且屬商業概念非統計
   - `hero formula` —— 與 hero ingredient 差一個層級（成分角色 vs 整罐產品定位），補一行即可
-- [ ] **反向來源第一筆（2026-07-28）**：會議上聽到同事口語使用 **facet**（誤讀近似「法-sei」）。實查證實 facet 是 LearningMap 全庫最嚴重的純缺口——四處裸用、零解釋。詞本身歸 issue #2；本文可在第 10 節補 LanguaL Facet A / `product_type_class` 的產業實例並互指
+- [x] ~~**反向來源第一筆（2026-07-28）**：會議上聽到同事口語使用 **facet**（誤讀近似「法-sei」）~~ → v0.7 部分處理：實查確認全庫 8 處裸用零解釋（`dsld_database_guide:258`、`json_structure_reference:1085-1087`、`therefinery` 5 處）。**第 10 節已補 facet 的 LanguaL 產業義 + 發音**，接住 DSLD 那叢；`DosageFormFacets` 同義順帶解決。**泛用邏輯義仍歸 issue #2 未解**
+- [ ] **第 4、5 節新詞的中文譯法待團隊確認**：v0.7 已把 `certification` / `structure-function claim` / `disease claim` 收進第 12 節，但後兩者是法規用語，譯法應找法務或有合規經驗的人確認過再定稿
 
 ### 版本歷史
 
@@ -447,3 +453,4 @@ issue #2 / #5 都提議「或許所有 term 都可以有視覺化的教學」，
 | 0.4 | 2026-07-28 | Dustin | 三件事：①〈內容出處分層〉表落地，逐條標 SSOT / 歸納（v0.2 誤標 DSLD 為 FDA 即此層出錯的實例）；② 草稿警語前移至標題正下方並加註 frontmatter summary，維持上站不撤下；③ 補 outline 1.2 欠的兩塊——新增第 4 節認證標章（品質驗證 USP/NSF/GMP vs 消費者訴求 Organic/Non-GMO/Vegan 的分野）、第 5 節法規環境（DSHEA、structure-function claim vs disease claim、FDA 免責聲明），第 9 節補 vitamin/mineral 正面定義與「functional ingredient 是減法定義」。章節重編號 5–10 → 7–12；voice 公式補出處與不對稱說明 |
 | 0.5 | 2026-07-28 | Dustin | 第 4、5 節外部權威查證並補連結，出處分層加第三級 📖 外部權威（原本 ✅／⚠️ 兩級把「有法規原文可查」與「純屬歸納」混為一談）。查證同時修正三處：① GMP「查的是工廠不是產品」過度簡化——21 CFR Part 111 也強制廠商自檢成分與成品，差別在非第三方獨立驗證；② Non-GMO Project 與 Vegan 補標「民間非營利」以與政府法規的 USDA Organic 區隔，並加註官方自陳「不等於保證不含 GMO」；③ 第 5 節補漏掉的 NDI 例外（21 U.S.C. §350b，新成分仍須上市前 75 天通報），原文「上市前不需要 FDA 核准」對舊成分成立、對新成分不成立。另補 FDA 免責聲明英文法定原文與「有助於入睡 vs 治療失眠」的分界說明；USP Verified 加註不評估安全性與功效 |
 | 0.6 | 2026-07-28 | Dustin | 第 4、5 節的外部來源**全數獨立複驗**，並據官方原文修正五處：① USP 連結改指 `verified-mark` 頁（官方逐條列出標章保證什麼），「驗什麼」欄改用官方用語「宣稱效價與含量」「有害含量的指定污染物」，移除官網未載明的「可崩解吸收」；② USP 邊界改成從官方表述 "what's on the label is what's in the bottle" 推導其**範圍界線**，不再宣稱「USP 不評估功效」（官網查無此明文）；③ NSF「290 種以上」改為官方數字「290 種」（原文為 "any of 290 substances"，無「以上」）；④ Certified Vegan 補上漏掉的第二個條件「未經動物實驗」（官方定義為不含動物成分／副產品**且**未經動物實驗）；⑤ 「有助於入睡 vs 治療失眠」改掛 21 CFR 101.93(g) 的判準（分界在指涉對象是不是可診斷的病），不再依賴無法取得的 FDA guide。另修一處內部矛盾：節末原寫「品質驗證標章回答『有沒有效、安不安全』」與 USP 邊界說明衝突，改為「這罐是不是它說的東西」並加註兩種標章都不回答療效。出處分層表記錄 Cloudflare 誤判 403 的複驗陷阱 |
+| 0.7 | 2026-07-28 | Dustin | 三項收尾：① `CLAUDE.md` / `STRUCTURE.md` 的 general 樹補上本檔、`chart-type-gallery`、`atomization-context-isolation`（三份都缺，而 CLAUDE.md 的「Check Before Create」政策正是靠這棵樹）；② 第 12 節收 `certification`、`structure-function claim`、`disease claim`——後兩者是法規上界線分明的對立詞，各譯各的有合規風險；③ 第 10 節補 **facet**（LanguaL 的分類軸、DSLD 標在 Facet A、附發音），接住全庫 8 處裸用中最大的一叢，並在相關文檔補 `json_structure_reference.md` 的 LanguaL Facets 對照、把原本只指 issue #2 的那條改寫成說明產業義與泛用義的分工 |
