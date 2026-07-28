@@ -24,6 +24,8 @@ LuminNexus-LearningMap/
 │   ├── 02_unix-linux-basics.md       # Unix/Linux 基礎
 │   ├── 03_data-engineering.md        # 資料工程基礎
 │   ├── ai-data-terminology.md        # Infer / Derive / Reasoning 術語
+│   ├── supplement-industry-terminology.md # 保健食品產業術語（標籤、成分角色、BI/BT/BP、voice）
+│   ├── chart-type-gallery.md         # 圖表類型圖鑑
 │   ├── claude-agent-skill.md         # Claude Agent Skill 參考
 │   ├── claude-code-tips.md           # Claude Code CLI 使用技巧
 │   ├── claude-code-cli-discussion.md # Claude Code CLI 深度討論
@@ -38,6 +40,7 @@ LuminNexus-LearningMap/
 │   ├── clarification-wish-and-plan.md # 許願與計畫一體兩面（實務層鉸鏈）
 │   ├── know-your-unknowns.md         # 四象限與三階段技巧（實務層）
 │   ├── agent-work-forms.md           # Pairing/委派/自主 Loop（實務層收頂）
+│   ├── atomization-context-isolation.md # 原子化＝Context 隔離：何時切、何時絕不能切
 │   ├── knowledge-management.md       # 知識管理 (PKM & Frontmatter)
 │   ├── progressive-disclosure.md     # Progressive Disclosure 參考
 │   └── ubuntu-desktop-tips.md        # Ubuntu Desktop 技巧
