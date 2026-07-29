@@ -4,7 +4,7 @@ type: reference
 status: active
 created: 2026-07-28
 updated: 2026-07-29
-version: "0.10"
+version: "0.11"
 project: LearningMap
 author: Dustin
 tags:
@@ -212,6 +212,29 @@ summary: |
 
 例：一罐「薑黃 + 葡萄糖胺」複方，在 category 上屬於薑黃**也**屬於葡萄糖胺；在 market 上可能同時出現在關節健康與發炎控制。
 
+**同一批產品，兩套切法各切各的**——同一罐可以往兩邊各拉出多條線：
+
+```mermaid
+graph LR
+    C1["category：薑黃"] --- P1["薑黃+葡萄糖胺複方"]
+    C2["category：葡萄糖胺"] --- P1
+    C2 --- P2["葡萄糖胺單方"]
+    C3["category：南非醉茄"] --- P3["南非醉茄膠囊"]
+
+    P1 --- M1["market：關節健康"]
+    P1 --- M2["market：發炎控制"]
+    P2 --- M1
+    P3 --- M3["market：壓力情緒"]
+
+    style P1 fill:#e8f4ff
+    style P2 fill:#e8f4ff
+    style P3 fill:#e8f4ff
+```
+
+左邊是 **category（依成分切）**、右邊是 **market（依消費者問題切）**。看那罐複方：**往左兩條線、往右兩條線**，四邊都算它一份。
+
+> ⚠️ **這就是「兩張表的百分比加不起來」的根源**（見第 11 節陷阱 #3）。同一罐產品在多個 market 各被計一次，各 market 的產品數加總**一定大於**實際產品數。看到佔比時先問：分母是「不重複產品數」還是「各市場計次總和」。
+
 - **functional market（功能市場）** = 上表的 market，只是講法不同。專案目前有 **24 個**。
 - **demand cluster（需求分群）**：把 24 個 market 按消費者需求語意再往上收成幾個高階群組。
 
@@ -375,6 +398,7 @@ summary: |
 | 0.8 | 2026-07-29 | Dustin | 家族互指補完（配合 classification-terminology.md 上線）：相關文檔的「（待補）分類體系術語文」換成真連結；第 10 節 facet 那列補同形異義標註，明說本文只講 LanguaL 脈絡、泛用義與正交性見該文 §1；第 9 節 macro callout 補指該文 §6 為四義的正式消歧地。另 **`facet` 中文定案為「分面」**（依國教院《圖書館學與資訊科學大辭典》，與姊妹作統一；專名 `Facet A` 不譯），第 12 節新增該列 |
 | 0.9 | 2026-07-29 | Dustin | 兩件事。**一、移除文件自我維護性質的元敘述**——標題下的草稿警語框、frontmatter `summary` 的草稿註記、〈草稿聲明〉、〈內容出處分層〉整張表與其後三則複驗註記、〈待評估：哪些 term 值得配圖〉、〈其他待辦〉全部刪除，改為以專案與外部權威事實直接敘述；其中一則仍對讀者有用的資訊保留並改寫進正文——第 5 節末新增法規連結說明（Cornell LII／govinfo.gov 為原文重製，正式引用請回查 eCFR 現行版）。**二、第 4 節末新增 forward reference**：讀者在認證標章這節已實際體驗過「三個互不推導的問題」，該處補上這種分類軸的名字（facet／正交性）並指向 [classification-terminology.md](./classification-terminology.md) §1——先體驗、後命名 |
 | 0.10 | 2026-07-29 | Dustin | 相關文檔補〈📌 怎麼分辨連結〉說明（沿用姊妹作寫法）——清單第一條就是標著「最權威的來源」的外部 repo 路徑，新人最可能去點卻點不動，需先說明哪些是站內連結、哪些需要 repo 權限 |
+| 0.11 | 2026-07-29 | Dustin | 依 issue #2 的視覺化提議，§6 補一張 mermaid：同一批產品被 category（依成分）與 market（依問題）兩套切法各切各的，複方產品往兩邊各拉多條線。採二部圖而非文氏圖——mermaid 的 subgraph 一個節點只能屬一群，畫不出重疊，而多重歸屬用連線反而更清楚。並補一句指出這正是第 11 節陷阱 #3「兩張表百分比加不起來」的根源 |
 
 ---
 
