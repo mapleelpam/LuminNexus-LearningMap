@@ -3,8 +3,8 @@ title: "General Learning Map - 通用核心能力大綱"
 type: outline
 status: active
 created: 2025-11-10
-updated: 2026-07-28
-version: "2.17"
+updated: 2026-07-29
+version: "2.18"
 project: LearningMap
 author: maple
 tags:
@@ -122,7 +122,7 @@ mindmap
 - 分類法類型
   - 階層式（樹狀結構）
   - 扁平式（列表式）
-  - 面向式（多維度）
+  - 分面式（多維度）
 - 設計原則
   - 一致性、可擴展性
   - 互斥性、完整性
@@ -769,6 +769,7 @@ mindmap
 ### 術語與環境
 - [ai-data-terminology.md](./ai-data-terminology.md) - Infer / Derive / Reasoning 術語辨析
 - [supplement-industry-terminology.md](./supplement-industry-terminology.md) - 保健食品產業術語：標籤結構、成分角色、BI/BT/BP、voice 家族
+- [classification-terminology.md](./classification-terminology.md) - 分類體系術語：taxonomy vs facet、realm / kind、macro 四義
 - [ubuntu-desktop-tips.md](./ubuntu-desktop-tips.md) - Ubuntu Desktop 環境技巧
 
 ---
@@ -796,6 +797,7 @@ mindmap
 | 2.15 | 2026-07-08 | 新增 clarification-wish-and-plan.md（實務層鉸鏈：許願與計畫一體兩面、計畫換了作者、澄清 loop 的停止點）；agent-work-forms 加「回望」coda 點破實務層四相位同構 | maple |
 | 2.16 | 2026-07-28 | 術語與環境索引收錄 supplement-industry-terminology.md；1.2 營養補充品產業知識加指路（標明認證標準與法規環境尚未收錄） | Dustin |
 | 2.17 | 2026-07-28 | 術語文 v0.4 補齊認證標準（USP/NSF/GMP）與法規環境（DSHEA、structure-function claim），1.2 指路的「尚未收錄」註記解除 | Dustin |
+| 2.18 | 2026-07-29 | 術語與環境索引收錄 classification-terminology.md；1.3 分類法類型的「面向式」改為「分面式」——facet 中文定案為「分面」（依國教院《圖書館學與資訊科學大辭典》「分面式分類法」），「面向」已被 aspect 義佔用（thejournalism.md 8 處） | Dustin |
 
 ---
 
