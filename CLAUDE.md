@@ -22,6 +22,7 @@ LuminNexus-LearningMap/
 │   ├── 03_data-engineering.md
 │   ├── ai-data-terminology.md        # Infer / Derive / Reasoning 術語
 │   ├── supplement-industry-terminology.md # 保健食品產業術語（標籤、成分角色、BI/BT/BP、voice）
+│   ├── classification-terminology.md # 分類體系術語（taxonomy / facet / realm / kind / macro）
 │   ├── chart-type-gallery.md         # 圖表類型圖鑑
 │   ├── claude-agent-skill.md
 │   ├── claude-code-tips.md           # Claude Code CLI 使用技巧

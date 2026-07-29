@@ -3,8 +3,8 @@ title: "保健食品產業術語：看懂這個產業在講什麼"
 type: reference
 status: active
 created: 2026-07-28
-updated: 2026-07-28
-version: "0.7"
+updated: 2026-07-29
+version: "0.8"
 project: LearningMap
 author: Dustin
 tags:
@@ -278,7 +278,7 @@ summary: |
 
 換句話說，**functional ingredient 是一個「減法定義」**——它不是一類有共同性質的東西，而是「扣掉基礎營養素後剩下的」。所以看到這個詞，要先確認扣掉的是哪些。
 
-> 🔀 **同形異義提醒**：**macro** 這個字在我們的文件裡至少有四個意思。**本文脈絡只指「巨量營養素 macronutrient」**；程式的「巨集」、經濟學的「總體」是另外的意思，而「巨觀 / 微觀層次」那一義在 [emergence-data-compute.md](./emergence-data-compute.md) 有完整討論。看到 macro 先確認脈絡。
+> 🔀 **同形異義提醒**：**macro** 這個字在我們的文件裡至少有四個意思。**本文脈絡只指「巨量營養素 macronutrient」**；程式的「巨集」、經濟學的「總體」是另外的意思，而「巨觀 / 微觀層次」那一義在 [emergence-data-compute.md](./emergence-data-compute.md) 有完整討論。**四義的正式消歧在 [classification-terminology.md](./classification-terminology.md) §6**。看到 macro 先確認脈絡。
 
 ---
 
@@ -290,7 +290,7 @@ summary: |
 |---|---|
 | **DSLD** | 美國 NIH 膳食補充劑辦公室（ODS）維護的補充劑標籤資料庫。擷取狀態見 [dsld-crawler.md](../projects/atlasvault/dsld-crawler.md) |
 | **LanguaL** | 一套國際食品描述的分類編碼系統，DSLD 用它來標劑型 |
-| **facet（面向）** | LanguaL 用來切分類的**軸**——同一個產品可以同時被好幾個 facet 描述，彼此不衝突。DSLD 的劑型就標在 **Facet A**。發音近 /ˈfæsɪt/（「花-sit」，不是「法-sei」） |
+| **facet（分面）** | LanguaL 用來切分類的**軸**——同一個產品可以同時被好幾個 facet 描述，彼此不衝突。DSLD 的劑型就標在 **Facet A**。發音近 /ˈfæsɪt/（「花-sit」，不是「法-sei」）。⚠️ **本文只講 LanguaL 脈絡**；facet 當通用邏輯概念（正交性、為什麼不能塞成一棵樹）見 [classification-terminology.md](./classification-terminology.md) §1 |
 | **UNII** | FDA 給每個成分的唯一識別碼，用來跨系統對齊「這兩個名字是不是同一個成分」 |
 | **ASIN** | Amazon 的商品編號 |
 | **UPC** | 商品條碼，實體零售的通用識別碼 |
@@ -328,6 +328,7 @@ summary: |
 | voice density | 聲量密度 | 相對值 |
 | penetration | 滲透率 | 首次提及必須講清楚分母 |
 | dosage form | 劑型 | — |
+| facet | 分面 | 依國教院《圖書館學與資訊科學大辭典》「分面式分類法」。**專名 `Facet A` 不譯**。泛用義見 [classification-terminology.md](./classification-terminology.md) §1 |
 | Branded Ingredient (BI) | 品牌原料 | 舊稱 PI / 專利成分 |
 | Branded Technology (BT) | 品牌化技術 | — |
 | Branded Provenance (BP) | 品牌化產地 | — |
@@ -354,7 +355,7 @@ summary: |
 - [../roles/testing/01_product-understanding.md](../roles/testing/01_product-understanding.md) —— 測試角色的產品理解（本文補的正是它「資料維度」那節沒展開的產業語意）
 - [ai-data-terminology.md](./ai-data-terminology.md) —— AI / 資料術語（infer / derive / reasoning）
 - [../data-sources/dsld/json_structure_reference.md](../data-sources/dsld/json_structure_reference.md) —— DSLD 的 LanguaL Facets 逐項對照（第 10 節 facet 的實際欄位）
-- **（待補）** 分類體系術語文 —— taxonomy / facet / set / realm / macro 等**當通用邏輯概念用**的詞。本文只收了 facet 在 LanguaL 脈絡下的產業義（第 10 節），泛用義待該文收錄
+- [classification-terminology.md](./classification-terminology.md) —— 分類體系術語（taxonomy / facet / realm / kind / macro 等**當通用邏輯概念用**的詞）。本文只收 facet 在 LanguaL 脈絡下的產業義（第 10 節），**泛用義與正交性的完整教學在該文 §1**
 
 ---
 
@@ -400,7 +401,8 @@ summary: |
 | **第 5 節法規環境**（DSHEA、structure-function / disease claim、FDA 免責聲明、NDI） | v0.5 逐項查證：21 U.S.C. §321(ff)、21 CFR 101.93、21 U.S.C. §355(a)、21 U.S.C. §350b——連結見正文。免責聲明英文原文已核對法規逐字用語。**v0.6 重寫「入睡 vs 失眠」callout**，改以 101.93(g) 判準為據（原為二手摘要）；v0.6 複驗時另更正判準動詞漏譯（cure／治癒），並標明「偶發性難以入睡屬非疾病」出自 FDA 指引而非法條本文 | 📖 外部權威 |
 | **第 9 節 vitamin / mineral 的定義與「為什麼排除」** | `functional_ingredient` 定義有，但分組說明與理由是白話推論 | ⚠️ 歸納 |
 | **第 10 節縮寫解釋**（LanguaL / UNII / ASIN / UPC 各是什麼） | 無站內出處（DSLD 一條已於 v0.2 更正並改為指路） | ⚠️ 歸納 |
-| **第 12 節中文對應建議**（整張表） | `terms.yaml` 只有英文 `display`；中文譯法為本文提案 | ⚠️ 歸納，待團隊確認 |
+| `facet` = **分面** | 國教院《圖書館學與資訊科學大辭典》「分面式分類法」；v0.8 定案，與 [classification-terminology.md](./classification-terminology.md) 統一 | ✅ SSOT（外部權威） |
+| **第 12 節中文對應建議**（facet 以外的整張表） | `terms.yaml` 只有英文 `display`；中文譯法為本文提案 | ⚠️ 歸納，待團隊確認 |
 
 > 🔧 **複驗這批連結時的注意事項（v0.6 記）**：`usp.org`、`nongmoproject.org`、`vegan.org` 掛在 Cloudflare 後面，**用 curl 帶偽造 User-Agent（如 `-A "Mozilla/5.0"`）會被判定為機器人而回 403**；**不帶** UA 反而正常回 200。曾因此誤判這幾個來源「無法驗證」而差點刪掉有官方依據的內容。複驗指令：`curl -sL -o out.html -w "%{http_code}" <url>`。
 
@@ -454,3 +456,4 @@ issue #2 / #5 都提議「或許所有 term 都可以有視覺化的教學」，
 | 0.5 | 2026-07-28 | Dustin | 第 4、5 節外部權威查證並補連結，出處分層加第三級 📖 外部權威（原本 ✅／⚠️ 兩級把「有法規原文可查」與「純屬歸納」混為一談）。查證同時修正三處：① GMP「查的是工廠不是產品」過度簡化——21 CFR Part 111 也強制廠商自檢成分與成品，差別在非第三方獨立驗證；② Non-GMO Project 與 Vegan 補標「民間非營利」以與政府法規的 USDA Organic 區隔，並加註官方自陳「不等於保證不含 GMO」；③ 第 5 節補漏掉的 NDI 例外（21 U.S.C. §350b，新成分仍須上市前 75 天通報），原文「上市前不需要 FDA 核准」對舊成分成立、對新成分不成立。另補 FDA 免責聲明英文法定原文與「有助於入睡 vs 治療失眠」的分界說明；USP Verified 加註不評估安全性與功效 |
 | 0.6 | 2026-07-28 | Dustin | 第 4、5 節的外部來源**全數獨立複驗**，並據官方原文修正五處：① USP 連結改指 `verified-mark` 頁（官方逐條列出標章保證什麼），「驗什麼」欄改用官方用語「宣稱效價與含量」「有害含量的指定污染物」，移除官網未載明的「可崩解吸收」；② USP 邊界改成從官方表述 "what's on the label is what's in the bottle" 推導其**範圍界線**，不再宣稱「USP 不評估功效」（官網查無此明文）；③ NSF「290 種以上」改為官方數字「290 種」（原文為 "any of 290 substances"，無「以上」）；④ Certified Vegan 補上漏掉的第二個條件「未經動物實驗」（官方定義為不含動物成分／副產品**且**未經動物實驗）；⑤ 「有助於入睡 vs 治療失眠」改掛 21 CFR 101.93(g) 的判準（分界在指涉對象是不是可診斷的病），不再依賴無法取得的 FDA guide。另修一處內部矛盾：節末原寫「品質驗證標章回答『有沒有效、安不安全』」與 USP 邊界說明衝突，改為「這罐是不是它說的東西」並加註兩種標章都不回答療效。出處分層表記錄 Cloudflare 誤判 403 的複驗陷阱 |
 | 0.7 | 2026-07-28 | Dustin | 三項收尾：① `CLAUDE.md` / `STRUCTURE.md` 的 general 樹補上本檔、`chart-type-gallery`、`atomization-context-isolation`（三份都缺，而 CLAUDE.md 的「Check Before Create」政策正是靠這棵樹）；② 第 12 節收 `certification`、`structure-function claim`、`disease claim`——後兩者是法規上界線分明的對立詞，各譯各的有合規風險；③ 第 10 節補 **facet**（LanguaL 的分類軸、DSLD 標在 Facet A、附發音），接住全庫 8 處裸用中最大的一叢，並在相關文檔補 `json_structure_reference.md` 的 LanguaL Facets 對照、把原本只指 issue #2 的那條改寫成說明產業義與泛用義的分工 |
+| 0.8 | 2026-07-29 | Dustin | 家族互指補完（配合 classification-terminology.md 上線）：相關文檔的「（待補）分類體系術語文」換成真連結；第 10 節 facet 那列補同形異義標註，明說本文只講 LanguaL 脈絡、泛用義與正交性見該文 §1；第 9 節 macro callout 補指該文 §6 為四義的正式消歧地。另 **`facet` 中文定案為「分面」**（依國教院《圖書館學與資訊科學大辭典》，與姊妹作統一；專名 `Facet A` 不譯），第 12 節新增該列 |
