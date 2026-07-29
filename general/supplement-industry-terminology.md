@@ -4,7 +4,7 @@ type: reference
 status: active
 created: 2026-07-28
 updated: 2026-07-29
-version: "0.8"
+version: "0.10"
 project: LearningMap
 author: Dustin
 tags:
@@ -18,18 +18,10 @@ summary: |
   保健食品產業域詞的白話對照入口，給第一週看報告、看 dashboard 就撞到一堆
   陌生名詞的新人。涵蓋標籤結構、成分角色、品牌化標記、市場切法、voice 指標、
   資料來源縮寫，以及六個最容易算錯的數字陷阱。各系統的正式定義不搬運，只做
-  白話對照與指路。⚠️ v0.x 草稿：詞彙盤點尚未完成，部分內容為實務歸納而非
-  正式定義，引用前請看文末的「內容出處分層」表。
+  白話對照與指路。
 ---
 
 # 保健食品產業術語：看懂這個產業在講什麼
-
-> ⚠️ **這是草稿，不是定稿**（目前版本見 frontmatter）。兩件事請先知道：
->
-> 1. **詞彙範圍還沒盤點完** —— 還缺 issue #5 要求的「反向來源」（實際問 testing / BA 同事第一週哪些詞看不懂）。所以**這份清單必然還漏著詞**。你讀的時候如果撞到本文沒解釋的名詞，請直接回報——那正是本文最需要的輸入。
-> 2. **各條的可信度不一樣** —— 有的有正式定義背書（✅）、有的已對照法規原文或認證機構官方頁查證（📖，正文附連結）、有的純屬實務歸納未經查證（⚠️）。哪條是哪級，見文末〈**內容出處分層**〉那張表。**要當定義引用前，先查那張表。**
-
----
 
 ## 📋 文檔目的
 
@@ -163,6 +155,10 @@ summary: |
 
 > ⚠️ 注意**兩種標章都不回答「有沒有效」**。整排標章沒有一個是療效背書——功效宣稱受法規管制，那是下一節的事。
 
+> 🔭 **你剛剛體驗過的東西有名字**：這一節你其實做了三次同一件事——問「這罐是不是它說的東西」、問「合不合我的價值觀」、問「有沒有效」，然後發現**這三個問題誰也推導不出誰**（有機非基改的產品完全可能沒做過含量驗證，反過來也成立）。
+>
+> 這種「彼此獨立、必須分開問」的分類軸，在資料建模裡叫 **facet（分面）**，而「誰也推導不出誰」這個性質叫**正交性**。它不是保健食品專有的概念，換成汽車零件、書店庫存都成立，所以收在姊妹作裡：[classification-terminology.md](./classification-terminology.md) §1 有完整教學，包含為什麼這種軸不能塞進一棵分類樹、以及硬塞會出什麼事。**先體驗、後命名——你已經走完前半段了。**
+
 ---
 
 ## 5. 法規環境：為什麼所有宣稱都寫得那麼含糊
@@ -200,6 +196,8 @@ summary: |
 
    ⚠️ **一個例外：NDI（New Dietary Ingredient，新膳食成分）**。1994-10-15 之後才引入市場的成分，業者必須在上市前至少 **75 天**向 FDA 提交安全性通報（[21 U.S.C. §350b](https://www.law.cornell.edu/uscode/text/21/350b)）。這是「**通報**」不是「核准」——FDA 不發許可證，但仍是一道上市前程序。所以「補充劑完全不需上市前審查」這個說法對舊成分成立、對新成分不成立。
 3. **它解釋了 BI 存在的商業理由** —— 既然不能宣稱療效、又不需審查，品牌要證明自己「有科學根據」，最省事的辦法就是採用有臨床試驗的品牌原料（第 3 節的 BI）。這正是 credential ingredient（第 2 節）的由來。
+
+> 🔗 **本節與第 4 節的法規連結指向哪裡**：美國法典與 CFR 條文連的是 **Cornell Law School LII**（`law.cornell.edu`），CFR 全文連的是 **govinfo.gov**（美國政府出版局官方版，2023 年版快照）。兩者都是法規原文重製、不是二手整理，但**要引用到正式文件時，請回查 [eCFR](https://www.ecfr.gov/) 的現行版**——法規會修，快照不會。
 
 ---
 
@@ -347,6 +345,8 @@ summary: |
 
 本文只做白話入口，**正式定義都在各系統自己的文件裡**，需要精確定義時請往下走：
 
+> 📌 **怎麼分辨連結**：可以點的連結都在本站（LearningMap）內。標了 repo 名稱的（TheJournalism、Eidos）是外部 private repo 的檔案路徑，**需要該 repo 的存取權**才看得到。
+
 - `LuminNexus-AlchemyMind-TheJournalism/specs/terms.yaml` —— 48 個術語的正式定義、公式、閾值與使用限制（**最權威的來源**）。⚠️ 需 TheJournalism repo 存取權，有權限者用 `uv run journalism terms <name>` 查詢；**沒有權限請直接問工程團隊**，不要照著指令打
 - [../projects/prismavision/thejournalism.md](../projects/prismavision/thejournalism.md) —— 資料詮釋層系統導覽，「🔑 關鍵概念」有 16 個詞的情境內解釋
 - [../projects/alchemymind/eidos.md](../projects/alchemymind/eidos.md) —— 品牌原料與菌株的正規化
@@ -361,90 +361,6 @@ summary: |
 
 ## 📝 文檔維護
 
-### ⚠️ 草稿聲明
-
-**本文尚未完成 issue #5 要求的完整盤點。** 目前收錄的詞來自兩個來源：
-
-1. `specs/terms.yaml` 的 48 個正式術語（已篩掉屬於報告方法論、非產業詞的部分）
-2. LearningMap 全庫的缺口實查（哪些詞只有裸用、沒有解釋）
-
-**還沒做的是 issue 明列的反向來源**——直接問 testing / BA 同事「第一週哪些詞看不懂」、翻 Slack 提問紀錄。issue #5 特別警告：*寫的人（工程 / AI 背景）覺得理所當然的詞，正是非技術新人卡住的地方*。所以這份清單**必然還漏著我已經內化、卻沒意識到要解釋的詞**。定稿前必須補這一輪。
-
-### 內容出處分層
-
-本文混合了三種來源，可信度不同。**下游要把某一條當定義引用之前，先查這張表。**
-
-| 標記 | 意思 |
-|---|---|
-| ✅ **SSOT** | 站內／`terms.yaml` 有正式定義背書，可安全引用（但仍以原始出處為準） |
-| 📖 **外部權威** | 站內無出處，但已對照**法規原文或認證機構官方頁**查證，正文附連結可自行核對 |
-| ⚠️ **歸納** | 實務歸納或產業常識，**查無權威出處、未經查證** |
-
-| 內容 | 出處 | 分層 |
-|---|---|---|
-| 六種成分角色（**定義**） | `terms.yaml` `ingredient_role` 六條 | ✅ SSOT |
-| 六種成分角色（**我舉的例子**：黑胡椒萃取、關節配方 MSM 等） | 無——`terms.yaml` 該六條沒有 `examples` 欄位 | ⚠️ 歸納 |
-| voice 公式 | `terms.yaml` `voice.formula` + TheJournalism CLAUDE.md | ✅ SSOT |
-| Official 通路 voice = 0 | `terms.yaml` `voice.caveats` | ✅ SSOT |
-| voice density / VPP | `terms.yaml` | ✅ SSOT |
-| penetration 閾值（<10% / 10–20% / >20%） | `terms.yaml` `penetration.thresholds` | ✅ SSOT |
-| standalone rate、identity dilution、clinical dose | `terms.yaml` `formulation` 類 | ✅ SSOT |
-| complexity tiers（≤5 / 6–20 / 21+） | `terms.yaml` `complexity_tiers` | ✅ SSOT |
-| demand cluster | `terms.yaml`（出處 issue #152） | ✅ SSOT |
-| market vs category 的定義 | `terms.yaml` `scope` 類 | ✅ SSOT |
-| BI 舊稱 PI 的沿革 | TheJournalism CLAUDE.md | ✅ SSOT |
-| BI / BT / BP 的例子 | eidos.md | ✅ SSOT |
-| 產品 ID prefix（`A_`/`I_`/`T_`/`S_`/`D_`） | TheJournalism CLAUDE.md（**非** `terms.yaml`） | ✅ SSOT |
-| 第 11 節六個數字陷阱（全六條） | `terms.yaml` 各條的 `usage` / `caveats` | ✅ SSOT |
-| **第 1 節標籤結構**（Supplement Facts / Other Ingredients / serving size） | 無站內出處 | ⚠️ 歸納 |
-| **第 4 節認證標章**（USP / NSF / GMP / USDA Organic / Non-GMO / Vegan） | v0.5 逐項查證、**v0.6 全數獨立複驗並取得官方頁原文**：USP `verified-mark` 頁、NSF Certified for Sport 官方頁、21 CFR Part 111（§111.75 原文）、7 CFR Part 205、Non-GMO Project 官方頁、Vegan Action 認證頁——連結見正文 | 📖 外部權威 |
-| **第 5 節法規環境**（DSHEA、structure-function / disease claim、FDA 免責聲明、NDI） | v0.5 逐項查證：21 U.S.C. §321(ff)、21 CFR 101.93、21 U.S.C. §355(a)、21 U.S.C. §350b——連結見正文。免責聲明英文原文已核對法規逐字用語。**v0.6 重寫「入睡 vs 失眠」callout**，改以 101.93(g) 判準為據（原為二手摘要）；v0.6 複驗時另更正判準動詞漏譯（cure／治癒），並標明「偶發性難以入睡屬非疾病」出自 FDA 指引而非法條本文 | 📖 外部權威 |
-| **第 9 節 vitamin / mineral 的定義與「為什麼排除」** | `functional_ingredient` 定義有，但分組說明與理由是白話推論 | ⚠️ 歸納 |
-| **第 10 節縮寫解釋**（LanguaL / UNII / ASIN / UPC 各是什麼） | 無站內出處（DSLD 一條已於 v0.2 更正並改為指路） | ⚠️ 歸納 |
-| `facet` = **分面** | 國教院《圖書館學與資訊科學大辭典》「分面式分類法」；v0.8 定案，與 [classification-terminology.md](./classification-terminology.md) 統一 | ✅ SSOT（外部權威） |
-| **第 12 節中文對應建議**（facet 以外的整張表） | `terms.yaml` 只有英文 `display`；中文譯法為本文提案 | ⚠️ 歸納，待團隊確認 |
-
-> 🔧 **複驗這批連結時的注意事項（v0.6 記）**：`usp.org`、`nongmoproject.org`、`vegan.org` 掛在 Cloudflare 後面，**用 curl 帶偽造 User-Agent（如 `-A "Mozilla/5.0"`）會被判定為機器人而回 403**；**不帶** UA 反而正常回 200。曾因此誤判這幾個來源「無法驗證」而差點刪掉有官方依據的內容。複驗指令：`curl -sL -o out.html -w "%{http_code}" <url>`。
-
-> 📌 **⚠️ 那批的處理原則**：優先找到權威出處（法規原文、認證機構官網、產業標準文件）補進來，升級為 📖；找不到就降級為「僅供理解、不可引用」。v0.2 的 DSLD 條目原本誤標為「FDA 的資料庫」（實為 NIH ODS 維護），就是這一層出錯的實例——**這張表存在的理由**。
->
-> **這套流程已驗證有效**：v0.5 把第 4、5 節從 ⚠️ 升級為 📖 的過程中，查證抓出三個原本寫錯或漏掉的地方（GMP「只查工廠不查產品」過度簡化、Non-GMO 未標明是民間非營利而非政府標準、法規節漏了 NDI 上市前通報的例外）。**⚠️ 那批不是「大概沒問題只是沒出處」，是真的會有錯。**
-
-> 🔗 **關於外部連結的選擇**：`fda.gov` 與 `ecfr.gov` 對自動化查證有防護、無法直接核對，因此法規條文改連 **Cornell Law School LII**（`law.cornell.edu`，美國法典與 CFR 的逐字重製站），CFR 全文改連 **govinfo.gov**（美國政府出版局官方版，為 2023 年版快照）。兩者都是法規原文而非二手整理，但**引用到正式文件時請回查 eCFR 的現行版**。
-
-### 待評估：哪些 term 值得配圖
-
-issue #2 / #5 都提議「或許所有 term 都可以有視覺化的教學」，逐 term 評估。初步判斷：
-
-| Term | 建議畫法 | 優先 |
-|---|---|---|
-| 六種成分角色 | 一張配方剖面圖，標出各成分位置 | 高 |
-| market vs category | 兩種切法的對照（同一批產品、兩種分群） | 高 |
-| voice density vs VPP | 相對 vs 絕對的並排小圖 | 中 |
-| Supplement Facts / Other Ingredients | 一張標註過的標籤照 | 高 |
-| BI / BT / BP | 三層標記示意 | 中 |
-
-> 形態注意：若真要做互動 HTML，必須**同時有 md 入口**——SPA 的索引與搜尋只認 `.md`，單獨的 HTML 在站內是連不到的孤兒（見 issue #4 的教訓）。
-
-### 其他待辦
-
-- [ ] 完成反向來源盤點（問人 + 翻 Slack）
-- [ ] 與 issue #2 的分類體系術語文互相指路（macro、set、realm、facet 的「另一義見 X」）
-- [x] ~~確認與 `general/00_outline.md` 已登記的「1.2 營養補充品產業知識」的關係~~ → outline v2.16 加指路 blockquote（當時標明認證標準與法規環境尚未收錄）；v0.4 補上第 4、5 節後，outline v2.17 已解除該註記，兩邊現已對齊
-- [ ] 每個詞加上「首次出現在哪份報告 / 哪個 dashboard」的實例連結
-- [x] ~~第 3 節 BI/BT/BP 瘦身~~ → v0.3 完成：例子欄對齊 eidos 正式例子、owner/strain 併成一行指路、節末加 SSOT 指路；PI → BI 沿革保留（eidos 沒有，本文獨有）
-- [x] ~~**標註出處分層**~~ → v0.4 完成：新增〈內容出處分層〉表，逐條標 ✅ SSOT / ⚠️ 歸納
-- [x] ~~**確認 voice 公式**~~ → v0.4 完成：確認為 `terms.yaml` `voice.formula` 原文，**不對稱非筆誤**（`Products` 表 Amazon 側有 review_count 與 rating_count 兩欄，iHerb 側只有 rating_count），已補出處註記與不對稱說明
-- [x] ~~**決定草稿聲明位置**~~ → v0.4 完成：警語前移至標題正下方（含「撞到沒解釋的詞請回報」的邀請），frontmatter `summary` 亦加註；**維持上站**——撤下會讓 outline 1.2 的指路斷掉，且拿不到最需要的讀者回饋
-- [x] ~~**補漏收詞**（certification / NSF / USP / GMP / vitamin / mineral / 法規環境）~~ → v0.4 完成：新增第 4 節（認證標章，區分品質驗證 vs 消費者訴求）、第 5 節（法規環境，structure-function claim）、第 9 節 vitamin / mineral 正面定義
-- [ ] **補第二批漏收詞**（v0.4 確認需要、尚未動工）：
-  - `proprietary blend`（專有配方）—— **優先度最高**：只標複方總量不標各成分含量，所有劑量分析遇到它就斷線；全庫僅 `theweaver.md` 一處裸用
-  - `HHI`（市場集中度）—— 全庫僅一處，且是被當 L0/L1/L2 的舉例用；`terms.yaml` 有現成 5 級閾值
-  - `brand archetype` / `competitive position`（Kotler 四分）—— 全庫零出現，且屬商業概念非統計
-  - `hero formula` —— 與 hero ingredient 差一個層級（成分角色 vs 整罐產品定位），補一行即可
-- [x] ~~**反向來源第一筆（2026-07-28）**：會議上聽到同事口語使用 **facet**（誤讀近似「法-sei」）~~ → v0.7 部分處理：實查確認全庫 8 處裸用零解釋（`dsld_database_guide:258`、`json_structure_reference:1085-1087`、`therefinery` 5 處）。**第 10 節已補 facet 的 LanguaL 產業義 + 發音**，接住 DSLD 那叢；`DosageFormFacets` 同義順帶解決。**泛用邏輯義仍歸 issue #2 未解**
-- [ ] **第 4、5 節新詞的中文譯法待團隊確認**：v0.7 已把 `certification` / `structure-function claim` / `disease claim` 收進第 12 節，但後兩者是法規用語，譯法應找法務或有合規經驗的人確認過再定稿
-
 ### 版本歷史
 
 | 版本 | 日期 | 作者 | 變更說明 |
@@ -457,3 +373,9 @@ issue #2 / #5 都提議「或許所有 term 都可以有視覺化的教學」，
 | 0.6 | 2026-07-28 | Dustin | 第 4、5 節的外部來源**全數獨立複驗**，並據官方原文修正五處：① USP 連結改指 `verified-mark` 頁（官方逐條列出標章保證什麼），「驗什麼」欄改用官方用語「宣稱效價與含量」「有害含量的指定污染物」，移除官網未載明的「可崩解吸收」；② USP 邊界改成從官方表述 "what's on the label is what's in the bottle" 推導其**範圍界線**，不再宣稱「USP 不評估功效」（官網查無此明文）；③ NSF「290 種以上」改為官方數字「290 種」（原文為 "any of 290 substances"，無「以上」）；④ Certified Vegan 補上漏掉的第二個條件「未經動物實驗」（官方定義為不含動物成分／副產品**且**未經動物實驗）；⑤ 「有助於入睡 vs 治療失眠」改掛 21 CFR 101.93(g) 的判準（分界在指涉對象是不是可診斷的病），不再依賴無法取得的 FDA guide。另修一處內部矛盾：節末原寫「品質驗證標章回答『有沒有效、安不安全』」與 USP 邊界說明衝突，改為「這罐是不是它說的東西」並加註兩種標章都不回答療效。出處分層表記錄 Cloudflare 誤判 403 的複驗陷阱 |
 | 0.7 | 2026-07-28 | Dustin | 三項收尾：① `CLAUDE.md` / `STRUCTURE.md` 的 general 樹補上本檔、`chart-type-gallery`、`atomization-context-isolation`（三份都缺，而 CLAUDE.md 的「Check Before Create」政策正是靠這棵樹）；② 第 12 節收 `certification`、`structure-function claim`、`disease claim`——後兩者是法規上界線分明的對立詞，各譯各的有合規風險；③ 第 10 節補 **facet**（LanguaL 的分類軸、DSLD 標在 Facet A、附發音），接住全庫 8 處裸用中最大的一叢，並在相關文檔補 `json_structure_reference.md` 的 LanguaL Facets 對照、把原本只指 issue #2 的那條改寫成說明產業義與泛用義的分工 |
 | 0.8 | 2026-07-29 | Dustin | 家族互指補完（配合 classification-terminology.md 上線）：相關文檔的「（待補）分類體系術語文」換成真連結；第 10 節 facet 那列補同形異義標註，明說本文只講 LanguaL 脈絡、泛用義與正交性見該文 §1；第 9 節 macro callout 補指該文 §6 為四義的正式消歧地。另 **`facet` 中文定案為「分面」**（依國教院《圖書館學與資訊科學大辭典》，與姊妹作統一；專名 `Facet A` 不譯），第 12 節新增該列 |
+| 0.9 | 2026-07-29 | Dustin | 兩件事。**一、移除文件自我維護性質的元敘述**——標題下的草稿警語框、frontmatter `summary` 的草稿註記、〈草稿聲明〉、〈內容出處分層〉整張表與其後三則複驗註記、〈待評估：哪些 term 值得配圖〉、〈其他待辦〉全部刪除，改為以專案與外部權威事實直接敘述；其中一則仍對讀者有用的資訊保留並改寫進正文——第 5 節末新增法規連結說明（Cornell LII／govinfo.gov 為原文重製，正式引用請回查 eCFR 現行版）。**二、第 4 節末新增 forward reference**：讀者在認證標章這節已實際體驗過「三個互不推導的問題」，該處補上這種分類軸的名字（facet／正交性）並指向 [classification-terminology.md](./classification-terminology.md) §1——先體驗、後命名 |
+| 0.10 | 2026-07-29 | Dustin | 相關文檔補〈📌 怎麼分辨連結〉說明（沿用姊妹作寫法）——清單第一條就是標著「最權威的來源」的外部 repo 路徑，新人最可能去點卻點不動，需先說明哪些是站內連結、哪些需要 repo 權限 |
+
+---
+
+**文檔結束**

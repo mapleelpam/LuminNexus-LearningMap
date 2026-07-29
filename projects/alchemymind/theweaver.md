@@ -3,8 +3,8 @@ title: "TheWeaver - LLM 分析生成器"
 type: spec
 status: active
 created: 2025-12-09
-updated: 2025-12-09
-version: "1.0"
+updated: 2026-07-29
+version: "1.1"
 project: LearningMap
 author: maple
 tags:
@@ -178,31 +178,36 @@ vault/responses/weaver/
 
 ### 2. 知識階層 (Taxonomies)
 
+> ⚠️ **Taxonomy 是輸入，不是產物**。它是人工維護、隨程式碼版控的檔案，分析前被送進 prompt 約束 LLM 的選擇範圍（見「🔑 關鍵概念」第 2 點）。列在這裡是因為它是理解輸出格式的前提——輸出裡的 `taxonomy_path` 就是這棵樹上的一條路徑。
+
 **格式**: JSON 檔案 (per realm)
 
-**數量**: 12 個 Taxonomy 定義
+**數量**: 10 個（每個 Knowledge Realm 一個；`edible` 與 4 個 dosage facet 不掛 taxonomy）
 
-**位置**: `vault/responses/weaver/taxonomy/`
+**位置**: `src/weaver/products/knowledge_realms/{realm}/taxonomy/{RealmName}Taxonomy.json`
 
-**範例**: `EdibleTaxonomy.json`
+**格式**: 純巢狀 JSON——鍵是節點名稱，值是它的子節點，**空的 `{}` 代表葉節點**。沒有節點 ID、沒有版本欄位，節點的身分就是那串大小寫敏感的名稱本身。
+
+**範例**: `QualityOfLifeTaxonomy.json`（節錄）
 ```json
 {
-  "realm": "Edible",
-  "version": "v1.0",
-  "hierarchy": {
-    "Dietary Supplement": {
-      "Vitamins": {
-        "Fat-Soluble": ["Vitamin A", "Vitamin D", "Vitamin E", "Vitamin K"],
-        "Water-Soluble": ["Vitamin C", "B-Complex"]
+  "Quality of Life": {
+    "Mental & Psychological Health": {
+      "Sleep Improvement": {},
+      "Emotional Regulation": {
+        "Emotional Stability": {},
+        "Mood Balance": {}
       },
-      "Minerals": {
-        "Macrominerals": ["Calcium", "Magnesium", "Potassium"],
-        "Trace Minerals": ["Iron", "Zinc", "Selenium"]
+      "Stress Management": {
+        "Psychological Stress Coping": {},
+        "Mental Resilience Enhancement": {}
       }
     }
   }
 }
 ```
+
+LLM 分類的輸出會帶一條 `taxonomy_path`，把從根到葉的完整路徑用 ` → ` 串起來，例如 `Quality of Life → Mental & Psychological Health → Stress Management → Psychological Stress Coping`。
 
 ---
 
@@ -210,18 +215,20 @@ vault/responses/weaver/
 
 TheWeaver 分析產品的 10 個知識維度:
 
-| # | Realm | 中文名稱 | 說明 | 輸出範例 |
-|---|-------|---------|------|---------|
-| 1 | **Edible Classification** | 可食用性分類 | 判斷產品是否可食用 | `is_edible: true` |
-| 2 | **Health Effect** | 健康效果 | 健康益處與警告 | `benefits: ["immune support"]` |
-| 3 | **Certification** | 認證標章 | 第三方認證 | `certifications: ["USDA Organic"]` |
-| 4 | **Ingredient Purity** | 成分純度 | 成分純度指標 | `purity_score: 0.92` |
-| 5 | **Formulation Technology** | 配方技術 | 劑型與傳送技術 | `delivery_method: "capsule"` |
-| 6 | **Performance Enhancement** | 效能提升 | 提升運動或認知表現 | `enhancement_type: "cognitive"` |
-| 7 | **Usage Convenience** | 使用便利性 | 服用方便程度 | `ease_of_use: "high"` |
-| 8 | **Flavor Characteristics** | 風味特徵 | 口味與口感 | `taste: "neutral"` |
-| 9 | **Quality of Life** | 生活品質 | 對生活品質的影響 | `wellness_impact: "stress relief"` |
-| 10 | **Usage Context** | 使用情境 | 最佳使用時機與場景 | `best_time: "morning"` |
+| # | Realm | 中文名稱 | 說明 |
+|---|-------|---------|------|
+| 1 | **Health Effect** | 健康效果 | 對身體系統功能或生理狀態的改善宣稱 |
+| 2 | **Performance Enhancement** | 效能提升 | 可測量的運動或認知表現提升 |
+| 3 | **Quality of Life** | 生活品質 | 對日常體驗與幸福感的正向影響 |
+| 4 | **Certification** | 認證標章 | 第三方認證 |
+| 5 | **Dietary Adaptability** | 飲食適性 | 素食、無麩質、非基改等飲食相容性 |
+| 6 | **Ingredient Purity** | 成分純度 | 成分純度指標 |
+| 7 | **Formulation Technology** | 配方技術 | 劑型與傳送技術 |
+| 8 | **Usage Context** | 使用情境 | 最佳使用時機與場景 |
+| 9 | **Usage Convenience** | 使用便利性 | 服用方便程度 |
+| 10 | **Flavor Characteristics** | 風味特徵 | 口味與口感 |
+
+> **`edible` 不在這張表裡**：可食用性判斷是獨立的 analyzer，程式碼位置與 `knowledge_realms/` 平行，且不掛 taxonomy（純布林判斷）。另有 4 個 dosage facet analyzer（劑型／材質／配方／服法）同樣不掛 taxonomy，用的是平面節點清單而非階層樹。
 
 ---
 
@@ -502,9 +509,9 @@ weaver validate \
 **特性**:
 - 每個 realm 獨立分析
 - 每個 realm 有獨立的 schema
-- 每個 realm 生成獨立的 Taxonomy
+- 每個 realm 使用獨立的 Taxonomy
 
-**範例**: `edible` realm 分析產品是否可食用
+**範例**: `health_effect` realm 分析產品宣稱的健康效果
 
 ### 2. Taxonomy (分類法)
 
@@ -513,7 +520,9 @@ weaver validate \
 **特性**:
 - 支援多層級 (root → parent → child → leaf)
 - 每個 realm 一個 Taxonomy
-- LLM 生成並人工審核
+- **人工維護的 JSON 檔案，隨程式碼一起版控**——不是 LLM 生成的
+
+**它的角色是「約束」而非「產物」**: taxonomy 在分析前會被轉成樹狀圖塞進 prompt，LLM 只能從既有的葉節點裡挑，不得自創節點。輸出再由 validator 逐層比對回原樹，路徑對不上就判定無效。
 
 **用途**:
 - SmartInsightEngine 查詢導航
@@ -634,6 +643,7 @@ weaver validate \
 | 版本 | 日期 | 作者 | 變更說明 |
 |------|------|------|----------|
 | 1.0 | 2025-12-09 | AlchemyMind Team | 初版建立 (簡潔版) |
+| 1.1 | 2026-07-29 | Dustin | 據 repo 現況修正三項與 taxonomy 概念直接相關的敘述：① Taxonomy 改為人工維護的版控輸入、角色是約束 LLM 只能選既有葉節點，非「LLM 生成並人工審核」；② Knowledge Realm 清單補上 dietary_adaptability、移除 edible（它與 knowledge_realms 平行且不掛 taxonomy），並註明 4 個 dosage facet 用平面清單而非階層樹；③ Taxonomy JSON 範例改為實際格式（純巢狀、空 {} 為葉、無 ID 無版本欄位）與正確位置，補上 taxonomy_path 的路徑字串形式 |
 
 ### 維護職責
 - **主要維護者**: AlchemyMind Team - TheWeaver
