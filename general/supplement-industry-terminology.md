@@ -3,8 +3,8 @@ title: "保健食品產業術語：看懂這個產業在講什麼"
 type: reference
 status: active
 created: 2026-07-28
-updated: 2026-07-29
-version: "0.11"
+updated: 2026-07-30
+version: "0.12"
 project: LearningMap
 author: Dustin
 tags:
@@ -108,8 +108,14 @@ summary: |
 | 縮寫 | 全稱 | 品牌化的是什麼 | 例子 |
 |---|---|---|---|
 | **BI** | Branded Ingredient | **成分本身**——特定萃取規格、特定產地的原料 | BioPerine®（黑胡椒萃取）、KSM-66（南非醉茄） |
-| **BT** | Branded Technology | **製程或遞送技術** | Phytosome®、liposomal、chelation、sustained-release |
-| **BP** | Branded Provenance | **來源、產地或栽培方式** | Albion®、Organic India® |
+| **BT** | Branded Technology | **製程或遞送技術** | Phytosome®、TRAACS®、LipoSomax®、BakeShure® |
+| **BP** | Branded Provenance | **來源、產地或栽培方式** | Albion®、AjiPure®、Aquamin®、Rosell® |
+
+> ⚠️ **「技術」與「技術的商標」是兩件事**：`liposomal`（微脂體）、`chelation`（螯合）、`sustained-release`（緩釋）**不是 BT**——它們是**技術類型的枚舉值**，誰都能這樣做、誰都能這樣寫。BT 是**做這件事的那個註冊名**：Phytosome® 是一種特定的微脂體／植物複合體技術、TRAACS® 是一套特定的螯合規格。
+>
+> 這個區分在 Eidos 的欄位設計裡看得很清楚：技術類型是枚舉（BT 卡片有 `technology_type`，值如 `liposomal_delivery`、`chelation`、`microencapsulation`；BI 卡片有 `carrier_type`，值如 `liposomal`、`chelate`、`sustained_release`，定義在 `schemas/enums/carrier_type.yaml`），而商標名是**一張自己的卡**。**枚舉值回答「這是哪類技術」，商標回答「這是誰家的」——後者才是 BT。**
+>
+> 同一條線也適用於 BP：`Organic India®` 常被當成 BP 的例子，但它在 Eidos 是**品牌卡**（`profiles/brands/organic_india.md`），不在 BP 商標裡——「有機」是栽培方式的宣稱，不是產地商標。
 
 > ⚠️ **命名沿革陷阱**：BI 以前叫 **PI（Proprietary Ingredient）**，舊文件、舊欄位名、舊報告裡到處都是 PI。**兩者指同一件事**，看到 `pi_landscape`、`pi_gap`、`PI penetration` 不要以為是另一個概念。
 
@@ -399,6 +405,7 @@ graph LR
 | 0.9 | 2026-07-29 | Dustin | 兩件事。**一、移除文件自我維護性質的元敘述**——標題下的草稿警語框、frontmatter `summary` 的草稿註記、〈草稿聲明〉、〈內容出處分層〉整張表與其後三則複驗註記、〈待評估：哪些 term 值得配圖〉、〈其他待辦〉全部刪除，改為以專案與外部權威事實直接敘述；其中一則仍對讀者有用的資訊保留並改寫進正文——第 5 節末新增法規連結說明（Cornell LII／govinfo.gov 為原文重製，正式引用請回查 eCFR 現行版）。**二、第 4 節末新增 forward reference**：讀者在認證標章這節已實際體驗過「三個互不推導的問題」，該處補上這種分類軸的名字（facet／正交性）並指向 [classification-terminology.md](./classification-terminology.md) §1——先體驗、後命名 |
 | 0.10 | 2026-07-29 | Dustin | 相關文檔補〈📌 怎麼分辨連結〉說明（沿用姊妹作寫法）——清單第一條就是標著「最權威的來源」的外部 repo 路徑，新人最可能去點卻點不動，需先說明哪些是站內連結、哪些需要 repo 權限 |
 | 0.11 | 2026-07-29 | Dustin | 依 issue #2 的視覺化提議，§6 補一張 mermaid：同一批產品被 category（依成分）與 market（依問題）兩套切法各切各的，複方產品往兩邊各拉多條線。採二部圖而非文氏圖——mermaid 的 subgraph 一個節點只能屬一群，畫不出重疊，而多重歸屬用連線反而更清楚。並補一句指出這正是第 11 節陷阱 #3「兩張表百分比加不起來」的根源 |
+| 0.12 | 2026-07-30 | Dustin | §3 BT／BP 例子逐一回查 Eidos 後修正——**v0.3 的版本歷史自稱「例子欄對齊 eidos 的正式例子」，但實際上只有 BioPerine®／Phytosome®／Albion® 三個對齊了，BT 與 BP 兩格其餘的例子當時並沒有查**：① `liposomal`／`chelation`／`sustained-release` 不是 BT 商標，是**技術類型的枚舉值**（BT 的 `technology_type`、BI 的 `carrier_type`，後者定義於 Eidos `schemas/enums/carrier_type.yaml`），BT 改列真正的商標 TRAACS®／LipoSomax®／BakeShure®；② `Organic India®` 不是 BP——它在 Eidos 是**品牌卡** `profiles/brands/organic_india.md`，全部 80 張 BP 卡逐一列出後查無 organic，BP 改列 AjiPure®／Aquamin®／Rosell®；③ 新增一則 callout 把「技術」與「技術的商標」的分野寫成教學點（枚舉值回答「這是哪類技術」，商標回答「這是誰家的」），這正是原本會混錯的原因 |
 
 ---
 
