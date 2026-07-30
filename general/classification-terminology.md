@@ -3,8 +3,8 @@ title: "分類體系術語：taxonomy / facet / canonical / realm"
 type: reference
 status: active
 created: 2026-07-28
-updated: 2026-07-29
-version: "0.5"
+updated: 2026-07-30
+version: "0.6"
 project: LearningMap
 author: Dustin
 tags:
@@ -242,7 +242,7 @@ graph TD
 
 而真正的災難是同一份文件記下的後續：寵物保健品沒地方放，有人就把它標成「不在我們範圍內」，**只為了讓它從爬蟲清單消失**。文件的評語是——
 
-> this **lies about identity** to win a crawl filter
+> this **lies about identity** to win a transient crawl-policy fight
 
 **為了一個暫時的操作需求，把一個永久的身份事實改成假的。** 這是格子不夠時，人一定會做的事。
 
@@ -333,7 +333,9 @@ canonical:  Lion's Mane          ← 選定的官方代表
 slug:       lions-mane           ← 給網址、檔名、程式用的形式
 ```
 
-我們系統裡的規模（實際筆數）：`BrandAliases` 24,273 筆、`BrandedIngredientAliases` 9,625 筆；TheJournalism 另有 `CanonicalProduct` 表處理「同一罐產品在不同通路各有一筆紀錄」。
+我們系統裡的規模，以 Eidos 為例（實查 `profiles/` 卡片的 `aliases` 欄位）：**品牌別名 25,473 條**，分布在 11,132 張品牌卡；**品牌原料別名 5,231 條**，分布在 815 張卡。落到資料庫是 `BrandAliases` 與 `ProprietaryIngredientAliases` 兩張表（後者用的是 BI 的舊稱 Proprietary Ingredient，見[產業術語文第 3 節](./supplement-industry-terminology.md)的命名沿革陷阱）。TheJournalism 另有 `CanonicalProduct` 表處理「同一罐產品在不同通路各有一筆紀錄」。
+
+> ⚠️ **別名筆數一定要標 repo 才有意義。** 同一件事在每個系統各有一份別名表，數字彼此不通用，而且每次 ingest 都會變。看到「別名 X 萬筆」先問**哪個 repo、哪一版**——本文這裡先前列的就是一組沒標來源的筆數，連表名都不是 Eidos 的表名。
 
 **`slug` 在 Eidos 裡到處都是**（全 repo grep 得到五萬多處）——因為每個實體都需要一個穩定、不會因為顯示名稱改動而失效的識別字串。你看到的 `joint_health`、`brand_slug` 都是 slug。
 
@@ -350,9 +352,31 @@ slug:       lions-mane           ← 給網址、檔名、程式用的形式
 | 詞 | 白話 | 實例 |
 |---|---|---|
 | **realm（領域）** | 一個**獨立的分析維度**，自帶一套 schema 和自己的 taxonomy | TheWeaver 的 10 個 Knowledge Realm（第 1 節） |
-| **kind（種類）** | 同一層裡的類型標記 | Eidos 的 `brand` / `domain` / `mark` / `strain` |
+| **kind（種類）** | 同一層裡的類型標記 | Eidos `data_sources_v2[].kind`，值域兩個：`marketplace` / `retailer` |
 
-`kind` 的實例很好懂：Eidos 的每個實體都有一個 kind，而**每個 kind 各自暴露不同的 facet**——`brand` 這個 kind 有「狀態 / 信心度」等欄位，`strain`（菌株）則有「屬 / 管轄地區」。同一個系統裡，不同種類的東西問的問題本來就不一樣。
+### 「同一層裡的類型標記」長什麼樣：Eidos 的 `type`
+
+Eidos 的每張實體卡片開頭都有一個型別欄位，**欄位名是 `type`**。值與卡片數（實查 `profiles/`）：
+
+| `type` 的值 | 卡片數 |
+|---|---|
+| `brand_profile` | 11,936 |
+| `domain_profile` | 8,398 |
+| `company_profile` | 4,139 |
+| `branded_ingredient_profile` | 854 |
+| `branded_provenance_profile` | 80 |
+| `branded_technology_profile` | 62 |
+| `strain_profile` | 30 |
+
+概念上要記的是：**同一層裡並列七種東西，而每一種各自暴露不同的 facet**——`brand_profile` 有 `status`（值域 `active` / `discontinued` / `legacy` / `consolidated` / `unknown`）與 `identity_confidence`；`strain_profile` 的屬／種掛在 `taxonomy:` 欄位下，適用哪國法規寫在 `regulatory:` 欄位。同一個系統裡，不同種類的東西問的問題本來就不一樣。
+
+> ⚠️ **要查請 grep `type:`，不是 `kind:`。** Eidos `profiles/` 底下 `^kind:` 命中 **0 檔**——這個 repo 的型別欄位就叫 `type`，值也不是 `brand` 而是帶 `_profile` 後綴的形式。另外 `mark`（商標）**不是任何欄位的值**，它是目錄名 `profiles/marks/`，BI／BT／BP 三種卡片放在它底下。
+>
+> `kind` 在 Eidos 唯一的真實用法在別的地方：`data_sources_v2[].kind`，值域只有 `marketplace` 與 `retailer`（見 Eidos `src/muster/validator.py` 的 CR-7 檢查）。那反而是個很乾淨的 kind 實例——**同一份資料來源清單裡，每一筆都是這兩類之一**。
+
+> 🔍 **本文自己踩過下面那條判準。** 這一節先前把 kind 的實例寫成「Eidos 的 `brand` / `domain` / `mark` / `strain`」：欄位名錯（是 `type`）、值的形式錯（是 `brand_profile`）、`mark` 根本不是值。錯的來源是「這個系統顯然有『種類』這個概念」的印象，而不是任何一次查證。
+>
+> 它剛好完整示範了下面那則 `family` callout 給的判準：**一個詞該不該當術語引用，要看它有沒有出現在 schema、enum、欄位名或規範文件的定義位置。**「Eidos 有 kind」通不過這個判準——`profiles/` 裡沒有這個欄位名。判準對別人寫的詞有效，對我們自己寫下的句子同樣有效。
 
 > 🔍 **一個「查了才知道不是術語」的實例——`family`**
 >
@@ -515,6 +539,7 @@ TheJournalism 整體位於生態系的 **Layer 3**，其內部再分 L0 / L1 / L
 | 0.3 | 2026-07-29 | Dustin | 兩件事。**一、補進 TheWeaver 這個完整實例**：§1 新增「兩者同時上場的完整實例」（10 個 Knowledge Realm × 各一棵 taxonomy，附「獨立評估原則」原文與 benefit 三個 realm 的消費者問題／樹規模）與「事實型 facet 與判讀型 facet」（答案由物件決定 vs 由文案語氣決定，證據是記憶／皮膚／認知／能量四個概念各在多棵樹上長出不同名字的節點，邊界只能靠排除清單守）；§2 補 taxonomy 的儲存形式（純巢狀 JSON、無節點 ID／版本／alias、字串即身分）當作「沒有 alias 會怎樣」的反例；§3 realm 補「同一份註冊表裡 realm 有樹、dosage facet 是平面清單」與 `taxonomy_builder` 的命名陷阱。**二、全篇改以專案事實敘述**：`set`（判準集）一節整條移除——可及的 repo 裡查無此術語，僅存的白話直覺無據可依；§4 改寫為 predicate 的兩個可查證意思（Eidos `market_excluded` 的 SQL 條件義、GoViral claim schema 的六值關係義）；§5 cohort 實例換成 TheJournalism BI positioning 的 30 個白名單原料與 `cohort completeness contract`；§3 realm 的跨系統同形異義改用 TheWeaver 內部可驗證的版本。另補 LanguaL 官方 facet 清單的兩個事實（Facet P 原為單一 facet、DSLD 下游才拆成兩欄；14 個 facet 字母跳號，即「加一欄其他不動」的實證），跨 repo 引用統一加上 repo 名前綴，相關文檔開頭說明站內／外部連結的分辨方式 |
 | 0.4 | 2026-07-29 | Dustin | 對齊家族樣板與補站內連結：① 新增〈🎯 一句話總結〉——`ai-data-terminology.md` 樣板最有辨識度的元素，兩份姊妹作都有、本文原缺；十個詞對齊 frontmatter `summary` 自列的清單；② 相關文檔補 [eidos.md](../projects/alchemymind/eidos.md)——Eidos 在正文出現 14 次、是本文最大單一來源，但站內導覽原本一條都沒連，沒 repo 權限的讀者走不過去；③ §1 TheWeaver 實例首次提及處補站內連結（原本只在文末清單） |
 | 0.5 | 2026-07-29 | Dustin | 依 issue #2 的視覺化提議補三張 mermaid（本文兩張）：① §1「30 vs 2,200」加 facet 四欄獨立 vs 樹狀爆炸的對照圖——「素食」在樹上被複製 11 份用畫的一眼可見，純算術看不出來；② §1 外用鎂噴霧改為「facet 四欄並存」vs「樹上兩條虛線只准選一條」的對照——原文「在樹上沒有位置」是空間主張，文字要讀者自己在腦中畫樹。語法採最保守寫法（不用 `&` 多節點糖、標籤定義於首次出現），以免受站上 mermaid 版本影響 |
+| 0.6 | 2026-07-30 | Dustin | 回頭實查 Eidos，修掉三處引用錯誤。**一、§3 的 `kind` 整節重寫**：原本把 kind 的實例寫成「Eidos 的 `brand` / `domain` / `mark` / `strain`」，但 `profiles/` 底下 `^kind:` 命中 0 檔——型別欄位叫 **`type`**，值是帶 `_profile` 後綴的形式（改列七個值與實際卡片數），而 `mark` 不是任何欄位的值、只是目錄名 `profiles/marks/`；`kind` 在 Eidos 唯一的真實用法是 `data_sources_v2[].kind ∈ {marketplace, retailer}`（Eidos `src/muster/validator.py` CR-7），降級成註記並拿去替換表格的實例欄。順帶把「各 kind 各自暴露不同 facet」的欄位名寫精確（`status` 的五個值域、`identity_confidence`；strain 的屬／種在 `taxonomy:`、法規在 `regulatory:`）。同時點出這條錯誤**正好通不過本節 `family` callout 自己給的判準**（要看有沒有出現在 schema／enum／欄位名／規範文件的定義位置）——判準對我們自己寫的句子同樣有效。**二、§1 引文改為逐字**：原文引成 `to win a crawl filter`，Eidos `specs/DogTag/VERTICAL_SEGMENT_GUIDE.md` 的原句是 `to win a transient crawl-policy fight`（跨行，容易抄漏），加引號就必須逐字。**三、§2 別名筆數改標來源**：原本「`BrandAliases` 24,273 筆、`BrandedIngredientAliases` 9,625 筆」既沒標 repo、又對不上 Eidos 實測，且 Eidos 沒有 `BrandedIngredientAliases` 這張表（是 `ProprietaryIngredientAliases`）；改用 Eidos 實測值（品牌別名 25,473 條／11,132 張卡、BI 別名 5,231 條／815 張卡）並明標出處，另加一則「別名筆數一定要標 repo」的警示 |
 
 ---
 
