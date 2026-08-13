@@ -15,7 +15,7 @@ tags:
 audience:
   - all
 summary: |
-  分類體系術語的白話說明：一群東西怎麼被界定（set、predicate）、
+  分類體系術語的白話說明：一群東西怎麼被界定（set 與判準）、
   怎麼被切開（facet、taxonomy）、站在哪一層看（macro / micro）、
   怎麼確認兩個名字指的是同一件事（canonical、slug、alias），
   以及 realm、kind、cohort 幾個常見的歸群用詞。
@@ -33,7 +33,7 @@ summary: |
 
 本文檔說明：
 
-- 一群東西怎麼被界定：set、predicate
+- 一群東西怎麼被界定：set 與判準
 - 怎麼被切開：facet、taxonomy，以及兩者的分工
 - 站在哪一層看：macro / micro
 - 同一個東西的多個名字：canonical、slug、alias
@@ -46,7 +46,6 @@ summary: |
 | 術語 | 核心意思 |
 |------|----------|
 | **set（集合）** | 一群算數的東西。**本體是那條判準，不是那份名單** |
-| **predicate（判準）** | 一個可以判定真假的條件；也指一句話裡的那個「關係」 |
 | **facet（分面）** | 一個問題、一條軸。**它的答案推導不出別的問題的答案** |
 | **taxonomy（分類法）** | 一棵樹。每個東西掛在樹上的一個位置 |
 | **macro / micro** | 巨觀 / 微觀。站遠看還是站近看 |
@@ -68,9 +67,11 @@ summary: |
 | 方式 | 怎麼做 | 例 |
 |---|---|---|
 | **列舉** | 把成員一個一個寫下來 | 「這 30 個品牌原料」 |
-| **判準** | 寫一條規則，符合的就算 | 「所有含薑黃、且不是綜合維他命的產品」 |
+| **判準（predicate）** | 寫一條規則，符合的就算 | 「所有含薑黃、且不是綜合維他命的產品」 |
 
 列舉沒有爭議——名單就在那裡；但**東西一變就過期**，而且時間久了沒人知道當初為什麼是這些。判準會自動跟著資料走，代價是那條規則要寫得別人看得懂、也同意。
+
+那條規則的正式名稱是 **predicate（判準）**——一個可以判定真假的條件，就是 SQL `WHERE` 後面那種東西：這一列符不符合？符合留下、不符合丟掉。
 
 ### 內涵與外延
 
@@ -122,37 +123,7 @@ graph TD
 
 ---
 
-## 2. predicate：判準與關係
-
-`predicate` 有兩個意思，都常見。
-
-### 意思一：一個可以判定真假的條件
-
-就是 SQL `WHERE` 後面那種東西：「這一列符不符合？」符合留下、不符合丟掉。**這就是上一節用來界定集合的那條判準。**
-
-```text
-WHERE contains_turmeric = true AND is_mvm = false
-```
-
-判準可以合併，也可以拆開。把兩個條件併成一個現成欄位，下游就不必知道內情；代價是下游也**看不見理由**——數字對了，但問「為什麼這罐沒被算進去」時答不出來。
-
-### 意思二：一句話裡的那個「關係」
-
-主詞—謂詞—受詞。從文章裡抽取「宣稱」時，每一條都拆成這種三段式，中間那一格就叫 predicate，值通常來自一組固定選項：
-
-```text
-薑黃  減輕  發炎      → predicate: efficacy（有效）
-薑黃  透過  某個通路   → predicate: mechanism（機轉）
-薑黃  比    某藥物     → predicate: comparison（比較）
-```
-
-同樣兩個東西，關係不同，讀出來的意思完全不同。
-
-兩個意思共用一個字，區分方法很簡單：**它出現在 `WHERE` 後面，還是出現在一個資料欄位裡？** 前者是條件，後者是關係。
-
----
-
-## 3. facet：一個問題、一條軸
+## 2. facet：一個問題、一條軸
 
 **facet（分面）**：一個 facet 就是**一個問題**。這個問題對每個東西都問得出答案，而且**它的答案推導不出別的問題的答案**——這個性質叫**正交**。
 
@@ -184,11 +155,11 @@ facet 與 set 的關係很直接：**一個 facet 把全體切成幾個 set**。
 
 ### 不要用「尺」來理解 facet
 
-尺（scale）暗示有刻度、有大小順序，但 facet 的答案通常沒有——軟膠囊不比膠囊「大」，孕婦不比成人「高」。站內文件明確反對過這個比喻：[`isomorphic-tension.html`](./isomorphic-tension.html) 的「predicate 是 facet 不是 scale」，理由是「每個成員本身就是一個維度，彼此不可通約」。
+尺（scale）暗示有刻度、有大小順序，但 facet 的答案通常沒有——軟膠囊不比膠囊「大」，孕婦不比成人「高」。站內文件反對過這個比喻，理由是「每個成員本身就是一個維度，彼此不可通約」（見 [`isomorphic-tension.html`](./isomorphic-tension.html)）。
 
 ---
 
-## 4. taxonomy：一棵樹
+## 3. taxonomy：一棵樹
 
 **taxonomy（分類法）**：一棵樹，每個東西掛在樹上的一個位置。
 
@@ -209,7 +180,7 @@ SupplementFact
 
 ---
 
-## 5. facet 與 taxonomy 的分工
+## 4. facet 與 taxonomy 的分工
 
 這兩個最容易被當成競爭關係，其實不是：
 
@@ -371,7 +342,7 @@ graph TD
 
 ---
 
-## 6. macro / micro：站在哪一層看
+## 5. macro / micro：站在哪一層看
 
 **macro（巨觀）／ micro（微觀）** 講的不是分類，是**看事情的高度**。同一批東西，你可以看每一罐（micro），也可以退開看整個品類的平均（macro）。
 
@@ -384,7 +355,7 @@ graph TD
 | **巨觀 / 微觀** | 科學、湧現 | 一個巨觀狀態涵蓋海量微觀狀態 |
 | **巨集 / 宏** | 程式 | 一個名字展開成一串指令 |
 | 總體 / 個體 | 經濟學 | 聚合層 vs 個體層 |
-| 巨量營養素 | 營養學 | 見[產業術語文](./supplement-industry-terminology.md)第 9 節 |
+| 巨量營養素 | 營養學 | 見[產業術語文](./supplement-industry-terminology.md)第 10 節 |
 
 共同的根是：**一個上層的名字，代表下層的一大堆**。
 
@@ -394,7 +365,7 @@ graph TD
 
 ---
 
-## 7. set / facet / taxonomy / macro：四個詞的分工
+## 6. set / facet / taxonomy / macro：四個詞的分工
 
 這四個最容易混在一起，因為它們都跟「分類」有關。但它們回答的是四個不同的問題：
 
@@ -405,7 +376,7 @@ graph TD
 | **taxonomy** | 這些答案怎麼組織？ | 一棵**樹** |
 | **macro / micro** | 站在哪一層看？ | 一個**視角高度** |
 
-前三個是接力關係，就是第 5 節那張圖：**一個 facet 把全體切成幾個 set，而單一 set 內部還可以再長成一棵 taxonomy。**
+前三個是接力關係，就是第 4 節那張圖：**一個 facet 把全體切成幾個 set，而單一 set 內部還可以再長成一棵 taxonomy。**
 
 macro 不在這條接力線上，它是**垂直的那一軸**。facet 換的是**角度**（改問另一個問題），macro 換的是**高度**（同一個問題看粗看細）。
 
@@ -413,7 +384,7 @@ macro 不在這條接力線上，它是**垂直的那一軸**。facet 換的是*
 
 ---
 
-## 8. canonical / slug / alias：同一個東西的多個名字
+## 7. canonical / slug / alias：同一個東西的多個名字
 
 資料庫裡常有這種東西：
 
@@ -445,7 +416,7 @@ slug:       lions-mane           ← 給網址、檔名、程式用的形式
 
 ---
 
-## 9. realm / kind：兩個歸群用詞
+## 8. realm / kind：兩個歸群用詞
 
 | 詞 | 意思 |
 |---|---|
@@ -462,13 +433,13 @@ slug:       lions-mane           ← 給網址、檔名、程式用的形式
 
 ---
 
-## 10. cohort：為了比較而圈定的一群
+## 9. cohort：為了比較而圈定的一群
 
 **cohort（同群）**：因為**要互相比較**而被圈在一起的一群。
 
-它跟「用 predicate 篩出來的一批」差在哪：
+它跟「用判準篩出來的一批」差在哪：
 
-- predicate 篩出來的是**符合條件的都算**，多一個少一個不影響其他成員
+- 判準篩出來的是**符合條件的都算**，多一個少一個不影響其他成員
 - cohort 是**先圈定成員，然後每個成員的數字都以「在這群裡排第幾、離最大最小值多遠」的形式呈現**
 
 所以 **cohort 的成員資格會回頭影響每個成員的讀數**。少算一個，所有人的名次和範圍都跟著變。
@@ -481,7 +452,7 @@ slug:       lions-mane           ← 給網址、檔名、程式用的形式
 
 ---
 
-## 11. 一個同形異義的實例：L0/L1/L2 vs Layer 1/2/3
+## 10. 一個同形異義的實例：L0/L1/L2 vs Layer 1/2/3
 
 同一組詞在不同脈絡指不同的東西，這是最常撞到的一個。兩組數字長得像，指的完全是兩件事：
 
@@ -496,13 +467,13 @@ TheJournalism 整體位於生態系的 Layer 3，其內部再分 L0 / L1 / L2。
 
 ---
 
-## 12. 中文對應建議
+## 11. 中文對應建議
 
 | 英文 | 建議中文 | 備註 |
 |------|----------|------|
 | set | 集合 | 判準的集合，不是成員的集合 |
 | intension / extension | 內涵 / 外延 | 定義 / 名單。邏輯學的標準譯法 |
-| predicate | 謂詞 / 判準 | 兩義：條件、關係 |
+| predicate | 判準 | 界定集合用的那條規則 |
 | facet | 分面 | 依國教院《圖書館學與資訊科學大辭典》「分面式分類法」 |
 | orthogonal | 正交 | 誰也推導不出誰 |
 | taxonomy | 分類法 | 一棵樹 |
@@ -526,7 +497,7 @@ TheJournalism 整體位於生態系的 Layer 3，其內部再分 L0 / L1 / L2。
 - [../projects/prismavision/smart-insight-engine/01_mdof-fundamentals.md](../projects/prismavision/smart-insight-engine/01_mdof-fundamentals.md) - taxonomy 的完整教材（含階層圖）
 - [../tools/google-product-category-intro.md](../tools/google-product-category-intro.md) - 一個真實世界 taxonomy 的完整案例
 - [emergence-data-compute.md](./emergence-data-compute.md) · [no-one-is-home.md](./no-one-is-home.md) · [isomorphism-projection.md](./isomorphism-projection.md) - macro / micro 那一義的完整討論
-- [LanguaL Thesaurus](https://www.langual.org/langual_thesaurus.asp)（外部）- 第 5 節分面編碼例子的出處
+- [LanguaL Thesaurus](https://www.langual.org/langual_thesaurus.asp)（外部）- 第 4 節分面編碼例子的出處
 
 ---
 
