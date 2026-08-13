@@ -6,7 +6,7 @@ created: 2026-07-28
 updated: 2026-08-13
 version: "1.0"
 project: LearningMap
-author: Dustin
+author: "Dustin, leana"
 tags:
   - terminology
   - supplement
