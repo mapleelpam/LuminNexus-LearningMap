@@ -10,12 +10,12 @@ author: maple
 tags:
   - prismavision
   - smartinsightengine
-  - mdof
+  - mdfo
   - query-design
   - optimization
 related:
   - 00_overview.md
-  - 01_mdof-fundamentals.md
+  - 01_mdfo-fundamentals.md
 audience:
   - crawler-engineer
   - tester
@@ -32,7 +32,7 @@ summary: |
 
 完成本章學習後，你將能夠：
 
-- ✅ 將複雜業務需求拆解為 MDOF 查詢
+- ✅ 將複雜業務需求拆解為 MDFO 查詢
 - ✅ 掌握常見的查詢設計模式
 - ✅ 理解 Filter-Dimension 互動語義
 - ✅ 優化查詢效能，避免常見陷阱
@@ -54,14 +54,14 @@ summary: |
 
 ## 1. 查詢設計思維
 
-### 1.1 從業務需求到 MDOF 查詢
+### 1.1 從業務需求到 MDFO 查詢
 
 **設計流程**：
 
 ```mermaid
 graph LR
     A[業務需求] --> B[需求拆解]
-    B --> C[識別 MDOF 元素]
+    B --> C[識別 MDFO 元素]
     C --> D[選擇 Measure]
     D --> E[選擇 Dimensions]
     E --> F[設計 Filters]
@@ -104,7 +104,7 @@ graph LR
 - 各品牌差異？ → 加入 Brand 維度
 ```
 
-#### 步驟 2：識別 MDOF 元素
+#### 步驟 2：識別 MDFO 元素
 
 **提問框架**：
 
@@ -1373,7 +1373,7 @@ Gluten-Free: 298 products (24.2%)
 
 ### 7.1 本章核心要點
 
-1. **設計思維**：從業務需求到 MDOF 的系統化方法
+1. **設計思維**：從業務需求到 MDFO 的系統化方法
 2. **設計模式**：12+ 個常見查詢模式可直接應用
 3. **Filter-Dimension**：理解四種互動模式
 4. **效能優化**：避免組合爆炸，合理使用 limit

@@ -15,7 +15,7 @@ tags:
   - json-schema
 related:
   - 00_overview.md
-  - 01_mdof-fundamentals.md
+  - 01_mdfo-fundamentals.md
 audience:
   - tester
   - crawler-engineer
@@ -220,7 +220,7 @@ graph TB
     {
       "name": "測試案例名稱",
       "query": {
-        // MDOF Query
+        // MDFO Query
       },
       "expected": {
         // 預期結果驗證

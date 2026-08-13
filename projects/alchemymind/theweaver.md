@@ -407,7 +407,7 @@ weaver llm batch fetch --analyzer edible --batch-id xxx
 
 **使用方式**: 讀取 Taxonomy 定義進行查詢與導航
 
-**範例**: MDOF 查詢使用 `UsageContextTaxonomy` 進行維度分組
+**範例**: MDFO 查詢使用 `UsageContextTaxonomy` 進行維度分組
 
 ---
 

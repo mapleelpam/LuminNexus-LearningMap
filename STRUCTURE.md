@@ -84,7 +84,7 @@ LuminNexus-LearningMap/
 │   │   ├── 00_overview.md
 │   │   ├── smart-insight-engine/     # SI Engine 學習專區
 │   │   │   ├── 00_overview.md
-│   │   │   ├── 01_mdof-fundamentals.md ⭐
+│   │   │   ├── 01_mdfo-fundamentals.md ⭐
 │   │   │   ├── 02_query-design.md
 │   │   │   └── 03_test-case-design.md
 │   │   ├── mcp.md / next.md / smartinsightengine.md
@@ -107,7 +107,7 @@ LuminNexus-LearningMap/
 
 - **`00_outline.md` / `00_overview.md`**: 該領域的大綱或總覽
 - **數字前綴 01-10**: 表達建議學習順序
-- **底線分隔**: `01_mdof-fundamentals.md`
+- **底線分隔**: `01_mdfo-fundamentals.md`
 - **小寫字母**: 全部使用小寫 + 連字符
 - **無編號檔案**: 獨立參考文件（reference），不屬於循序學習路徑
 
@@ -115,7 +115,7 @@ LuminNexus-LearningMap/
 
 - **general/**: 3-5 天可完成的通用基礎（編號檔）+ 隨時查閱的參考文件（無編號檔）
 - **roles/**: 角色專屬深入內容，前置為 general/ 基礎
-- **projects/prismavision/smart-insight-engine/**: MDOF 查詢專業路徑（01-03 循序學習）
+- **projects/prismavision/smart-insight-engine/**: MDFO 查詢專業路徑（01-03 循序學習）
 
 ---
 
@@ -196,7 +196,7 @@ graph LR
 ```
 
 - 每個子系統有自己的 `00_overview.md`
-- Smart Insight Engine 學習專區位於 `prismavision/smart-insight-engine/`（MDOF 查詢 01-03 循序路徑）
+- Smart Insight Engine 學習專區位於 `prismavision/smart-insight-engine/`（MDFO 查詢 01-03 循序路徑）
 - 文檔撰寫規範見 `DOCUMENTATION_POLICY.md`
 
 ### `slides/` - 簡報
@@ -301,7 +301,7 @@ graph TB
 
 ### 4. 內容重疊防範
 - general/ 與 roles/ 內容不重複
-- 「產品是什麼」(高層) 與「怎麼用 MDOF」(細節) 分屬不同文件
+- 「產品是什麼」(高層) 與「怎麼用 MDFO」(細節) 分屬不同文件
 
 ---
 

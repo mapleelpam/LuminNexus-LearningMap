@@ -83,7 +83,7 @@ graph TB
     end
 
     subgraph Downstream["Downstream Systems"]
-        SI[SmartInsightEngine<br/>MDOF Query]
+        SI[SmartInsightEngine<br/>MDFO Query]
         MCP[SI MCP<br/>Protocol]
         BE[PrismaVision<br/>Backend]
     end
@@ -336,12 +336,12 @@ TheDistiller 的輸出 (`product_info.db`) 被以下系統使用：
 
 ### 1. SmartInsightEngine
 
-**用途**: MDOF 查詢引擎的資料來源
+**用途**: MDFO 查詢引擎的資料來源
 
 **查詢能力**:
 - ~130K 產品資料集
 - 13 維度支援
-- MDOF Query Language (Measure/Dimension/Filter/Options)
+- MDFO Query Language (Measure/Dimension/Filter/Options)
 
 **介面**: SQLite 資料庫直接讀取
 
@@ -372,7 +372,7 @@ TheDistiller 的輸出 (`product_info.db`) 被以下系統使用：
 
 **架構**: 託管 SmartInsightEngine
 
-**介面**: REST API (MDOF Query Language)
+**介面**: REST API (MDFO Query Language)
 
 ### 4. TheJournalism
 

@@ -135,7 +135,7 @@ graph TB
 
 #### Layer 3: Engine Layer
 - **Smart Insight Engine v3.4**: 核心查詢引擎
-- **Query Processor**: 處理 MDOF 查詢語言
+- **Query Processor**: 處理 MDFO 查詢語言
 - **Schema Translator**: 轉換為 SQL
 
 #### Layer 4: Data Layer
@@ -199,15 +199,15 @@ MCP Server 開放 **12 個工具**，分為 4 大類:
 
 ## 📊 資料格式與 Schema
 
-### Input: Query Format (MDOF)
+### Input: Query Format (MDFO)
 
-MDOF = **M**easure + **D**imension + **F**ilter + **O**ptions
+MDFO = **M**easure + **D**imension + **F**ilter + **O**ptions
 
 **範例**:
 ```
 查詢意圖：「各品牌的維他命 D 產品數量，取前 10 名」
 
-MDOF Query:
+MDFO Query:
 ├─ Measure: "product_count"          # 查什麼指標
 ├─ Dimensions: ["Brand"]             # 按什麼維度分組
 ├─ Filters: {                        # 過濾條件
@@ -312,7 +312,7 @@ sequenceDiagram
     participant DB as Database
 
     Agent->>MCP: execute_query(measure, dimensions, filters)
-    MCP->>Engine: Process MDOF Query
+    MCP->>Engine: Process MDFO Query
     Engine->>DB: Execute SQL
     DB-->>Engine: Raw Results
     Engine-->>MCP: Processed Results
@@ -458,7 +458,7 @@ execute_query(
 ### Q1: MCP Server 和 Smart Insight Engine 有什麼差別?
 
 **A**:
-- **Smart Insight Engine**: 核心查詢引擎，處理 MDOF 查詢邏輯、SQL 生成
+- **Smart Insight Engine**: 核心查詢引擎，處理 MDFO 查詢邏輯、SQL 生成
 - **MCP Server**: 介面層，將 Engine 能力透過 MCP 協議開放給 AI Agent
 
 類比: Engine 是資料庫引擎，MCP Server 是驅動程式 (Driver)

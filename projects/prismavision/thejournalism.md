@@ -628,7 +628,7 @@ L1 有選擇，但選擇被寫成程式碼與 URI 字串，因此可重現、可
 **同層（PrismaVision）**
 
 - [00_overview.md](00_overview.md) - PrismaVision 系統概覽
-- [smartinsightengine.md](smartinsightengine.md) - MDOF 查詢引擎
+- [smartinsightengine.md](smartinsightengine.md) - MDFO 查詢引擎
 - [next.md](next.md) - 前端介面
 
 **上游（AlchemyMind, Layer 2）**

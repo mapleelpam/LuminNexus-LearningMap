@@ -187,7 +187,7 @@ facet 與 set 的關係很直接：**一個 facet 把全體切成幾個 set**。
 
 特性是**階層、有父子關係、互斥**——往下鑽一條路徑，最後停在一個節點。公司與品牌的歸屬也是一棵樹：`公司 → 品牌 → 子品牌`，往上只有一個母親。
 
-站內完整教材見 [01_mdof-fundamentals.md](../projects/prismavision/smart-insight-engine/01_mdof-fundamentals.md) §3.2；一個真實世界的大型 taxonomy 案例見 [google-product-category-intro.md](../tools/google-product-category-intro.md)。
+站內完整教材見 [01_mdfo-fundamentals.md](../projects/prismavision/smart-insight-engine/01_mdfo-fundamentals.md) §3.2；一個真實世界的大型 taxonomy 案例見 [google-product-category-intro.md](../tools/google-product-category-intro.md)。
 
 ---
 
@@ -491,7 +491,7 @@ slug:       lions-mane           ← 給網址、檔名、程式用的形式
 
 順帶一個相鄰的詞：**dimension（維度）階層**——查詢時「按什麼分組」，而分組本身可以有層級。
 
-我們的查詢介面把一次查詢拆成四個部分，合稱 **MDFO**：**M**easures（要算什麼數字）、**D**imensions（按什麼分組）、**F**ilters（只看哪些）、**O**ptions（其他選項）。這裡說的 dimension 就是其中的 **D**。完整教材見 [01_mdof-fundamentals.md](../projects/prismavision/smart-insight-engine/01_mdof-fundamentals.md)。
+我們的查詢介面把一次查詢拆成四個部分，合稱 **MDFO**：**M**easures（要算什麼數字）、**D**imensions（按什麼分組）、**F**ilters（只看哪些）、**O**ptions（其他選項）。這裡說的 dimension 就是其中的 **D**。完整教材見 [01_mdfo-fundamentals.md](../projects/prismavision/smart-insight-engine/01_mdfo-fundamentals.md)。
 
 ---
 
@@ -544,7 +544,7 @@ slug:       lions-mane           ← 給網址、檔名、程式用的形式
 
 - [supplement-industry-terminology.md](./supplement-industry-terminology.md) - 姊妹作：保健食品產業術語（能搬到別的產業的在本文，不能的在那篇）
 - [ai-data-terminology.md](./ai-data-terminology.md) - AI 與資料術語（infer / derive / reasoning）
-- [../projects/prismavision/smart-insight-engine/01_mdof-fundamentals.md](../projects/prismavision/smart-insight-engine/01_mdof-fundamentals.md) - taxonomy 的完整教材（含階層圖）
+- [../projects/prismavision/smart-insight-engine/01_mdfo-fundamentals.md](../projects/prismavision/smart-insight-engine/01_mdfo-fundamentals.md) - taxonomy 的完整教材（含階層圖）
 - [../tools/google-product-category-intro.md](../tools/google-product-category-intro.md) - 一個真實世界 taxonomy 的完整案例
 - [emergence-data-compute.md](./emergence-data-compute.md) · [no-one-is-home.md](./no-one-is-home.md) · [isomorphism-projection.md](./isomorphism-projection.md) - macro / micro 那一義的完整討論
 - [LanguaL Thesaurus](https://www.langual.org/langual_thesaurus.asp)（外部）- 第 4 節分面編碼例子的出處

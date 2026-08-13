@@ -1,5 +1,5 @@
 ---
-title: "MDOF 查詢基礎"
+title: "MDFO 查詢基礎"
 type: topic
 status: active
 created: 2025-11-11
@@ -10,7 +10,7 @@ author: maple
 tags:
   - prismavision
   - smartinsightengine
-  - mdof
+  - mdfo
   - measures
   - dimensions
   - filters
@@ -21,11 +21,11 @@ audience:
   - crawler-engineer
   - all
 summary: |
-  MDOF 四大元素（Measures、Dimensions、Filters、Options）的用途與互動關係，
+  MDFO 四大元素（Measures、Dimensions、Filters、Options）的用途與互動關係，
   以及常見業務場景的查詢設計。
 ---
 
-# MDOF 查詢基礎
+# MDFO 查詢基礎
 
 ---
 
@@ -33,7 +33,7 @@ summary: |
 
 完成本章學習後，你將能夠：
 
-- ✅ 理解 MDOF 四大元素的用途與互動關係
+- ✅ 理解 MDFO 四大元素的用途與互動關係
 - ✅ 熟練使用 Measures 選擇合適的計算指標
 - ✅ 設計符合業務邏輯的 Dimensions 組合
 - ✅ 撰寫正確的 Filters 過濾邏輯（any/all）
@@ -45,26 +45,26 @@ summary: |
 
 ## 目錄
 
-- [1. MDOF 核心概念](#1-mdof-核心概念)
+- [1. MDFO 核心概念](#1-mdfo-核心概念)
 - [2. M - Measures (度量指標)](#2-m---measures-度量指標)
 - [3. D - Dimensions (維度)](#3-d---dimensions-維度)
 - [4. F - Filters (過濾器)](#4-f---filters-過濾器)
 - [5. O - Options (選項)](#5-o---options-選項)
-- [6. MDOF 組合實戰](#6-mdof-組合實戰)
+- [6. MDFO 組合實戰](#6-mdfo-組合實戰)
 - [7. 常見錯誤與除錯](#7-常見錯誤與除錯)
 - [8. 學習檢查清單](#8-學習檢查清單)
 
 ---
 
-## 1. MDOF 核心概念
+## 1. MDFO 核心概念
 
-### 1.1 什麼是 MDOF？
+### 1.1 什麼是 MDFO？
 
-**MDOF** 是 Smart Insight Engine 的查詢語言，由四個核心元素組成：
+**MDFO** 是 Smart Insight Engine 的查詢語言，由四個核心元素組成：
 
 ```mermaid
 mindmap
-  root((MDOF<br/>Query))
+  root((MDFO<br/>Query))
     M<br/>Measures
       你想計算什麼
       產品數量
@@ -96,7 +96,7 @@ mindmap
 | **F**ilters | "我想分析**哪些資料**？" | "只看維生素 C 產品" / "膠囊劑型" |
 | **O**ptions | "我想**如何呈現**？" | "每頁 20 筆" / "按數量排序" |
 
-### 1.2 為什麼需要 MDOF？
+### 1.2 為什麼需要 MDFO？
 
 **傳統 SQL 的挑戰**：
 
@@ -118,7 +118,7 @@ ORDER BY product_count DESC
 LIMIT 20;
 ```
 
-**MDOF 的解決方案**：
+**MDFO 的解決方案**：
 
 ```json
 {
@@ -144,7 +144,7 @@ LIMIT 20;
 
 ```mermaid
 graph LR
-    A[1. 業務需求] --> B[2. MDOF Query]
+    A[1. 業務需求] --> B[2. MDFO Query]
     B --> C[3. Schema Translator<br/>CISC→RISC]
     C --> D[4. Validator<br/>驗證規則]
     D --> E[5. Query Engine<br/>執行邏輯]
@@ -168,7 +168,7 @@ graph LR
 | 階段 | 職責 | 輸出 |
 |------|------|------|
 | **1. 業務需求** | 理解問題 | "我想知道..." |
-| **2. MDOF Query** | 轉換為查詢 | JSON 結構 |
+| **2. MDFO Query** | 轉換為查詢 | JSON 結構 |
 | **3. Schema Translator** | CISC → RISC 轉換 | 標準查詢 |
 | **4. Validator** | 驗證合法性 | 驗證報告 |
 | **5. Query Engine** | 選擇執行引擎 | 執行計畫 |
@@ -177,7 +177,7 @@ graph LR
 | **8. Response Formatter** | 格式化 | 結構化 JSON |
 | **9. JSON Response** | 回傳客戶端 | 最終結果 |
 
-### 1.4 MDOF 基本結構
+### 1.4 MDFO 基本結構
 
 **最小查詢範例**：
 
@@ -1393,7 +1393,7 @@ SupplementFact
 
 ---
 
-## 6. MDOF 組合實戰
+## 6. MDFO 組合實戰
 
 ### 6.1 業務場景範例
 
@@ -1933,9 +1933,9 @@ cat tests/testcase/measures/product_count.simple.json
 
 完成本章學習後，你應該能夠回答以下問題：
 
-**MDOF 概念**：
-- [ ] 能解釋 MDOF 四個元素各自的用途
-- [ ] 能說明 MDOF 相比 SQL 的優勢
+**MDFO 概念**：
+- [ ] 能解釋 MDFO 四個元素各自的用途
+- [ ] 能說明 MDFO 相比 SQL 的優勢
 - [ ] 能描述 Query 的生命週期
 
 **Measures**：
@@ -2180,13 +2180,13 @@ cat tests/testcase/measures/product_count.simple.json
 - ✅ 能預測查詢結果的大致格式
 - ✅ 能識別並修正錯誤查詢
 
-那麼你已經掌握了 MDOF 基礎！
+那麼你已經掌握了 MDFO 基礎！
 
 ---
 
 ## 9. 下一步
 
-恭喜完成 MDOF 基礎學習！
+恭喜完成 MDFO 基礎學習！
 
 **接下來你可以：**
 
@@ -2199,7 +2199,7 @@ cat tests/testcase/measures/product_count.simple.json
    - 學習如何設計完整的測試案例
 
 3. **實際應用**：
-   - 嘗試用 MDOF 回答真實的業務問題
+   - 嘗試用 MDFO 回答真實的業務問題
    - 參考 `tests/testcase/business_scenarios/` 中的範例
 
 4. **深入文檔**：

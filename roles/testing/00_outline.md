@@ -51,9 +51,9 @@ summary: |
 > 6. [06_test-result-analysis.md](./06_test-result-analysis.md) - 測試結果分析
 >
 > **深度教材**（讀完主題檔後，依需求進階）：[projects/prismavision/smart-insight-engine/](../../projects/prismavision/smart-insight-engine/)
-> - [00_overview.md](../../projects/prismavision/smart-insight-engine/00_overview.md)（產品總覽）、[01_mdof-fundamentals.md](../../projects/prismavision/smart-insight-engine/01_mdof-fundamentals.md)（MDFO 全解，內容較深）、[03_test-case-design.md](../../projects/prismavision/smart-insight-engine/03_test-case-design.md)（測試案例設計）
+> - [00_overview.md](../../projects/prismavision/smart-insight-engine/00_overview.md)（產品總覽）、[01_mdfo-fundamentals.md](../../projects/prismavision/smart-insight-engine/01_mdfo-fundamentals.md)（MDFO 全解，內容較深）、[03_test-case-design.md](../../projects/prismavision/smart-insight-engine/03_test-case-design.md)（測試案例設計）
 >
-> **術語對照**：本大綱的 **MDFO** 與深度教材檔名的 MDOF 為同一查詢結構，正式拼法以 MDFO 為準。
+> **術語對照**：本大綱的 **MDFO** 與深度教材檔名的 MDFO 為同一查詢結構，正式拼法以 MDFO 為準。
 > **Heimdallr** 為承載 Smart Insight Engine 的 Django 專案名；projects/ 文件則以 **PrismaVision** 三層架構稱呼同一產品線。
 
 ### 🗺️ 測試學習地圖
@@ -348,7 +348,7 @@ mindmap
 
 #### 本 repo 教材（必讀）
 - [smart-insight-engine/00_overview.md](../../projects/prismavision/smart-insight-engine/00_overview.md) - 產品總覽
-- [smart-insight-engine/01_mdof-fundamentals.md](../../projects/prismavision/smart-insight-engine/01_mdof-fundamentals.md) - MDFO 查詢基礎
+- [smart-insight-engine/01_mdfo-fundamentals.md](../../projects/prismavision/smart-insight-engine/01_mdfo-fundamentals.md) - MDFO 查詢基礎
 - [smart-insight-engine/03_test-case-design.md](../../projects/prismavision/smart-insight-engine/03_test-case-design.md) - 測試案例設計
 
 #### 產品 repo 文檔（位於 SmartInsightEngine 專案 repo，需另行取得存取權限）
@@ -447,6 +447,6 @@ A: 完成「能力驗證標準 - 基礎能力」的檢核項目，特別是能�
 | 2.0 | 2025-11-10 | 重構為 3-5 天快速上手版本 | Learning Team |
 | 3.0 | 2025-11-10 | 調整為非技術背景友善版本，移除 Django/Newman 深度內容 | Learning Team |
 | 4.0 | 2025-11-10 | 新增產品理解章節 (01)，移除所有範例保持 outline 簡潔，章節重新編號為 01-06 | Learning Team |
-| 4.1 | 2026-07-04 | 標注 01-06 主題檔為規劃中並連結 smart-insight-engine 現成教材；區分本 repo 教材與產品 repo 文檔；加入 MDFO/MDOF 與 Heimdallr/PrismaVision 術語對照 | maple |
+| 4.1 | 2026-07-04 | 標注 01-06 主題檔為規劃中並連結 smart-insight-engine 現成教材；區分本 repo 教材與產品 repo 文檔；加入 MDFO/MDFO 與 Heimdallr/PrismaVision 術語對照 | maple |
 | 4.2 | 2026-07-05 | 01-06 六個主題檔全數成文（含 Postman/F12/Excel 實操層），大綱改為連結實際檔案 | maple |
 | 4.3 | 2026-07-07 | 內容 review 後對齊：2.2/2.3 對齊主題檔（功能/回歸/驗收、四步流程）；5.x 重排對齊 05 章節順序（含通用版前端 UI 測試，移除 Quick Cards 綁定）；6.2 改為「分類異常察覺」（系統性驗證歸資料團隊）；移除 6.4 SQL 選修與 DB Browser | maple |

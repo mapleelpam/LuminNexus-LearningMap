@@ -211,8 +211,8 @@ graph TD
 **Q2：Heimdallr、PrismaVision、Smart Insight Engine，到底是什麼關係？**
 Smart Insight Engine 是「引擎功能」本身；Heimdallr 是「裝著這個引擎的技術專案名」；PrismaVision 是專案文件中對整個產品線的稱呼。三者指向相關的同一件事，日常溝通用「SI Engine」即可。
 
-**Q3：MDFO 和 MDOF 有什麼不同？**
-指的是同一種查詢結構（Measure / Dimensions / Filters / Options）。本學習地圖統一使用 **MDFO**；你在部分產品教材與檔名中會看到沿用舊拼法 MDOF，兩者是同一件事。
+**Q3：MDFO 和 MDFO 有什麼不同？**
+指的是同一種查詢結構（Measure / Dimensions / Filters / Options）。本學習地圖統一使用 **MDFO**；你在部分產品教材與檔名中會看到沿用舊拼法 MDFO，兩者是同一件事。
 
 **Q4：13 個維度我要全部背起來嗎？**
 不用。理解「維度＝看待產品的角度」這個概念最重要。實際測試時需要哪個維度，再查對照即可。

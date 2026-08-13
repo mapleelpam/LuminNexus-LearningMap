@@ -117,7 +117,7 @@ graph TB
 **核心職責**: 資料查詢、分析、展示
 
 **主要元件**:
-- **SmartInsightEngine**: MDOF 查詢引擎
+- **SmartInsightEngine**: MDFO 查詢引擎
 - **PrismaVision-Next**: 前端介面
 - **MCP**: 協議介面
 
@@ -126,7 +126,7 @@ graph TB
 **查詢能力**:
 - ~130K 產品資料集
 - 13 維度支援
-- MDOF 查詢語言 (Measure/Dimension/Filter/Options)
+- MDFO 查詢語言 (Measure/Dimension/Filter/Options)
 
 ---
 
@@ -215,9 +215,9 @@ Vault (Archive) ← 循環完成!
 - **TheWeaver**: LLM 分析生成器,產生 10 個知識領域的分析
 - **TheRefinery**: 資料精煉層,負責品質檢查與業務邏輯
 - **TheArgus**: 異常檢測系統
-- **SmartInsightEngine**: MDOF 查詢引擎
+- **SmartInsightEngine**: MDFO 查詢引擎
 - **Knowledge Realm**: 知識領域,TheWeaver 的分析維度 (共 10 個)
-- **MDOF**: Measure/Dimension/Filter/Options 查詢語言
+- **MDFO**: Measure/Dimension/Filter/Options 查詢語言
 
 ---
 

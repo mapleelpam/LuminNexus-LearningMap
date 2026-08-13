@@ -34,7 +34,7 @@ Smart Insight Engine 是一個「查產品資料」的系統。使用者不是�
 
 > **術語註記**：這個查詢結構的正式拼法是 **MDFO**
 > （Measure / Dimensions / Filters / Options）。
-> 深度教材的檔名沿用早期拼法 **MDOF**，兩者指的是同一件事，看到時不用困惑。
+> 深度教材的檔名沿用早期拼法 **MDFO**，兩者指的是同一件事，看到時不用困惑。
 
 本章涵蓋：
 
@@ -229,9 +229,9 @@ graph LR
 
 ## ❓ 常見問題 FAQ
 
-**Q1：MDFO 和 MDOF 是不同東西嗎？**
+**Q1：MDFO 和 MDFO 是不同東西嗎？**
 是同一件事。正式拼法是 **MDFO**（Measure / Dimensions / Filters / Options），
-但深度教材檔名沿用早期的 **MDOF**。看到哪個都指同一個查詢結構。
+但深度教材檔名沿用早期的 **MDFO**。看到哪個都指同一個查詢結構。
 
 **Q2：我需要自己寫查詢嗎？**
 測試工作主要是**讀懂**查詢、判斷結果對不對，通常不需要從零手寫複雜查詢。
@@ -255,7 +255,7 @@ graph LR
 
 - [00_outline.md](00_outline.md) — Testing 角色學習大綱
 - [03_rest-api-basics.md](03_rest-api-basics.md) — 上一章：REST API 基礎
-- [01_mdof-fundamentals.md](../../projects/prismavision/smart-insight-engine/01_mdof-fundamentals.md)
+- [01_mdfo-fundamentals.md](../../projects/prismavision/smart-insight-engine/01_mdfo-fundamentals.md)
   — MDFO 深度教材（內容較深，挑需要的章節讀即可）
 
 ---

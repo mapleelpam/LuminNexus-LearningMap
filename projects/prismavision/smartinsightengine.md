@@ -10,7 +10,7 @@ author: maple
 tags:
   - prismavision
   - smartinsightengine
-  - mdof
+  - mdfo
   - query-engine
 related:
   - 00_overview.md
@@ -18,7 +18,7 @@ related:
 audience:
   - all
 summary: |
-  SmartInsightEngine 查詢引擎快速概覽，使用 MDOF 查詢語言從保健食品資料庫提取多維度洞察。
+  SmartInsightEngine 查詢引擎快速概覽，使用 MDFO 查詢語言從保健食品資料庫提取多維度洞察。
 ---
 
 # SmartInsightEngine - 查詢引擎概覽
@@ -38,7 +38,7 @@ summary: |
 
 ## 🎯 系統概述
 
-**SmartInsightEngine** 是一個結構化查詢引擎，讓使用者能夠用 **MDOF 查詢語言** (Measure/Dimension/Filter/Options) 從保健食品資料庫中提取多維度洞察。
+**SmartInsightEngine** 是一個結構化查詢引擎，讓使用者能夠用 **MDFO 查詢語言** (Measure/Dimension/Filter/Options) 從保健食品資料庫中提取多維度洞察。
 
 **一句話說明**:
 將業務問題 ("哪個品牌的維他命 C 產品最多?") 轉換為結構化查詢，並返回可視覺化的分析結果。
@@ -51,7 +51,7 @@ summary: |
 
 ---
 
-## 📥 Input: MDOF 查詢語言
+## 📥 Input: MDFO 查詢語言
 
 ### 查詢結構
 
@@ -182,7 +182,7 @@ graph TB
 
 ## 🔧 核心特性
 
-### 1. MDOF 查詢語言
+### 1. MDFO 查詢語言
 
 **設計理念**: 將複雜的 SQL 查詢抽象為業務語言
 
@@ -228,7 +228,7 @@ graph TB
 
 **業務問題**: "Nature Made 品牌的產品價格分布如何？"
 
-**MDOF 查詢**:
+**MDFO 查詢**:
 ```json
 {
   "measure": "price_distribution",
@@ -251,7 +251,7 @@ graph TB
 
 **業務問題**: "各品牌有哪些維他命 C 產品？"
 
-**MDOF 查詢**:
+**MDFO 查詢**:
 ```json
 {
   "measure": "product_count",
@@ -311,11 +311,11 @@ graph LR
 ### 深入學習
 - [smart-insight-engine/](smart-insight-engine/) - 完整學習路徑
   - [00_overview.md](smart-insight-engine/00_overview.md) - SI Engine 總覽
-  - [01_mdof-fundamentals.md](smart-insight-engine/01_mdof-fundamentals.md) - MDOF 查詢基礎
+  - [01_mdfo-fundamentals.md](smart-insight-engine/01_mdfo-fundamentals.md) - MDFO 查詢基礎
   - [02_query-design.md](smart-insight-engine/02_query-design.md) - 查詢設計進階
   - [03_test-case-design.md](smart-insight-engine/03_test-case-design.md) - 測試案例設計
 
-> 術語說明：MDOF 與 MDFO（Measure / Dimensions / Filters / Options）指同一查詢結構，正式拼法以 **MDFO** 為準；smart-insight-engine/ 教材與檔名沿用 MDOF。
+> 術語說明：MDFO 與 MDFO（Measure / Dimensions / Filters / Options）指同一查詢結構，正式拼法以 **MDFO** 為準；smart-insight-engine/ 教材與檔名沿用 MDFO。
 
 ### 系統文檔
 - [00_architecture-overview.md](../00_architecture-overview.md) - 系統架構全景
@@ -347,7 +347,7 @@ graph LR
 ### Q1: SmartInsightEngine 與一般 SQL 查詢有什麼差別？
 **A**:
 - SQL: 需要理解表結構、寫 JOIN、處理 NULL
-- MDOF: 用業務語言描述需求，引擎自動處理技術細節
+- MDFO: 用業務語言描述需求，引擎自動處理技術細節
 
 ### Q2: 支援哪些查詢類型？
 **A**:
@@ -358,7 +358,7 @@ graph LR
 
 ### Q3: 如何開始使用？
 **A**:
-1. 閱讀 [smart-insight-engine/01_mdof-fundamentals.md](smart-insight-engine/01_mdof-fundamentals.md)
+1. 閱讀 [smart-insight-engine/01_mdfo-fundamentals.md](smart-insight-engine/01_mdfo-fundamentals.md)
 2. 查看測試案例: `tests/testcase/measures/`
 3. 使用測試執行器: `python tests/v3_test_case_runner.py --all-measures`
 

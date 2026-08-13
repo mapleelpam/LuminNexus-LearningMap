@@ -394,7 +394,7 @@ SmartInsightEngine 提供兩種介面，服務不同的使用者族群：
 
 **資料格式**: JSON API (HTTP REST)
 
-**協議**: MDOF Query Language
+**協議**: MDFO Query Language
 
 **Query 結構**:
 ```json
@@ -591,7 +591,7 @@ Business logic: 計算 serving_size_per_dollar
 ```
 使用者在前端查詢: "所有 Nature Made 的維他命 C 產品"
   ↓
-PrismaVision-Next 發送 MDOF Query:
+PrismaVision-Next 發送 MDFO Query:
 {
   "measures": ["product_count"],
   "dimensions": ["Brand", "SupplementFact"],

@@ -72,7 +72,7 @@ projects/
 │   ├── 00_overview.md
 │   ├── smart-insight-engine/      # 查詢引擎 (完整學習路徑)
 │   │   ├── 00_overview.md
-│   │   ├── 01_mdof-fundamentals.md
+│   │   ├── 01_mdfo-fundamentals.md
 │   │   ├── 02_query-design.md
 │   │   └── 03_test-case-design.md
 │   ├── smartinsightengine.md
@@ -106,7 +106,7 @@ projects/
 **詳細文檔**: [alchemymind/00_overview.md](alchemymind/00_overview.md)
 
 ### Layer 3: PrismaVision - 使用者介面與引擎
-- **SmartInsightEngine**: MDOF 查詢引擎
+- **SmartInsightEngine**: MDFO 查詢引擎
 - **PrismaVision-Next**: 前端介面
 - **MCP**: 協議介面
 - **TheJournalism**: 資料詮釋與報告生成 (Extract / Report / Narrate)

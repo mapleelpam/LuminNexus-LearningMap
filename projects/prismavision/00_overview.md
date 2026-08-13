@@ -83,7 +83,7 @@ graph TB
 
 ### 1. SmartInsightEngine - 查詢引擎 ⭐
 
-- **職責**: MDOF 查詢語言處理與執行,提供資料分析 API
+- **職責**: MDFO 查詢語言處理與執行,提供資料分析 API
 - **核心功能**:
   - **M**easure: 度量指標 (product_count, avg_price, price_statistics...)
   - **D**imension: 維度選擇 (Brand, SupplementFact, DosageForm...)
@@ -96,7 +96,7 @@ graph TB
 - **快速概覽**: [smartinsightengine.md](smartinsightengine.md) - 快速理解 Input/Output 與系統定位
 - **詳細文檔**: [smart-insight-engine/](smart-insight-engine/) ⭐ **完整學習路徑**
   - [00_overview.md](smart-insight-engine/00_overview.md) - SI Engine 總覽
-  - [01_mdof-fundamentals.md](smart-insight-engine/01_mdof-fundamentals.md) - MDOF 基礎 (2-3天)
+  - [01_mdfo-fundamentals.md](smart-insight-engine/01_mdfo-fundamentals.md) - MDFO 基礎 (2-3天)
   - [02_query-design.md](smart-insight-engine/02_query-design.md) - 查詢設計進階 (2-3天)
   - [03_test-case-design.md](smart-insight-engine/03_test-case-design.md) - 測試案例設計 (1-2天)
 
@@ -137,13 +137,13 @@ sequenceDiagram
     participant DB as Refined DB
 
     U->>UI: 瀏覽/搜尋產品
-    UI->>SI: MDOF Query
+    UI->>SI: MDFO Query
     SI->>DB: SQL Query
     DB-->>SI: Results
     SI-->>UI: JSON Response
     UI-->>U: 視覺化展示
 
-    Note over SI: MDOF Query Language:<br/>Measure/Dimension/Filter/Options
+    Note over SI: MDFO Query Language:<br/>Measure/Dimension/Filter/Options
 ```
 
 ---
@@ -184,7 +184,7 @@ sequenceDiagram
 ## 🎯 核心設計原則
 
 ### 1. Query Language Abstraction
-- MDOF 提供高層級的查詢抽象
+- MDFO 提供高層級的查詢抽象
 - 使用者不需要知道底層 SQL
 - 支援複雜的分析需求
 
@@ -206,7 +206,7 @@ sequenceDiagram
 
 ## 🔑 關鍵概念
 
-### MDOF Query Language
+### MDFO Query Language
 - **M**easure: 要計算什麼? (count, avg, sum...)
 - **D**imension: 按什麼分組? (Brand, SupplementFact...)
 - **F**ilter: 篩選條件? (Brand="Nature Made")
@@ -246,7 +246,7 @@ sequenceDiagram
 
 ### 對於測試工程師
 1. 先讀 [smart-insight-engine/00_overview.md](smart-insight-engine/00_overview.md) (1小時)
-2. 深入學習 [smart-insight-engine/01_mdof-fundamentals.md](smart-insight-engine/01_mdof-fundamentals.md) (2-3天)
+2. 深入學習 [smart-insight-engine/01_mdfo-fundamentals.md](smart-insight-engine/01_mdfo-fundamentals.md) (2-3天)
 3. 學習測試設計 [smart-insight-engine/03_test-case-design.md](smart-insight-engine/03_test-case-design.md) (1-2天)
 
 ### 對於前端工程師
@@ -255,7 +255,7 @@ sequenceDiagram
 3. 實作資料視覺化元件
 
 ### 對於架構師
-1. 理解 MDOF 查詢語言設計 [smart-insight-engine/02_query-design.md](smart-insight-engine/02_query-design.md)
+1. 理解 MDFO 查詢語言設計 [smart-insight-engine/02_query-design.md](smart-insight-engine/02_query-design.md)
 2. 理解 API 介面與效能考量
 3. 理解 MCP 協議整合 [mcp.md](mcp.md)
 
@@ -264,7 +264,7 @@ sequenceDiagram
 ## ❓ 常見問題
 
 ### Q1: SmartInsightEngine 和一般的 SQL 查詢有什麼差別?
-**A**: MDOF 提供更高層級的抽象,專門針對營養補充品分析設計,支援複雜的分類法邏輯 (如健康效果、認證等)。
+**A**: MDFO 提供更高層級的抽象,專門針對營養補充品分析設計,支援複雜的分類法邏輯 (如健康效果、認證等)。
 
 ### Q2: PrismaVision-Next 可以直接查詢資料庫嗎?
 **A**: 不行,前端必須透過 SmartInsightEngine 的 API 查詢,確保資料安全與查詢邏輯一致性。
@@ -272,7 +272,7 @@ sequenceDiagram
 ### Q3: MCP 是什麼?為什麼需要它?
 **A**: MCP (Model Context Protocol) 讓 AI Agents (如 Claude Code) 可以查詢 SmartInsightEngine,實現 AI 驅動的資料分析。
 
-### Q4: 如何學習 MDOF 查詢語言?
+### Q4: 如何學習 MDFO 查詢語言?
 **A**: 請參考 [smart-insight-engine/](smart-insight-engine/) 的完整學習路徑,從基礎到進階,包含 50+ 實戰範例。
 
 ---

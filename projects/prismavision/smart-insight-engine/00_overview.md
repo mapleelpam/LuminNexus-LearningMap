@@ -10,14 +10,14 @@ author: maple
 tags:
   - prismavision
   - smartinsightengine
-  - mdof
+  - mdfo
   - learning-path
 audience:
   - tester
   - crawler-engineer
   - all
 summary: |
-  Smart Insight Engine 完整學習路徑，涵蓋 MDOF 查詢基礎、查詢設計進階、測試案例設計。
+  Smart Insight Engine 完整學習路徑，涵蓋 MDFO 查詢基礎、查詢設計進階、測試案例設計。
 ---
 
 # Smart Insight Engine 學習總覽
@@ -29,7 +29,7 @@ summary: |
 完成本系列學習後，你將能夠：
 
 - ✅ 理解 Smart Insight Engine 的核心架構與設計理念
-- ✅ 熟練使用 MDOF 查詢語言設計業務分析查詢
+- ✅ 熟練使用 MDFO 查詢語言設計業務分析查詢
 - ✅ 根據業務需求選擇合適的 Measure 和 Dimension 組合
 - ✅ 設計完整的測試案例，涵蓋各種邊界情況
 - ✅ 理解查詢優化與效能考量
@@ -41,7 +41,7 @@ summary: |
 
 ```mermaid
 graph TB
-    A[00_overview<br/>總覽] --> B[01_mdof-fundamentals<br/>MDOF 基礎<br/>2-3天]
+    A[00_overview<br/>總覽] --> B[01_mdfo-fundamentals<br/>MDFO 基礎<br/>2-3天]
     B --> C[02_query-design<br/>查詢設計進階<br/>2-3天]
     C --> D[03_test-case-design<br/>測試案例設計<br/>1-2天]
 
@@ -78,12 +78,12 @@ graph TB
 
 ---
 
-### **01_mdof-fundamentals.md - MDOF 查詢基礎** ⭐
+### **01_mdfo-fundamentals.md - MDFO 查詢基礎** ⭐
 > 學習階段：基礎 | 時間：2-3 天
 
 #### 第一天：概念建立
-- **1.1 MDOF 核心概念**
-  - 什麼是 MDOF？
+- **1.1 MDFO 核心概念**
+  - 什麼是 MDFO？
   - 為什麼需要查詢語言？
   - Query 的生命週期
 
@@ -112,7 +112,7 @@ graph TB
   - 分頁與排序
   - 特殊選項（bin_size, unit_grouping）
 
-- **1.6 MDOF 組合實戰**
+- **1.6 MDFO 組合實戰**
   - 10 個經典業務場景範例
   - 常見錯誤與除錯技巧
   - 學習檢查清單
@@ -123,7 +123,7 @@ graph TB
 > 學習階段：進階 | 時間：2-3 天
 
 - **2.1 查詢設計思維**
-  - 從業務需求到 MDOF 查詢
+  - 從業務需求到 MDFO 查詢
   - 需求拆解技巧
   - 查詢複雜度評估
 
@@ -263,7 +263,7 @@ graph TB
         K[Error Handler]
     end
 
-    A -->|MDOF Query| B
+    A -->|MDFO Query| B
     B --> C
     C -->|Canonical Query| D
     D -->|Validated Query| E
@@ -299,11 +299,11 @@ graph TB
 
 ## 🧩 核心概念速覽
 
-### MDOF 四大元素
+### MDFO 四大元素
 
 ```mermaid
 mindmap
-  root((MDOF<br/>Query))
+  root((MDFO<br/>Query))
     M - Measures
       計算什麼
       product_count
@@ -399,8 +399,8 @@ graph TD
 #### **Test & Business Analysis 角色**
 
 **重點學習順序**：
-1. ✅ **01_mdof-fundamentals.md** (必修，3天)
-   - 深入理解 MDOF 四大元素
+1. ✅ **01_mdfo-fundamentals.md** (必修，3天)
+   - 深入理解 MDFO 四大元素
    - 熟練 Filter 邏輯設計
    - 掌握常見業務場景
 
@@ -414,7 +414,7 @@ graph TD
    - 效能優化考量
 
 **能力檢核點**：
-- [ ] 能獨立設計 MDOF 查詢回答業務問題
+- [ ] 能獨立設計 MDFO 查詢回答業務問題
 - [ ] 能設計完整測試案例（simple + complex）
 - [ ] 能使用工具除錯查詢問題
 - [ ] 能解讀 SQL 輸出與執行計畫
@@ -424,7 +424,7 @@ graph TD
 #### **Data Analyst 角色**
 
 **重點學習順序**：
-1. ✅ **01_mdof-fundamentals.md** (必修，3天)
+1. ✅ **01_mdfo-fundamentals.md** (必修，3天)
 2. ✅ **02_query-design.md** (必修，3天)
    - 重點：業務場景實戰
    - 重點：查詢設計思維
@@ -432,7 +432,7 @@ graph TD
    - 了解測試框架即可
 
 **能力檢核點**：
-- [ ] 能將業務需求轉換成 MDOF 查詢
+- [ ] 能將業務需求轉換成 MDFO 查詢
 - [ ] 能設計複雜的多維度分析
 - [ ] 能優化查詢效能
 - [ ] 能解讀與視覺化查詢結果
@@ -442,8 +442,8 @@ graph TD
 #### **Backend Engineer 角色**
 
 **重點學習順序**：
-1. ✅ **01_mdof-fundamentals.md** (必修，2天)
-   - 快速了解 MDOF 語法
+1. ✅ **01_mdfo-fundamentals.md** (必修，2天)
+   - 快速了解 MDFO 語法
 2. ✅ **02_query-design.md** (必修，3天)
    - 重點：系統架構
    - 重點：效能優化
@@ -467,16 +467,16 @@ gantt
 
     section 基礎階段
     00 Overview           :done, overview, 2025-01-01, 1d
-    01 MDOF Fundamentals  :active, mdof, after overview, 3d
+    01 MDFO Fundamentals  :active, mdfo, after overview, 3d
 
     section 角色分流
-    Test & BA → 03 Test Design     :test, after mdof, 2d
+    Test & BA → 03 Test Design     :test, after mdfo, 2d
     Test & BA → 02 Query Design    :crit, after test, 2d
 
-    Data Analyst → 02 Query Design :query, after mdof, 3d
+    Data Analyst → 02 Query Design :query, after mdfo, 3d
     Data Analyst → 03 Test Design  :after query, 1d
 
-    Backend → 02 Query Design      :backend1, after mdof, 3d
+    Backend → 02 Query Design      :backend1, after mdfo, 3d
     Backend → 03 Test Design       :backend2, after backend1, 2d
 ```
 
@@ -602,7 +602,7 @@ python tests/si_query.py tests/testcase/measures/product_count.simple.json --cas
 
 準備好了嗎？讓我們開始第一課：
 
-👉 **[01_mdof-fundamentals.md - MDOF 查詢基礎](./01_mdof-fundamentals.md)**
+👉 **[01_mdfo-fundamentals.md - MDFO 查詢基礎](./01_mdfo-fundamentals.md)**
 
 ---
 
