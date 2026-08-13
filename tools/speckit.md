@@ -396,7 +396,7 @@ A:
 
 ### 相關概念
 - [SDD 規格驅動開發](../general/00_outline.md#35-規格驅動開發-spec-driven-development-sdd) - General Learning Map
-- [TDD 測試驅動開發](../general/00_outline.md#44-測試驅動開發-test-driven-development-tdd) - General Learning Map
+- [TDD 測試驅動開發](../general/00_outline.md#45-測試驅動開發-test-driven-development-tdd) - General Learning Map
 - [API 設計原則](../general/00_outline.md#33-api-設計與整合) - General Learning Map
 
 ### 推薦閱讀 (選修)

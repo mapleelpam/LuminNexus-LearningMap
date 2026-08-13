@@ -174,7 +174,7 @@ graph TB
 
 **負責團隊**: AtlasVault Team - TheForge
 
-**詳細文檔**: [atlasvault/theforge.md](atlasvault/theforge.md#unified-forge)
+**詳細文檔**: [atlasvault/theforge.md](atlasvault/theforge.md)
 
 ---
 
