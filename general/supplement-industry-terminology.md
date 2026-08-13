@@ -161,7 +161,7 @@ summary: |
 >
 > 同一條線也適用於 BP：`Organic India®` 常被當成 BP 的例子，但它其實是一個**品牌**，不是產地商標——「有機」是栽培方式的宣稱，誰都可以宣稱，不是某一家獨有的來源標記。
 
-> ⚠️ **命名沿革陷阱**：BI 以前叫 **PI（Proprietary Ingredient）**，舊文件、舊欄位名、舊報告裡到處都是 PI。**兩者指同一件事**，看到 `pi_landscape`、`pi_gap`、`PI penetration` 不要以為是另一個概念。
+> ⚠️ **命名沿革陷阱**：BI 以前叫 **PI（Proprietary Ingredient）**，舊文件、舊欄位名、舊報告裡到處都是 PI。**兩者指同一件事**，看到舊報告或舊欄位名裡的 PI，不要以為是另一個概念。
 
 相對於這三種標記，**generic（通用配方）** 指的是完全不含任何 BI 的產品。
 
@@ -173,7 +173,7 @@ summary: |
 
 ## 4. 認證標章：兩種完全不同的東西
 
-標籤上那一排標章，dashboard 上是 `Certification` 這個維度。新人最容易犯的錯是**把它們當成同一類東西**——實際上分兩種，回答的是完全不同的問題。
+標籤上那一排標章，在分析裡通常收成一個「認證」維度。新人最容易犯的錯是**把它們當成同一類東西**——實際上分兩種，回答的是完全不同的問題。
 
 ### 品質驗證標章：「這罐裡面真的是它說的東西嗎？」
 
@@ -207,7 +207,7 @@ summary: |
 
 > 🔭 **你剛剛體驗過的東西有名字**：這一節你其實做了三次同一件事——問「這罐是不是它說的東西」、問「合不合我的價值觀」、問「有沒有效」，然後發現**這三個問題誰也推導不出誰**（有機非基改的產品完全可能沒做過含量驗證，反過來也成立）。
 >
-> 這種「彼此獨立、必須分開問」的分類軸，在資料建模裡叫 **facet（分面）**，而「誰也推導不出誰」這個性質叫**正交性**。它不是保健食品專有的概念，換成汽車零件、書店庫存都成立，所以收在姊妹作裡：[classification-terminology.md](./classification-terminology.md) §1 有完整教學，包含為什麼這種軸不能塞進一棵分類樹、以及硬塞會出什麼事。**先體驗、後命名——你已經走完前半段了。**
+> 這種「彼此獨立、必須分開問」的分類軸，在資料建模裡叫 **facet（分面）**，而「誰也推導不出誰」這個性質叫**正交性**。它不是保健食品專有的概念，換成汽車零件、書店庫存都成立，所以收在姊妹作裡：[classification-terminology.md](./classification-terminology.md) 第 3 節有完整說明，包含為什麼這種軸不能塞進一棵分類樹、以及硬塞會出什麼事。**先體驗、後命名——你已經走完前半段了。**
 
 ---
 
@@ -285,7 +285,7 @@ graph LR
 
 > ⚠️ **這就是「兩張表的百分比加不起來」的根源**（見第 11 節第 ① 問）。同一罐產品在多個 market 各被計一次，各 market 的產品數加總**一定大於**實際產品數。看到佔比時先問：分母是「不重複產品數」還是「各市場計次總和」。
 
-- **functional market（功能市場）** = 上表的 market，只是講法不同。專案目前有 **24 個**。
+- **functional market（功能市場）** = 上表的 market，只是講法不同。實務上會切出二十幾個。
 - **demand cluster（需求分群）**：把 24 個 market 按消費者需求語意再往上收成幾個高階群組。
 
 ---
@@ -338,7 +338,7 @@ graph LR
 
 **MVM = Multi-Vitamin/Mineral（綜合維他命）**。
 
-它不是一種普通產品，是**統計的污染源**：一罐綜合維他命動輒含三、四十種成分，於是幾乎每個成分的「滲透率」都被它灌水。所以你會常看到分析加了排除條件、參數名叫 `exclude_mvm` 之類的東西——**那不是在隱藏資料，是在還原真實的成分採用率**。
+它不是一種普通產品，是**統計的污染源**：一罐綜合維他命動輒含三、四十種成分，於是幾乎每個成分的「滲透率」都被它灌水。所以你會常看到分析帶著一個「排除綜合維他命」的開關——**那不是在隱藏資料，是在還原真實的成分採用率**。
 
 衍生詞 **MVM dependency（MVM 依賴度）**：某個市場有多少比例是靠綜合維他命撐起來的。這個數字高，代表該市場的成分分析要特別小心。
 
@@ -356,7 +356,7 @@ graph LR
 
 換句話說，**functional ingredient 是一個「減法定義」**——它不是一類有共同性質的東西，而是「扣掉基礎營養素後剩下的」。所以看到這個詞，要先確認扣掉的是哪些。
 
-> 🔀 **同形異義提醒**：**macro** 這個字在我們的文件裡至少有四個意思。**本文脈絡只指「巨量營養素 macronutrient」**；程式的「巨集」、經濟學的「總體」是另外的意思，而「巨觀 / 微觀層次」那一義在 [emergence-data-compute.md](./emergence-data-compute.md) 有完整討論。**四義的正式消歧在 [classification-terminology.md](./classification-terminology.md) 第 7 節**。看到 macro 先確認脈絡。
+> 🔀 **同形異義提醒**：**macro** 這個字在我們的文件裡至少有四個意思。**本文脈絡只指「巨量營養素 macronutrient」**；程式的「巨集」、經濟學的「總體」是另外的意思，而「巨觀 / 微觀層次」那一義在 [emergence-data-compute.md](./emergence-data-compute.md) 有完整討論。**四義的說明在 [classification-terminology.md](./classification-terminology.md) 第 6 節**。看到 macro 先確認脈絡。
 
 ---
 
@@ -368,7 +368,7 @@ graph LR
 |---|---|
 | **DSLD** | 美國 NIH 膳食補充劑辦公室（ODS）維護的補充劑標籤資料庫，收錄各產品的標籤原文 |
 | **LanguaL** | 一套國際食品描述的分類編碼系統，DSLD 用它來標劑型 |
-| **facet（分面）** | LanguaL 用來切分類的**軸**——同一個產品可以同時被好幾個 facet 描述，彼此不衝突。DSLD 的劑型就標在 **Facet A**。發音近 /ˈfæsɪt/（「花-sit」，不是「法-sei」）。⚠️ **本文只講 LanguaL 脈絡**；facet 當通用邏輯概念（正交性、為什麼不能塞成一棵樹）見 [classification-terminology.md](./classification-terminology.md) §1 |
+| **facet（分面）** | LanguaL 用來切分類的**軸**——同一個產品可以同時被好幾個 facet 描述，彼此不衝突。DSLD 的劑型就標在 **Facet A**。發音近 /ˈfæsɪt/（「花-sit」，不是「法-sei」）。⚠️ **本文只講 LanguaL 脈絡**；facet 當通用邏輯概念（正交性、為什麼不能塞成一棵樹）見 [classification-terminology.md](./classification-terminology.md) 第 3 節 |
 | **UNII** | FDA 給每個成分的唯一識別碼，用來跨系統對齊「這兩個名字是不是同一個成分」 |
 | **ASIN** | Amazon 的商品編號 |
 | **UPC** | 商品條碼，實體零售的通用識別碼 |
@@ -391,7 +391,7 @@ graph LR
 
 更常見的是分母根本不唯一：一罐複方產品同時屬於好幾個功能市場（見第 6 節），各市場的產品數加總**一定大於**實際產品數。看到佔比先問：分母是「不重複的東西有幾個」，還是「各群各數一次的總和」？
 
-> 🔗 這就是分類體系文說的「**補集必須先講定全集**」——分母就是全集。（[classification-terminology.md](./classification-terminology.md) 第 4 節）
+> 🔗 這就是分類體系文說的「**補集必須先講定全集**」——分母就是全集。（[classification-terminology.md](./classification-terminology.md) 第 1 節）
 
 ### ②「這個數量去重了嗎？」
 
@@ -429,7 +429,7 @@ graph LR
 | voice density | 聲量密度 | 相對值 |
 | penetration | 滲透率 | 首次提及必須講清楚分母 |
 | dosage form | 劑型 | — |
-| facet | 分面 | 依國教院《圖書館學與資訊科學大辭典》「分面式分類法」。**專名 `Facet A` 不譯**。泛用義見 [classification-terminology.md](./classification-terminology.md) §1 |
+| facet | 分面 | 依國教院《圖書館學與資訊科學大辭典》「分面式分類法」。**專名 `Facet A` 不譯**。泛用義見 [classification-terminology.md](./classification-terminology.md) 第 3 節 |
 | Branded Ingredient (BI) | 品牌原料 | 舊稱 PI / 專利成分 |
 | Branded Technology (BT) | 品牌化技術 | — |
 | Branded Provenance (BP) | 品牌化產地 | — |
