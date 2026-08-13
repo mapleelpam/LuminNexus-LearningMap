@@ -3,8 +3,8 @@ title: "保健食品產業術語：看懂這個產業在講什麼"
 type: reference
 status: active
 created: 2026-07-28
-updated: 2026-07-30
-version: "0.12"
+updated: 2026-08-13
+version: "1.0"
 project: LearningMap
 author: Dustin
 tags:
@@ -113,7 +113,7 @@ summary: |
 
 > ⚠️ **「技術」與「技術的商標」是兩件事**：`liposomal`（微脂體）、`chelation`（螯合）、`sustained-release`（緩釋）**不是 BT**——它們是**技術類型的枚舉值**，誰都能這樣做、誰都能這樣寫。BT 是**做這件事的那個註冊名**：Phytosome® 是一種特定的微脂體／植物複合體技術、TRAACS® 是一套特定的螯合規格。
 >
-> 這個區分在 Eidos 的欄位設計裡看得很清楚：技術類型是枚舉（BT 卡片有 `technology_type`，值如 `liposomal_delivery`、`chelation`、`microencapsulation`；BI 卡片有 `carrier_type`，值如 `liposomal`、`chelate`、`sustained_release`，定義在 `schemas/enums/carrier_type.yaml`），而商標名是**一張自己的卡**。**枚舉值回答「這是哪類技術」，商標回答「這是誰家的」——後者才是 BT。**
+> 這個區分在 Eidos 的欄位設計裡看得很清楚：技術類型是枚舉（BT 卡片有 `technology_type`，值如 `liposomal_delivery`、`chelation`、`microencapsulation`；BI 卡片有 `carrier_type`，值如 `liposomal`、`chelate`、`sustained_release`，定義在 Eidos `specs/DogTag/schemas/enums/carrier_type.yaml`），而商標名是**一張自己的卡**。**枚舉值回答「這是哪類技術」，商標回答「這是誰家的」——後者才是 BT。**
 >
 > 同一條線也適用於 BP：`Organic India®` 常被當成 BP 的例子，但它在 Eidos 是**品牌卡**（`profiles/brands/organic_india.md`），不在 BP 商標裡——「有機」是栽培方式的宣稱，不是產地商標。
 
@@ -260,7 +260,14 @@ graph LR
 
 **它不是**：不是銷售額、不是市佔率、不是媒體聲量（share of voice）、不是質性回饋（voice of customer）。
 
-⚠️ **一定要記的一件事**：品牌官網（Official 通路）的產品 **voice 永遠是 0**——不是沒人買，是**那個通路根本沒有評論資料**。把 0 讀成「乏人問津」是新人最常犯的錯。
+⚠️ **一定要記的一件事**：有兩種通路的產品 **voice 永遠是 0**——不是沒人買，是**那些通路根本沒有評論資料**。把 0 讀成「乏人問津」是新人最常犯的錯。
+
+| 通路 | 是什麼 | 為什麼是 0 |
+|---|---|---|
+| **Official** | 品牌官網（產品 ID 開頭 `T_`） | 官網不收消費者評論 |
+| **Regulation** | 法規資料庫來源（DSLD，`D_`） | 那是政府的標籤登錄資料，本來就沒有評論欄位 |
+
+（出處：TheJournalism `specs/terms.yaml` 的 `voice.caveats`。Regulation 這條目前擷取暫停，看到的機會比 Official 少，但欄位還在。）
 
 由 voice 衍生的兩個指標，差別要分清：
 
@@ -343,7 +350,7 @@ graph LR
 | 3 | **兩張表的百分比加不起來** | `voice_pct` / `product_pct` 的**分母依 view 而異**。同一個欄位名，在不同分析裡母體可能不同——跨表比較前先確認分母 |
 | 4 | **產品數看起來比實際多** | `listing_count` 是**資料庫紀錄數**，跨來源不去重。同一罐產品在 Amazon 和 iHerb 各有一筆，就是 2 |
 | 5 | **把資料來源當成通路策略** | `source_type`（技術上從哪抓的）≠ `channel_type`（商業上的通路角色）。兩者是正交的兩軸，不能互推 |
-| 6 | **voice 是 0 = 沒人買** | 見第 7 節。Official 通路 by construction 就是 0 |
+| 6 | **voice 是 0 = 沒人買** | 見第 7 節。Official 與 Regulation 兩條通路 by construction 就是 0 |
 
 ---
 
@@ -394,18 +401,8 @@ graph LR
 
 | 版本 | 日期 | 作者 | 變更說明 |
 |------|------|------|----------|
-| 0.1 | 2026-07-28 | Dustin | 初稿：標籤結構、成分六角色、BI/BT/BP、market vs category、voice 家族、MVM/macronutrient、資料來源縮寫、六個數字陷阱、中文對應。盤點未完成，反向來源待補 |
-| 0.2 | 2026-07-28 | Dustin | penetration 獨立成第 6 節（原埋在 voice 節末，且它屬 BI 家族非 voice 家族），章節重編號 6–9 → 7–10；DSLD 改正為 NIH/ODS（原誤標 FDA）並將擷取狀態改為指路 dsld-crawler；macro 同形異義改指 emergence-data-compute（原指 issue 編號，新人無法追）；terms.yaml 標明需 repo 權限；ai-data-terminology 補成可點連結。BI/BT/BP 瘦身與出處分層列入待辦 |
-| 0.3 | 2026-07-28 | Dustin | 第 3 節 BI/BT/BP 瘦身：例子欄對齊 eidos 的正式例子（BioPerine®／Phytosome®／Albion®，原例子站內查無且與 SSOT 平行維護必然漂移）、owner 與 strain 兩段併成一行指路、節末加「本節只做白話對照不是定義書」的 SSOT 指路；第 2 節加「配方角色 vs 是否品牌化」兩軸正交的提醒（因 BioPerine® 現同時出現於第 2、3 節） |
-| 0.4 | 2026-07-28 | Dustin | 三件事：①〈內容出處分層〉表落地，逐條標 SSOT / 歸納（v0.2 誤標 DSLD 為 FDA 即此層出錯的實例）；② 草稿警語前移至標題正下方並加註 frontmatter summary，維持上站不撤下；③ 補 outline 1.2 欠的兩塊——新增第 4 節認證標章（品質驗證 USP/NSF/GMP vs 消費者訴求 Organic/Non-GMO/Vegan 的分野）、第 5 節法規環境（DSHEA、structure-function claim vs disease claim、FDA 免責聲明），第 9 節補 vitamin/mineral 正面定義與「functional ingredient 是減法定義」。章節重編號 5–10 → 7–12；voice 公式補出處與不對稱說明 |
-| 0.5 | 2026-07-28 | Dustin | 第 4、5 節外部權威查證並補連結，出處分層加第三級 📖 外部權威（原本 ✅／⚠️ 兩級把「有法規原文可查」與「純屬歸納」混為一談）。查證同時修正三處：① GMP「查的是工廠不是產品」過度簡化——21 CFR Part 111 也強制廠商自檢成分與成品，差別在非第三方獨立驗證；② Non-GMO Project 與 Vegan 補標「民間非營利」以與政府法規的 USDA Organic 區隔，並加註官方自陳「不等於保證不含 GMO」；③ 第 5 節補漏掉的 NDI 例外（21 U.S.C. §350b，新成分仍須上市前 75 天通報），原文「上市前不需要 FDA 核准」對舊成分成立、對新成分不成立。另補 FDA 免責聲明英文法定原文與「有助於入睡 vs 治療失眠」的分界說明；USP Verified 加註不評估安全性與功效 |
-| 0.6 | 2026-07-28 | Dustin | 第 4、5 節的外部來源**全數獨立複驗**，並據官方原文修正五處：① USP 連結改指 `verified-mark` 頁（官方逐條列出標章保證什麼），「驗什麼」欄改用官方用語「宣稱效價與含量」「有害含量的指定污染物」，移除官網未載明的「可崩解吸收」；② USP 邊界改成從官方表述 "what's on the label is what's in the bottle" 推導其**範圍界線**，不再宣稱「USP 不評估功效」（官網查無此明文）；③ NSF「290 種以上」改為官方數字「290 種」（原文為 "any of 290 substances"，無「以上」）；④ Certified Vegan 補上漏掉的第二個條件「未經動物實驗」（官方定義為不含動物成分／副產品**且**未經動物實驗）；⑤ 「有助於入睡 vs 治療失眠」改掛 21 CFR 101.93(g) 的判準（分界在指涉對象是不是可診斷的病），不再依賴無法取得的 FDA guide。另修一處內部矛盾：節末原寫「品質驗證標章回答『有沒有效、安不安全』」與 USP 邊界說明衝突，改為「這罐是不是它說的東西」並加註兩種標章都不回答療效。出處分層表記錄 Cloudflare 誤判 403 的複驗陷阱 |
-| 0.7 | 2026-07-28 | Dustin | 三項收尾：① `CLAUDE.md` / `STRUCTURE.md` 的 general 樹補上本檔、`chart-type-gallery`、`atomization-context-isolation`（三份都缺，而 CLAUDE.md 的「Check Before Create」政策正是靠這棵樹）；② 第 12 節收 `certification`、`structure-function claim`、`disease claim`——後兩者是法規上界線分明的對立詞，各譯各的有合規風險；③ 第 10 節補 **facet**（LanguaL 的分類軸、DSLD 標在 Facet A、附發音），接住全庫 8 處裸用中最大的一叢，並在相關文檔補 `json_structure_reference.md` 的 LanguaL Facets 對照、把原本只指 issue #2 的那條改寫成說明產業義與泛用義的分工 |
-| 0.8 | 2026-07-29 | Dustin | 家族互指補完（配合 classification-terminology.md 上線）：相關文檔的「（待補）分類體系術語文」換成真連結；第 10 節 facet 那列補同形異義標註，明說本文只講 LanguaL 脈絡、泛用義與正交性見該文 §1；第 9 節 macro callout 補指該文 §6 為四義的正式消歧地。另 **`facet` 中文定案為「分面」**（依國教院《圖書館學與資訊科學大辭典》，與姊妹作統一；專名 `Facet A` 不譯），第 12 節新增該列 |
-| 0.9 | 2026-07-29 | Dustin | 兩件事。**一、移除文件自我維護性質的元敘述**——標題下的草稿警語框、frontmatter `summary` 的草稿註記、〈草稿聲明〉、〈內容出處分層〉整張表與其後三則複驗註記、〈待評估：哪些 term 值得配圖〉、〈其他待辦〉全部刪除，改為以專案與外部權威事實直接敘述；其中一則仍對讀者有用的資訊保留並改寫進正文——第 5 節末新增法規連結說明（Cornell LII／govinfo.gov 為原文重製，正式引用請回查 eCFR 現行版）。**二、第 4 節末新增 forward reference**：讀者在認證標章這節已實際體驗過「三個互不推導的問題」，該處補上這種分類軸的名字（facet／正交性）並指向 [classification-terminology.md](./classification-terminology.md) §1——先體驗、後命名 |
-| 0.10 | 2026-07-29 | Dustin | 相關文檔補〈📌 怎麼分辨連結〉說明（沿用姊妹作寫法）——清單第一條就是標著「最權威的來源」的外部 repo 路徑，新人最可能去點卻點不動，需先說明哪些是站內連結、哪些需要 repo 權限 |
-| 0.11 | 2026-07-29 | Dustin | 依 issue #2 的視覺化提議，§6 補一張 mermaid：同一批產品被 category（依成分）與 market（依問題）兩套切法各切各的，複方產品往兩邊各拉多條線。採二部圖而非文氏圖——mermaid 的 subgraph 一個節點只能屬一群，畫不出重疊，而多重歸屬用連線反而更清楚。並補一句指出這正是第 11 節陷阱 #3「兩張表百分比加不起來」的根源 |
-| 0.12 | 2026-07-30 | Dustin | §3 BT／BP 例子逐一回查 Eidos 後修正——**v0.3 的版本歷史自稱「例子欄對齊 eidos 的正式例子」，但實際上只有 BioPerine®／Phytosome®／Albion® 三個對齊了，BT 與 BP 兩格其餘的例子當時並沒有查**：① `liposomal`／`chelation`／`sustained-release` 不是 BT 商標，是**技術類型的枚舉值**（BT 的 `technology_type`、BI 的 `carrier_type`，後者定義於 Eidos `schemas/enums/carrier_type.yaml`），BT 改列真正的商標 TRAACS®／LipoSomax®／BakeShure®；② `Organic India®` 不是 BP——它在 Eidos 是**品牌卡** `profiles/brands/organic_india.md`，全部 80 張 BP 卡逐一列出後查無 organic，BP 改列 AjiPure®／Aquamin®／Rosell®；③ 新增一則 callout 把「技術」與「技術的商標」的分野寫成教學點（枚舉值回答「這是哪類技術」，商標回答「這是誰家的」），這正是原本會混錯的原因 |
+| 0.1 | 2026-07-28 | Dustin | 初稿（issue #5） |
+| 1.0 | 2026-08-13 | leana | 定案：合併前逐條回查來源 repo 與外部法規原文，修正引用與數字口徑（詳見 git 史） |
 
 ---
 

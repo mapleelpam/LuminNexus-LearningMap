@@ -4,7 +4,7 @@ type: outline
 status: active
 created: 2025-11-10
 updated: 2026-07-29
-version: "2.18"
+version: "2.16"
 project: LearningMap
 author: maple
 tags:
@@ -795,9 +795,7 @@ mindmap
 | 2.13 | 2026-07-07 | 新增 atomization-context-isolation.md（原子化判準、Truth/Worth 兩軸、承諾物、四層推理鏈複用；TheJournalism v4 四切口案例） | leana |
 | 2.14 | 2026-07-08 | 新增 agent-work-forms.md（實務層收頂：Pairing/委派/自主 Loop、停止條件品質、blast radius 與正門紀律） | maple |
 | 2.15 | 2026-07-08 | 新增 clarification-wish-and-plan.md（實務層鉸鏈：許願與計畫一體兩面、計畫換了作者、澄清 loop 的停止點）；agent-work-forms 加「回望」coda 點破實務層四相位同構 | maple |
-| 2.16 | 2026-07-28 | 術語與環境索引收錄 supplement-industry-terminology.md；1.2 營養補充品產業知識加指路（標明認證標準與法規環境尚未收錄） | Dustin |
-| 2.17 | 2026-07-28 | 術語文 v0.4 補齊認證標準（USP/NSF/GMP）與法規環境（DSHEA、structure-function claim），1.2 指路的「尚未收錄」註記解除 | Dustin |
-| 2.18 | 2026-07-29 | 術語與環境索引收錄 classification-terminology.md；1.3 分類法類型的「面向式」改為「分面式」——facet 中文定案為「分面」（依國教院《圖書館學與資訊科學大辭典》「分面式分類法」），「面向」已被 aspect 義佔用（thejournalism.md 8 處） | Dustin |
+| 2.16 | 2026-07-29 | 術語與環境索引收錄 supplement-industry-terminology.md 與 classification-terminology.md；1.2 營養補充品產業知識加指路（認證標準與法規環境已收進術語文）；1.3 分類法類型的「面向式」改為「分面式」——facet 中文定案為「分面」（依國教院《圖書館學與資訊科學大辭典》「分面式分類法」），「面向」已被 aspect 義佔用（thejournalism.md 8 處） | Dustin |
 
 ---
 
