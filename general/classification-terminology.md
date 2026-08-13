@@ -156,7 +156,7 @@ facet 與 set 的關係很直接：**一個 facet 把全體切成幾個 set**。
 
 ### 不要用「尺」來理解 facet
 
-尺（scale）暗示有刻度、有大小順序，但 facet 的答案通常沒有——軟膠囊不比膠囊「大」，孕婦不比成人「高」。站內文件反對過這個比喻，理由是「每個成員本身就是一個維度，彼此不可通約」（見 [`isomorphic-tension.html`](./isomorphic-tension.html)）。
+尺（scale）暗示有刻度、有大小順序，但 facet 的答案通常沒有——軟膠囊不比膠囊「大」，孕婦不比成人「高」。站內文件反對過這個比喻，理由是「每個成員本身就是一個維度，彼此不可通約」（見 [isomorphic-tension.html](./isomorphic-tension.html)）。
 
 ---
 
@@ -177,7 +177,7 @@ SupplementFact
 
 特性是**階層、有父子關係、互斥**——往下鑽一條路徑，最後停在一個節點。公司與品牌的歸屬也是一棵樹：`公司 → 品牌 → 子品牌`，往上只有一個母親。
 
-站內完整教材見 [`smart-insight-engine/01_mdof-fundamentals.md`](../projects/prismavision/smart-insight-engine/01_mdof-fundamentals.md) §3.2；一個真實世界的大型 taxonomy 案例見 [`tools/google-product-category-intro.md`](../tools/google-product-category-intro.md)。
+站內完整教材見 [01_mdof-fundamentals.md](../projects/prismavision/smart-insight-engine/01_mdof-fundamentals.md) §3.2；一個真實世界的大型 taxonomy 案例見 [google-product-category-intro.md](../tools/google-product-category-intro.md)。
 
 ---
 
@@ -321,6 +321,29 @@ graph TD
 
 看到「這東西到底該放哪邊？」這種爭論冒出來，通常不是大家沒想清楚，**是形狀本身塞不進樹**。
 
+### MECE：哪裡該互斥、哪裡不該
+
+**MECE** ＝ Mutually Exclusive（**互斥**——彼此不重疊）＋ Collectively Exhaustive（**無遺漏**——合起來涵蓋全部）。它是檢查一套分類切得乾不乾淨的標準檢查法，但**不是到處都該套**，套錯地方會把好的設計改壞。
+
+| 什麼東西 | 要互斥嗎 | 要無遺漏嗎 |
+|---|---|---|
+| **同一個 facet 內部的值** | ✅ 通常要 | ✅ 要 |
+| **同一棵樹的同層節點** | ✅ 一定要 | ✅ 要 |
+| **kind（同一層的類型標記）** | ✅ 一定要 | ✅ 要 |
+| **不同 facet 之間** | ❌ **故意不互斥** | 不適用 |
+| **cohort** | ❌ 不要求 | ❌ 不要求 |
+| **依需求切出來的市場** | ❌ 一個東西可以屬於好幾個 | 不適用 |
+
+三件要記住的事：
+
+**一、MECE 是「一次切法內部」的要求，不是「所有切法之間」的要求。** 最常見的誤用就是把它套到 facet 之間——劑型和飲食適性當然「重疊」，因為它們描述的是同一批東西的不同面向。強行讓兩條軸互斥，等於把兩個獨立的問題壓成一個，正好是本節前面講的那種災難。
+
+**二、「無遺漏」在實務上多半靠一個 catch-all 值達成**——其他、未分類、unknown。沒有 catch-all 的分類軸，遇到不認識的東西就只能亂塞或漏掉，而亂塞的那一筆從此變成假資料。**設計分類軸時留一格給「還不知道」，比事後補救便宜太多。**
+
+**三、互斥失敗的訊號是：同一個東西可以合理地填兩個值，而且兩個都對。** 這時候要問的不是「該選哪一個」，而是「**是不是有兩條軸被壓成了一條**」。前面那罐外用鎂噴霧就是這樣被抓出來的。
+
+---
+
 ### 對照表
 
 | | taxonomy（樹） | facet（多問題） |
@@ -362,7 +385,7 @@ graph TD
 
 而前兩者的差別很值得記：**巨集的展開是確定且可逆的**——展開回去一模一樣，沒有資訊損失；**粗粒化是有損且多對一的**——從溫度回不去每顆粒子的位置。
 
-這一義站內已經教過了，只是沒用這個名字：[`emergence-data-compute.md`](./emergence-data-compute.md) §2.1「描述螞蟻的語言，跟描述蟻丘的語言，是兩套語言」就是 micro vs macro；[`no-one-is-home.md`](./no-one-is-home.md) 整篇是跨層級的分析陷阱；[`isomorphism-projection.md`](./isomorphism-projection.md) 的投影失真與 null space 是粗粒化有損性的代數版。
+這一義站內已經教過了，只是沒用這個名字：[emergence-data-compute.md](./emergence-data-compute.md) §2.1「描述螞蟻的語言，跟描述蟻丘的語言，是兩套語言」就是 micro vs macro；[no-one-is-home.md](./no-one-is-home.md) 整篇是跨層級的分析陷阱；[isomorphism-projection.md](./isomorphism-projection.md) 的投影失真與 null space 是粗粒化有損性的代數版。
 
 ---
 
@@ -462,7 +485,7 @@ slug:       lions-mane           ← 給網址、檔名、程式用的形式
 | **Layer 1 / 2 / 3** | LuminNexus **生態系**的三大層：AtlasVault / AlchemyMind / PrismaVision |
 | **L0 / L1 / L2** | TheJournalism **系統內部**的三層：Extract / Report / Narrate |
 
-TheJournalism 整體位於生態系的 Layer 3，其內部再分 L0 / L1 / L2。完整的稱呼約定見 [`thejournalism.md`](../projects/prismavision/thejournalism.md)。
+TheJournalism 整體位於生態系的 Layer 3，其內部再分 L0 / L1 / L2。完整的稱呼約定見 [thejournalism.md](../projects/prismavision/thejournalism.md)。
 
 遇到這類詞，養成一個習慣就好：**先問「你說的是哪一套」**，再往下講。
 
@@ -477,6 +500,7 @@ TheJournalism 整體位於生態系的 Layer 3，其內部再分 L0 / L1 / L2。
 | predicate | 判準 | 界定集合用的那條規則 |
 | facet | 分面 | 依國教院《圖書館學與資訊科學大辭典》「分面式分類法」 |
 | orthogonal | 正交 | 誰也推導不出誰 |
+| MECE | 互斥且無遺漏 | 一次切法內部的要求，不是切法之間 |
 | taxonomy | 分類法 | 一棵樹 |
 | lens | 鏡頭 | 同一個問題內部的解析度 |
 | macro / micro | 巨觀 / 微觀 | 粗粒化那一義 |
