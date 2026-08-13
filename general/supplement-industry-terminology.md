@@ -15,10 +15,10 @@ tags:
 audience:
   - all
 summary: |
-  保健食品產業域詞的白話對照入口，給第一週看報告、看 dashboard 就撞到一堆
-  陌生名詞的新人。涵蓋標籤結構、成分角色、品牌化標記、市場切法、voice 指標、
-  資料來源縮寫，以及六個最容易算錯的數字陷阱。各系統的正式定義不搬運，只做
-  白話對照與指路。
+  保健食品產業域詞的白話入口，給第一週看報告、看 dashboard 就撞到一堆陌生
+  名詞的人。涵蓋標籤結構、成分的六種角色、三種品牌化標記、認證標章、美國法規
+  環境、市場的兩種切法、voice 與滲透率，以及看數字之前該先問的五個問題。
+  重點在讀懂這個產業在講什麼，不是某個系統怎麼實作。
 ---
 
 # 保健食品產業術語：看懂這個產業在講什麼
@@ -113,9 +113,9 @@ summary: |
 
 > ⚠️ **「技術」與「技術的商標」是兩件事**：`liposomal`（微脂體）、`chelation`（螯合）、`sustained-release`（緩釋）**不是 BT**——它們是**技術類型的枚舉值**，誰都能這樣做、誰都能這樣寫。BT 是**做這件事的那個註冊名**：Phytosome® 是一種特定的微脂體／植物複合體技術、TRAACS® 是一套特定的螯合規格。
 >
-> 這個區分在 Eidos 的欄位設計裡看得很清楚：技術類型是枚舉（BT 卡片有 `technology_type`，值如 `liposomal_delivery`、`chelation`、`microencapsulation`；BI 卡片有 `carrier_type`，值如 `liposomal`、`chelate`、`sustained_release`，定義在 Eidos `specs/DogTag/schemas/enums/carrier_type.yaml`），而商標名是**一張自己的卡**。**枚舉值回答「這是哪類技術」，商標回答「這是誰家的」——後者才是 BT。**
+> 這個區分在資料模型裡看得很清楚：**技術類型是一個枚舉欄位**（微脂體遞送、螯合、微膠囊化⋯誰用都填同一個值），**商標則是一筆自己的資料**（有擁有者、有註冊狀態）。**枚舉值回答「這是哪類技術」，商標回答「這是誰家的」——後者才是 BT。**
 >
-> 同一條線也適用於 BP：`Organic India®` 常被當成 BP 的例子，但它在 Eidos 是**品牌卡**（`profiles/brands/organic_india.md`），不在 BP 商標裡——「有機」是栽培方式的宣稱，不是產地商標。
+> 同一條線也適用於 BP：`Organic India®` 常被當成 BP 的例子，但它其實是一個**品牌**，不是產地商標——「有機」是栽培方式的宣稱，誰都可以宣稱，不是某一家獨有的來源標記。
 
 > ⚠️ **命名沿革陷阱**：BI 以前叫 **PI（Proprietary Ingredient）**，舊文件、舊欄位名、舊報告裡到處都是 PI。**兩者指同一件事**，看到 `pi_landscape`、`pi_gap`、`PI penetration` 不要以為是另一個概念。
 
@@ -239,7 +239,7 @@ graph LR
 
 左邊是 **category（依成分切）**、右邊是 **market（依消費者問題切）**。看那罐複方：**往左兩條線、往右兩條線**，四邊都算它一份。
 
-> ⚠️ **這就是「兩張表的百分比加不起來」的根源**（見第 11 節陷阱 #3）。同一罐產品在多個 market 各被計一次，各 market 的產品數加總**一定大於**實際產品數。看到佔比時先問：分母是「不重複產品數」還是「各市場計次總和」。
+> ⚠️ **這就是「兩張表的百分比加不起來」的根源**（見第 11 節第 ① 問）。同一罐產品在多個 market 各被計一次，各 market 的產品數加總**一定大於**實際產品數。看到佔比時先問：分母是「不重複產品數」還是「各市場計次總和」。
 
 - **functional market（功能市場）** = 上表的 market，只是講法不同。專案目前有 **24 個**。
 - **demand cluster（需求分群）**：把 24 個 market 按消費者需求語意再往上收成幾個高階群組。
@@ -250,13 +250,13 @@ graph LR
 
 **voice** 是這套系統最常出現的指標，也是最容易被誤解的。
 
-> **voice = Amazon 評論數 + iHerb 評分數**
->
-> 原始公式：`COALESCE(amazon_review_count, 0) + COALESCE(iherb_rating_count, 0)`（出處：TheJournalism `specs/terms.yaml` 的 `voice.formula`）
+> **voice = Amazon 的評論數 + iHerb 的評分數**
 
 它是消費者注意力的**代理指標**——概念上接近「討論度」，但資料上就是評論數加總。
 
-> 🔍 **為什麼兩邊不對稱（review count vs rating count）？** 這不是筆誤。資料庫的 `Products` 表裡，Amazon 側同時有 `amazon_review_count` 與 `amazon_rating_count` 兩個欄位，iHerb 側**只有** `iherb_rating_count`。公式在 Amazon 取了評論數、iHerb 只能取評分數——**兩個平台的資料粒度本來就不同**，加總是實務上的折衷，不是嚴格同質相加。
+> 🔍 **為什麼一邊算評論、一邊算評分？** 這不是筆誤，是兩個平台給的東西本來就不一樣：Amazon 分得出「留了文字評論的人」與「只打星等的人」，iHerb 只給得出後者。加總是**實務上的折衷，不是嚴格的同質相加**。
+>
+> 這是跨平台指標的通例：**能加在一起，不代表加的是同一種東西**。看到任何跨來源合併的數字，先問各來源給的是不是同一種粒度。
 
 **它不是**：不是銷售額、不是市佔率、不是媒體聲量（share of voice）、不是質性回饋（voice of customer）。
 
@@ -264,10 +264,10 @@ graph LR
 
 | 通路 | 是什麼 | 為什麼是 0 |
 |---|---|---|
-| **Official** | 品牌官網（產品 ID 開頭 `T_`） | 官網不收消費者評論 |
-| **Regulation** | 法規資料庫來源（DSLD，`D_`） | 那是政府的標籤登錄資料，本來就沒有評論欄位 |
+| **Official** | 品牌官網 | 官網不收消費者評論 |
+| **Regulation** | 法規資料庫（DSLD 那類） | 那是政府的標籤登錄資料，本來就沒有評論欄位 |
 
-（出處：TheJournalism `specs/terms.yaml` 的 `voice.caveats`。Regulation 這條目前擷取暫停，看到的機會比 Official 少，但欄位還在。）
+**這叫 by construction 的 0** ——不是量到 0，是那個欄位在那條通路上根本不存在。看到 0 之前先問一句：**這是「量了，結果是零」，還是「這裡本來就量不到」？** 兩者在圖上長得一模一樣，意思天差地遠。
 
 由 voice 衍生的兩個指標，差別要分清：
 
@@ -312,7 +312,7 @@ graph LR
 
 換句話說，**functional ingredient 是一個「減法定義」**——它不是一類有共同性質的東西，而是「扣掉基礎營養素後剩下的」。所以看到這個詞，要先確認扣掉的是哪些。
 
-> 🔀 **同形異義提醒**：**macro** 這個字在我們的文件裡至少有四個意思。**本文脈絡只指「巨量營養素 macronutrient」**；程式的「巨集」、經濟學的「總體」是另外的意思，而「巨觀 / 微觀層次」那一義在 [emergence-data-compute.md](./emergence-data-compute.md) 有完整討論。**四義的正式消歧在 [classification-terminology.md](./classification-terminology.md) §6**。看到 macro 先確認脈絡。
+> 🔀 **同形異義提醒**：**macro** 這個字在我們的文件裡至少有四個意思。**本文脈絡只指「巨量營養素 macronutrient」**；程式的「巨集」、經濟學的「總體」是另外的意思，而「巨觀 / 微觀層次」那一義在 [emergence-data-compute.md](./emergence-data-compute.md) 有完整討論。**四義的正式消歧在 [classification-terminology.md](./classification-terminology.md) 第 7 節**。看到 macro 先確認脈絡。
 
 ---
 
@@ -322,35 +322,58 @@ graph LR
 
 | 縮寫 | 是什麼 |
 |---|---|
-| **DSLD** | 美國 NIH 膳食補充劑辦公室（ODS）維護的補充劑標籤資料庫。擷取狀態見 [dsld-crawler.md](../projects/atlasvault/dsld-crawler.md) |
+| **DSLD** | 美國 NIH 膳食補充劑辦公室（ODS）維護的補充劑標籤資料庫，收錄各產品的標籤原文 |
 | **LanguaL** | 一套國際食品描述的分類編碼系統，DSLD 用它來標劑型 |
 | **facet（分面）** | LanguaL 用來切分類的**軸**——同一個產品可以同時被好幾個 facet 描述，彼此不衝突。DSLD 的劑型就標在 **Facet A**。發音近 /ˈfæsɪt/（「花-sit」，不是「法-sei」）。⚠️ **本文只講 LanguaL 脈絡**；facet 當通用邏輯概念（正交性、為什麼不能塞成一棵樹）見 [classification-terminology.md](./classification-terminology.md) §1 |
 | **UNII** | FDA 給每個成分的唯一識別碼，用來跨系統對齊「這兩個名字是不是同一個成分」 |
 | **ASIN** | Amazon 的商品編號 |
 | **UPC** | 商品條碼，實體零售的通用識別碼 |
 
-另外，我們的產品 ID 開頭那個字母就是資料來源：
+另外，產品 ID 開頭那個字母標的是**這筆資料從哪裡來**（Amazon、iHerb、品牌官網⋯）。
 
-- `A_` = Amazon（透過 Keepa）
-- `I_` = iHerb
-- `T_` = 品牌官網
-- `S_` = 品牌的 Shopify 商店
-- `D_` = DSLD（保留欄位，目前未啟用）
+> ⚠️ **「從哪裡抓到的」不等於「它在哪裡賣」**，也不等於這個賣家的商業角色——那是兩條互相推導不出來的軸（見第 11 節第 ④ 問）。
 
 ---
 
-## 11. ⚠️ 六個數字陷阱
+## 11. ⚠️ 看數字之前先問的五個問題
 
-這節是**踩過才會痛**的部分。以下每一條都是實際發生過的誤讀。
+前面十節講的是「這個詞是什麼意思」。這一節講的是**看到一個數字時的反射動作**——五個問句，每一個都對應一種實際發生過的誤讀。
 
-| # | 陷阱 | 正確理解 |
-|---|---|---|
-| 1 | **價格看起來多了 100 倍** | 資料庫裡價格單位是 **cents（分）**，不是元。而且要分清 per package / per serving / per unit——講價格必須標明基準 |
-| 2 | **「覆蓋率」到底在覆蓋什麼** | 專案裡有**兩種**覆蓋率：`data coverage`（某欄位有資料的產品比例）和 `scope coverage`（某實體涵蓋幾個市場/品類）。所以規定**不准裸寫「覆蓋率」**，一定要講完整名稱 |
-| 3 | **兩張表的百分比加不起來** | `voice_pct` / `product_pct` 的**分母依 view 而異**。同一個欄位名，在不同分析裡母體可能不同——跨表比較前先確認分母 |
-| 4 | **產品數看起來比實際多** | `listing_count` 是**資料庫紀錄數**，跨來源不去重。同一罐產品在 Amazon 和 iHerb 各有一筆，就是 2 |
-| 5 | **把資料來源當成通路策略** | `source_type`（技術上從哪抓的）≠ `channel_type`（商業上的通路角色）。兩者是正交的兩軸，不能互推 |
-| 6 | **voice 是 0 = 沒人買** | 見第 7 節。Official 與 Regulation 兩條通路 by construction 就是 0 |
+它們跟這個產業無關，換個題目照樣成立；欄位名只是舉例，換一套系統就變了，**留下的應該是問句本身**。
+
+### ①「這個百分比的分母是什麼？」
+
+同一個名字的比例欄位，在不同的表裡母體可能完全不同——所以**兩張表的百分比常常加不起來**，不是算錯。
+
+更常見的是分母根本不唯一：一罐複方產品同時屬於好幾個功能市場（見第 6 節），各市場的產品數加總**一定大於**實際產品數。看到佔比先問：分母是「不重複的東西有幾個」，還是「各群各數一次的總和」？
+
+> 🔗 這就是分類體系文說的「**補集必須先講定全集**」——分母就是全集。（[classification-terminology.md](./classification-terminology.md) 第 4 節）
+
+### ②「這個數量去重了嗎？」
+
+同一罐產品在 Amazon 和 iHerb 各有一筆紀錄，**資料庫裡就是 2**。有些欄位算的是「紀錄數」，有些算的是「不重複的產品數」，名字上不一定看得出來（例如 `listing_count` 這種名字，算的是紀錄）。
+
+**「幾筆」跟「幾個」是兩件事。** 講數量時把哪一種講清楚，比講出精確數字更重要。
+
+### ③「這個 0 是量到的，還是量不到？」
+
+見第 7 節：某些通路的 voice 恆為 0，因為那條通路根本沒有評論資料。**在圖上，「真的沒人買」跟「這裡量不到」長得一模一樣。**
+
+同理適用於任何空值：欄位是空的，可能是「查過，沒有」，也可能是「沒查過」。
+
+### ④「這兩個欄位是不是被我當成同一件事了？」
+
+最典型的一組：**資料是從哪裡抓來的**（技術來源）跟**這個賣家在商業上扮演什麼角色**（通路角色）——它們是**兩條互相推導不出來的軸**，也就是分類體系文說的兩個 facet。從 Amazon 抓到的不見得是 Amazon 自營，從品牌官網抓到的也不保證是品牌直營。
+
+看到兩個欄位「感覺很像」，先問一句：**其中一個能不能算出另一個？** 不能，就別互推。
+
+### ⑤「這個詞在這裡是哪個意思？」
+
+同一個詞在不同語境指不同的東西，最常見的是「**覆蓋率**」：可以指「某個欄位有資料的產品佔多少」，也可以指「某個東西涵蓋了幾個市場或品類」。兩者都叫覆蓋率，數字卻不相干。
+
+**規矩很簡單：不准裸寫「覆蓋率」，一定要講完整是哪一種。** 這條推廣到任何多義詞都成立——包括第 9 節的 macro。
+
+> 💡 **還有一個不是問句、但要記住的**：金額欄位常以**分（cents）為單位**存放，直接當成元來讀會差 100 倍；而且要分清是每包裝、每份、還是每單位的價格。**講價格必須標明基準。**
 
 ---
 
@@ -379,19 +402,21 @@ graph LR
 
 ## 🔗 相關文檔
 
-本文只做白話入口，**正式定義都在各系統自己的文件裡**，需要精確定義時請往下走：
+**站內延伸**
 
-> 📌 **怎麼分辨連結**：可以點的連結都在本站（LearningMap）內。標了 repo 名稱的（TheJournalism、Eidos）是外部 private repo 的檔案路徑，**需要該 repo 的存取權**才看得到。
-
-- `LuminNexus-AlchemyMind-TheJournalism/specs/terms.yaml` —— 48 個術語的正式定義、公式、閾值與使用限制（**最權威的來源**）。⚠️ 需 TheJournalism repo 存取權，有權限者用 `uv run journalism terms <name>` 查詢；**沒有權限請直接問工程團隊**，不要照著指令打
-- [../projects/prismavision/thejournalism.md](../projects/prismavision/thejournalism.md) —— 資料詮釋層系統導覽，「🔑 關鍵概念」有 16 個詞的情境內解釋
-- [../projects/alchemymind/eidos.md](../projects/alchemymind/eidos.md) —— 品牌原料與菌株的正規化
-- [../data-sources/dsld/dsld_database_guide.md](../data-sources/dsld/dsld_database_guide.md) —— DSLD 資料庫與 LanguaL 劑型編碼
-- [../data-sources/data-sources-guide.md](../data-sources/data-sources-guide.md) —— 各資料來源與關聯欄位
+- [classification-terminology.md](./classification-terminology.md) —— 姊妹作：分類體系術語（taxonomy / facet / set / macro⋯）。分界線：能搬到別的產業的在那篇，只在保健食品成立的在本文
+- [ai-data-terminology.md](./ai-data-terminology.md) —— 家族第三份：AI / 資料術語（infer / derive / reasoning）
 - [../roles/testing/01_product-understanding.md](../roles/testing/01_product-understanding.md) —— 測試角色的產品理解（本文補的正是它「資料維度」那節沒展開的產業語意）
-- [ai-data-terminology.md](./ai-data-terminology.md) —— AI / 資料術語（infer / derive / reasoning）
-- [../data-sources/dsld/json_structure_reference.md](../data-sources/dsld/json_structure_reference.md) —— DSLD 的 LanguaL Facets 逐項對照（第 10 節 facet 的實際欄位）
-- [classification-terminology.md](./classification-terminology.md) —— 分類體系術語（taxonomy / facet / realm / kind / macro 等**當通用邏輯概念用**的詞）。本文只收 facet 在 LanguaL 脈絡下的產業義（第 10 節），**泛用義與正交性的完整教學在該文 §1**
+- [../data-sources/dsld/dsld_database_guide.md](../data-sources/dsld/dsld_database_guide.md) · [../data-sources/data-sources-guide.md](../data-sources/data-sources-guide.md) —— DSLD 與各資料來源的欄位說明
+
+**外部權威**
+
+- 法規原文：[21 CFR 101.93](https://www.law.cornell.edu/cfr/text/21/101.93)（宣稱規則）、[21 CFR Part 111](https://www.govinfo.gov/content/pkg/CFR-2023-title21-vol2/xml/CFR-2023-title21-vol2-part111.xml)（GMP）。**正式引用請回查 [eCFR](https://www.ecfr.gov/) 現行版**——法規會修，本文連的是快照
+- 認證機構官網：[USP](https://www.usp.org/verification-services/verified-mark) · [NSF for Sport](https://www.nsfsport.com/our-mark.php) · [Non-GMO Project](https://www.nongmoproject.org/butterfly-label/) · [Certified Vegan](https://vegan.org/certification)
+
+**各系統的正式定義**
+
+本文只做白話入口，**每個指標的精確公式、閾值與使用限制住在各自的系統裡**——站內導覽見 [thejournalism.md](../projects/prismavision/thejournalism.md)（指標與詞彙）與 [eidos.md](../projects/alchemymind/eidos.md)（品牌原料與菌株）。需要到欄位層級的定義時，請直接問工程團隊或讀該 repo 的文件（需要存取權）。
 
 ---
 
@@ -402,7 +427,7 @@ graph LR
 | 版本 | 日期 | 作者 | 變更說明 |
 |------|------|------|----------|
 | 0.1 | 2026-07-28 | Dustin | 初稿（issue #5） |
-| 1.0 | 2026-08-13 | leana | 定案：合併前逐條回查來源 repo 與外部法規原文，修正引用與數字口徑（詳見 git 史） |
+| 1.0 | 2026-08-13 | leana | 定案：外部法規與認證來源逐條複驗；「六個數字陷阱」改寫為「看數字前先問的五個問題」（欄位名降為舉例，留下帶得走的問句）；系統實作細節（欄位路徑、ID 前綴、公式原文）移出本文 |
 
 ---
 
