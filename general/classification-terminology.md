@@ -3,8 +3,8 @@ title: "分類體系術語：taxonomy / facet / canonical / realm"
 type: reference
 status: active
 created: 2026-07-28
-updated: 2026-07-30
-version: "0.6"
+updated: 2026-08-13
+version: "1.0"
 project: LearningMap
 author: Dustin
 tags:
@@ -115,9 +115,11 @@ Eidos 的規範文件裡，那張表的欄位標題直接就是這個意思（Ei
 - 同一組裡勾兩個 → **OR**（膠囊**或**錠劑都給我）
 - 跨組各勾一個 → **AND**（要是膠囊**而且**要素食）
 
-我們的程式碼一字不差就是這樣寫的（Eidos `dogtag_spa/src/lib/workbench-filters.ts`）：
+這兩條規則不是這個網站的巧思，是**分面檢索的標準語意**——凡是照 facet 做的篩選介面都這樣運作。我們自己的工具也曾把它一字不差寫進註解：
 
 > AND across axes; OR within an axis (standard facet semantics).
+>
+> —— Eidos 舊版 DogTag SPA 的篩選模組（`dogtag_spa/`，2026-08 已整個退役改為 `dogtag_spa_v2/`；原句見該 repo git 史）
 
 而且這不只是比喻——**我們的資料裡就有真的電商 facet**：Vitaway 這個品牌，是靠爬波蘭電商 Allegro 側欄的「marka（品牌）」那一格才發現的（Eidos `profiles/brands/vitaway.md`）。
 
@@ -255,7 +257,9 @@ graph TD
 
 DSLD 的 Facet A 就是這樣——代碼**前綴本身帶著階層**：`A1xxx` = 補充品配方，`A0xxx` = 食品配方（見 TheJournalism `specs/sdd_market_product_type_class.md`）。
 
-> ⚠️ 站內 [dsld guide](../data-sources/dsld/dsld_database_guide.md) 列的 11 個 A-series 代碼**全部是 `A1xxx`**，看不到這個階層——那份清單是 DSLD dump 的子集，不是全集（實查 `distiller.db` 有 56 個相異 A-series 代碼，`A1` 前綴 315,935 筆、`A0` 前綴 26,728 筆）。**看到「完整列表」四個字，先確認它完整的是哪個範圍。**
+> ⚠️ 站內 [dsld guide](../data-sources/dsld/dsld_database_guide.md) 列的 11 個 A-series 代碼**全部是 `A1xxx`**，看不到這個階層——那份清單是 DSLD dump 的子集，不是全集（2026-07-29 實查當時的 `distiller.db` 有 56 個相異 A-series 代碼，`A1` 前綴 315,935 筆、`A0` 前綴 26,728 筆）。**看到「完整列表」四個字，先確認它完整的是哪個範圍。**
+>
+> 📌 **引用 `distiller.db` 的數字一定要標是哪一份、哪一天。** 這個檔名底下有多個世代（產出者 TheDistiller 從 v2 的 `dsld_distiller.db`、僅 DSLD 單一來源，演進到 v3.x 的 `distiller.db`、DSLD＋Amazon＋iHerb 多來源），各 repo 手上那份也不見得同步。同一個查詢在不同世代會給出不同答案——上面這組數字就只對得上當時那一份。世代沿革見 [`thedistiller.md`](../projects/alchemymind/thedistiller.md)。
 
 TheJournalism 的 `product_type_class` 參數做的正是「**在 Facet A 這一個問題內部，往上退一層看**」，四個值 `all` / `supplement` / `food` / `classified`。所以當有人說「`product_type_class` 是 LanguaL Facet A lens」，完整意思是：**Facet A** 是那個問題，**lens（鏡頭）** 是在這個問題內部選一個解析度。
 
@@ -284,7 +288,7 @@ TheJournalism 的 `product_type_class` 參數做的正是「**在 Facet A 這一
 
 其中三個 realm 問的都是「這罐對我有什麼好處」的不同切面，各自的消費者問題寫在自己的 skill 定義裡（TheWeaver `.claude/skills/weaver-{realm}/SKILL.md`）：
 
-| Realm | 消費者問題 | taxonomy 規模 |
+| Realm | 消費者問題 | taxonomy 規模（2026-07-29 實查） |
 |---|---|---|
 | Health Effect | 吃這個對我的健康有什麼具體改善？ | 159 個節點、110 個葉節點，根之下 4 層 |
 | Performance Enhancement | 吃這個能讓我表現更好嗎？ | 49 個節點、30 個葉節點，根之下 3 層 |
@@ -333,11 +337,20 @@ canonical:  Lion's Mane          ← 選定的官方代表
 slug:       lions-mane           ← 給網址、檔名、程式用的形式
 ```
 
-我們系統裡的規模，以 Eidos 為例（實查 `profiles/` 卡片的 `aliases` 欄位）：**品牌別名 25,473 條**，分布在 11,132 張品牌卡；**品牌原料別名 5,231 條**，分布在 815 張卡。落到資料庫是 `BrandAliases` 與 `ProprietaryIngredientAliases` 兩張表（後者用的是 BI 的舊稱 Proprietary Ingredient，見[產業術語文第 3 節](./supplement-industry-terminology.md)的命名沿革陷阱）。TheJournalism 另有 `CanonicalProduct` 表處理「同一罐產品在不同通路各有一筆紀錄」。
+我們系統裡的規模，以 Eidos 為例（2026-07-30 實查 `profiles/` 卡片的 `aliases` 欄位）：**品牌別名 25,473 條**，分布在 11,132 張品牌卡；**品牌原料別名 5,231 條**，分布在 815 張卡。
 
-> ⚠️ **別名筆數一定要標 repo 才有意義。** 同一件事在每個系統各有一份別名表，數字彼此不通用，而且每次 ingest 都會變。看到「別名 X 萬筆」先問**哪個 repo、哪一版**——本文這裡先前列的就是一組沒標來源的筆數，連表名都不是 Eidos 的表名。
+落到資料庫之後，表名**跟著資料庫走**，兩邊叫法不同：
 
-**`slug` 在 Eidos 裡到處都是**（全 repo grep 得到五萬多處）——因為每個實體都需要一個穩定、不會因為顯示名稱改動而失效的識別字串。你看到的 `joint_health`、`brand_slug` 都是 slug。
+| 你在查哪個資料庫 | 品牌別名表 | 品牌原料別名表 |
+|---|---|---|
+| Eidos 自己匯出的 `eidos.db` | `BrandAliases` | `ProprietaryIngredientAliases`（用 BI 的舊稱 Proprietary Ingredient，見[產業術語文第 3 節](./supplement-industry-terminology.md)的命名沿革陷阱） |
+| `distiller.db`（分析時多半查這份） | `BrandAliases` | `BrandedIngredientAliases` |
+
+TheJournalism 另有 `CanonicalProduct` 表處理「同一罐產品在不同通路各有一筆紀錄」。
+
+> ⚠️ **別名筆數一定要標「哪個 repo、哪一天」才有意義。** 同一件事在每個系統各有一份別名表，數字彼此不通用，而且每次 ingest 都會變——上面那組是 2026-07-30 的快照，過幾週再查一定不一樣。看到「別名 X 萬筆」先問清楚來源與時點；連表名都會因為資料庫不同而不同（見上表）。
+
+**`slug` 在 Eidos 裡到處都是**（2026-07-30 全 repo grep 得到五萬多處）——因為每個實體都需要一個穩定、不會因為顯示名稱改動而失效的識別字串。你看到的 `joint_health`、`brand_slug` 都是 slug。
 
 > 💡 **為什麼要分成三個詞？** canonical 是**選擇**（哪個當代表）、alias 是**對照**（哪些算同一個）、slug 是**格式**（怎麼寫成機器友善的樣子）。三件事分開，任何一件改變都不影響另外兩件——顯示名稱可以改，slug 不動，舊網址就不會壞。
 
@@ -356,7 +369,7 @@ slug:       lions-mane           ← 給網址、檔名、程式用的形式
 
 ### 「同一層裡的類型標記」長什麼樣：Eidos 的 `type`
 
-Eidos 的每張實體卡片開頭都有一個型別欄位，**欄位名是 `type`**。值與卡片數（實查 `profiles/`）：
+Eidos 的每張實體卡片開頭都有一個型別欄位，**欄位名是 `type`**。值與卡片數（2026-07-30 實查 `profiles/`；卡片持續新增，**數字看個量級就好**）：
 
 | `type` 的值 | 卡片數 |
 |---|---|
@@ -534,12 +547,8 @@ TheJournalism 整體位於生態系的 **Layer 3**，其內部再分 L0 / L1 / L
 
 | 版本 | 日期 | 作者 | 變更說明 |
 |------|------|------|----------|
-| 0.1 | 2026-07-28 | Dustin | 初稿（issue #2）：taxonomy vs facet（核心，含 30 vs 2,200 論證與「樹會逼資料說謊」的實例）、canonical/slug/alias、realm/kind/family、predicate、cohort/dimension、macro 四義、L0-L2 命名衝突、中文對應。facet 一節放棄「多把尺」比喻改用電商側欄（站內文件明確反對 scale 類比），主實例採 DSLD LanguaL（值完整可驗）而非 DosageFormFacets（站內記載殘缺） |
-| 0.2 | 2026-07-29 | Dustin | 查證修正：① §1 引產業術語文第 4 節的引文更正為現行原文「這罐是不是它說的東西」，並補上「兩種標章都不回答有沒有效」；② Facet A 的 `A0xxx` 例子改以 TheJournalism sdd 文件為據（站內 dsld guide 那 11 個代碼全是 `A1xxx`），並加註「完整列表要問完整的是哪個範圍」；③ 30 vs 2,200 的算式改為量級示意（來源原文標 `5+`／`4+` 是下界）；④ `family` 從 §3 表格移除，改寫成「高詞頻不等於術語」的判準示例；⑤ 補上 CLAUDE.md／STRUCTURE.md／00_outline.md 三處登錄與姊妹作的反向連結 |
-| 0.3 | 2026-07-29 | Dustin | 兩件事。**一、補進 TheWeaver 這個完整實例**：§1 新增「兩者同時上場的完整實例」（10 個 Knowledge Realm × 各一棵 taxonomy，附「獨立評估原則」原文與 benefit 三個 realm 的消費者問題／樹規模）與「事實型 facet 與判讀型 facet」（答案由物件決定 vs 由文案語氣決定，證據是記憶／皮膚／認知／能量四個概念各在多棵樹上長出不同名字的節點，邊界只能靠排除清單守）；§2 補 taxonomy 的儲存形式（純巢狀 JSON、無節點 ID／版本／alias、字串即身分）當作「沒有 alias 會怎樣」的反例；§3 realm 補「同一份註冊表裡 realm 有樹、dosage facet 是平面清單」與 `taxonomy_builder` 的命名陷阱。**二、全篇改以專案事實敘述**：`set`（判準集）一節整條移除——可及的 repo 裡查無此術語，僅存的白話直覺無據可依；§4 改寫為 predicate 的兩個可查證意思（Eidos `market_excluded` 的 SQL 條件義、GoViral claim schema 的六值關係義）；§5 cohort 實例換成 TheJournalism BI positioning 的 30 個白名單原料與 `cohort completeness contract`；§3 realm 的跨系統同形異義改用 TheWeaver 內部可驗證的版本。另補 LanguaL 官方 facet 清單的兩個事實（Facet P 原為單一 facet、DSLD 下游才拆成兩欄；14 個 facet 字母跳號，即「加一欄其他不動」的實證），跨 repo 引用統一加上 repo 名前綴，相關文檔開頭說明站內／外部連結的分辨方式 |
-| 0.4 | 2026-07-29 | Dustin | 對齊家族樣板與補站內連結：① 新增〈🎯 一句話總結〉——`ai-data-terminology.md` 樣板最有辨識度的元素，兩份姊妹作都有、本文原缺；十個詞對齊 frontmatter `summary` 自列的清單；② 相關文檔補 [eidos.md](../projects/alchemymind/eidos.md)——Eidos 在正文出現 14 次、是本文最大單一來源，但站內導覽原本一條都沒連，沒 repo 權限的讀者走不過去；③ §1 TheWeaver 實例首次提及處補站內連結（原本只在文末清單） |
-| 0.5 | 2026-07-29 | Dustin | 依 issue #2 的視覺化提議補三張 mermaid（本文兩張）：① §1「30 vs 2,200」加 facet 四欄獨立 vs 樹狀爆炸的對照圖——「素食」在樹上被複製 11 份用畫的一眼可見，純算術看不出來；② §1 外用鎂噴霧改為「facet 四欄並存」vs「樹上兩條虛線只准選一條」的對照——原文「在樹上沒有位置」是空間主張，文字要讀者自己在腦中畫樹。語法採最保守寫法（不用 `&` 多節點糖、標籤定義於首次出現），以免受站上 mermaid 版本影響 |
-| 0.6 | 2026-07-30 | Dustin | 回頭實查 Eidos，修掉三處引用錯誤。**一、§3 的 `kind` 整節重寫**：原本把 kind 的實例寫成「Eidos 的 `brand` / `domain` / `mark` / `strain`」，但 `profiles/` 底下 `^kind:` 命中 0 檔——型別欄位叫 **`type`**，值是帶 `_profile` 後綴的形式（改列七個值與實際卡片數），而 `mark` 不是任何欄位的值、只是目錄名 `profiles/marks/`；`kind` 在 Eidos 唯一的真實用法是 `data_sources_v2[].kind ∈ {marketplace, retailer}`（Eidos `src/muster/validator.py` CR-7），降級成註記並拿去替換表格的實例欄。順帶把「各 kind 各自暴露不同 facet」的欄位名寫精確（`status` 的五個值域、`identity_confidence`；strain 的屬／種在 `taxonomy:`、法規在 `regulatory:`）。同時點出這條錯誤**正好通不過本節 `family` callout 自己給的判準**（要看有沒有出現在 schema／enum／欄位名／規範文件的定義位置）——判準對我們自己寫的句子同樣有效。**二、§1 引文改為逐字**：原文引成 `to win a crawl filter`，Eidos `specs/DogTag/VERTICAL_SEGMENT_GUIDE.md` 的原句是 `to win a transient crawl-policy fight`（跨行，容易抄漏），加引號就必須逐字。**三、§2 別名筆數改標來源**：原本「`BrandAliases` 24,273 筆、`BrandedIngredientAliases` 9,625 筆」既沒標 repo、又對不上 Eidos 實測，且 Eidos 沒有 `BrandedIngredientAliases` 這張表（是 `ProprietaryIngredientAliases`）；改用 Eidos 實測值（品牌別名 25,473 條／11,132 張卡、BI 別名 5,231 條／815 張卡）並明標出處，另加一則「別名筆數一定要標 repo」的警示 |
+| 0.1 | 2026-07-28 | Dustin | 初稿（issue #2） |
+| 1.0 | 2026-08-13 | leana | 定案：合併前逐條回查來源 repo，修正引用與數字口徑（詳見 git 史） |
 
 ---
 
