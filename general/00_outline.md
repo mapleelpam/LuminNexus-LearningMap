@@ -3,8 +3,8 @@ title: "General Learning Map - 通用核心能力大綱"
 type: outline
 status: active
 created: 2025-11-10
-updated: 2026-07-29
-version: "2.16"
+updated: 2026-08-14
+version: "2.17"
 project: LearningMap
 author: maple
 tags:
@@ -760,7 +760,7 @@ mindmap
 - [tension-value-perspective.md](./tension-value-perspective.md) - Tension 張力：不同角度的 Value（系列第三篇）
 - [isomorphism-projection.md](./isomorphism-projection.md) - Isomorphism 與 Projection：可比較的前提（系列第四篇・骨架）
 - [no-one-is-home.md](./no-one-is-home.md) - 沒有人在家：運算、基質與湧現的所在（湧現也發生在資料裡）
-- [paradigm-shift-task-to-wish.md](./paradigm-shift-task-to-wish.md) - 範式轉移：從描述任務到許願（實務層前篇）
+- [paradigm-shift-task-to-wish.md](./paradigm-shift-task-to-wish.md) - 範式轉移：從描述任務到許願（實務層前篇・三次反轉，含 2026-02 agentic engineering）
 - [clarification-wish-and-plan.md](./clarification-wish-and-plan.md) - 澄清：許願與計畫的一體兩面（實務層鉸鏈）
 - [know-your-unknowns.md](./know-your-unknowns.md) - Know Your Unknowns：四象限與三階段技巧（實務層工具箱）
 - [agent-work-forms.md](./agent-work-forms.md) - 與 Agent 協作的形態：Pairing / 委派 / 自主 Loop（實務層收頂）
@@ -796,6 +796,7 @@ mindmap
 | 2.14 | 2026-07-08 | 新增 agent-work-forms.md（實務層收頂：Pairing/委派/自主 Loop、停止條件品質、blast radius 與正門紀律） | maple |
 | 2.15 | 2026-07-08 | 新增 clarification-wish-and-plan.md（實務層鉸鏈：許願與計畫一體兩面、計畫換了作者、澄清 loop 的停止點）；agent-work-forms 加「回望」coda 點破實務層四相位同構 | maple |
 | 2.16 | 2026-07-29 | 術語與環境索引收錄 supplement-industry-terminology.md 與 classification-terminology.md；1.2 營養補充品產業知識加指路（認證標準與法規環境已收進術語文）；1.3 分類法類型的「面向式」改為「分面式」——facet 中文定案為「分面」（依國教院《圖書館學與資訊科學大辭典》「分面式分類法」），「面向」已被 aspect 義佔用（thejournalism.md 8 處） | Dustin |
+| 2.17 | 2026-08-14 | paradigm-shift-task-to-wish.md 升 v1.1：補入第三次反轉（2026-02 agentic engineering），並修正「2025-04 起重心移到 loop 與驗收」的時間線錯誤（loop 是 2025-11、驗收是 2026-01）；參考文件索引該行描述同步改為「三次反轉」 | maple |
 
 ---
 
