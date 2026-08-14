@@ -137,6 +137,7 @@ Thariq 的核心原則：**過度具體與過度模糊都是病**。
 - [compute-state-context.md](./compute-state-context.md) - re-entry：unknown knowns 為什麼陰險
 - [isomorphism-projection.md](./isomorphism-projection.md) - null space：為什麼靠自己反省找不到盲區
 - [agent-work-forms.md](./agent-work-forms.md) - 續篇：把單次委派規模化成 loop 時的形態選擇
+- [wish-language-and-loss.md](./wish-language-and-loss.md) - 姊妹篇：本篇的「地圖 vs 疆域」在語言軸上的展開——你用哪個語言許願，會決定地圖上先少哪幾條線
 
 ---
 
