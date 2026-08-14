@@ -3,8 +3,8 @@ title: "Claude Code CLI 深度討論文件"
 type: reference
 status: active
 created: 2025-12-31
-updated: 2025-12-31
-version: "1.0"
+updated: 2026-08-14
+version: "1.1"
 project: LearningMap
 author: maple
 tags:
@@ -20,9 +20,17 @@ audience:
 
 # Claude Code CLI 深度討論文件
 
-> 📌 **時代標注**：本文寫於 2025-12（許願範式早期）。「發散→收斂→執行→對齊→驗收」的流程與 Context 管理章節屬新範式；凡涉及「替模型安排步驟或指定思考方式」的技巧，屬舊範式殘留——請先讀[範式轉移：從描述任務到許願](./paradigm-shift-task-to-wish.md)再判讀。
+> 📌 **時代標注**：本文寫於 2025-12（第二次反轉後、第三次反轉前）。判讀時分四件事看——
+>
+> **仍然成立，但變成條件觸發**：「發散→收斂→執行→對齊→驗收」這條流程沒有被任何一次反轉推翻，改變的是**它不必每次走完**。unknown 低的小專案直接許願就好，發散那段是多餘的儀式；unknown 高、blast radius 大時才需要完整跑一遍。判準見 [clarification-wish-and-plan.md](./clarification-wish-and-plan.md) §1 與 [know-your-unknowns.md](./know-your-unknowns.md) 的四象限。**而且這條界線會隨模型變強持續右移**——今天需要發散的專案，明年可能一句話就夠。
+>
+> **同一階段，換了作者**：本文的發散／收斂寫的是你自己主導。現在多半交給 agent——讓它反問你（Matt Pocock 的 [`/grill-me`](https://www.aihero.dev/my-grill-me-skill-has-gone-viral) skill 是這類做法 2026 年最流行的形式：「Interview the user relentlessly about a plan or design until reaching shared understanding, resolving each branch of the decision tree」），或讓它先探勘地形。理由見 [clarification-wish-and-plan.md](./clarification-wish-and-plan.md) §2「計畫換了作者」。
+>
+> **確實過時的**：凡「替模型指定怎麼思考」的技巧（think step by step、`ultrathink` 之類的思考預算階梯），2024-09 的第一次反轉已經判掉，見 [範式轉移](./paradigm-shift-task-to-wish.md) §2。
+>
+> **本文沒有的**：2025-11 之後成為重心的 harness / loop 設計與驗收工程化（evals、hook、可自動重跑的檢查）。見 [範式轉移](./paradigm-shift-task-to-wish.md) §3–§4 與 [agent-work-forms.md](./agent-work-forms.md)。
 
-> **文件版本**: v1.0
+> **文件版本**: v1.1
 > **建立日期**: 2025-12-31
 > **目的**: 團隊內部討論 Claude Code CLI 的進階使用技巧與最佳實踐
 

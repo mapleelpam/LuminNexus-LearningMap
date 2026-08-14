@@ -3,8 +3,8 @@ title: "Claude Code CLI Tips"
 type: guide
 status: active
 created: 2025-12-16
-updated: 2025-12-16
-version: "1.3"
+updated: 2026-08-14
+version: "1.4"
 project: LearningMap
 author: maple
 tags:
@@ -20,8 +20,13 @@ summary: |
 
 # Claude Code CLI Tips
 
-> 📌 **時代標注**：本文寫於 2025-12（許願範式早期），內容以工具操作為主、範式相容。
-> 閱讀前建議先讀 [範式轉移：從描述任務到許願](./paradigm-shift-task-to-wish.md)——凡涉及「替模型安排步驟或指定思考方式」的技巧，屬舊範式殘留，請以該篇的透鏡判讀。
+> 📌 **時代標注**：本文寫於 2025-12（第二次反轉後、第三次反轉前），內容以工具操作為主。判讀時分兩件事看——
+>
+> **確實過時的**：凡「替模型指定怎麼思考」的技巧（think step by step、`ultrathink` 之類的思考預算階梯），2024-09 的第一次反轉已經判掉，見 [範式轉移](./paradigm-shift-task-to-wish.md) §2。
+>
+> **本文沒有的**：2025-11 之後成為重心的 harness / loop 設計與驗收工程化（evals、hook、可自動重跑的檢查）。這一層要另外補，見 [範式轉移](./paradigm-shift-task-to-wish.md) §3–§4 與 [agent-work-forms.md](./agent-work-forms.md)。
+>
+> 其餘工具操作內容（記憶、context 管理、快捷鍵）不受範式影響，照用即可。
 
 ---
 
@@ -290,6 +295,7 @@ Subagent (獨立 context B)
 
 | 版本 | 日期 | 變更內容 | 作者 |
 |------|------|---------|------|
+| 1.4 | 2026-08-14 | 時代標注改寫：不再用「新範式／舊範式殘留」二分，改為「確實過時的（指定思考方式）」與「本文沒有的（harness/loop 與驗收工程化）」兩段 | maple |
 | 1.3 | 2025-12-16 | 補充原有章節的官方文檔連結 | Learning Team |
 | 1.2 | 2025-12-16 | 精簡內容，新增官方文檔連結 | Learning Team |
 | 1.1 | 2025-12-16 | 新增：Slash Commands、CLAUDE.md、Subagent 章節；完善快捷鍵表格 | Learning Team |

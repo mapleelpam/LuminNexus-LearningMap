@@ -3,8 +3,8 @@ title: "Claude Code CLI 進階討論：補充篇"
 type: reference
 status: active
 created: 2025-12-31
-updated: 2025-12-31
-version: "1.0"
+updated: 2026-08-14
+version: "1.1"
 project: LearningMap
 author: maple
 tags:
@@ -20,9 +20,9 @@ audience:
 
 # Claude Code CLI 進階討論：補充篇
 
-> 📌 **時代標注**：本文寫於 2025-12（許願範式早期）。判讀基準同主文件——見[範式轉移：從描述任務到許願](./paradigm-shift-task-to-wish.md)。
+> 📌 **時代標注**：本文寫於 2025-12（第二次反轉後、第三次反轉前）。判讀基準同主文件的四段標注——見 [claude-code-cli-discussion.md](./claude-code-cli-discussion.md) 開頭與 [範式轉移：從描述任務到許願](./paradigm-shift-task-to-wish.md)。摘要：流程仍成立但變成條件觸發（unknown 低就跳過，界線隨模型變強右移）、發散／收斂換由 agent 執行、「指定思考方式」的技巧已過時、harness / loop 與驗收工程化本文未涵蓋。
 
-> **文件版本**: v1.0
+> **文件版本**: v1.1
 > **建立日期**: 2025-12-31
 > **前置文件**: [claude-code-cli-discussion.md](./claude-code-cli-discussion.md)
 > **目的**: 深入探討主文件未涵蓋的進階概念與設計哲學
