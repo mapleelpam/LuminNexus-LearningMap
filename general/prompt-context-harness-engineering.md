@@ -137,7 +137,21 @@ graph LR
 
 **每一次換詞，都對應工作型態的一次放大。** 不是舊的錯了，是舊的變成新的一部分。
 
-### 2.2 官方是怎麼定義的
+### 2.2 這條線跟「三次反轉」是同一段歷史的兩種切法
+
+[paradigm-shift-task-to-wish.md](./paradigm-shift-task-to-wish.md) 也在講 2024–2026 這段時間，但它切的是**給人的建議怎麼變**（別教它怎麼想 → 別教它怎麼做 → 別以為許完願就沒你的事）；本篇切的是**工程對象怎麼變**（那句話 → 整塊白板 → 組裝白板的機制）。
+
+**兩條線在 2026-02 交會**，而且交會得很乾淨：
+
+| | 那篇說 | 本篇說 |
+|---|---|---|
+| **2026-02** | 第三次反轉：**人以 oversight 回場**——不是回去寫步驟，而是規格、編排、監督、稽核 | harness engineering 這個詞開始流通 |
+
+**這是同一件事的兩面。** 人要回場做 oversight，就得有著力點——規格要放在哪、編排靠什麼跑、監督由誰執行、稽核用什麼證據。**那些著力點的總和，就是 harness。**
+
+所以本篇的實用價值可以這樣講：**當那篇告訴你「人要以 oversight 回場」時，本篇告訴你回場之後手要放在哪裡。**
+
+### 2.3 官方是怎麼定義的
 
 **Context engineering**（Anthropic，2025-09-29）——目前最常被引用的定義：
 
@@ -326,6 +340,7 @@ prompt 與 context 這兩層有官方定義，第三層是後來別的地方長�
 
 ## 相關文檔
 
+- [paradigm-shift-task-to-wish.md](./paradigm-shift-task-to-wish.md) - 同一段歷史的另一種切法：三次反轉。第三次反轉（2026-02，人以 oversight 回場）與本篇的 harness 層是同一件事的兩面，見 §2.2
 - [compute-state-context.md](./compute-state-context.md) - 前置：stateless compute 與 re-entry，harness 縫合的正是那些離散呼叫
 - [progressive-disclosure.md](./progressive-disclosure.md) - Context 層：按需載入的三層機制
 - [contextops-discipline.md](./contextops-discipline.md) - Context 層：把 context pipeline 當學科治理
