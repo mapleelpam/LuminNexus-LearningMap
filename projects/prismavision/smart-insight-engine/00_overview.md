@@ -359,7 +359,7 @@ Engine (執行 RISC)
 }
 ```
 
-### 分類法系統 (Taxonomy)
+### 分類法 (Taxonomy)
 
 SI Engine 使用階層式分類法組織領域知識：
 

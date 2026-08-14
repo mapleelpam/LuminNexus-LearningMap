@@ -147,7 +147,7 @@ TheDistiller 從三個資料庫讀取資料：
 
 | 表名 | 記錄數 | 說明 |
 |------|--------|------|
-| Products | 144,625 | 統一產品資訊 (canonical products) |
+| Products | 144,625 | 正典產品 (canonical products) |
 | Brands | 4,753 | 品牌資訊 |
 
 #### 2. 成分資料 (1)
@@ -433,7 +433,7 @@ DSLD IDs: 1000, 1001, 1002 (同一產品的不同記錄)
   → Canonical Product ID: 12345 (標準產品)
 ```
 
-### 2. Canonical Product (標準產品)
+### 2. Canonical Product (正典產品)
 
 **定義**: 經過 identity resolution 後的唯一產品記錄
 
@@ -453,7 +453,7 @@ DSLD IDs: 1000, 1001, 1002 (同一產品的不同記錄)
 2. HealthEffect (健康效果)
 3. Certification (認證)
 4. IngredientPurity (成分純度)
-5. SupplementFact (營養標示)
+5. SupplementFact (標籤成分表)
 6. DosageForm (劑型)
 7. TargetAudience (目標受眾)
 8. AllergenInfo (過敏原)

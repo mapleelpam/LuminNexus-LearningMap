@@ -350,7 +350,7 @@ SI_DB_PATH=./data/products.db  # 資料庫路徑
 **查詢能力**:
 - **Measures**: 15+ 種指標 (product_count, avg_price, price_distribution, etc.)
 - **Dimensions**: 13 個維度 (Brand, DosageForm, SupplementFact, etc.)
-- **Taxonomies**: 13 個分類階層
+- **Taxonomies**: 13 個分類法
 
 **效能指標**:
 - **查詢響應時間**: ~100-500ms (簡單查詢)

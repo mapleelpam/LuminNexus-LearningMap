@@ -342,7 +342,7 @@ mindmap
   - 整合測試：測試多個功能組合
   - 端對端測試：測試完整流程
 - 測試案例類型
-  - 成功案例 (Happy Path)：正常使用情境
+  - 正向測試 (Happy Path)：正常使用情境
   - 失敗案例：錯誤輸入情境
   - 邊界案例：極端值測試
 
@@ -440,7 +440,7 @@ mindmap
 - 核心原則
   - 具體明確
   - 提供上下文
-  - 使用範例 (Few-shot learning)
+  - 提供範例 (Few-shot)
   - 指定輸出格式
   - 拆解複雜任務
 - 進階技巧
@@ -491,7 +491,7 @@ mindmap
 - 模型訓練與應用
   - Pre-training（預訓練）
   - Fine-tuning（微調）：針對特定任務調整模型
-  - Few-shot Learning（少樣本學習）
+  - Few-shot Learning（少樣本學習）：即 §5.3「提供範例」的正式名稱
   - Zero-shot Learning（零樣本學習）
 - 進階概念
   - Embedding（嵌入向量）：文本的數值表示

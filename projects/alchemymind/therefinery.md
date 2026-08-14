@@ -239,7 +239,7 @@ TheRefinery 包含 **10 個 Enrichers**,目前完成進度: **6/10 (60%)**
 - **... (其他表格)**
 
 #### weaver.db
-- **Taxonomies**: Knowledge Realms 分類階層 (108 nodes)
+- **Taxonomies**: Knowledge Realms 分類法 (108 nodes)
 - **TaxonomyTree**: 分類樹結構
 
 ### Output Schema

@@ -219,7 +219,7 @@ graph TB
 - **Knowledge Realms Integration**: 10 realms (UsageContext 100%, DietaryAdaptability 64.34%)
 
 **關鍵階段**:
-- Stage 1: Identity Resolution (去重)
+- Stage 1: Identity Resolution (身份解析)
 - Stage 7: Ingredients Transfer (批次處理 1,000 筆/批次)
 - Stage 8: Knowledge Realms (每個領域只保留一個 leaf node)
 - Stage 10: Quality Validation (完整性檢查)
@@ -231,7 +231,7 @@ graph TB
 
 **輸出**: `product_info.db` (647 MB, 27 tables)
 - 2 核心資料表 (Products, Brands)
-- 1 成分資料表 (SupplementFact)
+- 1 標籤成分表 (SupplementFact)
 - 12 Taxonomy 表
 - 10 Knowledge Realm 表
 - 1 元數據表

@@ -273,7 +273,7 @@ sequenceDiagram
 - 每個 realm 代表一個特定的知識領域
 - 共 10 個 realms,每個有獨立的 Taxonomy
 
-### Taxonomy (分類階層)
+### Taxonomy (分類法)
 - 層次化的分類系統
 - 由 TheWeaver 自動生成與更新
 - 用於產品分類與查詢
