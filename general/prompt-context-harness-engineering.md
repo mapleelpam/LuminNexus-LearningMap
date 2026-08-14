@@ -221,7 +221,24 @@ agent 負責的是**還不確定怎麼做**的那部分。一旦做法穩定下�
 
 這也呼應 [agent-work-forms.md](./agent-work-forms.md) 的主軸——那篇問「你把多少 re-entry 紀律交給機器」，本節是它的一個具體答案：**紀律交出去的方式之一，就是把它寫成 script 或 hook。**
 
-### 3.3 判準：三個問題
+### 3.3 一個現成的例子：把「被拷問」固化成一支 skill
+
+[clarification-wish-and-plan.md](./clarification-wish-and-plan.md) 講過一個技巧：**讓 agent 反問你**，用它的提問挖出你自己看不見的 unknown knowns（你覺得理所當然、所以沒寫下來的東西）。
+
+這個技巧原本是「你每次記得要說一句『動手前先問我問題』」。而 2026 年它最流行的形式，是被固化成一支叫 `/grill-me` 的 skill——把那句話變成一個詞。
+
+**這正是 §3.1 那條回流箭頭走過一遍**：
+
+```
+每次手動叫它反問     →  發現每次做法都一樣  →  固化成一支 skill
+（不確定，靠你記得）                          （確定，一個詞叫得動）
+```
+
+值得注意的是**固化的是「動作」，不是「答案」**。skill 裡寫死的是「要一路追問到取得共識、把決策樹的每個分支都問完」這個**流程**；至於它會問出什麼、你會答什麼，每次都不一樣——那部分仍然留在不確定那一端。
+
+**這是固化的一般形狀**：把重複的**動作**固化，把每次不同的**判斷**留著。分不清這兩者，就會把不該固化的東西寫死。
+
+### 3.4 判準：三個問題
 
 要決定一段流程該不該固化，依序問：
 
@@ -232,6 +249,11 @@ agent 負責的是**還不確定怎麼做**的那部分。一旦做法穩定下�
    （這條的完整版見 [know-your-unknowns.md](./know-your-unknowns.md) 的驗收設計。）
 3. **會不會過期？**
    會隨產品、規範一直變的東西，固化的維護成本可能高過收益。[agent-work-forms.md](./agent-work-forms.md) 說得更直接：**「會過期的東西別自動化。」**
+
+> ⚠️ **這三個問題的答案會移動，所以要定期重問。**
+> [clarification-wish-and-plan.md](./clarification-wish-and-plan.md) §1 講的是同一件事：**unknown 是相對於「當期模型能力」的量，不是專案的固有屬性。** 今天「每次做法都不一樣、只能留給 agent」的事，明年可能穩定到值得固化；反過來，今天固化的東西也可能因為模型變強而變成多餘的束縛（見 §4.2）。
+>
+> 判準不變，答案會變。
 
 ---
 
@@ -345,7 +367,8 @@ prompt 與 context 這兩層有官方定義，第三層是後來別的地方長�
 - [progressive-disclosure.md](./progressive-disclosure.md) - Context 層：按需載入的三層機制
 - [contextops-discipline.md](./contextops-discipline.md) - Context 層：把 context pipeline 當學科治理
 - [agent-work-forms.md](./agent-work-forms.md) - 實務層：你把多少 re-entry 紀律交給機器；本篇 §3 是它的一種具體交法
-- [know-your-unknowns.md](./know-your-unknowns.md) - 驗收設計：§3.3 第二問的完整版
+- [clarification-wish-and-plan.md](./clarification-wish-and-plan.md) - §1「unknown 是相對於當期模型能力的量」是本篇 §3.4 三問要定期重估的理由；§2「計畫換了作者」是 §3.3 那支 skill 的來歷
+- [know-your-unknowns.md](./know-your-unknowns.md) - 驗收設計：§3.4 第二問的完整版
 - [atomization-context-isolation.md](./atomization-context-isolation.md) - context 穿不穿過邊界是一個獨立的旋鈕
 - [classification-terminology.md](./classification-terminology.md) - §1 正交性：§2.2 那張二乘二表為什麼是兩條獨立的軸
 - [claude-code-tips.md](./claude-code-tips.md) - 招式層：本篇排進骨架的那些技巧的操作細節
