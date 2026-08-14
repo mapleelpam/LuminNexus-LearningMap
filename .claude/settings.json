@@ -7,6 +7,10 @@
           {
             "type": "command",
             "command": "python3 scripts/check_frontmatter.py --hook"
+          },
+          {
+            "type": "command",
+            "command": "python3 scripts/check_terminology.py --hook"
           }
         ]
       }
