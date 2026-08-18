@@ -3,8 +3,8 @@ title: "分類體系術語：set / facet / taxonomy / macro"
 type: reference
 status: active
 created: 2026-07-28
-updated: 2026-08-13
-version: "1.0"
+updated: 2026-08-18
+version: "1.1"
 project: LearningMap
 author: "Dustin, leana"
 tags:
@@ -453,6 +453,32 @@ slug:       lions-mane           ← 給網址、檔名、程式用的形式
 
 所以 canonical、slug、alias 三件事要分開的價值，在這種地方最看得出來——**只要有一張別名表，改名就只是「多一個別名」，不是「換一個東西」。**
 
+### 那什麼時候該換識別碼
+
+分開之後會冒出下一個問題：既然名字可以改而識別碼不動，**那識別碼到底什麼時候該換？**
+
+Dublin Core（DCMI，國際通用的 metadata 標準）的變更政策把這件事寫成四種情況，是我看過最精準的一份：
+
+| 情況 | 識別碼 |
+|---|---|
+| 修一個錯字、潤一下文句 | **不動** |
+| 修正一個實質的敘述錯誤 | **不動** |
+| **這個東西的意思改變了** | **換一個新的** |
+| 新增一個東西 | 不動（新的自己有新識別碼） |
+
+一句話記法：
+
+> **改字不換 ID，改語意才發新 ID。**
+
+兩邊都要守才有意義：
+
+- **改字卻換了 ID** → 舊資料全部失去落腳處，等於把過去抹掉一次。這就是上一段講的災難
+- **改語意卻沒換 ID** → 更陰險。`sup.vitamin` 昨天指「維生素」、今天悄悄改成「維生素與礦物質」，**舊資料還掛在上面，但它們的意思已經被偷偷改掉了**，而且沒有任何地方留下痕跡
+
+DCMI 自己的紀錄可以驗證第一條：`abstract` 這個詞的定義改過、分類也變過，**識別碼從頭到尾沒動**，版本資訊走另外三個獨立欄位（這一版是誰、取代了誰、被誰取代）。
+
+實務上還有一條配套：**東西不要刪掉，標記成已退役就好。** 因為舊資料還指著它，刪掉就變成斷頭的參照；保留下來並註明「已於某年某月退役，改用 X」，舊資料才查得出當初發生什麼事。
+
 ---
 
 ## 8. realm / kind：兩個歸群用詞
@@ -548,6 +574,8 @@ slug:       lions-mane           ← 給網址、檔名、程式用的形式
 - [../tools/google-product-category-intro.md](../tools/google-product-category-intro.md) - 一個真實世界 taxonomy 的完整案例
 - [emergence-data-compute.md](./emergence-data-compute.md) · [no-one-is-home.md](./no-one-is-home.md) · [isomorphism-projection.md](./isomorphism-projection.md) - macro / micro 那一義的完整討論
 - [LanguaL Thesaurus](https://www.langual.org/langual_thesaurus.asp)（外部）- 第 4 節分面編碼例子的出處
+- [DCMI Namespace Policy](https://www.dublincore.org/specifications/dublin-core/dcmi-namespace/)（外部）- 第 7 節「改字不換 ID，改語意才發新 ID」的出處
+- [building-taxonomy-with-claude.md](./building-taxonomy-with-claude.md) - 落地篇：把這些概念交給 Claude 生成分類檔時的收斂紀律
 
 ---
 
@@ -559,6 +587,7 @@ slug:       lions-mane           ← 給網址、檔名、程式用的形式
 |------|------|------|----------|
 | 0.1 | 2026-07-28 | Dustin | 初稿（issue #2） |
 | 1.0 | 2026-08-13 | leana | 定案：改以概念教學為軸，補入 set 一節，章節依「先各自解釋、再比較」重排 |
+| 1.1 | 2026-08-18 | Dustin | 第 7 節補「那什麼時候該換識別碼」：DCMI 四類變更政策與「改字不換 ID，改語意才發新 ID」；相關文檔補落地篇連結 |
 
 ---
 
