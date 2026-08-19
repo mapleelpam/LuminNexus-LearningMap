@@ -204,7 +204,7 @@ df = pd.read_csv('data.csv', encoding='utf-8')
 - **只是讀一讀、不太會改的**（一份匯出檔、一次性的設定）→ A 或 C 都好，怎麼順手怎麼來
 - 不管用哪一種，**節點的識別碼不要用它的顯示名稱**。顯示名稱是會改的東西，拿它當身分，改名就等於把舊資料抹掉
 
-> 分類體系本身的概念（維度 vs 階層、什麼時候該用樹）見 [classification-terminology.md](./classification-terminology.md)；把這件事交給 AI agent 生成時的注意事項見 [building-taxonomy-with-claude.md](./building-taxonomy-with-claude.md)。
+> 分類體系本身的概念（維度 vs 階層、什麼時候該用樹）見 [classification-terminology.md](./classification-terminology.md)；寫下來之前要先分清楚在設計什麼（facet / taxonomy / state / tag / instance），見 [semantic-model-before-yaml.md](./semantic-model-before-yaml.md)。
 
 ---
 
