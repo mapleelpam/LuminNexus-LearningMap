@@ -484,7 +484,7 @@ DCMI 自己的紀錄可以驗證第一列：`abstract` 這個詞的定義文字�
 
 實務上還有一條配套：**東西不要刪掉，標記成已退役就好。** 因為舊資料還指著它，刪掉就變成斷頭的參照；保留下來並註明「已於某年某月退役，改用 X」，舊資料才查得出當初發生什麼事。
 
-> **這條規則的另外兩個面向**：退役狀態該怎麼放（節點留在原位、另外掛一個狀態欄位，而不是搬到「已退役」分支）見 [semantic-model-before-yaml.md](./semantic-model-before-yaml.md) 第 2 節；識別碼在設定檔裡的寫法（不要用顯示名稱當 id）見 [03_data-engineering.md](./03_data-engineering.md) §1.5。
+> **這條規則的另外兩個面向**：退役狀態該怎麼放（節點留在原位、另外掛一個狀態欄位，而不是搬到「已退役」分支）見 [semantic-model-before-yaml.md](./semantic-model-before-yaml.md) 第 2 節；識別碼在設定檔裡的寫法（不要用顯示名稱當 id、階層寫在形狀還是欄位裡）見 [semantic-model-before-yaml.md](./semantic-model-before-yaml.md) 第 1 節。
 
 ---
 
@@ -595,7 +595,7 @@ DCMI 自己的紀錄可以驗證第一列：`abstract` 這個詞的定義文字�
 | 0.1 | 2026-07-28 | Dustin | 初稿（issue #2） |
 | 1.0 | 2026-08-13 | leana | 定案：改以概念教學為軸，補入 set 一節，章節依「先各自解釋、再比較」重排 |
 | 1.1 | 2026-08-18 | Dustin | 第 7 節補「那什麼時候該換識別碼」：DCMI 四類變更政策與「改字不換 ID，改語意才發新 ID」；相關文檔補落地篇連結 |
-| 1.2 | 2026-08-20 | Dustin | 依 issue #12 收斂第 7 節：先定義「識別碼」＝不隨顯示名稱改變的穩定身分；變更政策四列併為三列，補「需要更廣概念時新增而非撐大舊的」；DCMI `abstract` 例證改掛第一列並補 `hasVersion`/`replaces`/`isReplacedBy`；移除第一人稱評價；補退役規則的跨文件互指 |
+| 1.2 | 2026-08-20 | Dustin | 依 issue #12 收斂第 7 節：先定義「識別碼」＝不隨顯示名稱改變的穩定身分；變更政策四列併為三列，補「需要更廣概念時新增而非撐大舊的」；DCMI `abstract` 例證改掛第一列並補 `hasVersion`/`replaces`/`isReplacedBy`；移除第一人稱評價；補退役規則的跨文件互指（§1.5 移入 semantic-model 後同步改指） |
 
 ---
 
