@@ -582,7 +582,7 @@ DCMI 自己的紀錄可以驗證第一列：`abstract` 這個詞的定義文字�
 - [emergence-data-compute.md](./emergence-data-compute.md) · [no-one-is-home.md](./no-one-is-home.md) · [isomorphism-projection.md](./isomorphism-projection.md) - macro / micro 那一義的完整討論
 - [LanguaL Thesaurus](https://www.langual.org/langual_thesaurus.asp)（外部）- 第 4 節分面編碼例子的出處
 - [DCMI Namespace Policy](https://www.dublincore.org/specifications/dublin-core/dcmi-namespace/)（外部）- 第 7 節「改字不換 ID，改語意才發新 ID」的出處
-- [semantic-model-before-yaml.md](./semantic-model-before-yaml.md) - 落地篇：本文的概念要寫成 YAML 之前，先分清楚 facet / taxonomy / state / tag / instance
+- [semantic-model-before-yaml.md](./semantic-model-before-yaml.md) - 落地篇：本文的概念要寫成 YAML 之前，先分清楚 facet / taxonomy / lifecycle / tag / instance
 
 ---
 
