@@ -4,7 +4,7 @@ type: guide
 status: active
 created: 2026-08-18
 updated: 2026-08-21
-version: "2.3"
+version: "2.4"
 project: LearningMap
 author: Dustin
 tags:
@@ -19,8 +19,9 @@ summary: |
   YAML 是「怎麼寫」，facet / taxonomy 是「你在表達什麼」——這兩件事不在同一層，
   疊在一起就會寫出漂亮但語意錯誤的檔案。同一個階層可以寫成兩種形狀完全不同的檔案，
   各自免費保證什麼、什麼要自己驗，是拿到檔案第一個要認出來的事。本文用一則 Amazon 評論走一次完整流程：
-  五個角色（facet / taxonomy / state / tag / instance）怎麼分辨、
-  一組值什麼時候該升級成 taxonomy、三份檔案為什麼要分開。
+  五種身分（facet / taxonomy / state / tag / instance）怎麼分辨、
+  一組值什麼時候該升級成 taxonomy、三份檔案為什麼要分開——
+  給的是看得出對不對的判準，不是可以抄的成品。
   末段附五次實測：這五次裡模型都沒有把正交的面壓成樹，但它每次會生得不一樣。
 ---
 
@@ -40,7 +41,9 @@ summary: |
 
 疊在一起的後果是：**YAML 寫得非常漂亮，語意模型還是錯的。** 而語法錯誤會被工具擋下來，語意錯誤不會——它會一路長大，直到有人問「為什麼這兩張表的數字加不起來」。
 
-所以這篇的順序刻意反過來：**先分清楚你在設計什麼，最後才寫 YAML。**
+所以這篇的順序刻意反過來：**先分清楚要表達什麼，最後才看 YAML。**
+
+「**寫下來之前**」對多數人不是自己動筆之前——是**你收下一份檔案、把它寫進 repo 之前**。這篇要給的不是一套可以抄的成品，是**看得出對不對的判準**。
 
 在實務層的位置：[know-your-unknowns](./know-your-unknowns.md) 講怎麼驗收一次委派，[agent-work-forms](./agent-work-forms.md) 講重複委派時該站在哪。這篇是那條軸落在一個具體產物上——而那個產物有個特性：**它會被反覆重讀**。你不是在寫一份設定檔，你是在寫一份未來每一輪對話都要當 context 吃進去的東西。
 
@@ -79,6 +82,8 @@ graph TD
 > **YAML 沒有決定任何東西是 facet 還是 taxonomy。是你設計的語意模型決定的，YAML 只是把它記下來。**
 
 所以「我該用巢狀還是扁平」這種問題，**在語意模型定案之前是問不出答案的**——你還不知道要記什麼，怎麼決定怎麼記。
+
+（本文一律拿 YAML 舉例，因為那是團隊實際在用的格式。**三層分離對 JSON 一樣成立**；差別只在後面會講的那個坑——「縮排被讀成階層」——**只有用縮排表達包含關係的格式才會發生**，JSON 用括號就沒有這個問題。）
 
 反過來說，這也是為什麼有人可以寫出一份格式完全合法、通過所有驗證、但語意徹底錯誤的 YAML。**驗證器只看得到中間那層。**
 
@@ -196,7 +201,7 @@ tags:
 - 一個隨手打的自由標籤？
 - 一個會變的狀態？
 
-**沒有任何東西回答得了這個問題**，因為那份 YAML 裡沒有寫。它把三個不同角色的東西並排在同一個陣列裡，然後靠讀的人自己補上缺掉的語意。
+**沒有任何東西回答得了這個問題**，因為那份 YAML 裡沒有寫。它把三種不同身分的東西並排在同一個陣列裡，然後靠讀的人自己補上缺掉的語意。
 
 **在探索階段，這是合理的**——你還不知道有幾條軸，先把觀察到的東西記下來。問題出在它留太久：**一旦有人開始拿 tag 做統計，那個「還沒想清楚」就變成了地基。**
 
@@ -384,88 +389,19 @@ Dosage Form
 
 ## 5. 三份檔案分開
 
-前面所有的判斷，最後落成三份**分開的**檔案。
+前面所有的判斷，最後落成三份**分開的**檔案。這一節的用途不是給你抄，是讓你**認得出眼前這份是不是混寫的**。
 
-### A. 實例：這一筆實際是什麼
+### 三份各回答一個問題
 
-```yaml
-# reviews/R001.yaml
-review_id: R001
-source: amazon
-facets:
-  sweetness: too_sweet
-  effectiveness: effective
-  dosage_form: gummy
-```
+| 檔案 | 只回答 | 長什麼樣 |
+|---|---|---|
+| **實例** `reviews/R001.yaml` | 這一則**實際**被判斷成什麼 | `facets: { sweetness: too_sweet, dosage_form: gummy }` |
+| **facet 定義** `schema/facets.yaml` | 我們從**哪些面向**描述東西 | 一列軸，每條軸一個 `id` 與一個 `values_ref` |
+| **值集合定義** `schema/value-sets/*.yaml` | 這條軸底下有**哪些合法值** | `value_set:` ＋ `hierarchical:` ＋ `values:` / `nodes:` |
 
-**只回答一件事**：這一則評論被判斷成什麼。
+**分三份的第一個理由是語意的**：這是三個不同的問題，答案自然落在三個地方。混在一起不只是不整齊——**它讓「哪個是選項、哪個是選中的」變得答不出來**，就是第 2 節那個 `selected_taste` 的來源。
 
-### B. Facet 定義：我們有哪些分析維度
-
-```yaml
-# schema/facets.yaml
-facets:
-  - id: sweetness
-    label: 甜度
-    ordinal: true                # 值有順序（太甜 → 剛好 → 不夠甜）
-    values_ref: sweetness_v1
-  - id: effectiveness
-    label: 功效
-    values_ref: effectiveness_v1
-  - id: dosage_form
-    label: 劑型
-    values_ref: dosage_form_v1
-
-groups:                          # 群組標籤：把幾條軸收在一起方便導覽
-  - id: taste
-    label: 味道
-    members: [sweetness, sourness, aftertaste]
-    note: 這是導覽用的群組，不是分類節點——底下三條軸彼此正交
-```
-
-**只回答一件事**：我們從哪些面向描述東西。
-
-注意 `groups`——第 3 節那個 `Taste` 放在這裡，而且**明寫它不是分類節點**。這一行註解就是在防止下一個人（或下一輪的 agent）把它當成上層概念。
-
-### C. 值集合定義：每條軸底下有哪些合法值
-
-```yaml
-# schema/value-sets/sweetness_v1.yaml
-value_set:
-  id: sweetness_v1
-  label: 甜度評價
-  hierarchical: false            # 平的一組值——還不是 taxonomy
-  ordinal: true
-  values:                        # 順序即語意，由甜到不甜
-    - { id: too_sweet,        label: 太甜 }
-    - { id: balanced,         label: 剛好 }
-    - { id: not_sweet_enough, label: 不夠甜 }
-  catch_all: not_mentioned       # 評論沒提到甜度，不等於「剛好」
-```
-
-```yaml
-# schema/value-sets/dosage_form_v1.yaml
-value_set:
-  id: dosage_form_v1
-  label: 劑型
-  hierarchical: true             # 有階層——這一條是一棵 taxonomy
-  nodes:
-    - { id: solid,   label: 固體, broader: null }
-    - { id: tablet,  label: 錠劑, broader: solid }
-    - { id: capsule, label: 膠囊, broader: solid }
-    - { id: gummy,   label: 軟糖, broader: solid }
-    - { id: liquid,  label: 液體, broader: null }
-    - { id: syrup,   label: 糖漿, broader: liquid }
-  catch_all: form_other
-```
-
-**只回答一件事**：這條軸底下有哪些合法值、彼此怎麼組織。
-
-> **為什麼這個 key 叫 `value_set` 而不是 `taxonomy`。** 照[分類體系術語](./classification-terminology.md)第 3 節，**taxonomy 是一棵樹**——`sweetness_v1` 是平的一組值，它還不是 taxonomy。兩者共用同一種檔案，用 `hierarchical` 區分：**`hierarchical: true` 的那些才是 taxonomy**，也就是第 4 節說的「升級」。用同一個 key 稱呼兩者，會讓第 4 節那條判準沒有東西可以落下來。
-
-### 為什麼一定要分三份
-
-不是為了整齊。三份東西的**變更頻率、作者、版本節奏完全不同**：
+第二個理由才是維護。三份東西的**變更頻率、作者、版本節奏完全不同**：
 
 | | 誰在改 | 多久改一次 | 改錯的後果 |
 |---|---|---|---|
@@ -475,7 +411,46 @@ value_set:
 
 混在一份裡，**這三種節奏會互相綁架**：你想改一條軸的合法值，卻要動到幾萬筆實例資料所在的檔案；你想重跑標註，卻可能不小心覆蓋掉領域專家的定義。
 
-`values_ref` 那一行是關鍵——**它讓一條軸的值集合變成一個有身分、可以掛版本號的獨立物件**。`sweetness_v1` 改成 `sweetness_v2` 時，舊資料還指著 v1，你查得出當初是用哪一版標的。如果那組值直接內嵌在 facet 定義裡，**就沒有東西可以掛版本號**。
+### 三個要認出來的特徵
+
+拿到一份檔案，看這三個地方就知道它有沒有把該分開的東西寫在一起。
+
+**① 值集合有沒有自己的身分。** facet 定義裡應該是一個**指標**，不是一坨內嵌的值：
+
+```yaml
+# schema/facets.yaml —— 對的樣子
+- id: sweetness
+  label: 甜度
+  ordinal: true                # 值有順序（太甜 → 剛好 → 不夠甜）
+  values_ref: sweetness_v1     # ← 指過去，不是把值抄在這裡
+```
+
+`values_ref` 那一行是關鍵——**它讓一條軸的值集合變成一個有身分、可以掛版本號的獨立物件**。`sweetness_v1` 改成 `sweetness_v2` 時，舊資料還指著 v1，你查得出當初是用哪一版標的。**值直接內嵌在 facet 定義裡，就沒有東西可以掛版本號。**
+
+**② 群組有沒有被明寫成「不是分類節點」。** 第 3 節那個 `Taste` 應該長這樣：
+
+```yaml
+groups:
+  - id: taste
+    members: [sweetness, sourness, aftertaste]
+    note: 這是導覽用的群組，不是分類節點——底下三條軸彼此正交
+```
+
+那行 `note` 就是在防止下一個人（或下一輪的 agent）把它當成上層概念。**沒有這行，群組遲早會被當成一層樹。**
+
+**③ 兜底值有沒有分開。** 值集合裡這兩個欄位是不同的東西：
+
+```yaml
+value_set:
+  id: sweetness_v1
+  hierarchical: false            # 平的一組值——還不是 taxonomy
+  values: [too_sweet, balanced, not_sweet_enough]
+  catch_all: not_mentioned       # 評論沒提到甜度，不等於「剛好」
+```
+
+`balanced` 是一個**真實的評價**，`not_mentioned` 是**沒有資料**。合併成一個，你會把「沒人提到甜度」算成「大家覺得剛好」。
+
+> **為什麼這個 key 叫 `value_set` 而不是 `taxonomy`。** 照[分類體系術語](./classification-terminology.md)第 3 節，**taxonomy 是一棵樹**——`sweetness_v1` 是平的一組值，它還不是 taxonomy。兩者共用同一種檔案，用 `hierarchical` 區分：**`hierarchical: true` 的那些才是 taxonomy**（那時值改寫成 `nodes:`，每個節點帶 `broader:`），也就是第 4 節說的「升級」。用同一個 key 稱呼兩者，會讓第 4 節那條判準沒有東西可以落下來。
 
 ---
 
@@ -514,9 +489,9 @@ gummy      ──屬於──▶  dosage_form
 3. **同名衝突無解**——`balanced` 可能是甜度的「剛好」，也可能是酸度的「剛好」。扁平的 tag 陣列裡，它們是同一個字
 4. **沒辦法問「這則評論有沒有提到甜度」**——沒提到和提到但覺得剛好，在 tag 世界裡長得一樣
 
-### 這裡要修正一句常見的說法
+### 一句流傳的說法，實測對不上
 
-流傳的講法是「人有背景知識可以猜出來，**AI 更容易猜錯**」。
+有一種講法是「人有背景知識可以猜出來，**AI 更容易猜錯**」。
 
 **五次實測裡沒有出現這種情形**（見第 7 節，含限制）：Claude 面對這類模糊結構時判斷得相當好，包括刻意設計的陷阱題。
 
@@ -582,7 +557,7 @@ gummy      ──屬於──▶  dosage_form
 
 每一個都是好建議。但**你現在擁有一堆你沒評估過的決定**，而且分不出哪些是你要的、哪些是它順手加的。三個月後有人問「為什麼有這欄」，沒人記得那是模型加的，於是大家假設它有理由，開始餵資料進去。
 
-**處理**：先自己答第 2 節那五個角色的問題，然後明講邊界——「這一版只做這四個維度，其他建議寫在說明裡，**不要進檔案**」。
+**處理**：先自己答第 2 節那三個問題，然後明講邊界——「這一版只做這四個維度，其他建議寫在說明裡，**不要進檔案**」。
 
 ---
 
@@ -639,7 +614,7 @@ gummy      ──屬於──▶  dosage_form
 
 ```mermaid
 graph LR
-    A["① 先分角色<br/>facet / taxonomy / state<br/>/ tag / instance"]
+    A["① 先分身分<br/>facet / taxonomy / state<br/>/ tag / instance"]
     B["② 要骨架，不要全量<br/>10 筆，確認形狀"]
     C["③ 契約寫進檔案<br/>連同這一輪的所有決定"]
     D["④ 擴充時說清楚<br/>加在哪條軸／哪一層"]
@@ -649,7 +624,7 @@ graph LR
     style C fill:#e8f4ff
 ```
 
-**① 先分角色。** 不是要答得完美，是要**知道哪些你答不出來**。答不出來的先放 tag，但要明記「這是暫存區」。
+**① 先分身分。** 不是要答得完美，是要**知道哪些你答不出來**。答不出來的先放 tag，但要明記「這是暫存區」。
 
 **② 要骨架，不要全量。** 先要 10 筆確認形狀——id 風格、三份檔案怎麼切、兜底值怎麼分。形狀錯了，10 筆重來很便宜，**200 筆重來你會捨不得，然後將就**。「捨不得重來」是分類檔劣化的主要原因。
 
@@ -665,7 +640,7 @@ graph LR
 
 **關於設計**
 
-- **動手前先問五個角色**：這是 facet、taxonomy、state、tag，還是 instance
+- **收下之前先問第 2 節那三個問題**：在哪一層、扮演什麼、被怎麼記錄
 - **看起來像樹的東西，先跑正交測試**——同一層的兩個東西如果推不出彼此，它們是兩條軸不是兩個分支
 - **「上層那個名字有人會拿來查嗎」**——不會查就不要建階層
 - **要拿來做統計的 tag，就不能沒有歸屬**。開放軸與流程標記可以一直是 tag；但一旦有人拿它算數字，那個「還沒想清楚」就變成地基
@@ -686,35 +661,22 @@ graph LR
 
 ---
 
-## 附錄 A：落筆前檢查清單
+## 附錄 A：收下之前的檢查清單
 
-寫成 linter 跑，不要靠人讀。前兩區改寫自 [qSKOS](https://github.com/cmader/qSKOS/wiki/Quality-Issues) 的分類品質檢查項。
+**在你收下、寫進 repo 之前跑一次。** 不要靠讀說明——模型的說明文字不是驗證。
 
-**結構**
+下面八條是**只有讀語意才抓得到**的，機器抓不到、人不刻意看也會漏：
 
-- [ ] **階層迴圈**——A 的祖先鏈裡有沒有 A 自己（扁平＋parent 寫法唯一的硬缺點）
-- [ ] **自我引用**——`broader` 裡有沒有自己
-- [ ] **孤立節點**——既沒有 broader、也沒被任何節點指為 broader
-- [ ] **階層冗餘**——A→B→C 之外又直接寫了 A→C
-- [ ] **`hierarchical: false` 的值集合裡出現非空的 `broader`**——沒有階層就不該有上位關係
-- [ ] **`values_ref` 指向不存在的值集合**
-- [ ] **實例裡出現了 group 名稱**——group 不是分類節點，不該被標到資料上
-
-**標籤**
-
-- [ ] 同一條軸內重複的 label
-- [ ] 同一個 id 出現兩次
-- [ ] label 是空的、或 id 疑似從 label 產生（改名就會壞）
-- [ ] **跨軸同名值沒有加上歸屬**——`balanced` 同時屬於甜度與酸度時，實例裡要分得出來
-
-**語意**
-
-- [ ] **每條軸有沒有 catch_all**，而且 **catch_all 與「沒提到」是分開的兩個值**
-- [ ] **`other` 與 `unknown` 有沒有分開**——一個是分類不夠用，一個是資料有缺，處置完全不同
+- [ ] **`catch_all` 與「沒提到」是分開的兩個值**——`balanced` 是評價，`not_mentioned` 是沒資料
+- [ ] **`other` 與 `unknown` 有沒有分開**——一個是分類不夠用，一個是來源資料有缺，處置完全不同
 - [ ] **同一個東西能不能合理地填兩個值**——能的話，可能有兩條軸被壓成了一條
-- [ ] **ordinal facet 有沒有標 `ordinal: true`**，值的順序有沒有寫對
-- [ ] **判讀型 facet 有沒有寫排除清單**——事實型靠事實就守得住邊界（是不是軟糖翻包裝就知道），判讀型只能靠人工維護
+- [ ] **跨軸同名值有沒有歸屬**——`balanced` 同時屬於甜度與酸度時，實例裡要分得出來
+- [ ] **實例裡有沒有出現 group 名稱**——group 不是分類節點，不該被標到資料上
+- [ ] **`hierarchical: false` 的值集合裡有沒有非空的 `broader`**——沒有階層就不該有上位關係
+- [ ] **id 是不是從 label 產生的**——是的話，改名就會壞
 - [ ] **深度有沒有超過三層**——超過就考慮是不是該拆成兩條軸
+
+至於**機械性的結構檢查**——階層迴圈、`broader` 指向自己、孤立節點、冗餘的上位邊、`values_ref` 指向不存在的值集合——那些寫成 linter 跑，別用眼睛看。現成的清單見 [qSKOS](https://github.com/cmader/qSKOS/wiki/Quality-Issues)。
 
 ---
 
@@ -748,7 +710,7 @@ graph LR
 - [supplement-industry-terminology.md](./supplement-industry-terminology.md) - voice ＝ 評論數加總；第 3 節的評論來源在那裡有說明
 - [know-your-unknowns.md](./know-your-unknowns.md) - 前置：單次委派的驗收。失效點三就是那裡講的「未知的未知」長成交付物的樣子
 - [agent-work-forms.md](./agent-work-forms.md) - 重複委派時該站在哪；本篇的「收斂」是形態問題落在一個產物上
-- [clarification-wish-and-plan.md](./clarification-wish-and-plan.md) - 澄清有停止點；第 2 節那五個角色就是分類檔的停止點
+- [clarification-wish-and-plan.md](./clarification-wish-and-plan.md) - 澄清有停止點；第 2 節那三個問題就是分類檔的停止點
 - [wish-language-and-loss.md](./wish-language-and-loss.md) - 從意圖到產出的失真。失效點一是**產出之後**的失真：診斷與產物被送到兩個地方
 - [contextops-discipline.md](./contextops-discipline.md) - 分類檔會被反覆重讀，它就是 context，要當 context 治理
 
@@ -760,11 +722,12 @@ graph LR
 
 | 版本 | 日期 | 作者 | 變更說明 |
 |------|------|------|----------|
-| 1.0 | 2026-08-18 | Dustin | 初版（原名 building-taxonomy-with-claude.md）。原定主題為「避免 AI 誤解 facet/taxonomy」，五次實測推翻此前提，改以三個真實失效點為軸 |
+| 1.0 | 2026-08-18 | Dustin | 初版（原名 building-taxonomy-with-claude.md）。以五次實測為據，收束為三個失效點：先照做再警告、同一句話兩份不相容的檔案、替你做了你沒做的決定 |
+| 2.4 | 2026-08-21 | Dustin | 依 issue #12 改站位：全篇從「怎麼設計」轉為「怎麼看得出對不對」。第 5 節三份完整 YAML 降為三個可辨識的特徵，並補上分三份的語意理由（原本只給變更節奏，那是維護成本）；附錄 A 十七條收為八條語意檢查，機械檢查交給 linter；「角色」統一改為「身分」，避開 repo 既有的職務用法；標明三層分離對 JSON 同樣成立，縮排的坑才是 YAML 特有 |
 | 2.3 | 2026-08-21 | Dustin | 依 issue #12 守住正典：檔案裡的 `taxonomy:` 改為 `value_set:`、`taxonomy_ref` 改為 `values_ref`、路徑改 `schema/value-sets/`。平的一組值不是 taxonomy，`hierarchical: true` 才是——原寫法讓第 4 節「什麼時候該升級成 taxonomy」失去落腳處，也與術語文第 3 節「taxonomy：一棵樹」衝突 |
 | 2.2 | 2026-08-20 | Dustin | 第 1 節新增「同一個階層，兩種寫法」（由 03_data-engineering.md §1.5 移入並改寫）：不再並排三欄做選型，改問階層由檔案形狀還是紀錄欄位承載，收束為一句驗收問句 |
 | 2.1 | 2026-08-20 | Dustin | 依 issue #12 收斂：第 2 節改為三個問題（哪一層／扮演什麼／怎麼記錄），說明五個名字不互斥；tag 補 folksonomy 與「終點而非暫存」的三種情況；state 對照改用同一主體；實測的限制提前到第 7 節開頭，結論收斂為「這五次裡沒有發生」 |
-| 2.0 | 2026-08-19 | Dustin | 重構並改名。新增前六節：三層分離（語意模型／表示格式／實例）、五個角色（補入 state 與 tag）、Amazon 評論案例走查（含正交測試與 ordinal facet 例外）、一組值何時升級成 taxonomy、三份檔案分離與 `taxonomy_ref`、tag 的代價。實測部分壓縮為第 7–8 節。兩個例子並存：評論分析用於前段概念，產品分類用於實測 |
+| 2.0 | 2026-08-19 | Dustin | 重構並改名。新增前六節：三層分離、五種身分、Amazon 評論案例走查（含正交測試與 ordinal facet 例外）、一組值何時升級成 taxonomy、三份檔案分離、tag 的代價。實測壓縮為第 7–8 節 |
 
 ---
 
