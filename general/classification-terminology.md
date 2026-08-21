@@ -3,8 +3,8 @@ title: "分類體系術語：set / facet / taxonomy / macro"
 type: reference
 status: active
 created: 2026-07-28
-updated: 2026-08-18
-version: "1.1"
+updated: 2026-08-20
+version: "1.2"
 project: LearningMap
 author: "Dustin, leana"
 tags:
@@ -457,14 +457,17 @@ slug:       lions-mane           ← 給網址、檔名、程式用的形式
 
 分開之後會冒出下一個問題：既然名字可以改而識別碼不動，**那識別碼到底什麼時候該換？**
 
-Dublin Core（DCMI，國際通用的 metadata 標準）的變更政策把這件事寫成四種情況，是我看過最精準的一份：
+先說清楚這裡的「識別碼」指什麼：**它是那個不隨顯示名稱改變的穩定身分。** 實務上常由 slug 兼任，也可以另外發一個永久編號——**重點不是它叫什麼，而是它是舊資料唯一的落腳處**。
 
-| 情況 | 識別碼 |
-|---|---|
-| 修一個錯字、潤一下文句 | **不動** |
-| 修正一個實質的敘述錯誤 | **不動** |
-| **這個東西的意思改變了** | **換一個新的** |
-| 新增一個東西 | 不動（新的自己有新識別碼） |
+Dublin Core（DCMI，國際通用的 metadata 標準）的變更政策把這件事收斂成三種情況：
+
+| 情況 | 識別碼 | 為什麼 |
+|---|---|---|
+| **字面改了，意思沒改**<br/>（修錯字、潤文句、修正敘述錯誤） | **不動** | 舊資料指的還是同一件事 |
+| **這個東西的意思改變了** | **換一個新的** | 舊資料指的已經不是它了 |
+| **需要一個更廣或更窄的概念** | **新增一個**，舊的不動 | 把舊的撐大＝偷改舊資料的意思 |
+
+第三列常被忽略：需求變了的時候，直覺是把既有的那個定義放寬——**但那正是第二列在講的災難**。正確做法是新增一個並讓兩者共存。
 
 一句話記法：
 
@@ -475,9 +478,13 @@ Dublin Core（DCMI，國際通用的 metadata 標準）的變更政策把這件�
 - **改字卻換了 ID** → 舊資料全部失去落腳處，等於把過去抹掉一次。這就是上一段講的災難
 - **改語意卻沒換 ID** → 更陰險。`sup.vitamin` 昨天指「維生素」、今天悄悄改成「維生素與礦物質」，**舊資料還掛在上面，但它們的意思已經被偷偷改掉了**，而且沒有任何地方留下痕跡
 
-DCMI 自己的紀錄可以驗證第一條：`abstract` 這個詞的定義改過、分類也變過，**識別碼從頭到尾沒動**，版本資訊走另外三個獨立欄位（這一版是誰、取代了誰、被誰取代）。
+DCMI 自己的紀錄可以驗證第一列：`abstract` 這個詞的定義文字改寫過——不是修錯字，是把敘述寫得更精確——但指的還是同一件事，所以**識別碼從頭到尾沒動**。
+
+（它被歸在哪一組也變過。那是第四種變更，上表沒有涵蓋，處理方式一樣是不動識別碼——**歸在哪一組不改變它是什麼**。而變更歷史走三個獨立欄位記錄：`hasVersion`／`replaces`／`isReplacedBy`，也就是「這一版是誰、取代了誰、被誰取代」，不靠改識別碼來表達。）
 
 實務上還有一條配套：**東西不要刪掉，標記成已退役就好。** 因為舊資料還指著它，刪掉就變成斷頭的參照；保留下來並註明「已於某年某月退役，改用 X」，舊資料才查得出當初發生什麼事。
+
+> **這條規則的另外兩個面向**：退役狀態該怎麼放（節點留在原位、另外掛一個狀態欄位，而不是搬到「已退役」分支）見 [semantic-model-before-yaml.md](./semantic-model-before-yaml.md) 第 2 節；識別碼在設定檔裡的寫法（不要用顯示名稱當 id、階層寫在形狀還是欄位裡）見 [semantic-model-before-yaml.md](./semantic-model-before-yaml.md) 第 1 節。
 
 ---
 
@@ -575,7 +582,7 @@ DCMI 自己的紀錄可以驗證第一條：`abstract` 這個詞的定義改過�
 - [emergence-data-compute.md](./emergence-data-compute.md) · [no-one-is-home.md](./no-one-is-home.md) · [isomorphism-projection.md](./isomorphism-projection.md) - macro / micro 那一義的完整討論
 - [LanguaL Thesaurus](https://www.langual.org/langual_thesaurus.asp)（外部）- 第 4 節分面編碼例子的出處
 - [DCMI Namespace Policy](https://www.dublincore.org/specifications/dublin-core/dcmi-namespace/)（外部）- 第 7 節「改字不換 ID，改語意才發新 ID」的出處
-- [semantic-model-before-yaml.md](./semantic-model-before-yaml.md) - 落地篇：本文的概念要寫成 YAML 之前，先分清楚 facet / taxonomy / state / tag / instance
+- [semantic-model-before-yaml.md](./semantic-model-before-yaml.md) - 落地篇：本文的概念要寫成 YAML 之前，先分清楚 facet / taxonomy / lifecycle / tag / instance
 
 ---
 
@@ -588,6 +595,7 @@ DCMI 自己的紀錄可以驗證第一條：`abstract` 這個詞的定義改過�
 | 0.1 | 2026-07-28 | Dustin | 初稿（issue #2） |
 | 1.0 | 2026-08-13 | leana | 定案：改以概念教學為軸，補入 set 一節，章節依「先各自解釋、再比較」重排 |
 | 1.1 | 2026-08-18 | Dustin | 第 7 節補「那什麼時候該換識別碼」：DCMI 四類變更政策與「改字不換 ID，改語意才發新 ID」；相關文檔補落地篇連結 |
+| 1.2 | 2026-08-20 | Dustin | 依 issue #12 收斂第 7 節：先定義「識別碼」＝不隨顯示名稱改變的穩定身分；變更政策四列併為三列，補「需要更廣概念時新增而非撐大舊的」；DCMI `abstract` 例證改掛第一列並補 `hasVersion`/`replaces`/`isReplacedBy`；移除第一人稱評價；補退役規則的跨文件互指（§1.5 移入 semantic-model 後同步改指） |
 
 ---
 
