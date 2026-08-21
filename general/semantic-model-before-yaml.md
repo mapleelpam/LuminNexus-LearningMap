@@ -3,8 +3,8 @@ title: "寫下來之前：facet、taxonomy、state、tag、instance"
 type: guide
 status: active
 created: 2026-08-18
-updated: 2026-08-20
-version: "2.2"
+updated: 2026-08-21
+version: "2.3"
 project: LearningMap
 author: Dustin
 tags:
@@ -378,6 +378,8 @@ Dosage Form
 
 > **同一條軸，在不同場景可以有不同的形狀。** 這不是不一致，是因為「要不要階層」取決於你會怎麼查，而不是取決於這條軸本身。
 
+**在檔案裡，這個「升級」就是一個欄位的差別**：`hierarchical: false` 還是 `true`（見下一節的 C 檔）。沒升級之前它只是一組合法值，**還不能叫 taxonomy**。
+
 ---
 
 ## 5. 三份檔案分開
@@ -406,13 +408,13 @@ facets:
   - id: sweetness
     label: 甜度
     ordinal: true                # 值有順序（太甜 → 剛好 → 不夠甜）
-    taxonomy_ref: sweetness_v1
+    values_ref: sweetness_v1
   - id: effectiveness
     label: 功效
-    taxonomy_ref: effectiveness_v1
+    values_ref: effectiveness_v1
   - id: dosage_form
     label: 劑型
-    taxonomy_ref: dosage_form_v1
+    values_ref: dosage_form_v1
 
 groups:                          # 群組標籤：把幾條軸收在一起方便導覽
   - id: taste
@@ -425,14 +427,14 @@ groups:                          # 群組標籤：把幾條軸收在一起方便
 
 注意 `groups`——第 3 節那個 `Taste` 放在這裡，而且**明寫它不是分類節點**。這一行註解就是在防止下一個人（或下一輪的 agent）把它當成上層概念。
 
-### C. Taxonomy 定義：每條軸底下的分類世界
+### C. 值集合定義：每條軸底下有哪些合法值
 
 ```yaml
-# schema/taxonomies/sweetness_v1.yaml
-taxonomy:
+# schema/value-sets/sweetness_v1.yaml
+value_set:
   id: sweetness_v1
   label: 甜度評價
-  hierarchical: false            # 平的一組值，沒有階層
+  hierarchical: false            # 平的一組值——還不是 taxonomy
   ordinal: true
   values:                        # 順序即語意，由甜到不甜
     - { id: too_sweet,        label: 太甜 }
@@ -442,11 +444,11 @@ taxonomy:
 ```
 
 ```yaml
-# schema/taxonomies/dosage_form_v1.yaml
-taxonomy:
+# schema/value-sets/dosage_form_v1.yaml
+value_set:
   id: dosage_form_v1
   label: 劑型
-  hierarchical: true             # 這一條有階層
+  hierarchical: true             # 有階層——這一條是一棵 taxonomy
   nodes:
     - { id: solid,   label: 固體, broader: null }
     - { id: tablet,  label: 錠劑, broader: solid }
@@ -459,6 +461,8 @@ taxonomy:
 
 **只回答一件事**：這條軸底下有哪些合法值、彼此怎麼組織。
 
+> **為什麼這個 key 叫 `value_set` 而不是 `taxonomy`。** 照[分類體系術語](./classification-terminology.md)第 3 節，**taxonomy 是一棵樹**——`sweetness_v1` 是平的一組值，它還不是 taxonomy。兩者共用同一種檔案，用 `hierarchical` 區分：**`hierarchical: true` 的那些才是 taxonomy**，也就是第 4 節說的「升級」。用同一個 key 稱呼兩者，會讓第 4 節那條判準沒有東西可以落下來。
+
 ### 為什麼一定要分三份
 
 不是為了整齊。三份東西的**變更頻率、作者、版本節奏完全不同**：
@@ -467,11 +471,11 @@ taxonomy:
 |---|---|---|---|
 | **實例** | 標註流程／模型 | 每天，幾萬筆 | 一筆資料錯 |
 | **facet 定義** | 資料負責人 | 幾個月一次 | 整個分析框架換掉 |
-| **taxonomy 定義** | 領域專家 | 偶爾，且要版控 | 所有既有標註需要重新對映 |
+| **值集合定義** | 領域專家 | 偶爾，且要版控 | 所有既有標註需要重新對映 |
 
-混在一份裡，**這三種節奏會互相綁架**：你想改一個 taxonomy 的值，卻要動到幾萬筆實例資料所在的檔案；你想重跑標註，卻可能不小心覆蓋掉領域專家的定義。
+混在一份裡，**這三種節奏會互相綁架**：你想改一條軸的合法值，卻要動到幾萬筆實例資料所在的檔案；你想重跑標註，卻可能不小心覆蓋掉領域專家的定義。
 
-`taxonomy_ref` 那一行是關鍵——**它讓 taxonomy 變成一個有身分、可以掛版本號的獨立物件**。`sweetness_v1` 改成 `sweetness_v2` 時，舊資料還指著 v1，你查得出當初是用哪一版標的。如果階層直接內嵌在 facet 定義裡，**就沒有東西可以掛版本號**。
+`values_ref` 那一行是關鍵——**它讓一條軸的值集合變成一個有身分、可以掛版本號的獨立物件**。`sweetness_v1` 改成 `sweetness_v2` 時，舊資料還指著 v1，你查得出當初是用哪一版標的。如果那組值直接內嵌在 facet 定義裡，**就沒有東西可以掛版本號**。
 
 ---
 
@@ -603,8 +607,8 @@ gummy      ──屬於──▶  dosage_form
 # 結構契約 — 給人與 AI agent 讀的規則，勿刪
 #
 # 【這份檔案是什麼】
-#   這是 facet 定義，不是實例資料，也不是 taxonomy 定義。
-#   實例在 reviews/，taxonomy 在 schema/taxonomies/。三者不得混寫。
+#   這是 facet 定義，不是實例資料，也不是值集合定義。
+#   實例在 reviews/，值集合在 schema/value-sets/。三者不得混寫。
 #
 # 【兩種關係，請勿互相推論】
 #   facet:        這個值屬於哪一條軸（軸彼此正交、無順序、無上下位）
@@ -668,8 +672,8 @@ graph LR
 
 **關於檔案**
 
-- **實例 / facet 定義 / taxonomy 定義，三份分開**。它們的變更頻率、作者、版本節奏完全不同
-- **taxonomy 要有自己的 id 和版本號**，用 `taxonomy_ref` 串。內嵌在 facet 裡就沒東西可以掛版本
+- **實例 / facet 定義 / 值集合定義，三份分開**。它們的變更頻率、作者、版本節奏完全不同
+- **每條軸的值集合要有自己的 id 和版本號**，用 `values_ref` 串。內嵌在 facet 裡就沒東西可以掛版本
 - **catch_all 與「沒提到」分開**。沒人提到甜度 ≠ 大家覺得剛好
 - **識別碼不要用顯示名稱**。label 是會改的東西，拿它當身分，改名就等於抹掉舊資料
 
@@ -692,8 +696,8 @@ graph LR
 - [ ] **自我引用**——`broader` 裡有沒有自己
 - [ ] **孤立節點**——既沒有 broader、也沒被任何節點指為 broader
 - [ ] **階層冗餘**——A→B→C 之外又直接寫了 A→C
-- [ ] **`hierarchical: false` 的 taxonomy 裡出現非空的 broader**
-- [ ] **`taxonomy_ref` 指向不存在的 taxonomy**
+- [ ] **`hierarchical: false` 的值集合裡出現非空的 `broader`**——沒有階層就不該有上位關係
+- [ ] **`values_ref` 指向不存在的值集合**
 - [ ] **實例裡出現了 group 名稱**——group 不是分類節點，不該被標到資料上
 
 **標籤**
@@ -757,6 +761,8 @@ graph LR
 | 版本 | 日期 | 作者 | 變更說明 |
 |------|------|------|----------|
 | 1.0 | 2026-08-18 | Dustin | 初版（原名 building-taxonomy-with-claude.md）。原定主題為「避免 AI 誤解 facet/taxonomy」，五次實測推翻此前提，改以三個真實失效點為軸 |
+| 2.3 | 2026-08-21 | Dustin | 依 issue #12 守住正典：檔案裡的 `taxonomy:` 改為 `value_set:`、`taxonomy_ref` 改為 `values_ref`、路徑改 `schema/value-sets/`。平的一組值不是 taxonomy，`hierarchical: true` 才是——原寫法讓第 4 節「什麼時候該升級成 taxonomy」失去落腳處，也與術語文第 3 節「taxonomy：一棵樹」衝突 |
+| 2.2 | 2026-08-20 | Dustin | 第 1 節新增「同一個階層，兩種寫法」（由 03_data-engineering.md §1.5 移入並改寫）：不再並排三欄做選型，改問階層由檔案形狀還是紀錄欄位承載，收束為一句驗收問句 |
 | 2.1 | 2026-08-20 | Dustin | 依 issue #12 收斂：第 2 節改為三個問題（哪一層／扮演什麼／怎麼記錄），說明五個名字不互斥；tag 補 folksonomy 與「終點而非暫存」的三種情況；state 對照改用同一主體；實測的限制提前到第 7 節開頭，結論收斂為「這五次裡沒有發生」 |
 | 2.0 | 2026-08-19 | Dustin | 重構並改名。新增前六節：三層分離（語意模型／表示格式／實例）、五個角色（補入 state 與 tag）、Amazon 評論案例走查（含正交測試與 ordinal facet 例外）、一組值何時升級成 taxonomy、三份檔案分離與 `taxonomy_ref`、tag 的代價。實測部分壓縮為第 7–8 節。兩個例子並存：評論分析用於前段概念，產品分類用於實測 |
 
