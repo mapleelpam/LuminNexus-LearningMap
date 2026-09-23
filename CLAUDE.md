@@ -38,6 +38,7 @@ LuminNexus-LearningMap/
 │   ├── clarification-wish-and-plan.md # 許願與計畫一體兩面（實務層鉸鏈）
 │   ├── know-your-unknowns.md         # 四象限與三階段技巧（實務層）
 │   ├── agent-work-forms.md           # Pairing/委派/自主 Loop（實務層收頂）
+│   ├── refactor-context-allocation.md # 重構的 Context 分配：無知的眼／狀況內／乾淨的手
 │   ├── atomization-context-isolation.md # 原子化＝Context 隔離：何時切、何時絕不能切
 │   ├── knowledge-management.md
 │   ├── progressive-disclosure.md
