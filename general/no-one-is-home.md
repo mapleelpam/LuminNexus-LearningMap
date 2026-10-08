@@ -3,8 +3,8 @@ title: "沒有人在家：運算、基質，與湧現真正的所在"
 type: topic
 status: active
 created: 2026-07-06
-updated: 2026-07-06
-version: "1.0"
+updated: 2026-10-08
+version: "1.1"
 project: LearningMap
 author: maple
 tags:
@@ -158,6 +158,7 @@ Braitenberg 從這裡提煉出全書最重要的一條定律:**上坡分析、�
 - [emergence-data-compute.md](./emergence-data-compute.md) - 湧現與蛻殼:本篇第 7 節是它的另一半
 - [isomorphism-projection.md](./isomorphism-projection.md) - 投影的兩種失真:少看見真的,多看見假的
 - [compute-state-context.md](./compute-state-context.md) - re-entry 的祛魅:agent 兩次呼叫之間不存在
+- [undiscovered-public-knowledge.md](./undiscovered-public-knowledge.md) - Swanson 的未被發現的公共知識:第 7 節「湧現也在資料裡」的歷史實證
 
 ---
 
@@ -168,6 +169,7 @@ Braitenberg 從這裡提煉出全書最重要的一條定律:**上坡分析、�
 | 版本 | 日期 | 作者 | 變更說明 |
 |------|------|------|----------|
 | 1.0 | 2026-07-06 | maple | 初版建立 |
+| 1.1 | 2026-10-08 | Dustin | 相關文檔補〈未被發現的公共知識〉 |
 
 ---
 

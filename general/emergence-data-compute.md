@@ -3,8 +3,8 @@ title: "Emergence 湧現：Data、Compute 與遞歸循環"
 type: topic
 status: active
 created: 2026-07-04
-updated: 2026-07-04
-version: "1.0"
+updated: 2026-10-08
+version: "1.1"
 project: LearningMap
 author: maple
 tags:
@@ -202,6 +202,7 @@ graph TB
 - [tension-value-perspective.md](./tension-value-perspective.md) - 系列第三篇：張力——不同角度的 Value（視角）
 - [isomorphism-projection.md](./isomorphism-projection.md) - 系列第四篇（骨架）：§2.3 同構承載意義的展開
 - [no-one-is-home.md](./no-one-is-home.md) - 湧現也發生在資料裡：本篇「蛻殼」的另一半（耦合）
+- [undiscovered-public-knowledge.md](./undiscovered-public-knowledge.md) - Swanson 的 ABC 推論：§5 蛻殼的實證，也是 §6 假湧現的反面教材
 - [ai-data-terminology.md](./ai-data-terminology.md) - Derived vs Inferred：衍生層的兩種性質
 - [03_data-engineering.md](./03_data-engineering.md) - ETL 與資料處理實務
 - [../projects/01_data-flow.md](../projects/01_data-flow.md) - LuminNexus 資料循環全貌
@@ -216,6 +217,7 @@ graph TB
 | 版本 | 日期 | 作者 | 變更說明 |
 |------|------|------|----------|
 | 1.0 | 2026-07-04 | maple | 初版建立 |
+| 1.1 | 2026-10-08 | Dustin | 相關文檔補〈未被發現的公共知識〉 |
 
 ---
 

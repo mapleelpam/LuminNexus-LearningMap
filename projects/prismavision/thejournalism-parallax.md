@@ -3,8 +3,8 @@ title: "TheJournalism · Parallax - 概念卡對位系統"
 type: spec
 status: active
 created: 2026-07-30
-updated: 2026-07-31
-version: "1.1"
+updated: 2026-10-08
+version: "1.2"
 project: LearningMap
 author: Dustin
 tags:
@@ -1200,6 +1200,7 @@ if upstream_changed:
 
 - [`../../general/classification-terminology.md`](../../general/classification-terminology.md) —— **canonical（正典）／taxonomy／slug／cohort** 的通用定義。本文只講這些概念在 Parallax 的**特化用法**（例如「cohort」在這裡專指窗內真新品集合），一般定義不再重述
 - [`../../general/supplement-industry-terminology.md`](../../general/supplement-industry-terminology.md) —— **voice（聲量）／MVM／劑型（dosage form）／功能市場 vs 品類**。renderer 圖鑑裡那些欄位名（`voice`、`n_sku`、`dosage_form`、`market_key`）全都出自這套產業術語
+- [`../../general/undiscovered-public-knowledge.md`](../../general/undiscovered-public-knowledge.md) —— Swanson 的 Arrowsmith 系統「過濾並排、讓人判斷」，與 Parallax「機器只標記、決定者永遠是人」是同一種人機分工的另一個實例
 
 ### 源 repo 內（`LuminNexus-AlchemyMind-TheJournalism/parallax/`）
 
@@ -1230,6 +1231,7 @@ if upstream_changed:
 |---|---|---|---|
 | 1.0 | 2026-07-30 | Dustin | 首版。合併三份教學材料（設計哲學／三子系統與規格／渲染層），renderer 圖鑑改用等寬示意圖，所有可變數字改寫成查詢指令 |
 | 1.1 | 2026-07-31 | Dustin | 修導航與章節骨架：① 閱讀導航的兩條捷徑指到不存在的標題，改成「H2 → H3」全名；② renderer 圖鑑的 H4 不進網站側欄目錄，補一張錨點速查表；③ 依 `DOCUMENTATION_POLICY.md` 補三個標準章節——「🔌 介面說明」（收攏原「系統定位」，並補上 Astraline demo 簿在另一個 private repo、且必須與 TheJournalism 同層 clone 的前置條件，這是全 repo 唯一寫下此事的地方）、「⚙️ 配置與參數」（集中原本散在三處的窗參數、port、口徑常數）、「💡 設計原則」（原 §4「知會型不是同步型」升為第 1 條，核心功能節專責「怎麼運作」）；④ 相關文檔補「通用概念（先備知識）」指向兩份術語文，關鍵概念節改為只收 Parallax 自己的詞；⑤ 修正「正典」誤用（canonical 已定案為「同義寫法的代表」，此處指的是權威實作）；⑥ 依本檔自訂的「不內嵌可變數字」原則，清掉六處會漂移的計數；⑦ **移除 renderer 圖鑑的 20 張等寬示意圖**（約 225 行）——靜態文字追不上 renderer 改版，畫面長什麼樣直接開來看即可；該節保留「資料形狀」與「判讀重點」，那兩樣才是文件該承擔的。連帶消除一處與產業術語文的口徑衝突（`odm` 圖說「voice 只算 Amazon 評論數」，而術語文定義 voice ＝ Amazon 評論數＋iHerb 評分數）|
+| 1.2 | 2026-10-08 | Dustin | 相關文檔「通用概念」補〈未被發現的公共知識〉：Arrowsmith「機器並排、人判斷」與本系統「機器標記、人決定」是同一種人機分工 |
 
 ### 維護職責
 

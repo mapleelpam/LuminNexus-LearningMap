@@ -34,6 +34,7 @@ LuminNexus-LearningMap/
 │   ├── tension-value-perspective.md  # 張力、事實單一價值多元
 │   ├── isomorphism-projection.md     # 同構與投影：系列數學骨架
 │   ├── no-one-is-home.md             # 運算、基質與湧現的所在（耦合）
+│   ├── undiscovered-public-knowledge.md # 未被發現的公共知識：Swanson ABC 推論（答案在資料之間）
 │   ├── paradigm-shift-task-to-wish.md # 範式轉移：從描述任務到許願
 │   ├── clarification-wish-and-plan.md # 許願與計畫一體兩面（實務層鉸鏈）
 │   ├── know-your-unknowns.md         # 四象限與三階段技巧（實務層）

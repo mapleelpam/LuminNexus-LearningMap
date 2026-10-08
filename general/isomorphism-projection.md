@@ -3,8 +3,8 @@ title: "Isomorphism 與 Projection：可比較的前提，與視角的代價"
 type: topic
 status: active
 created: 2026-07-05
-updated: 2026-07-24
-version: "1.1"
+updated: 2026-10-08
+version: "1.2"
 project: LearningMap
 author: maple
 tags:
@@ -203,6 +203,7 @@ T_position = w_position · F = Σᵢ wᵢ Fᵢ
 - [compute-state-context.md](./compute-state-context.md) - 系列第二篇：context = 從 state 切一片，也是一次投影
 - [tension-value-perspective.md](./tension-value-perspective.md) - 系列第三篇：本篇是它的幾何化——力收斂、張力不收斂
 - [../projects/alchemymind/thedistiller.md](../projects/alchemymind/thedistiller.md) - Identity Resolution：同構映射的實作
+- [undiscovered-public-knowledge.md](./undiscovered-public-knowledge.md) - Swanson 的 ABC 推論：兩條三元組串接，假同構是它最大的陷阱
 
 ---
 
@@ -214,6 +215,7 @@ T_position = w_position · F = Σᵢ wᵢ Fᵢ
 |------|------|------|----------|
 | 1.0 | 2026-07-05 | maple | 初版建立 |
 | 1.1 | 2026-07-24 | leana | 相關文檔補上應用版簡報 isomorphic-tension.html（原本無任何文件連向它，站上連不到） |
+| 1.2 | 2026-10-08 | Dustin | 相關文檔補〈未被發現的公共知識〉 |
 
 ---
 
