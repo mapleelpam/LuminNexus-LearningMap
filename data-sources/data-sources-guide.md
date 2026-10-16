@@ -196,4 +196,5 @@ DSLD 產品 ──UPC──▶ iHerb 產品 ──brandCode──▶ 品牌
 - [../general/supplement-industry-terminology.md](../general/supplement-industry-terminology.md) —— 保健食品產業術語白話對照（UPC / ASIN 以外的產業詞：BI/BT/BP、劑型、market vs category）
 - [dsld/dsld_database_guide.md](./dsld/dsld_database_guide.md) —— DSLD 資料庫快速指南
 - [keepa/keepa_api_query_methods.md](./keepa/keepa_api_query_methods.md) —— Keepa API 查詢方式
+- [keepa/amazon_asin_lifecycle.md](./keepa/amazon_asin_lifecycle.md) —— Amazon ASIN 生命週期（parent 家族變動、跳轉、404 與 Keepa 的限制）
 

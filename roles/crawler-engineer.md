@@ -79,6 +79,7 @@ mindmap
 1. [data-sources/data-sources-guide.md](../data-sources/data-sources-guide.md) - 識別碼（UPC/ASIN/brandCode）與跨平台串接 ⭐
 2. [data-sources/dsld/dsld_database_guide.md](../data-sources/dsld/dsld_database_guide.md) - DSLD 資料庫指南
 3. [data-sources/keepa/amazon_concepts_guide.md](../data-sources/keepa/amazon_concepts_guide.md) - Amazon/Keepa 概念
+   - 進階：[data-sources/keepa/amazon_asin_lifecycle.md](../data-sources/keepa/amazon_asin_lifecycle.md) - ASIN 生命週期（家族變動、跳轉、404、Keepa 能看到什麼）
 4. [data-sources/shopify/shopify_crawler_guide.md](../data-sources/shopify/shopify_crawler_guide.md) - Shopify 爬蟲指南
 
 **深度參考**（隨查隨用，不需通讀）:
