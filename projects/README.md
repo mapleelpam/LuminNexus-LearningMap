@@ -66,6 +66,7 @@ projects/
 │   ├── theargus.md
 │   ├── factum.md
 │   ├── eidos.md
+│   ├── thewatershed.md
 │   └── shared.md
 │
 ├── prismavision/                  # Layer 3: 使用者介面與引擎
@@ -182,6 +183,7 @@ PrismaVision (SmartInsightEngine → Next/MCP → End Users)
 - [x] alchemymind/theargus.md
 - [x] alchemymind/factum.md
 - [x] alchemymind/eidos.md
+- [x] alchemymind/thewatershed.md
 - [x] prismavision/thejournalism.md
 - [x] stillflow/00_overview.md
 
