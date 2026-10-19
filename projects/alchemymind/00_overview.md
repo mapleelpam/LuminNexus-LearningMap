@@ -3,326 +3,190 @@ title: "AlchemyMind - 資料處理與分析層概覽"
 type: overview
 status: active
 created: 2025-12-09
-updated: 2026-07-22
-version: "1.2"
+updated: 2026-10-19
+version: "2.0"
 project: LearningMap
 author: maple
 tags:
   - alchemymind
   - layer-2
   - data-processing
-  - llm
+  - overview
 related:
   - ../00_architecture-overview.md
+  - thetap.md
+  - thedistiller.md
+  - thewatershed.md
 audience:
   - all
 summary: |
-  AlchemyMind 系統概覽（Layer 2），涵蓋資料精煉（TheRefinery）、
-  LLM 分析（TheWeaver）、異常檢測（TheArgus）、資料統一化（TheDistiller）、
-  圖片解析（Factum）與供應鏈身分登記（Eidos）等子系統。
+  AlchemyMind 層的入口頁：一張圖看懂 Factum、AmazonCopal、Formulary、Eidos、TheWeaver、SpiderWeb、
+  Carboniferous、Seatearth 怎麼把原始資料加工成 .db，經 TheTap 交接，由 TheDistiller 匯總成 distiller.db，
+  再交給 TheWatershed、TheJournalism 等下游。每個子系統一兩句加連結，並標出已退場的 TheRefinery 與舊 TheArgus。
 ---
 
 # AlchemyMind - 資料處理與分析層概覽
 
 ---
 
-## 📋 文檔目的
+## 📋 這層做什麼
 
-本文檔提供 **AlchemyMind** 系統的概覽,幫助讀者理解:
-- AlchemyMind 在整體架構中的定位
-- 各子系統的職責與關係
-- 資料處理、分析、異常檢測的完整流程
+**一句話**：AlchemyMind 把 AtlasVault 收來的原始資料，加工成一份份 `.db`，經 **TheTap**（交接中心）交接，最後由 **TheDistiller** 匯總成一份 `distiller.db` 給下游。
 
-> **詳細內容**: 各子系統的詳細說明請參考對應的文檔連結
+- **`.db`**：一個 SQLite 資料庫檔，可以想成「一整本可以查詢的試算表」。
+- **交接**：生產者交出檔案、下游取用。AlchemyMind 裡大部分交接都經過 TheTap，詳見 [TheTap](thetap.md)。
 
----
-
-## 🎯 系統概述
-
-**AlchemyMind** 是 LuminNexus 的**資料處理與分析層** (Layer 2),負責:
-- 資料精煉與品質檢查 (TheRefinery)
-- LLM 驅動的知識領域分析 (TheWeaver)
-- 異常檢測與驗證 (TheArgus)
-- 產品資料統一化 (TheDistiller)
-- Supplement Facts 圖片解析 (Factum)
-- 供應鏈身分登記 (Eidos)
+這一頁只回答「有哪些系統、誰交給誰」。每個系統的細節，請點進各篇。
 
 ---
 
-## 🏗️ 系統架構
+## 🗺️ 各 repo 關係全景圖
+
+從左到右是資料被加工的順序。
+
+- **實線**：經過 TheTap 交接（為了好讀，圖上省略中間的 TheTap）。
+- **虛線**：不經過 TheTap，直接寫進對方的 repo，或用 symlink（捷徑）讀對方的檔案。
 
 ```mermaid
-graph TB
-    subgraph "AlchemyMind - Layer 2"
-        IN[From AtlasVault:<br/>Unified DB]
-        IMG[Product Images]
-
-        R[TheRefinery<br/>Data Processing]
-        W[TheWeaver<br/>LLM Analysis]
-        A[TheArgus<br/>Anomaly Detection]
-        D[TheDistiller<br/>Data Unification]
-        F[Factum<br/>Image OCR/VLM]
-        E[Eidos<br/>Identity System]
-        S[Shared<br/>Common Utilities]
-
-        IN --> R
-        R --> W
-        W --> A
-        A -.-> R
-
-        W --> D
-        D --> PDB[product_info.db<br/>Canonical Products]
-        D --> OUT3[To PrismaVision:<br/>TheJournalism]
-
-        R --> E
-        E --> DT[profiles/**/*.md<br/>DogTag 身分卡]
-
-        IMG --> F
-        F --> DSLD[DSLD JSON]
-
-        R --> S
-        W --> S
-        A --> S
-        F --> S
-
-        W --> OUT1[To AtlasVault:<br/>Analysis Results]
-        R --> OUT2[To PrismaVision:<br/>SmartInsightEngine]
+graph LR
+    subgraph S0[AtlasVault 收資料]
+        AV[爬蟲與人工匯入<br/>keepa、iherb、shopify 等]
+        TR[Triage<br/>每日判定]
+    end
+    subgraph S1[① 原始抽取]
+        FA[Factum<br/>圖片抽成分表]
+        CO[AmazonCopal<br/>產品頁宣稱句]
+    end
+    subgraph S2[② 整理成 .db]
+        FO[Formulary<br/>成分配方]
+        EI[Eidos<br/>品牌身分]
+        WE[TheWeaver<br/>AI 判功效]
+        SW[SpiderWeb<br/>功效網]
+        CA[Carboniferous<br/>宣稱編碼]
+        SE[Seatearth<br/>宣稱 set]
+    end
+    subgraph S3[③ 匯總]
+        DI[TheDistiller]
+    end
+    subgraph S4[④ 下游]
+        WA[TheWatershed<br/>市場地圖]
+        DOWN[TheJournalism<br/>Astraline / Argus]
     end
 
-    style R fill:#fff3e0
-    style W fill:#fff3e0
-    style A fill:#f3e5f5
-    style D fill:#fce4ec
-    style F fill:#e3f2fd
-    style E fill:#ede7f6
-    style S fill:#e8f5e9
+    TR -.->|待處理清單<br/>讀 git repo| FA
+    FA -.->|寫進 repo| FO
+    WE -.->|寫進 repo| SW
+    CO --> WE
+    CO --> CA
+    AV --> EI
+    FO --> EI
+    EI --> CA
+    CA -.->|symlink| SE
+    AV --> DI
+    FO --> DI
+    EI --> DI
+    SW --> DI
+    SE -.->|正式版未接上| DI
+    DI --> WA
+    WA -->|給下一版| DI
+    DI --> DOWN
+
+    style DI fill:#fff3e0
+    style SE fill:#ffebee
 ```
 
----
+讀圖重點：
 
-## 📦 子系統列表
+1. **兩站不自己發 `.db`**：Factum 寫進 Formulary 的 repo、TheWeaver 寫進 SpiderWeb 的 repo，由後者發 `.db`。Factum 的待處理清單則是直接讀 Triage 的 git repo，也不經 TheTap。
+2. **AmazonCopal 一份產出餵兩條線**：一條經 TheWeaver → SpiderWeb 進 Distiller；另一條經 Carboniferous → Seatearth 整理成宣稱 set。
+3. **TheWatershed 和 Distiller 互為上下游**：讀上一版 `distiller.db` 畫市場地圖，地圖再交給下一版 Distiller。
+4. **紅色的 Seatearth 沒接上正式版**：`coalseam.db` 不經 TheTap，每晚的正式版 Distiller 讀不到。
 
-### 1. TheRefinery - 資料精煉
-
-- **職責**: Domain-specific processing, 資料品質檢查, 業務邏輯應用
-- **處理內容**:
-  - Taxonomy mapping (產品分類映射)
-  - Knowledge realms integration
-  - Business logic application
-  - Data quality validation
-  - Derived attributes calculation
-- **輸入**: `products_*.db` (from AtlasVault Unified Forge)
-- **輸出**: `refined_products.db`
-- **詳細文檔**: [therefinery.md](therefinery.md)
-
-### 2. TheWeaver - LLM 分析生成
-
-- **職責**: 使用 LLM 生成 10 個知識領域 (Knowledge Realms) 的分析
-- **10 Knowledge Realms**:
-  1. **Edible Classification** - 可食用性分類
-  2. **Health Effect** - 健康效果
-  3. **Certification** - 認證標章
-  4. **Ingredient Purity** - 成分純度
-  5. **Formulation Technology** - 配方技術
-  6. **Performance Enhancement** - 效能提升
-  7. **Usage Convenience** - 使用便利性
-  8. **Flavor Characteristics** - 風味特徵
-  9. **Quality of Life** - 生活品質
-  10. **Usage Context** - 使用情境
-- **輸入**: `refined_products.db`
-- **輸出**:
-  - Analysis JSON (per product, per realm)
-  - Taxonomy JSON (realm hierarchy)
-- **分析規模**: 290,768 analyses (Edible realm)
-- **詳細文檔**: [theweaver.md](theweaver.md)
-
-### 3. TheArgus - 異常檢測
-
-- **職責**: 資料異常檢測、匹配驗證、品質監控
-- **檢測內容**:
-  - 資料完整性檢查
-  - 跨來源匹配驗證
-  - 異常值偵測
-  - 品質報告生成
-- **輸入**: `refined_products.db` 或 TheWeaver 分析結果
-- **輸出**: 異常報告、品質指標
-- **詳細文檔**: [theargus.md](theargus.md)
-
-### 4. TheDistiller - 產品資料統一化
-
-- **職責**: 資料統一化 ETL Pipeline，整合多資料來源、執行 Identity Resolution
-- **輸入**: `unified.db`, `enriched.db`, `weaver.db`
-- **輸出**: `product_info.db` (Canonical products, 27 tables)
-- **規模**: 211,585 raw products → 144,625 canonical products
-- **詳細文檔**: [thedistiller.md](thedistiller.md)
-
-### 5. Eidos - 供應鏈身分系統
-
-- **職責**: curate 品牌 / 公司 / 網域 / 商標 / 菌株的持久身分事實,每筆附來源證據
-- **與 pipeline 的差別**: 處理「實體身分」而非產品資料,不在逐批處理的產品流水線上
-- **輸入**: `enriched.db` (TheRefinery)、DSLD 官方標籤庫 (另有 iherb / keepa / weaver.db)
-- **輸出**: `profiles/**/*.md` DogTag 身分卡 (24,000+ 張, 7 種實體類型)
-- **詳細文檔**: [eidos.md](eidos.md)
-
-### 6. Factum - Supplement Facts 圖片解析
-
-- **職責**: 從產品圖片提取 Supplement Facts，生成 DSLD 相容 JSON
-- **處理內容**:
-  - OCR 文字辨識 (PaddleOCR)
-  - Supplement Facts 結構化解析
-  - VLM (Claude Vision) 增強
-  - DSLD JSON 轉換
-- **輸入**: Amazon/Keepa 產品圖片
-- **輸出**: `working/dsld/{asin}/*.dsld.json`
-- **詳細文檔**: [factum.md](factum.md)
-
-### 7. Shared - 共用元件
-
-- **職責**: 提供各子系統共用的工具與函式庫
-- **內容**:
-  - Common utilities
-  - Shared data models
-  - Configuration management
-- **詳細文檔**: [shared.md](shared.md)
+> 想看「哪份 `.db` 由誰交、誰取、線上是哪一版」，看 [TheTap](thetap.md) 的「📦 現在交接哪些 .db」。
 
 ---
 
-## 🔄 資料流程
+## 📦 子系統一覽
 
-```mermaid
-sequenceDiagram
-    participant AV as AtlasVault
-    participant R as TheRefinery
-    participant W as TheWeaver
-    participant A as TheArgus
-    participant V as Vault
+### ① 原始抽取
 
-    AV->>R: Unified DB
-    R->>R: Taxonomy Mapping<br/>Business Logic
-    R->>W: Refined DB
-    W->>W: LLM Analysis<br/>10 Realms
-    W->>A: Analysis Results
-    A->>A: Quality Check<br/>Anomaly Detection
-    W->>V: Sync Analysis Back
+| 系統 | 做什麼 | 交出什麼 → 給誰 |
+|------|--------|----------------|
+| [Factum](factum.md) | 用 VLM（看得懂圖片的 AI 模型）讀產品標籤圖，抽出 Supplement Facts 成分表 | DSLD 格式 JSON 與產品家族表，**寫進 Formulary repo** |
+| [AmazonCopal](amazoncopal.md) | 用 AI 讀 Amazon 產品頁，逐字抄下宣稱句、整理成標準命題 | `copal.amazon.db`、`copal.amazon.gb.db` → TheWeaver、Carboniferous |
 
-    Note over W,V: Analysis results become<br/>input for next cycle
-```
+### ② 整理成 .db
 
----
+| 系統 | 做什麼 | 交出什麼 → 給誰 |
+|------|--------|----------------|
+| [Formulary](formulary.md) | 用 git 保存成分標籤，也是 Distiller 的「收錄名單」 | `formulary.db` → TheDistiller、Eidos |
+| [Eidos](eidos.md) | 登記品牌、公司、商標、菌株等身分，每筆附證據 | `eidos.db` → TheDistiller、Carboniferous、GoViral |
+| [TheWeaver](theweaver.md) | 用 AI 替每個產品判功效與屬性分類（10 個知識領域等） | JSON，**寫進 SpiderWeb repo** |
+| [SpiderWeb](spiderweb.md) | 用 git 保存 TheWeaver 的分類結果 | `spiderweb.db` → TheDistiller |
+| [Carboniferous](carboniferous.md) | 把宣稱句編成「主詞－述詞－受詞」的結構 | `amber.db`，不經 TheTap → Seatearth（symlink） |
+| [Seatearth](seatearth.md) | 把編好的宣稱聚合成「一句話講得清楚」的宣稱 set | `coalseam.db`，不經 TheTap → TheDistiller（正式版未接上） |
 
-## 📊 處理能力
+### ③ 匯總與交接
 
-### TheRefinery
-- **輸入規模**: ~100K-200K products (depends on filter)
-- **處理時間**: TBD (待 AlchemyMind Team 補充)
-
-### TheWeaver
-- **已完成分析**: 290,768 (Edible realm)
-- **每個產品處理時間**: ~10-30 秒 (depends on LLM)
-- **總處理時間**: ~80-240 小時 (for 290,768 products)
-
-### TheArgus
-- **檢測速度**: TBD (待 AlchemyMind Team 補充)
+| 系統 | 做什麼 | 交出什麼 → 給誰 |
+|------|--------|----------------|
+| [TheTap](thetap.md) | 交接中心：每晚建置、通過品質檢查才上架，放在 http://maple-msi.local/ | **只轉手不加工** |
+| [TheDistiller](thedistiller.md) | 把上面各份 `.db` 與 AtlasVault 的資料匯總成統一的產品資料庫 | `distiller.db` → 下游 |
 
 ---
 
-## 🔄 與其他系統的關係
+## 🧭 TheDistiller 與下游
 
-### 資料流入
-- **AtlasVault (TheForge Unified)** → TheRefinery
-- **AtlasVault (TheForge Unified)** → (optional direct to) TheWeaver
+TheDistiller 是這一層的**匯總點**：大部分上游的產出最後都流進它，下游也幾乎只讀它的 `distiller.db`。
 
-### 資料流出
-- TheWeaver → **AtlasVault (Vault)** - Analysis Results
-- TheRefinery → **PrismaVision (SmartInsightEngine)** - Refined DB
+- **從 TheTap 拿的輸入**：必要的有 eidos、formulary、spiderweb、keepa 系列、iherb、trawler、cartulary、rippletide；選用的有 shopify、watershed（清單以 TheTap 的 `pipeline.yaml` 為準）。
+- **下游**：
 
-### 內部資料流
-- TheRefinery → TheWeaver → TheArgus
+| 下游 | 做什麼 |
+|------|--------|
+| [TheWatershed](thewatershed.md) | 用 `distiller.db` 與 spiderweb 分類節點切出市場訴求群，`watershed.db` 再交給下一版 Distiller |
+| [TheJournalism](../prismavision/thejournalism.md) | 市場分析與報導（PrismaVision 層） |
+| Astraline | 讀產品上架時間等生命週期資料（PrismaVision 層） |
+| Argus | 監控 `distiller.db` 的資料品質，發現問題開 issue 給 Distiller |
 
-**詳細說明**: 參考 [01_data-flow.md](../01_data-flow.md)
-
----
-
-## 🎯 核心設計原則
-
-### 1. Domain-Specific Processing
-- TheRefinery 負責業務邏輯,不是單純的 ETL
-- 每個業務規則都有明確的文檔與測試
-
-### 2. LLM-Driven Analysis
-- TheWeaver 使用 LLM 生成結構化分析
-- 每個 realm 有獨立的 prompt 與 schema
-- 分析結果必須符合 JSON Schema
-
-### 3. Quality-First Approach
-- TheArgus 確保資料品質
-- 異常檢測貫穿整個處理流程
-- 所有異常都有追蹤與報告
-
-### 4. Cyclical Feedback
-- TheWeaver 的分析結果回寫到 Vault
-- 下一輪處理會使用新的分析結果
-- 資料會不斷豐富與更新
+> ⚠️ [thedistiller.md](thedistiller.md) 目前還寫著舊的輸入（`unified.db`、`enriched.db`），輸入清單請以本頁與 [TheTap](thetap.md) 為準。
 
 ---
 
-## 🔑 關鍵概念
+## 🪦 已退場的系統
 
-### Knowledge Realm (知識領域)
-- TheWeaver 的分析維度
-- 每個 realm 代表一個特定的知識領域
-- 共 10 個 realms,每個有獨立的 Taxonomy
+舊文件裡常出現下面這些，**以現行為準**：
 
-### Taxonomy (分類法)
-- 層次化的分類系統
-- 由 TheWeaver 自動生成與更新
-- 用於產品分類與查詢
+- **TheRefinery**：舊架構的「資料精煉」層，產出 `enriched.db` 給 TheWeaver、Eidos、TheDistiller。現在這些系統都改從 TheTap 讀各自需要的 `.db`，不再經過它。
+- **TheArgus（舊角色）**：原本在這一層內做 DSLD 成分劑量的異常檢測。現在叫 Argus 的是 Distiller 的監控下游（見上表），不在加工流程中間。
+- **循環回饋架構**：舊圖裡「TheWeaver 分析結果回寫 Vault、下一輪再讀」的循環已不存在。現在唯一的回圈是 TheWatershed ⇄ TheDistiller。
 
-### Refined Data (精煉資料)
-- 經過 TheRefinery 處理的資料
-- 包含 Taxonomy mapping、業務邏輯、品質檢查
-- 準備好給 TheWeaver 分析或 SmartInsightEngine 查詢
+[therefinery.md](therefinery.md)、[theargus.md](theargus.md) 保留作歷史參考。
+
+---
+
+## 🐛 常見問題
+
+### Q1: 舊文件說 TheDistiller 讀 `unified.db`、`enriched.db`、`weaver.db`？
+那是 TheRefinery 時期的架構。現在 Distiller 從 TheTap 拿各生產者的 `.db`，見上方「🧭 TheDistiller 與下游」。
+
+### Q2: 為什麼 Factum、TheWeaver 不自己發 `.db`？
+它們的產出是大量 JSON，先存進 git repo（Formulary、SpiderWeb）方便追版本，再由那個 repo 統一建成 `.db`。
+
+要注意：TheTap 每晚只去 **GitHub 上的 `main` 分支**（正式版那一條）抓檔案來建置。檔案如果只存在自己電腦，或只推到 maple-msi 上的內部副本 `/opt/git`，TheTap 看不到，當晚的 `.db` 就會少這批資料，而且不會報錯。
+
+### Q3: 為什麼 `distiller.db` 裡產品宣稱的表是空的？
+Seatearth 的 `coalseam.db` 沒進 TheTap，正式版建置機上讀不到。要接上，Carboniferous 的 `amber.db` 也得先進 TheTap。細節見 [Seatearth](seatearth.md)。
 
 ---
 
 ## 📚 相關文檔
 
-### 內部文檔
-- [00_architecture-overview.md](../00_architecture-overview.md) - 整體架構
-- [01_data-flow.md](../01_data-flow.md) - 資料流詳解
-- [therefinery.md](therefinery.md) - TheRefinery 詳細說明
-- [theweaver.md](theweaver.md) - TheWeaver 詳細說明
-- [theargus.md](theargus.md) - TheArgus 詳細說明
-- [thedistiller.md](thedistiller.md) - TheDistiller 詳細說明
-- [eidos.md](eidos.md) - Eidos 詳細說明
-- [factum.md](factum.md) - Factum 詳細說明
-- [../prismavision/thejournalism.md](../prismavision/thejournalism.md) - TheJournalism（Layer 3，TheDistiller 的下游消費者）
-- [shared.md](shared.md) - Shared 元件說明
-
-### 外部專案文檔
-- `LuminNexus-AlchemyMind-TheWeaver/README.md` - TheWeaver README
-- `LuminNexus-AlchemyMind-TheRefinery/README.md` - TheRefinery README
-- `LuminNexus-AlchemyMind-TheArgus/README.md` - TheArgus README
-- `LuminNexus-AlchemyMind-Factum/CLAUDE.md` - Factum 專案說明
-- `LuminNexus-AlchemyMind-Eidos/CLAUDE.md` - Eidos 專案說明
-
----
-
-## ❓ 常見問題
-
-### Q1: AlchemyMind 和 AtlasVault 的 TheForge 有什麼差別?
-**A**:
-- **TheForge** (AtlasVault): Pure ETL,不做業務邏輯
-- **TheRefinery** (AlchemyMind): Domain-specific processing,應用業務邏輯
-
-### Q2: TheWeaver 為什麼要生成 10 個 realms?
-**A**: 每個 realm 代表一個不同的分析維度 (如健康效果、認證、風味等),讓資料更豐富,支援更多元的查詢需求。
-
-### Q3: TheArgus 檢測到異常後會怎麼處理?
-**A**: (待 AlchemyMind Team 補充)
-
-### Q4: TheWeaver 的 LLM 分析如何確保品質?
-**A**: (待 AlchemyMind Team 補充)
+- [../00_architecture-overview.md](../00_architecture-overview.md)：整體架構
+- [thetap.md](thetap.md)：交接中心、各 `.db` 的生產者與線上版本
+- [thedistiller.md](thedistiller.md)：TheDistiller
+- [thewatershed.md](thewatershed.md)：TheWatershed，也是寫上游各篇的範本
+- [../prismavision/thejournalism.md](../prismavision/thejournalism.md)：TheJournalism（PrismaVision 層）
 
 ---
 
@@ -335,21 +199,4 @@ sequenceDiagram
 | 1.0 | 2025-12-09 | Architecture Team | 初版建立 (待 AlchemyMind Team 補充) |
 | 1.1 | 2026-07-20 | Dustin | 補充 Eidos 子系統說明,同步 summary 與架構圖 |
 | 1.2 | 2026-07-21 | Dustin | TheJournalism 改列 PrismaVision (Layer 3)，本層僅保留 TheDistiller 的下游出口與連結 |
-
-### 維護職責
-- **主要維護者**: AlchemyMind Team
-- **審核者**: Architecture Team
-- **更新頻率**: 每季度檢視一次
-
-### 待補充內容
-- [ ] TheRefinery 的詳細業務邏輯
-- [ ] TheWeaver 的 10 個 realms 詳細說明
-- [ ] TheArgus 的異常檢測策略
-- [ ] 效能優化與規模化策略
-- [ ] LLM prompt engineering 最佳實踐
-
----
-
-**文檔結束**
-
-> **Note to AlchemyMind Team**: 這是一個 skeleton 文檔,請根據 [DOCUMENTATION_POLICY.md](../DOCUMENTATION_POLICY.md) 補充詳細內容。
+| 2.0 | 2026-10-19 | weiling | 原文大半過時，重整為入口頁：新增各 repo 關係全景圖與子系統一覽（補 TheTap、Formulary、SpiderWeb、AmazonCopal、Carboniferous、Seatearth、TheWatershed）；TheRefinery、舊 TheArgus、循環回饋架構改列「已退場」；新增 TheDistiller 與下游一節；移除未曾填寫的 Shared 與舊的處理能力、設計原則、關鍵概念各節 |
