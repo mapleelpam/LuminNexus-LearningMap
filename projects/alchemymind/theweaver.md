@@ -1,638 +1,211 @@
 ---
-title: "TheWeaver - LLM 分析生成器"
+title: "TheWeaver - AI 判功效（產品分類生成器）"
 type: spec
 status: active
 created: 2025-12-09
-updated: 2026-07-29
-version: "1.1"
+updated: 2026-10-19
+version: "1.2"
 project: LearningMap
 author: maple
 tags:
   - alchemymind
   - theweaver
   - llm
-  - batch-api
   - knowledge-realms
+  - taxonomy
 related:
   - 00_overview.md
+  - spiderweb.md
+  - amazoncopal.md
+  - thetap.md
+  - thedistiller.md
+  - thewatershed.md
 audience:
   - crawler-engineer
   - all
 summary: |
-  TheWeaver LLM 分析生成器，使用 Batch API 批次分析營養補充品，
-  生成 10 個知識領域的結構化資料。
+  TheWeaver 用 AI 替每個保健品判斷功效與屬性分類（HE / PE / QoL 等 10 個知識領域，外加可食用、劑型），
+  現行主力是讀 AmazonCopal 產出的 copal db（美國、英國兩站經 TheTap；iHerb 那份不經 TheTap）、一個產品一個 agent 的 realms 線。
+  它不自己發 .db：結果以 JSON 寫進 SpiderWeb repo 的 sources/，由 SpiderWeb 建成 spiderweb.db 交給 TheDistiller。
 ---
 
-# TheWeaver - LLM 分析生成器
+# TheWeaver - AI 判功效（產品分類生成器）
 
 ---
 
 ## 📋 文檔目的
 
-本文檔提供 **TheWeaver** 的完整說明，幫助讀者理解:
-- TheWeaver 使用 LLM 批次分析營養補充品產品的流程
-- 10 個知識領域 (Knowledge Realms) 的分析維度
-- 與 Vault 的循環架構關係
-- Batch API 的使用方式與成本優化
+本文檔介紹 **TheWeaver**，幫助新人理解：
 
-> **完整技術文檔**: TheWeaver 專案的 `CLAUDE.md` 與 `specs/` 目錄
-> **操作指南**: `.claude/skills/weaver-pipeline.md` 完整 5 階段流程
+- 它判斷什麼：每個產品的功效、屬性分類（10 個知識領域）
+- 資料從哪來（AmazonCopal 的 copal db）、結果放哪（SpiderWeb repo）、最後交給誰（TheDistiller）
+- 分類樹（taxonomy）為什麼是「題目」而不是「答案」
+
+> **給你的閱讀建議**：先看「🎯 系統職責」與「🔄 在管線裡的位置」；想知道 AI 被怎麼約束，看「🌳 分類樹是約束，不是產物」。
+
+> **完整技術文檔**：[TheWeaver repo](https://github.com/mapleelpam/LuminNexus-AlchemyMind-TheWeaver) 的 `CLAUDE.md` 與 `.claude/skills/weaver-realms-workflow/SKILL.md`（README 大半已過時，見 Q3）
 
 ---
 
 ## 🎯 系統職責
 
-**TheWeaver** 使用 LLM 批次分析營養補充品產品，生成 10 個知識領域的結構化資料。
-
-### 核心職責
+**TheWeaver** 讓 AI 讀產品的文字資料，回答「這個產品宣稱對什麼有幫助」「它有哪些認證、適合哪種飲食」這類問題，並把答案對到一棵事先定好的分類樹上。
 
 | 項目 | 說明 |
 |------|------|
-| **職責** | LLM 批次分析與知識領域生成 |
-| **輸入** | refined_products.db (~130K products) |
-| **輸出** | ~290K JSON 分析結果 + 12 Taxonomy 定義 |
-| **處理規模** | 10 Knowledge Realms × ~29K products |
-| **處理時間** | 24 小時內完成 (Batch API 並行處理) |
+| **職責** | 用 AI 替產品做功效與屬性分類，驗證後寫成 JSON |
+| **輸入** | 現行 realms 線：TheTap 的 `copal.amazon.db`（美國站）、`copal.amazon.gb.db`（英國站）裡的宣稱句；iHerb 讀 `copal.iherb.db`，不經 TheTap（見「📥 輸入」） |
+| **輸出** | `{analyzer}/{source}/{id}.json`，寫進 SpiderWeb repo 的 `sources/`；**TheWeaver 本身不產出 .db** |
+| **下游** | SpiderWeb（收 JSON、建 `spiderweb.db`）→ TheDistiller；HE/PE/QoL 節點也是 TheWatershed 分群的依據 |
+| **現況** | 2026-10-18：iHerb 的 copal 母體 4,764 個產品全部換成新線，待跑清單歸零 |
 
-### 核心價值
+### 命名由來
 
-- **非結構化 → 結構化**: 將產品描述轉換為可查詢的結構化資料
-- **多維度分析**: 提供 10 個知識維度的產品分析
-- **知識階層生成**: 產生 Taxonomy 供分類與導航使用
-- **循環架構**: 分析結果回寫到 Vault，供下一輪 ETL 使用
+**Weaver** 是織工。它把零散的產品文字織成一張分類網，那張網就放在 [SpiderWeb](spiderweb.md)（蜘蛛網）裡。
+
+### 10 個知識領域（Knowledge Realms）
+
+一個 realm 就是 AI 回答的一個問題面向，各有一棵分類樹：
+
+| Realm | 中文 | 問的是 |
+|-------|------|--------|
+| **Health Effect (HE)** | 健康效果 | 對身體系統功能的改善宣稱 |
+| **Performance Enhancement (PE)** | 效能提升 | 可測量的運動或認知表現 |
+| **Quality of Life (QoL)** | 生活品質 | 日常體驗與幸福感（睡眠、情緒等） |
+| Certification | 認證標章 | 第三方認證 |
+| Dietary Adaptability | 飲食適性 | 素食、無麩質等 |
+| Ingredient Purity | 成分純度 | 純度指標 |
+| Formulation Technology | 配方技術 | 劑型與傳送技術 |
+| Usage Context | 使用情境 | 什麼時機、場景用 |
+| Usage Convenience | 使用便利性 | 服用方便程度 |
+| Flavor Characteristics | 風味特徵 | 口味 |
+
+另有兩個不掛分類樹的 analyzer（分析器）：**edible**（可不可以吃，是非題）、**dosage_form**（劑型，用平面清單而不是樹）。
 
 ---
 
-## 🏗️ 系統架構
+## 🔄 在管線裡的位置
 
 ```mermaid
-graph TB
-    subgraph Input["Input"]
-        R[TheRefinery<br/>refined_products.db<br/>~130K products]
-    end
+graph LR
+    CO[AmazonCopal] -->|copal.amazon.db<br/>copal.amazon.gb.db| TAP[(TheTap)]
+    TAP --> WE[TheWeaver<br/>一個產品一個 agent<br/>驗證後寫 JSON]
+    WE -->|JSON 寫進 sources/<br/>commit + push| SW[SpiderWeb repo]
+    SW -->|TheTap 建置<br/>spiderweb.db| DI[TheDistiller]
 
-    subgraph TheWeaver["TheWeaver - LLM Analysis Pipeline"]
-        direction TB
-        G[1. Generate Requests<br/>產生 LLM 請求 JSON]
-        S[2. Batch Submit<br/>提交到 LLM Provider]
-        L[3. LLM Processing<br/>OpenAI/Anthropic<br/>24 小時內完成]
-        F[4. Fetch Results<br/>下載 LLM 回應]
-        V[5. Extract & Validate<br/>Two-Gate Validation]
-        Y[6. Sync to Vault<br/>同步分析結果]
-    end
-
-    subgraph Output["Output"]
-        V1[Vault/responses/weaver/<br/>~290K JSON files]
-        V2[Vault/responses/weaver/taxonomy/<br/>12 Taxonomy 定義]
-    end
-
-    subgraph Downstream["Downstream"]
-        TF[TheForge<br/>使用分析結果過濾]
-        SI[SmartInsightEngine<br/>使用 Taxonomy 查詢]
-    end
-
-    R --> G
-    G --> S
-    S --> L
-    L --> F
-    F --> V
-    V --> Y
-    Y --> V1
-    Y --> V2
-
-    V1 -.->|循環| TF
-    V2 --> SI
-
-    style TheWeaver fill:#fff3e0
-    style V1 fill:#e3f2fd
-    style V2 fill:#e3f2fd
+    style WE fill:#fff3e0
+    style TAP fill:#e3f2fd
 ```
+
+- **TheWeaver 不自己發 `.db`**：它的工作目錄裡有個 `canvas/` symlink（捷徑），指到 SpiderWeb repo 的 `sources/`。寫進 canvas 就是寫進 SpiderWeb。
+- **要 commit 並 push 到 SpiderWeb 的 main 才算交出去**：TheTap 每晚從 SpiderWeb 的 main 建 `spiderweb.db`，留在自己電腦上的 JSON 不會進正式版。
+- 同一個 copal db 也流向 Carboniferous，那是另一條線，見 [AmazonCopal](amazoncopal.md)。
 
 ---
 
-## 📥 輸入資料 (Input)
+## 📥 輸入：copal 的宣稱句
 
-### 來源資料庫
+[AmazonCopal](amazoncopal.md) 已經用 AI 把每個 Amazon 產品頁、圖片上的宣稱句抽出來，存成 copal db。TheWeaver 的 realms 線只讀這些**純文字宣稱句**，不再看圖片，因為 copal 已經看過了。
 
-**資料庫**: `refined_products.db` (from TheRefinery)
+| 市場 | 讀的檔 | 寫到 SpiderWeb 的 source |
+|------|--------|-------------------------|
+| 美國站 | `/opt/tap/copal.amazon.db` | `keepa` |
+| 英國站 | `/opt/tap/copal.amazon.gb.db` | `keepa_gb`（同一個 ASIN 在兩站是不同商品頁，所以分開） |
+| iHerb | `/opt/tap/copal.iherb.db` | `iherb` |
 
-**資料內容**:
-- 可食用產品的精煉資料
-- 包含產品基本資訊、成分表、聲明、品牌等
-- 資料規模: ~130,000 產品
+> iHerb 這份 `copal.iherb.db` 不經 TheTap，說明見 [AmazonCopal](amazoncopal.md)。
 
-### 資料來源統計
-
-| 來源 | 產品數 | 說明 |
-|------|--------|------|
-| **DSLD** | 211,782 | 官方膳食補充品資料庫 |
-| **iHerb** | 50,461 | 線上零售商產品目錄 |
-| **Keepa** | 64,661 | Amazon 市場資料 |
-
-**總計**: ~327K 產品 (經 TheRefinery 精煉後 ~130K 可食用產品)
+> 新機器設定時，把 TheTap 上的 copal db 用 symlink 接到 TheWeaver 的 `input/`，步驟在 `weaver-realms-workflow` skill 的第 0 節。
 
 ---
 
-## 📤 輸出資料 (Output)
+## ⚙️ realms 線怎麼跑（HE / PE / QoL）
 
-### 1. 分析結果 (Analysis Results)
+這是 2026-10 起的主力流程，一次做一批（上限 1,000 個產品）：
 
-**格式**: JSON 檔案 (per product, per realm)
-
-**檔案數量**: ~290,000 JSON files
-
-**目錄結構**:
-```
-vault/responses/weaver/
-└── {realm}/v1.0/{date}/{source}/{product_id}/
-    ├── request.json          # LLM 請求
-    ├── response.json         # LLM 完整回應
-    └── response.meta.json    # 執行元數據（token usage, 成本）
+```mermaid
+graph LR
+    P[prepare<br/>算出待跑清單<br/>備好每個產品的宣稱句] --> W[Workflow<br/>一個產品一個 agent<br/>同時答 HE/PE/QoL]
+    W --> A[assemble<br/>逐筆驗證<br/>通過才寫 canvas]
+    A -->|失敗的| W
+    A --> C[SpiderWeb<br/>commit + push]
 ```
 
-**範例路徑**: `edible/v1.0/20251124/dsld/99999/`
+- **一個產品一個 agent**（agent＝會自己讀資料、照規則作答的 AI 助手）。三個 realm **各自獨立判斷**，同一句宣稱可以同時進 HE 和 QoL。
+- **agent 不直接寫檔**。`assemble.py` 檢查兩件事才寫：選的分類節點真的存在於樹上；引用的宣稱句**一字不差**是 copal 裡的原句。
+- 失敗的產品重跑，**最多三次**。1,000 個產品大約 15 分鐘。
+- **同一時間只能一個人跑**：待跑清單是從本機的 canvas 算的，兩人同時跑會抽到同一批。開跑前先 `git pull` SpiderWeb。
+- 每批跑完在 TheWeaver 寫一份交接紀錄 `docs/<日期>_<批次>_realms_handover.md`。
 
-**response.json 範例**:
-```json
-{
-  "id": 99999,
-  "source": "dsld",
-  "realm": "edible",
-  "is_edible": true,
-  "confidence": 0.95,
-  "reasoning": "Vitamin C is a dietary supplement, edible."
-}
-```
-
-**response.meta.json 範例**:
-```json
-{
-  "batch_id": "batch_xxx",
-  "model": "gpt-4o-mini",
-  "tokens_input": 1234,
-  "tokens_output": 567,
-  "cost_usd": 0.0012,
-  "processing_time_ms": 15000
-}
-```
-
-### 2. 知識階層 (Taxonomies)
-
-> ⚠️ **Taxonomy 是輸入，不是產物**。它是人工維護、隨程式碼版控的檔案，分析前被送進 prompt 約束 LLM 的選擇範圍（見「🔑 關鍵概念」第 2 點）。列在這裡是因為它是理解輸出格式的前提——輸出裡的 `taxonomy_path` 就是這棵樹上的一條路徑。
-
-**格式**: JSON 檔案 (per realm)
-
-**數量**: 10 個（每個 Knowledge Realm 一個；`edible` 與 4 個 dosage facet 不掛 taxonomy）
-
-**位置**: `src/weaver/products/knowledge_realms/{realm}/taxonomy/{RealmName}Taxonomy.json`
-
-**格式**: 純巢狀 JSON——鍵是節點名稱，值是它的子節點，**空的 `{}` 代表葉節點**。沒有節點 ID、沒有版本欄位，節點的身分就是那串大小寫敏感的名稱本身。
-
-**範例**: `QualityOfLifeTaxonomy.json`（節錄）
-```json
-{
-  "Quality of Life": {
-    "Mental & Psychological Health": {
-      "Sleep Improvement": {},
-      "Emotional Regulation": {
-        "Emotional Stability": {},
-        "Mood Balance": {}
-      },
-      "Stress Management": {
-        "Psychological Stress Coping": {},
-        "Mental Resilience Enhancement": {}
-      }
-    }
-  }
-}
-```
-
-LLM 分類的輸出會帶一條 `taxonomy_path`，把從根到葉的完整路徑用 ` → ` 串起來，例如 `Quality of Life → Mental & Psychological Health → Stress Management → Psychological Stress Coping`。
+**新舊兩條線**：新線產出的檔案會標記來源是 copal；沒有這個標記的，是早期整批跑出來的舊線結果。風味（Flavor）另走一條**查表線**：用對照表把 copal 的口味句對到分類樹，不經 AI agent。
 
 ---
 
-## 🧠 10 Knowledge Realms
+## 🌳 分類樹是約束，不是產物
 
-TheWeaver 分析產品的 10 個知識維度:
-
-| # | Realm | 中文名稱 | 說明 |
-|---|-------|---------|------|
-| 1 | **Health Effect** | 健康效果 | 對身體系統功能或生理狀態的改善宣稱 |
-| 2 | **Performance Enhancement** | 效能提升 | 可測量的運動或認知表現提升 |
-| 3 | **Quality of Life** | 生活品質 | 對日常體驗與幸福感的正向影響 |
-| 4 | **Certification** | 認證標章 | 第三方認證 |
-| 5 | **Dietary Adaptability** | 飲食適性 | 素食、無麩質、非基改等飲食相容性 |
-| 6 | **Ingredient Purity** | 成分純度 | 成分純度指標 |
-| 7 | **Formulation Technology** | 配方技術 | 劑型與傳送技術 |
-| 8 | **Usage Context** | 使用情境 | 最佳使用時機與場景 |
-| 9 | **Usage Convenience** | 使用便利性 | 服用方便程度 |
-| 10 | **Flavor Characteristics** | 風味特徵 | 口味與口感 |
-
-> **`edible` 不在這張表裡**：可食用性判斷是獨立的 analyzer，程式碼位置與 `knowledge_realms/` 平行，且不掛 taxonomy（純布林判斷）。另有 4 個 dosage facet analyzer（劑型／材質／配方／服法）同樣不掛 taxonomy，用的是平面節點清單而非階層樹。
+- 每個 realm 的分類樹（taxonomy）是**人工維護、跟程式碼一起版控的 JSON**，不是 AI 生成的。
+- 格式是純巢狀：鍵是節點名稱，值是子節點，空的 `{}` 代表葉節點。
+- 分析前，整棵樹會被放進 prompt（給 AI 的指示文字），**AI 只能從既有的葉節點挑**，不能自創。輸出帶一條 `taxonomy_path`，例如 `Quality of Life → Mental & Psychological Health → Sleep Improvement`。
+- 樹的正本在 TheWeaver（`src/weaver/products/knowledge_realms/{realm}/taxonomy/`），SpiderWeb 保留一份副本並替每個節點配固定編號。改樹時兩邊都要同步，見 [SpiderWeb](spiderweb.md)。
 
 ---
 
-## 🔧 核心功能
+## 📤 交接方式：寫進 SpiderWeb
 
-### 1. Context Builder - 完整性保證
-
-**核心原則**: 完整呈現產品信息，不做人為截斷
-
-**特性**:
-- ✅ 完整提取所有成分（無數量限制）
-- ✅ 完整展開嵌套結構（Proprietary Blends）
-- ✅ 保留原始順序與層級
-- ✅ 包含所有產品聲明與警告
-
-**範例**:
-```python
-# 從 refined_products.db 提取完整產品資訊
-context = {
-    "product_name": "Vitamin C 1000mg",
-    "brand": "Nature Made",
-    "ingredients": [
-        {"name": "Vitamin C", "amount": 1000, "unit": "mg"},
-        {"name": "Rose Hips", "amount": 25, "unit": "mg"}
-    ],
-    "claims": ["Immune Support", "Antioxidant"],
-    "warnings": ["Consult physician if pregnant"]
-}
-```
-
-### 2. Structured Outputs
-
-**OpenAI**: 使用 `response_format` with `json_schema`
-
-```json
-{
-  "response_format": {
-    "type": "json_schema",
-    "json_schema": {
-      "name": "EdibleClassification",
-      "schema": {
-        "type": "object",
-        "properties": {
-          "is_edible": {"type": "boolean"},
-          "confidence": {"type": "number"}
-        }
-      }
-    }
-  }
-}
-```
-
-**Anthropic**: 支援雙模式（Tool Use / JSON Outputs）
-
-**好處**: 保證 LLM 輸出符合 schema，減少後處理成本
-
-### 3. Batch Processing
-
-**OpenAI Batch API**:
-- 成本節省 50%
-- 自動重試機制
-- 非即時處理（24 小時內完成）
-
-**Anthropic 批次處理**:
-- 支援 Message Batches API
-- 結構化輸出支援
-- 並行處理多個請求
-
-**使用範例**:
-```bash
-# 生成批次請求檔案
-weaver generate --analyzer edible --source dsld --date 20251124
-
-# 提交批次
-weaver llm batch submit --analyzer edible
-
-# 下載結果
-weaver llm batch fetch --analyzer edible --batch-id xxx
-```
-
-### 4. Two-Gate Validation
-
-**Gate 1: Schema 驗證**（格式正確性）
-- 檢查 JSON 結構
-- 驗證必要欄位
-- 確認資料類型
-
-**Gate 2: Business 驗證**（語義正確性）
-- 檢查 confidence 範圍 (0-1)
-- 驗證分類值在允許範圍內
-- 確認邏輯一致性
-
-**只有通過兩門驗證的結果才會同步到 Vault**
+| 項目 | 說明 |
+|------|------|
+| 位置 | SpiderWeb repo `sources/{analyzer}/{source}/{id}.json` |
+| 內容 | 分類結果 + `_meta`（prompt 版本、模型、產生時間、成本、`origin` 是 batch 或 agent） |
+| 規則 | 一個產品一個 realm 只留**一份目前最好的結果**，新的直接覆蓋，舊版靠 git 歷史追 |
+| 寫入方式 | 驗證通過才寫；每 1,000 個產品 commit 一次，push 到 main |
+| 之後 | TheTap 從 SpiderWeb main 建 `spiderweb.db`，通過檢查才上架，TheDistiller 讀它 |
 
 ---
 
-## 📊 資料格式與 Schema
+## 📖 故事
 
-### LLM Request Schema
+| 時間 | 事件 |
+|------|------|
+| 2026-10-02 | 改成「一個產品一個 agent、讀 copal 宣稱句」產生 HE/PE/QoL；同時立下引文必須一字不差的規則 |
+| 2026-10-08 | 加入英國站（`keepa_gb`） |
+| 2026-10-12 | 分類樹改為封閉集合：對不上樹的路徑，SpiderWeb 建置時直接丟掉 |
+| 2026-10-14～16 | Flavor 改用 copal 查表線，取代舊線結果 |
+| 2026-10-17～18 | maple 裁示清掉 iHerb 舊線；iHerb copal 母體 4,764 個產品全換新線 |
 
-```json
-{
-  "custom_id": "dsld_99999_edible_v1.0",
-  "method": "POST",
-  "url": "/v1/chat/completions",
-  "body": {
-    "model": "gpt-4o-mini",
-    "messages": [
-      {
-        "role": "system",
-        "content": "You are an expert analyzer..."
-      },
-      {
-        "role": "user",
-        "content": "Analyze this product: {context}"
-      }
-    ],
-    "response_format": {
-      "type": "json_schema",
-      "json_schema": {...}
-    }
-  }
-}
-```
-
-### LLM Response Schema
-
-```json
-{
-  "id": 99999,
-  "source": "dsld",
-  "realm": "edible",
-  "is_edible": true,
-  "confidence": 0.95,
-  "reasoning": "...",
-  "metadata": {
-    "model": "gpt-4o-mini",
-    "tokens": 1234,
-    "cost": 0.0012
-  }
-}
-```
+> **待決**：美國站還有約 2.7 萬個產品停在舊線，要不要換由 maple 決定（見 2026-10-18 交接紀錄）。
 
 ---
 
-## 🔌 介面說明
+## 🐛 常見問題
 
-### 1. TheRefinery (上游)
+### Q1: 我在 TheWeaver 跑完了，distiller.db 怎麼還沒變？
 
-**輸入介面**: `refined_products.db`
+確認三件事：SpiderWeb 有沒有 commit 並 push 到 main；TheTap 當晚有沒有建出新的 `spiderweb.db`（看 http://maple-msi.local/spiderweb/daily/manifest.json 的 `inputs.sources` 是不是你的 commit）；TheDistiller 有沒有重建。
 
-**讀取內容**:
-- 產品基本資訊 (id, name, brand)
-- 成分表 (ingredients)
-- 產品聲明 (claims)
-- 警告標示 (warnings)
+### Q2: AI 判錯了，可以直接改 JSON 嗎？
 
-### 2. Vault (下游 - 循環回寫)
+不建議手改。單一產品可以用 `/weaver-{analyzer} {source} {id}` 這類 skill 重跑，它會經過同一套驗證。分類樹有缺口時不要自己開節點，回報 maple。
 
-**輸出介面**: `vault/responses/weaver/`
+### Q3: README 寫的 TheRefinery、Vault、`dsld_enriched.db` 呢？
 
-**同步內容**:
-- 分析結果 JSON (per product, per realm)
-- Taxonomy 定義 JSON (per realm)
-- 執行元數據 (token usage, cost)
-
-**循環機制**: TheWeaver 的分析結果會回寫到 Vault，成為下一輪 ETL 的輸入
-
-### 3. TheForge (下游 - 使用分析結果)
-
-**使用方式**: 讀取 Weaver 分析結果進行資料過濾
-
-**範例**: Unified Forge 使用 `edible` 分析結果過濾非食用產品
-
-### 4. SmartInsightEngine (下游 - 使用 Taxonomy)
-
-**使用方式**: 讀取 Taxonomy 定義進行查詢與導航
-
-**範例**: MDFO 查詢使用 `UsageContextTaxonomy` 進行維度分組
-
----
-
-## ⚙️ 配置與參數
-
-### LLM Provider 配置
-
-| Provider | 用途 | 模型 | 成本 (per MTok) |
-|----------|------|------|----------------|
-| **OpenAI** | Batch API 大規模處理 | gpt-4o-mini | $0.075 input, $0.300 output |
-| **OpenAI** | 最新 Nano 模型 | gpt-5-nano | 更低成本 (TBD) |
-| **Anthropic** | Structured Outputs | claude-3-haiku | $0.125 input, $0.625 output |
-| **Anthropic** | 高準確度分析 | claude-sonnet-4-5 | $3 input, $15 output |
-
-### 成本估算
-
-**假設**: 每個產品平均 1K input tokens, 500 output tokens
-
-| 模型 | 每個產品成本 | 10K 產品成本 | 100K 產品成本 |
-|------|-------------|-------------|--------------|
-| gpt-4o-mini | $0.00023 | $2.30 | $23 |
-| claude-haiku | $0.00044 | $4.40 | $44 |
-| claude-sonnet-4.5 | $0.0105 | $105 | $1,050 |
-
-### 處理時間
-
-- **OpenAI Batch API**: 通常 24 小時內完成
-- **Anthropic**: 視並行處理量，通常數小時完成
-- **並行處理**: 可同時處理多個 realm
-
----
-
-## 🚀 使用方式
-
-### 完整 Pipeline (5 階段)
-
-```bash
-# Stage 1: 生成請求
-weaver generate --analyzer edible --source dsld --date 20251124
-
-# Stage 2: 提交批次
-weaver llm batch submit --analyzer edible
-
-# Stage 3: 等待處理 (24 小時內)
-weaver llm batch status --batch-id xxx
-
-# Stage 4: 下載結果
-weaver llm batch fetch --analyzer edible --batch-id xxx
-
-# Stage 5: 驗證並同步
-weaver validate --analyzer edible
-```
-
-### CLI 命令參考
-
-**Generate**:
-```bash
-weaver generate \
-  --analyzer edible \
-  --source dsld \
-  --date 20251124 \
-  --output requests/edible_20251124.jsonl
-```
-
-**Batch Submit**:
-```bash
-weaver llm batch submit \
-  --analyzer edible \
-  --input requests/edible_20251124.jsonl \
-  --provider openai
-```
-
-**Batch Fetch**:
-```bash
-weaver llm batch fetch \
-  --analyzer edible \
-  --batch-id batch_xxx \
-  --output responses/edible_20251124/
-```
-
-**Validate**:
-```bash
-weaver validate \
-  --analyzer edible \
-  --input responses/edible_20251124/ \
-  --sync-to-vault
-```
-
-> **詳細操作**: 請參考 `.claude/skills/weaver-pipeline.md` 獲得完整的 5 階段流程說明
-
----
-
-## 🔑 關鍵概念
-
-### 1. Knowledge Realm (知識領域)
-
-**定義**: LLM 分析產品的一個特定維度
-
-**特性**:
-- 每個 realm 獨立分析
-- 每個 realm 有獨立的 schema
-- 每個 realm 使用獨立的 Taxonomy
-
-**範例**: `health_effect` realm 分析產品宣稱的健康效果
-
-### 2. Taxonomy (分類法)
-
-**定義**: 階層式的分類結構
-
-**特性**:
-- 支援多層級 (root → parent → child → leaf)
-- 每個 realm 一個 Taxonomy
-- **人工維護的 JSON 檔案，隨程式碼一起版控**——不是 LLM 生成的
-
-**它的角色是「約束」而非「產物」**: taxonomy 在分析前會被轉成樹狀圖塞進 prompt，LLM 只能從既有的葉節點裡挑，不得自創節點。輸出再由 validator 逐層比對回原樹，路徑對不上就判定無效。
-
-**用途**:
-- SmartInsightEngine 查詢導航
-- 產品分類與標籤
-- 資料過濾與聚合
-
-### 3. Batch API (批次 API)
-
-**定義**: LLM Provider 提供的大規模批次處理介面
-
-**優點**:
-- 成本節省 50%
-- 自動重試機制
-- 非即時處理 (24 小時內)
-
-**限制**:
-- 非即時回應
-- 無法取消進行中的批次
-
-### 4. Structured Outputs (結構化輸出)
-
-**定義**: LLM 保證輸出符合指定的 JSON schema
-
-**好處**:
-- 減少後處理成本
-- 避免格式錯誤
-- 提升驗證通過率
-
-### 5. Two-Gate Validation (雙門驗證)
-
-**定義**: 兩階段驗證機制
-
-**Gate 1**: Schema 驗證（格式）
-**Gate 2**: Business 驗證（語義）
-
-**只有通過兩門驗證的結果才會同步到 Vault**
-
-### 6. Cyclical Architecture (循環架構)
-
-**定義**: TheWeaver 的分析結果會回寫到 Vault，供下一輪 ETL 使用
-
-**流程**:
-1. TheRefinery → refined_products.db
-2. TheWeaver → 分析結果 JSON
-3. Vault ← 同步分析結果
-4. TheForge ← 讀取分析結果過濾資料
-5. 重複循環
-
----
-
-## 🐛 常見問題與除錯
-
-### Q1: TheWeaver 和 TheRefinery 有什麼差別?
-
-**A**:
-- **TheRefinery**: 資料豐富化 (enrichment) - 整合 marketplace 數據、正規化成分
-- **TheWeaver**: LLM 分析 (analysis) - 使用 LLM 生成知識領域分類
-
-### Q2: 為什麼需要 Batch API?
-
-**A**:
-- 成本節省 50%
-- 大規模處理 (~29K products × 10 realms = 290K 請求)
-- 自動重試機制
-
-### Q3: 如何選擇 LLM 模型?
-
-**A**:
-- **gpt-4o-mini**: 經濟實惠，適合大規模處理
-- **claude-haiku**: 平衡成本與準確度
-- **claude-sonnet-4.5**: 高準確度，適合重要分析
-
-### Q4: Batch 處理失敗怎麼辦?
-
-**A**:
-1. 檢查 Batch API 狀態 (`weaver llm batch status`)
-2. 查看錯誤日誌
-3. 重新提交失敗的請求
-4. 使用 Two-Gate Validation 過濾無效結果
-
-### Q5: 如何驗證分析結果品質?
-
-**A**:
-1. Schema 驗證 (Gate 1)
-2. Business 驗證 (Gate 2)
-3. 抽樣人工審核
-4. 監控 confidence 分佈
-5. 檢查 Taxonomy 一致性
+那是早期架構，已不再使用。現行輸入是 copal db，輸出是 SpiderWeb 的 JSON，以 `CLAUDE.md` 與 skill 文件為準。
 
 ---
 
 ## 📚 相關文檔
 
-### 內部文檔
-- [00_overview.md](00_overview.md) - AlchemyMind 概覽
-- [../01_data-flow.md](../01_data-flow.md) - 完整的資料循環流程
-- [therefinery.md](therefinery.md) - TheRefinery (上游)
-- [thedistiller.md](thedistiller.md) - TheDistiller (使用 Taxonomy)
-- [../atlasvault/theforge.md](../atlasvault/theforge.md) - TheForge (使用分析結果)
-- [../prismavision/smart-insight-engine/](../prismavision/smart-insight-engine/) - SmartInsightEngine (使用 Taxonomy)
+### Learning Map 文檔
+- [AmazonCopal](amazoncopal.md)：copal db 的生產者（上游）
+- [SpiderWeb](spiderweb.md)：收下 JSON、建成 `spiderweb.db`（下游）
+- [TheTap](thetap.md)：copal db 與 `spiderweb.db` 的發佈
+- [TheDistiller](thedistiller.md)：`spiderweb.db` 的使用者（該篇部分內容過時，以 TheTap／本篇為準）
+- [TheWatershed](thewatershed.md)：用 HE/PE/QoL 節點切訴求群
 
-### Skills 文檔
-- `.claude/skills/weaver-pipeline.md` - 完整 5 階段流程
-- `.claude/skills/weaver-cli-batch.md` - Batch 命令詳細參考
-- `.claude/skills/weaver-validate.md` - 驗證與 Vault sync
-- `.claude/skills/weaver-generate-guide.md` - Generate 命令配置
-
-### 外部專案文檔
-- `LuminNexus-AlchemyMind-TheWeaver/CLAUDE.md` - TheWeaver 完整專案文檔
-- `LuminNexus-AlchemyMind-TheWeaver/specs/` - 詳細規格文檔
+### TheWeaver 專案文檔
+- `CLAUDE.md`：Skills 索引、目錄與版控規則
+- `.claude/skills/weaver-realms-workflow/SKILL.md`：realms 線操作手冊
+- `docs/*_realms_handover.md`：每批的交接紀錄
+- `src/weaver/products/knowledge_realms/health_effect/curation_log.md`：HE 分類樹每次改了什麼
 
 ---
 
@@ -644,24 +217,19 @@ weaver validate \
 |------|------|------|----------|
 | 1.0 | 2025-12-09 | AlchemyMind Team | 初版建立 (簡潔版) |
 | 1.1 | 2026-07-29 | Dustin | 據 repo 現況修正三項與 taxonomy 概念直接相關的敘述：① Taxonomy 改為人工維護的版控輸入、角色是約束 LLM 只能選既有葉節點，非「LLM 生成並人工審核」；② Knowledge Realm 清單補上 dietary_adaptability、移除 edible（它與 knowledge_realms 平行且不掛 taxonomy），並註明 4 個 dosage facet 用平面清單而非階層樹；③ Taxonomy JSON 範例改為實際格式（純巢狀、空 {} 為葉、無 ID 無版本欄位）與正確位置，補上 taxonomy_path 的路徑字串形式 |
-
-### 維護職責
-- **主要維護者**: AlchemyMind Team - TheWeaver
-- **審核者**: Architecture Team
-- **更新頻率**: 當架構變更時
+| 1.2 | 2026-10-19 | weiling | 依現況重整：輸入改為 TheTap 的 copal db、輸出改為寫進 SpiderWeb `sources/`、下游改為 SpiderWeb → TheDistiller；新增 realms 線流程、交接方式、故事；刪除 TheRefinery／Vault／TheForge 循環架構、Batch API 指令與成本估算、request/response 範例；補註 iHerb 的 `copal.iherb.db` 不經 TheTap |
 
 ### 系統依賴
 
-**上游依賴**:
-- AlchemyMind Team (TheRefinery) - refined_products.db
+**上游依賴**：
+- AmazonCopal：`copal.amazon.db`、`copal.amazon.gb.db`（經 TheTap）
 
-**下游依賴**:
-- AtlasVault Team (Vault) - 接收分析結果
-- AtlasVault Team (TheForge) - 使用分析結果過濾
-- PrismaVision Team (SmartInsightEngine) - 使用 Taxonomy
+**下游依賴**：
+- SpiderWeb：收 JSON、建 `spiderweb.db`
+- TheDistiller、TheWatershed：經 `spiderweb.db` 間接使用
 
 ---
 
 **文檔結束**
 
-> **注意**: 本文檔為簡化版概覽，詳細的技術實作請參考 TheWeaver 專案的 CLAUDE.md 與 specs/ 目錄。完整操作流程請參考 `.claude/skills/weaver-pipeline.md`。如需更多資訊，請聯絡 AlchemyMind Team。
+> **注意**：待跑數量與覆蓋率每批都會變，現況以 TheWeaver `docs/` 最新一份交接紀錄為準。
