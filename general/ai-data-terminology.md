@@ -3,8 +3,8 @@ title: "AI 與資料術語：Infer / Derive / Reasoning"
 type: reference
 status: active
 created: 2026-07-04
-updated: 2026-07-04
-version: "1.0"
+updated: 2026-10-21
+version: "1.1"
 project: LearningMap
 author: maple
 tags:
@@ -252,7 +252,7 @@ evaluating cost and may need a retention offer.
 ## 🔗 相關文檔
 
 - [03_data-engineering.md](03_data-engineering.md) - 資料工程基礎（ETL、Enrich、derived data 實務）
-- [../projects/alchemymind/theweaver.md](../projects/alchemymind/theweaver.md) - TheWeaver LLM 分析（輸出含 reasoning 欄位）
+- [../projects/alchemymind/theweaver.md](../projects/alchemymind/theweaver.md) - TheWeaver AI 分類（每筆分類附一句判斷理由）
 
 ---
 
@@ -263,6 +263,7 @@ evaluating cost and may need a retention offer.
 | 版本 | 日期 | 作者 | 變更說明 |
 |------|------|------|----------|
 | 1.0 | 2026-07-04 | maple | 初版建立 |
+| 1.1 | 2026-10-21 | weiling | TheWeaver 連結說明對齊現況（每筆分類附判斷理由） |
 
 ---
 

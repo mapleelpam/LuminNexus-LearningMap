@@ -1,10 +1,10 @@
 ---
 title: "TheArgus - 資料品質檢測系統"
 type: spec
-status: active
+status: deprecated
 created: 2025-12-09
-updated: 2025-12-09
-version: "1.0"
+updated: 2026-10-21
+version: "1.1"
 project: LearningMap
 author: maple
 tags:
@@ -21,6 +21,8 @@ summary: |
 ---
 
 # TheArgus - 資料品質檢測系統
+
+> **本篇寫的是舊角色**：這裡描述的 DSLD 劑量異常檢測已退場。現在的 Argus 是 `distiller.db` 的監控下游，見 [00_overview.md](00_overview.md) 與 [thedistiller.md](thedistiller.md)。
 
 ---
 
@@ -590,6 +592,7 @@ thresholds:
 | 版本 | 日期 | 作者 | 變更說明 |
 |------|------|------|----------|
 | 1.0 | 2025-12-09 | AlchemyMind Team - TheArgus | 初版建立,整合 TheArgus team 的內容 |
+| 1.1 | 2026-10-21 | weiling | 標為舊角色（deprecated） |
 
 ### 維護職責
 - **主要維護者**: AlchemyMind Team - TheArgus

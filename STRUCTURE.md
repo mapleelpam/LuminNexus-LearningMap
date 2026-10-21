@@ -74,8 +74,10 @@ LuminNexus-LearningMap/
 │   ├── DOCUMENTATION_POLICY.md       # 文檔撰寫規範
 │   ├── alchemymind/                  # Layer 2: 資料處理與 LLM 分析
 │   │   ├── 00_overview.md
-│   │   ├── therefinery.md / theweaver.md / theargus.md
-│   │   ├── thedistiller.md / factum.md / shared.md
+│   │   ├── thetap.md / thedistiller.md / thewatershed.md
+│   │   ├── factum.md / formulary.md / eidos.md / amazoncopal.md
+│   │   ├── theweaver.md / spiderweb.md / carboniferous.md / seatearth.md
+│   │   ├── therefinery.md / theargus.md（舊架構，deprecated）/ shared.md
 │   ├── atlasvault/                   # Layer 1: 資料蒐集與儲存
 │   │   ├── 00_overview.md
 │   │   ├── dsld-crawler.md / iherb-crawler.md
@@ -398,6 +400,7 @@ chore: 其他維護性工作
 
 | 版本 | 日期 | 變更說明 |
 |------|------|----------|
+| 4.1 | 2026-10-21 | projects/alchemymind/ 檔案清單對齊現況（新增 thetap、formulary 等 6 篇；therefinery、theargus 標舊架構） |
 | 4.0 | 2026-07-04 | 對齊現況：新增 data-sources/、projects/、slides/ 說明；smart-insight-engine 移至 projects/prismavision/；加入 Stillflow 治理章節；移除未實現的 general/ 01-10 規劃與遷移步驟（v3 存於 archive/STRUCTURE_v3.md） |
 | 3.0 | 2025-11-10 | 極簡版架構設計 |
 

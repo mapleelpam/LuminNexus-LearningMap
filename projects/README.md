@@ -3,8 +3,8 @@ title: "LuminNexus 專案文檔"
 type: overview
 status: active
 created: 2025-12-09
-updated: 2026-07-22
-version: "1.3"
+updated: 2026-10-21
+version: "1.4"
 project: LearningMap
 author: maple
 tags:
@@ -31,8 +31,8 @@ summary: |
    - 理解 LuminNexus 的三層架構
    - 各子系統的職責與定位
 
-2. **資料流與串連** → [01_data-flow.md](01_data-flow.md) ⭐ **重點**
-   - 完整的資料循環流程
+2. **資料流與串連** → [01_data-flow.md](01_data-flow.md)
+   - 2025-12 的舊架構，已退場；AlchemyMind 現行的資料交接見 [alchemymind/00_overview.md](alchemymind/00_overview.md)
    - 系統間的資料傳遞與介面
    - 實際案例:一個產品的完整旅程
 
@@ -47,7 +47,7 @@ summary: |
 ```
 projects/
 ├── 00_architecture-overview.md    # 系統架構全景
-├── 01_data-flow.md                # 資料流與串連 ⭐
+├── 01_data-flow.md                # 資料流與串連（舊架構，已退場）
 ├── DOCUMENTATION_POLICY.md        # 文檔撰寫規範
 │
 ├── atlasvault/                    # Layer 1: 資料蒐集與 ETL
@@ -59,14 +59,20 @@ projects/
 │   └── dsldxkeepa.md
 │
 ├── alchemymind/                   # Layer 2: 資料處理與分析
-│   ├── 00_overview.md
+│   ├── 00_overview.md             # 入口頁（全景圖）
+│   ├── thetap.md                  # 資料交接中心
 │   ├── thedistiller.md
-│   ├── theweaver.md
-│   ├── therefinery.md
-│   ├── theargus.md
 │   ├── factum.md
+│   ├── formulary.md
 │   ├── eidos.md
+│   ├── amazoncopal.md
+│   ├── theweaver.md
+│   ├── spiderweb.md
+│   ├── carboniferous.md
+│   ├── seatearth.md
 │   ├── thewatershed.md
+│   ├── therefinery.md             # 已退場
+│   ├── theargus.md                # 舊角色
 │   └── shared.md
 │
 ├── prismavision/                  # Layer 3: 使用者介面與引擎
@@ -97,12 +103,17 @@ projects/
 **詳細文檔**: [atlasvault/00_overview.md](atlasvault/00_overview.md)
 
 ### Layer 2: AlchemyMind - 資料處理與分析
-- **TheDistiller**: 資料統一化 ETL (Identity Resolution)
-- **TheRefinery**: 資料精煉、品質檢查
-- **TheWeaver**: LLM 分析生成 (10 Knowledge Realms)
-- **TheArgus**: 異常檢測與驗證
-- **Factum**: Supplement Facts 圖片解析 (OCR + VLM)
-- **Eidos**: 供應鏈身分登記 (DogTag 身分卡)
+- **TheTap**: 資料交接中心，各 `.db` 驗貨後上架
+- **TheDistiller**: 多來源整合，產出 `distiller.db`
+- **Factum**: 讀產品標籤圖（VLM），成果寫進 Formulary
+- **Formulary**: 成分表與產品家族，產出 `formulary.db`
+- **Eidos**: 品牌主檔與產品↔品牌對照
+- **AmazonCopal**: 抄下 Amazon、iHerb 產品頁的宣稱句，並整理成標準宣稱
+- **TheWeaver**: AI 分類（10 個知識領域），寫進 SpiderWeb
+- **SpiderWeb**: 收存 AI 分類，產出 `spiderweb.db`
+- **Carboniferous／Seatearth**: 把標準宣稱編碼，再對照人工定義的宣稱 set
+- **TheWatershed**: 市場分割（訴求群）
+- 已退場：TheRefinery；TheArgus 那篇寫的是舊角色
 
 **詳細文檔**: [alchemymind/00_overview.md](alchemymind/00_overview.md)
 
@@ -121,15 +132,14 @@ projects/
 ```
 External Sources
     ↓
-AtlasVault (Crawlers → Vault → TheForge)
+AtlasVault (各爬蟲 → 各來源 .db，經 TheTap 上架)
     ↓
-AlchemyMind (TheRefinery → TheWeaver → TheArgus)
-    ↓ (Analysis results sync back to Vault)
+AlchemyMind (上游加工 → TheTap 交接 → TheDistiller)
     ↓
 PrismaVision (SmartInsightEngine → Next/MCP → End Users)
 ```
 
-**完整說明**: [01_data-flow.md](01_data-flow.md)
+**完整說明**: [alchemymind/00_overview.md](alchemymind/00_overview.md)（[01_data-flow.md](01_data-flow.md) 是舊架構）
 
 ---
 
@@ -137,7 +147,7 @@ PrismaVision (SmartInsightEngine → Next/MCP → End Users)
 
 ### 新進工程師 (所有角色)
 1. [00_architecture-overview.md](00_architecture-overview.md) - 理解三層架構
-2. [01_data-flow.md](01_data-flow.md) - 理解資料流
+2. [alchemymind/00_overview.md](alchemymind/00_overview.md) - 理解資料交接
 3. 你的 Layer 對應的 `00_overview.md`
 
 ### 測試工程師
@@ -162,7 +172,7 @@ PrismaVision (SmartInsightEngine → Next/MCP → End Users)
 
 ### 架構師 / PM
 1. [00_architecture-overview.md](00_architecture-overview.md)
-2. [01_data-flow.md](01_data-flow.md)
+2. [alchemymind/00_overview.md](alchemymind/00_overview.md)
 3. 所有 Layer 的 `00_overview.md`
 
 ---
@@ -179,11 +189,12 @@ PrismaVision (SmartInsightEngine → Next/MCP → End Users)
 - [x] atlasvault/theforge.md
 - [x] alchemymind/thedistiller.md
 - [x] alchemymind/theweaver.md
-- [x] alchemymind/therefinery.md
-- [x] alchemymind/theargus.md
+- [x] alchemymind/therefinery.md（已退場）
+- [x] alchemymind/theargus.md（舊角色）
 - [x] alchemymind/factum.md
 - [x] alchemymind/eidos.md
 - [x] alchemymind/thewatershed.md
+- [x] alchemymind/thetap.md、formulary.md、amazoncopal.md、spiderweb.md、carboniferous.md、seatearth.md
 - [x] prismavision/thejournalism.md
 - [x] stillflow/00_overview.md
 
@@ -191,7 +202,7 @@ PrismaVision (SmartInsightEngine → Next/MCP → End Users)
 - [ ] atlasvault/dsld-crawler.md
 - [ ] atlasvault/iherb-crawler.md
 - [ ] atlasvault/dsldxkeepa.md
-- [ ] alchemymind/shared.md
+- [ ] alchemymind/shared.md（空殼，刪除或標 deprecated 待決定）
 - [ ] prismavision/next.md
 
 ---
@@ -205,8 +216,8 @@ PrismaVision (SmartInsightEngine → Next/MCP → End Users)
 
 ### AlchemyMind Team
 - 維護 `alchemymind/` 目錄下的所有文檔
-- 補充 TheWeaver, TheRefinery, TheArgus 的詳細說明
-- 特別說明 10 個 Knowledge Realms
+- 依 `alchemymind/00_overview.md` 的子系統一覽維護各系統說明
+- 特別說明 10 個 Knowledge Realms（知識領域）
 
 ### PrismaVision Team
 - 維護 `prismavision/` 目錄下的所有文檔
@@ -261,7 +272,7 @@ PrismaVision (SmartInsightEngine → Next/MCP → End Users)
 ### Q1: 我是新人,應該從哪裡開始?
 **A**: 按順序閱讀:
 1. [00_architecture-overview.md](00_architecture-overview.md)
-2. [01_data-flow.md](01_data-flow.md)
+2. [alchemymind/00_overview.md](alchemymind/00_overview.md)
 3. 你的角色對應的 Layer 文檔
 
 ### Q2: 我要撰寫文檔,有範本嗎?
@@ -296,6 +307,7 @@ PrismaVision (SmartInsightEngine → Next/MCP → End Users)
 | 1.1 | 2026-07-04 | maple | 更新文檔狀態表（多數文件已完成）、結構樹補 thedistiller/factum/stillflow |
 | 1.2 | 2026-07-20 | Dustin | 結構樹、Layer 2 清單、checklist 補上 eidos |
 | 1.3 | 2026-07-21 | Dustin | 新增 thejournalism，定位於 Layer 3 PrismaVision（資料消費側）|
+| 1.4 | 2026-10-21 | weiling | AlchemyMind 結構樹、Layer 2 清單、資料流簡圖改為現況（TheTap、上游各系統）；01_data-flow、TheRefinery、TheArgus 標為舊架構 |
 
 ### 下一步
 - [ ] 各團隊補充 skeleton 文檔
