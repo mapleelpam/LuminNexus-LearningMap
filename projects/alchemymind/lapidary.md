@@ -114,12 +114,13 @@ graph LR
 
 目前**沒有**經過 TheTap 的 pipeline：`lapidary.db` 由 Lapidary 直接寫到 `/opt/tap/`（`uv run lapidary build -o /opt/tap/lapidary.db`）。
 
-TheDistiller 規定只讀 `input/`，所以打算在 `input/lapidary.db` 放 symlink 指到 `/opt/tap/lapidary.db`，並設為必要輸入。照「新增必要輸入前先通知 TheTap」的規矩，nightly 依賴它之前會先在 TheTap 開知會 issue、接上 `pipeline.yaml`。這一段還在討論中。
+TheDistiller 規定只讀 `input/`，所以打算在 `input/lapidary.db` 放 symlink 指到 `/opt/tap/lapidary.db`，並設為必要輸入。照「新增必要輸入前先通知 TheTap」的規矩，知會 issue 已開（[TheTap #14](https://github.com/mapleelpam/LuminNexus-AlchemyMind-TheTap/issues/14)），接上 `pipeline.yaml` 後 distiller 才 merge。
 
 ### 切換狀態（2026-10-21）
 
 - `lapidary.db` 已部署（built_at `2026-10-21T14:35:01Z`），FlavorCharacteristics 22,921 列、216 個節點，**和 spiderweb.db 的同一張表零差異**。
-- [TheDistiller #88](https://github.com/mapleelpam/LuminNexus-AlchemyMind-TheDistiller/issues/88) 進行中，尚未切換。Distiller 從哪一版開始 attach，切換後會在 #88 回報。
+- **開發機（maple-mbp）已切**：distiller **v3.79.0** 改從 `lapidary.db` 讀 Flavor，`input/lapidary.db` 是必要輸入（缺檔 build 直接失敗）。和 v3.78.0（從 spiderweb 讀）比對，FlavorCharacteristics 27,680 列兩個方向都零差異（[#88 回報](https://github.com/mapleelpam/LuminNexus-AlchemyMind-TheDistiller/issues/88#issuecomment-6319497187)）。
+- **main 與 nightly 未切**：程式還在 branch 上，要等 [TheTap #14](https://github.com/mapleelpam/LuminNexus-AlchemyMind-TheTap/issues/14) 把 `lapidary.db` 接成 distiller 節點的輸入後才 merge；在那之前，maple-msi 的 nightly 仍從 spiderweb 讀 Flavor。
 
 ---
 
