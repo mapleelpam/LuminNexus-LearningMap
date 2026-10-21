@@ -4,7 +4,7 @@ type: spec
 status: active
 created: 2026-10-21
 updated: 2026-10-21
-version: "1.0"
+version: "1.1"
 project: LearningMap
 author: maple
 tags:
@@ -26,7 +26,7 @@ audience:
 summary: |
   Lapidary 把 AmazonCopal 已切好、屬於有限集合的 kind（口味、證照）用 yaml 對照表
   對到分類樹，產出 lapidary.db，純查表、不經 LLM。2026-10-21 起接手 SpiderWeb 的 flavor，
-  TheDistiller 切換到 lapidary.db 的工作（#88）仍在進行中。
+  TheDistiller 自 v3.79.0 起以 lapidary.db 為必要輸入，由 TheTap 從 git 建置交接。
 ---
 
 # Lapidary - 把 copal 的宣稱切成 facet（查表、不經 LLM）
@@ -42,7 +42,7 @@ summary: |
 - 它和 SpiderWeb、TheWeaver 的分工怎麼換手
 - 它守的幾條設計原則，以及背後的理由
 
-> **注意**：Lapidary 是 2026-10-21 才上線的新系統，TheDistiller 的切換還在進行中。本文標「進行中」的地方，以 repo 現況為準。
+> **注意**：Lapidary 是 2026-10-21 才上線的新系統；flavor 已完成切換，certification 仍在進行中。
 
 > **完整技術文檔**：[Lapidary repo](https://github.com/mapleelpam/LuminNexus-AlchemyMind-Lapidary) 的 `CLAUDE.md`
 
@@ -57,7 +57,7 @@ summary: |
 | **輸入** | AmazonCopal 的 `copal.amazon.db`、`copal.amazon.gb.db`、`copal.iherb.db`（只讀 `claims_all`，assay_spec v3.5） |
 | **輸出** | `/opt/tap/lapidary.db`：一檔多表，市場放在 `source` 欄（keepa／keepa_gb／iherb） |
 | **兩條線** | flavor（生產中：22,921 列、216 個節點）、certification（yaml 撰寫中） |
-| **下游** | TheDistiller（切換中，#88） |
+| **下游** | TheDistiller（v3.79.0 起必要輸入） |
 
 ### 命名由來
 
@@ -84,14 +84,15 @@ copal 另外六種 kind（benefit、attribute、warning、brand-fact、usage、g
 graph LR
     C[AmazonCopal<br/>copal.amazon / .gb / .iherb.db] -->|claims_all<br/>sensory-flavor、certification| L[Lapidary<br/>yaml 對照表查表]
     T[taxonomy/<br/>自 SpiderWeb 搬入] --> L
-    L -->|直接寫入，不經 TheTap pipeline| DB[/opt/tap/<br/>lapidary.db/]
-    DB -.->|attach（進行中 #88）| D[TheDistiller]
+    L -->|git main| TT[TheTap<br/>每晚從 git 建置]
+    TT --> DB[/opt/tap/<br/>lapidary.db/]
+    DB -->|input/lapidary.db<br/>必要輸入，v3.79.0 起| D[TheDistiller]
 
     style L fill:#fff3e0
     style DB fill:#e3f2fd
 ```
 
-**觸發點**：每次 AmazonCopal 部署完通知 → Lapidary build → 部署 → 通知 TheDistiller。
+**建置**：TheTap 從 Lapidary 的 git main 建置（`lapidary build --copal-dir input`），copal 的三份 db 由 TheTap 接進 `input/`，所以每份 `lapidary.db` 都對得到它讀的是哪一版 copal。
 
 ### 和 SpiderWeb、TheWeaver 的換手
 
@@ -110,17 +111,19 @@ graph LR
 - **`_metadata`**：`built_at`、`assay_spec`、每個 realm 的 `records`／`nodes`／`rejected`。
 - **時間欄位是 build 時間**，不是 claim 的時間。舊線「分析產生時間」的語意已經不存在。
 
-### 是否經過 TheTap（進行中）
+### 經過 TheTap
 
-目前**沒有**經過 TheTap 的 pipeline：`lapidary.db` 由 Lapidary 直接寫到 `/opt/tap/`（`uv run lapidary build -o /opt/tap/lapidary.db`）。
+`lapidary.db` 由 **TheTap 每晚從 Lapidary 的 git main 建置**，再經 TheTap 的檢查上架到 `/opt/tap/`。TheDistiller 的 `input/lapidary.db` 由 TheTap 接線，是**必要輸入**：缺檔時 build 直接失敗。
 
-TheDistiller 規定只讀 `input/`，所以打算在 `input/lapidary.db` 放 symlink 指到 `/opt/tap/lapidary.db`，並設為必要輸入。照「新增必要輸入前先通知 TheTap」的規矩，知會 issue 已開（[TheTap #14](https://github.com/mapleelpam/LuminNexus-AlchemyMind-TheTap/issues/14)），接上 `pipeline.yaml` 後 distiller 才 merge。
+設成必要而不是選用，是因為選用輸入缺席時只會產出空的口味表，所有檢查卻照樣通過，沒人會發現（[TheTap #14](https://github.com/mapleelpam/LuminNexus-AlchemyMind-TheTap/issues/14)）。
 
-### 切換狀態（2026-10-21）
+> 開發時也可以在本機跑 `uv run lapidary build -o /opt/tap/lapidary.db` 直接寫檔，但那只是開發機的捷徑；正式版一律以 TheTap 建置的為準。
 
-- `lapidary.db` 已部署（built_at `2026-10-21T14:35:01Z`），FlavorCharacteristics 22,921 列、216 個節點，**和 spiderweb.db 的同一張表零差異**。
-- **開發機（maple-mbp）已切**：distiller **v3.79.0** 改從 `lapidary.db` 讀 Flavor，`input/lapidary.db` 是必要輸入（缺檔 build 直接失敗）。和 v3.78.0（從 spiderweb 讀）比對，FlavorCharacteristics 27,680 列兩個方向都零差異（[#88 回報](https://github.com/mapleelpam/LuminNexus-AlchemyMind-TheDistiller/issues/88#issuecomment-6319497187)）。
-- **main 與 nightly 未切**：程式還在 branch 上，要等 [TheTap #14](https://github.com/mapleelpam/LuminNexus-AlchemyMind-TheTap/issues/14) 把 `lapidary.db` 接成 distiller 節點的輸入後才 merge；在那之前，maple-msi 的 nightly 仍從 spiderweb 讀 Flavor。
+### 切換紀錄（2026-10-21）
+
+- `lapidary.db` 第一版（built_at `2026-10-21T14:35:01Z`）：FlavorCharacteristics 22,921 列、216 個節點，**和 spiderweb.db 的同一張表零差異**。
+- TheDistiller **v3.79.0** 改從 `lapidary.db` 讀 Flavor，已 merge main。和 v3.78.0（從 spiderweb 讀）比對，FlavorCharacteristics 27,680 列兩個方向都零差異（[#88 回報](https://github.com/mapleelpam/LuminNexus-AlchemyMind-TheDistiller/issues/88#issuecomment-6319497187)）。
+- TheTap 把 lapidary 接成 distiller 的必要輸入，2026-10-21 夜起 nightly 的 Flavor 讀 `lapidary.db`。
 
 ---
 
@@ -183,16 +186,17 @@ Lapidary 就是「kind → 對照表 → facet」這條映射的機械實作：k
 
 | 版本 | 日期 | 變更 |
 |------|------|------|
-| 1.0 | 2026-10-21 | 初版，依 Lapidary agent 提供的資料撰寫；切換相關內容標「進行中」 |
+| 1.0 | 2026-10-21 | 初版，依 Lapidary agent 提供的資料撰寫 |
+| 1.1 | 2026-10-21 | flavor 切換完成：distiller v3.79.0 起必要輸入，TheTap 從 git 建置 |
 
 ### 系統依賴
 
 **上游**：AmazonCopal（`copal.amazon.db`、`copal.amazon.gb.db`、`copal.iherb.db`）
 
-**下游**：TheDistiller（attach `lapidary.db`，切換中）
+**下游**：TheDistiller（`input/lapidary.db`，v3.79.0 起必要輸入）
 
 ---
 
 **文檔結束**
 
-> **注意**：TheDistiller 切換（#88）與 certification 上線後，請更新「切換狀態」與「是否經過 TheTap」兩節。
+> **注意**：certification 上線後，請更新「兩條線」與「進行中：certification 的語意變更」兩處。

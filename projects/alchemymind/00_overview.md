@@ -126,7 +126,7 @@ graph LR
 | [Eidos](eidos.md) | 登記品牌、公司、商標、菌株等身分，每筆附證據 | `eidos.db` → TheDistiller、Carboniferous、GoViral |
 | [TheWeaver](theweaver.md) | 用 AI 替每個產品判功效與屬性分類（10 個知識領域等） | JSON，**寫進 SpiderWeb repo** |
 | [SpiderWeb](spiderweb.md) | 用 git 保存 TheWeaver 的分類結果 | `spiderweb.db` → TheDistiller |
-| [Lapidary](lapidary.md) | 把 copal 的口味、證照宣稱用對照表查表成分類，不經 AI（2026-10-21 起接手 flavor） | `lapidary.db` → TheDistiller（切換進行中） |
+| [Lapidary](lapidary.md) | 把 copal 的口味、證照宣稱用對照表查表成分類，不經 AI（2026-10-21 起接手 flavor） | `lapidary.db` → TheDistiller（v3.79.0 起） |
 | [Carboniferous](carboniferous.md) | 把宣稱句編成「主詞－述詞－受詞」的結構 | `amber.db` → Seatearth |
 | [Seatearth](seatearth.md) | 把編好的宣稱聚合成「一句話講得清楚」的宣稱 set | `coalseam.db` |
 
