@@ -1,10 +1,10 @@
 ---
 title: "LuminNexus 資料流與系統串連"
 type: guide
-status: active
+status: deprecated
 created: 2025-12-09
-updated: 2025-12-09
-version: "1.0"
+updated: 2026-10-21
+version: "1.1"
 project: LearningMap
 author: maple
 tags:
@@ -17,7 +17,7 @@ related:
 audience:
   - all
 summary: |
-  LuminNexus 生態系統的資料傳遞與系統串連方式，涵蓋完整資料循環流程、
+  （已退場，2025-12 的舊架構，僅供歷史參考）LuminNexus 生態系統的資料傳遞與系統串連方式，涵蓋完整資料循環流程、
   系統間介面規範、實際案例追蹤。
 ---
 
@@ -34,6 +34,8 @@ summary: |
 - 實際案例:一個產品從爬蟲到前端的完整旅程
 
 > **前置閱讀**: 請先閱讀 [00_architecture-overview.md](00_architecture-overview.md) 理解系統架構
+>
+> **本篇是 2025-12 的舊架構，已退場**：TheRefinery、「TheWeaver 分析結果回寫 Vault」的循環都已不存在。AlchemyMind 現行的資料交接見 [alchemymind/00_overview.md](alchemymind/00_overview.md) 與 [alchemymind/thetap.md](alchemymind/thetap.md)。
 
 ---
 
@@ -742,6 +744,7 @@ SmartInsightEngine 執行查詢
 | 版本 | 日期 | 作者 | 變更說明 |
 |------|------|------|----------|
 | 1.0 | 2025-12-09 | Architecture Team | 初版建立 |
+| 1.1 | 2026-10-21 | weiling | 標為舊架構（deprecated），指向 alchemymind 現行文件 |
 
 ### 維護職責
 - **Architecture Team**: 維護整體資料流框架

@@ -66,7 +66,7 @@ LuminNexus-LearningMap/
 ├── projects/                # LuminNexus 各系統文檔
 │   ├── 00_architecture-overview.md
 │   ├── 01_data-flow.md
-│   ├── alchemymind/         # AlchemyMind (TheRefinery, TheWeaver, TheArgus, Factum...)
+│   ├── alchemymind/         # AlchemyMind (TheTap, TheDistiller, Factum, Formulary, Eidos, TheWeaver...)
 │   ├── atlasvault/          # AtlasVault (crawlers, vault, theforge)
 │   ├── prismavision/        # PrismaVision (Smart Insight Engine, MCP)
 │   └── stillflow/           # Stillflow 文檔

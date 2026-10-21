@@ -3,8 +3,8 @@ title: "Vault - 原始資料中央儲存庫"
 type: spec
 status: active
 created: 2025-12-09
-updated: 2025-12-09
-version: "1.0"
+updated: 2026-10-21
+version: "1.1"
 project: LearningMap
 author: maple
 tags:
@@ -394,7 +394,6 @@ dsld/official/20250915/  ← 新版本
 - [00_overview.md](00_overview.md) - AtlasVault 概覽
 - [../01_data-flow.md](../01_data-flow.md) - 完整的資料循環流程
 - [theforge.md](theforge.md) - ETL 層如何處理 Vault 資料
-- [../alchemymind/theweaver.md](../alchemymind/theweaver.md) - LLM 分析如何回寫到 Vault
 - [../prismavision/mcp.md](../prismavision/mcp.md) - MCP 伺服器如何存取 Vault
 
 ### 外部專案文檔
@@ -410,6 +409,7 @@ dsld/official/20250915/  ← 新版本
 | 版本 | 日期 | 作者 | 變更說明 |
 |------|------|------|----------|
 | 1.0 | 2025-12-09 | AtlasVault Team | 初版建立 (LearningMap 簡介版) |
+| 1.1 | 2026-10-21 | weiling | 移除「TheWeaver 回寫 Vault」的相關文檔連結（TheWeaver 已不回寫 Vault） |
 
 ### 維護職責
 - **主要維護者**: AtlasVault Team

@@ -1,10 +1,10 @@
 ---
 title: "TheRefinery - 資料精煉層"
 type: spec
-status: active
+status: deprecated
 created: 2025-12-09
-updated: 2025-12-09
-version: "1.0"
+updated: 2026-10-21
+version: "1.1"
 project: LearningMap
 author: maple
 tags:
@@ -22,6 +22,8 @@ summary: |
 ---
 
 # TheRefinery - 資料精煉層
+
+> **已退場**：TheRefinery 與它產出的 `enriched.db` 已不再使用，本篇只作歷史參考。現在各系統改從 TheTap 讀各自需要的 `.db`，見 [00_overview.md](00_overview.md)。
 
 ---
 
@@ -433,6 +435,7 @@ SELECT * FROM DSLDKeepaMatchQuality LIMIT 10;
 | 版本 | 日期 | 作者 | 變更說明 |
 |------|------|------|----------|
 | 1.0 | 2025-12-09 | AlchemyMind Team - TheRefinery | 初版建立,整合 TheRefinery team 的內容 |
+| 1.1 | 2026-10-21 | weiling | 標為已退場（deprecated） |
 
 ### 維護職責
 - **主要維護者**: AlchemyMind Team - TheRefinery
