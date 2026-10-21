@@ -3,7 +3,7 @@ title: "SpiderWeb - 功效網（AI 分類結果的版本倉庫）"
 type: spec
 status: active
 created: 2026-10-19
-updated: 2026-10-19
+updated: 2026-10-21
 version: "1.0"
 project: LearningMap
 author: weiling
@@ -154,6 +154,7 @@ Distiller 的 `input/spiderweb.db` 是 symlink，直接指到 `/opt/tap/spiderwe
 | 2026-10-04 | **TheTap 改從 git 自動建置**。之前 TheTap 上的版本要靠人手動匯入，遠遠落後 repo；現在每晚自動重建 |
 | 2026-10-12 | 分類樹改為封閉集合，節點編號固定 |
 | 2026-10-14～18 | Flavor 改用 copal 查表線；iHerb 的 HE/PE/QoL 舊線全換成 copal 線 |
+| 2026-10-21 | **Flavor 凍結，交給 [Lapidary](lapidary.md)**；certification 也將移交。TheDistiller 切換到 `lapidary.db` 後（#88，進行中），這裡的 flavor 來源與 forge 設定會移除 |
 
 > **教訓**：舊複本和正式版長得一模一樣，光看檔案分不出來。所以下游要用捷徑（symlink）直接讀 TheTap 上的正式版，並看 `_metadata` 確認是哪一版。
 
