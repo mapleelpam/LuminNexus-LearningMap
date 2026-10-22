@@ -3,8 +3,8 @@ title: "Lapidary - 把 copal 的宣稱切成 facet（查表、不經 LLM）"
 type: spec
 status: active
 created: 2026-10-21
-updated: 2026-10-21
-version: "1.1"
+updated: 2026-10-22
+version: "1.2"
 project: LearningMap
 author: maple
 tags:
@@ -26,7 +26,8 @@ audience:
 summary: |
   Lapidary 把 AmazonCopal 已切好、屬於有限集合的 kind（口味、證照）用 yaml 對照表
   對到分類樹，產出 lapidary.db，純查表、不經 LLM。2026-10-21 起接手 SpiderWeb 的 flavor，
-  TheDistiller 自 v3.79.0 起以 lapidary.db 為必要輸入，由 TheTap 從 git 建置交接。
+  2026-10-22 上線 certification（認證標章）與 certifier（認證機構）兩個 realm。TheDistiller 自 v3.79.0
+  起以 lapidary.db 為必要輸入，由 TheTap 從 git 建置交接。
 ---
 
 # Lapidary - 把 copal 的宣稱切成 facet（查表、不經 LLM）
@@ -37,12 +38,12 @@ summary: |
 
 本文檔介紹 **Lapidary**，幫助新人理解：
 
-- 為什麼口味（flavor）和證照（certification）不用 AI 判，改用查表
+- 為什麼口味（flavor）、證照（certification）與認證機構（certifier）不用 AI 判，改用查表
 - 它從 AmazonCopal 讀什麼、交給 TheDistiller 什麼
 - 它和 SpiderWeb、TheWeaver 的分工怎麼換手
 - 它守的幾條設計原則，以及背後的理由
 
-> **注意**：Lapidary 是 2026-10-21 才上線的新系統；flavor 已完成切換，certification 仍在進行中。
+> **注意**：Lapidary 是 2026-10-21 才上線的新系統；flavor 已完成切換，certification 與 certifier 2026-10-22 上線，TheDistiller 接 certification 的部署（#89）等 TheTap nightly 產出新版 lapidary.db。
 
 > **完整技術文檔**：[Lapidary repo](https://github.com/mapleelpam/LuminNexus-AlchemyMind-Lapidary) 的 `CLAUDE.md`
 
@@ -56,14 +57,14 @@ summary: |
 |------|------|
 | **輸入** | AmazonCopal 的 `copal.amazon.db`、`copal.amazon.gb.db`、`copal.iherb.db`（只讀 `claims_all`，assay_spec v3.5） |
 | **輸出** | `/opt/tap/lapidary.db`：一檔多表，市場放在 `source` 欄（keepa／keepa_gb／iherb） |
-| **兩條線** | flavor（生產中：22,921 列、216 個節點）、certification（yaml 撰寫中） |
-| **下游** | TheDistiller（v3.79.0 起必要輸入） |
+| **三個 realm** | flavor（22,858 列、216 個節點）、certification（60,578 列、100 個節點）、certifier（30,858 列、142 個節點） |
+| **下游** | TheDistiller（v3.79.0 起必要輸入；certification 待 #89 部署，certifier 尚未接） |
 
 ### 命名由來
 
 AmazonCopal 用樹脂當比喻：copal 是還沒完全石化的琥珀，它把產品頁（PDP）讀成一句句宣稱（claims）。**Lapidary 是寶石切磨師**，把琥珀切出一個個切面（facet），例如口味、證照。
 
-候選名還有 ThePalate（味覺），但它只對 flavor 有意義。certification 是真的存在的第二條線，名字要能涵蓋兩條，所以選了 Lapidary。
+候選名還有 ThePalate（味覺），但它只對 flavor 有意義。certification 是真的存在的第二條線，名字要能涵蓋多條，所以選了 Lapidary。
 
 ### 為什麼不用 AI
 
@@ -106,7 +107,8 @@ graph LR
 
 ## 📤 交接方式：lapidary.db
 
-- **和 spiderweb.db 同表名、同欄位、同 CHECK**：`FlavorCharacteristics` + `FlavorCharacteristicsTaxonomy`，之後加上 `Certification` + `CertificationTaxonomy`。所以 TheDistiller 讀這些表的程式（stage 10、11b、13b）**完全不用改，只改 attach 的檔案**。
+- **和 spiderweb.db 同表名、同欄位、同 CHECK**：`FlavorCharacteristics` + `FlavorCharacteristicsTaxonomy`、`Certification` + `CertificationTaxonomy`。所以 TheDistiller 讀這些表的程式（stage 10、11b、13b）**完全不用改，只改 attach 的檔案**。
+- **`Certifier` + `CertifierTaxonomy` 是全新的表**：spiderweb.db 沒有，結構和其他 realm 表相同；和 Certification 用 `product_id` 對起來。TheDistiller 要不要接另議。
 - **單一 db，不分市場**：市場是一個欄位而不是一個檔，Distiller attach 一次就好。
 - **`_metadata`**：`built_at`、`assay_spec`、每個 realm 的 `records`／`nodes`／`rejected`。
 - **時間欄位是 build 時間**，不是 claim 的時間。舊線「分析產生時間」的語意已經不存在。
@@ -140,13 +142,34 @@ graph LR
 
 ---
 
-## 🚧 進行中：certification 的語意變更
+## 🏅 certification 與 certifier（2026-10-22 上線）
 
-需等 Maple 確認：
+證照拆成兩棵互相獨立的樹：**certification 記「什麼標準」**（USDA Organic、Kosher、GMP…），**certifier 記「誰認證的」**（QAI、CCOF、NSF…）。兩者讀同一批 claim，用 `product_id` 對起來。
 
-- copal 的 certification 只收「certified by X」這種**第三方認證**。舊線把 Vegan、Gluten-Free、Dairy Free 這類飲食屬性也當成證照，新線會把它們拿掉；飲食屬性本來就屬於 dietary_adaptability。
-- 舊線 spiderweb.db 的 Certification 有 61,844 個 DSLD 產品不在 copal 裡，切換後這些產品就沒有 certification。
-- 第一版不新增認證機構的葉節點（例如 Intertek、NPA、UL），先對到既有的標準節點，機構名寫在 reason 欄。理由同「taxonomy_id 只增不改」：節點一旦發佈就收不回來。
+| realm | 列數 | 節點 | 說明 |
+|------|------|------|------|
+| certification | 60,578（keepa 50,656／keepa_gb 3,601／iherb 6,321） | 100 | 一句 claim 一列；taxonomy_id 1–100 沿用 spiderweb，新增 101、103–111（SQF、BRCGS、IFOS、Regenerative Organic 等） |
+| certifier | 30,858（keepa 24,794／keepa_gb 701／iherb 5,225） | 142（131 個機構 + 10 組 + root） | 全新 realm，ids 1–142；一句點到幾個機構就幾列，`reason` 帶 `standard=<對應的標準>` |
+
+### 為什麼要拆成兩棵樹
+
+機構和標準是**多對多**：Ecocert 同時做 USDA、EU、COSMOS，QAI 也不只做 USDA。舊線把 10 個 organic 機構（CCOF、QAI、Oregon Tilth…）當成標準樹的葉節點，等於把多對多硬塞成一對一。
+
+辯論（Claude × Codex）後由 maple 裁決：機構是和標準正交的一條軸，獨立成 certifier realm。認證的對象（工廠還是商品）由標準決定，不另開欄位：GMP 類 100% 是製程，organic／kosher 類幾乎都是商品。
+
+### 和舊線的語意差異
+
+- **只收第三方認證**：copal 的 certification 只收「certified by X」這類句子。舊線把 Vegan、Gluten-Free、Dairy Free 這類飲食屬性也當證照，新線拿掉了，它們屬於 dietary_adaptability。
+- **不猜標準**：句子裡有 usda／nop 才歸 USDA Organic；只寫「certified organic by CCOF」的歸 Organic，機構記進 certifier。不靠「這家機構只做 NOP」的常識去推。
+- **拿掉 11 個節點，id 保留**：102 和舊線以機構命名的 10 個 organic 節點（19 QAI、34 Oregon Tilth、56 CCOF…）離開 CertificationTaxonomy，但 id 留在 `ids.json` 不重用（「taxonomy_id 只增不改不重用」）。
+- **沒有 DSLD 來源**：copal 沒有 DSLD。舊線 spiderweb.db 的 Certification 有 61,844 個 DSLD 產品不在 copal 裡，切換後這些產品就沒有 certification。
+- **TheJournalism 的歷史排行不能直接比**：機構不再是 certification 樹上的節點，舊版的機構排行和新版對不上。
+
+### 下游狀態
+
+- `lapidary.db` 新版由 TheTap nightly 從 Lapidary main（`a955b43`）建置。
+- TheDistiller 接 Certification 的部署是 [#89](https://github.com/mapleelpam/LuminNexus-AlchemyMind-TheDistiller/issues/89)，等 nightly 產出含新表的 lapidary.db 後進行。
+- Certifier 表 TheDistiller 還沒接。
 
 ---
 
@@ -154,7 +177,7 @@ graph LR
 
 ### Q1: Lapidary 和 TheWeaver 的分界在哪？
 
-看 copal 的 kind 是不是**有限集合**。口味、證照的說法有限，查表就能做完，歸 Lapidary；功效、屬性這類說法無限，需要理解語意，歸 TheWeaver 的 LLM 線。除非 copal 新增 kind，Lapidary 不會有第三條線。
+看 copal 的 kind 是不是**有限集合**。口味、證照的說法有限，查表就能做完，歸 Lapidary；功效、屬性這類說法無限，需要理解語意，歸 TheWeaver 的 LLM 線。certifier 讀的仍是 certification 這個 kind，只是切出另一個 facet；除非 copal 新增有限集合的 kind，Lapidary 不會多出新的來源。
 
 ### Q2: 為什麼和 spiderweb.db 用一模一樣的表結構？
 
@@ -177,6 +200,8 @@ Lapidary 就是「kind → 對照表 → facet」這條映射的機械實作：k
 ### Lapidary 專案文檔
 - `CLAUDE.md`：工作規則與設計原則
 - `taxonomy/flavor/flavors.yaml`：flavor 對照表
+- `docs/20261022_certifier_debate.md`：certifier 獨立成樹的辯論與裁決
+- `docs/20261021_remaining_work.md` 末段：給下游的變動摘要
 
 ---
 
@@ -188,15 +213,14 @@ Lapidary 就是「kind → 對照表 → facet」這條映射的機械實作：k
 |------|------|------|
 | 1.0 | 2026-10-21 | 初版，依 Lapidary agent 提供的資料撰寫 |
 | 1.1 | 2026-10-21 | flavor 切換完成：distiller v3.79.0 起必要輸入，TheTap 從 git 建置 |
+| 1.2 | 2026-10-22 | certification、certifier 上線（Lapidary `a955b43`）；「進行中」段改為上線說明 |
 
 ### 系統依賴
 
 **上游**：AmazonCopal（`copal.amazon.db`、`copal.amazon.gb.db`、`copal.iherb.db`）
 
-**下游**：TheDistiller（`input/lapidary.db`，v3.79.0 起必要輸入）
+**下游**：TheDistiller（`input/lapidary.db`，v3.79.0 起必要輸入；Certification 待 #89）
 
 ---
 
 **文檔結束**
-
-> **注意**：certification 上線後，請更新「兩條線」與「進行中：certification 的語意變更」兩處。
