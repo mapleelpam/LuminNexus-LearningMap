@@ -3,7 +3,7 @@ title: "TheDistiller - 把所有來源蒸餾成一份產品資料庫"
 type: spec
 status: active
 created: 2025-12-09
-updated: 2026-10-22
+updated: 2026-10-23
 version: "3.0"
 project: LearningMap
 author: maple
@@ -153,7 +153,7 @@ graph LR
 | `formulary.db` | AlchemyMind-Formulary（Factum 讀標籤的成果） | ✅ | **範圍的唯一依據**：哪些產品算數，以及成分表、包裝數、產品家族 | 必要 |
 | `eidos.db` | AlchemyMind-Eidos | ✅ | 品牌主檔、產品↔品牌對照、排除判定、品牌原料（BI / BT / BP） | 必要 |
 | `spiderweb.db` | AlchemyMind-SpiderWeb（TheWeaver 產生） | ✅ | 十個知識領域的分類，例如功效（HealthEffect）、口味、劑型便利性 | 必要 |
-| `lapidary.db` | AlchemyMind-Lapidary | ✅ | 口味（FlavorCharacteristics）v3.79.0 起；證照（Certification）2026-10-22 上線，待 #89 部署；兩者都取代 spiderweb.db 的同名表。見 [Lapidary](lapidary.md) | 必要 |
+| `lapidary.db` | AlchemyMind-Lapidary | ✅ | 口味（FlavorCharacteristics，v3.79.0 起）、證照（Certification）與認證機構（Certifier，v3.81.0 起），source 為 `lapidary:<market>`；前兩者取代 spiderweb.db 的同名表。見 [Lapidary](lapidary.md) | 必要 |
 | `cartulary.db` | AlchemyMind-CartularyDSLD | ✅（人工匯入） | 美國 NIH 的 DSLD 標籤資料。目前暫停匯入 DSLD 產品，只用來比對 UPC | 必要 |
 | `watershed.db` | AlchemyMind-TheWatershed | ✅ | 訴求群地圖（BenefitCluster），v3.69.0 起 | **選用** |
 | `coalseam.db` | AlchemyMind-Seatearth | ❌ TheTap 沒有這個 artifact | 產品自己宣稱的功效集合（benefit claim sets） | **選用，這一版不用** |

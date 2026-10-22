@@ -3,8 +3,8 @@ title: "Lapidary - 把 copal 的宣稱切成 facet（查表、不經 LLM）"
 type: spec
 status: active
 created: 2026-10-21
-updated: 2026-10-22
-version: "1.2"
+updated: 2026-10-23
+version: "1.3"
 project: LearningMap
 author: maple
 tags:
@@ -26,8 +26,8 @@ audience:
 summary: |
   Lapidary 把 AmazonCopal 已切好、屬於有限集合的 kind（口味、證照）用 yaml 對照表
   對到分類樹，產出 lapidary.db，純查表、不經 LLM。2026-10-21 起接手 SpiderWeb 的 flavor，
-  2026-10-22 上線 certification（認證標章）與 certifier（認證機構）兩個 realm。TheDistiller 自 v3.79.0
-  起以 lapidary.db 為必要輸入，由 TheTap 從 git 建置交接。
+  2026-10-22 上線 certification（認證標章）與 certifier（認證機構）兩個 realm，三者自 TheDistiller
+  v3.81.0 起都從 lapidary.db 讀（source 為 lapidary:<market>），由 TheTap 從 git 建置交接。
 ---
 
 # Lapidary - 把 copal 的宣稱切成 facet（查表、不經 LLM）
@@ -43,7 +43,7 @@ summary: |
 - 它和 SpiderWeb、TheWeaver 的分工怎麼換手
 - 它守的幾條設計原則，以及背後的理由
 
-> **注意**：Lapidary 是 2026-10-21 才上線的新系統；flavor 已完成切換，certification 與 certifier 2026-10-22 上線，TheDistiller 接 certification 的部署（#89）等 TheTap nightly 產出新版 lapidary.db。
+> **注意**：Lapidary 是 2026-10-21 才上線的新系統；flavor 自 TheDistiller v3.79.0 起切換，certification 與 certifier 自 v3.81.0（2026-10-22 部署）起進入 distiller.db。
 
 > **完整技術文檔**：[Lapidary repo](https://github.com/mapleelpam/LuminNexus-AlchemyMind-Lapidary) 的 `CLAUDE.md`
 
@@ -58,7 +58,7 @@ summary: |
 | **輸入** | AmazonCopal 的 `copal.amazon.db`、`copal.amazon.gb.db`、`copal.iherb.db`（只讀 `claims_all`，assay_spec v3.5） |
 | **輸出** | `/opt/tap/lapidary.db`：一檔多表，市場放在 `source` 欄（keepa／keepa_gb／iherb） |
 | **三個 realm** | flavor（22,858 列、216 個節點）、certification（60,578 列、100 個節點）、certifier（30,858 列、142 個節點） |
-| **下游** | TheDistiller（v3.79.0 起必要輸入；certification 待 #89 部署，certifier 尚未接） |
+| **下游** | TheDistiller（v3.79.0 起必要輸入；v3.81.0 起三個 realm 全部接上） |
 
 ### 命名由來
 
@@ -108,7 +108,8 @@ graph LR
 ## 📤 交接方式：lapidary.db
 
 - **和 spiderweb.db 同表名、同欄位、同 CHECK**：`FlavorCharacteristics` + `FlavorCharacteristicsTaxonomy`、`Certification` + `CertificationTaxonomy`。所以 TheDistiller 讀這些表的程式（stage 10、11b、13b）**完全不用改，只改 attach 的檔案**。
-- **`Certifier` + `CertifierTaxonomy` 是全新的表**：spiderweb.db 沒有，結構和其他 realm 表相同；和 Certification 用 `product_id` 對起來。TheDistiller 要不要接另議。
+- **`Certifier` + `CertifierTaxonomy` 是全新的表**：spiderweb.db 沒有，結構和其他 realm 表相同；和 Certification 用 `product_id` 對起來。TheDistiller v3.81.0 起也收進 distiller.db。
+- **`source` 欄位**：TheDistiller v3.81.0 起，Flavor、Certification、Certifier 三個 realm 的 source 是 `lapidary:<market>`（之前是 `spiderweb:<market>`）。其餘 realm（HealthEffect 等）仍是 `spiderweb:<market>`。用 `source LIKE 'spiderweb:%'` 查這三張表，從這版起會查不到任何列。
 - **單一 db，不分市場**：市場是一個欄位而不是一個檔，Distiller attach 一次就好。
 - **`_metadata`**：`built_at`、`assay_spec`、每個 realm 的 `records`／`nodes`／`rejected`。
 - **時間欄位是 build 時間**，不是 claim 的時間。舊線「分析產生時間」的語意已經不存在。
@@ -167,9 +168,9 @@ graph LR
 
 ### 下游狀態
 
-- `lapidary.db` 新版由 TheTap nightly 從 Lapidary main（`a955b43`）建置。
-- TheDistiller 接 Certification 的部署是 [#89](https://github.com/mapleelpam/LuminNexus-AlchemyMind-TheDistiller/issues/89)，等 nightly 產出含新表的 lapidary.db 後進行。
-- Certifier 表 TheDistiller 還沒接。
+- TheDistiller **v3.81.0**（2026-10-22 17:46Z 部署）起，`distiller.db` 的 Certification、Certifier 來自 lapidary.db；通知見 [TheDistiller #90](https://github.com/mapleelpam/LuminNexus-AlchemyMind-TheDistiller/issues/90)，handover 見 TheDistiller repo 的 `docs/20261022_handover_lapidary_realms.md`。
+- 在 distiller.db 裡，Certifier 和 Certification 只能用 `product_id` 對起來：哪個機構認證哪個標準沒有帶過去，一個產品有多個認證時配對無法還原。
+- v3.80.x 的 Certification 是空表（SpiderWeb 已停供、Lapidary 還沒接），所以那幾版讀到 0 是正常的。
 
 ---
 
@@ -214,12 +215,13 @@ Lapidary 就是「kind → 對照表 → facet」這條映射的機械實作：k
 | 1.0 | 2026-10-21 | 初版，依 Lapidary agent 提供的資料撰寫 |
 | 1.1 | 2026-10-21 | flavor 切換完成：distiller v3.79.0 起必要輸入，TheTap 從 git 建置 |
 | 1.2 | 2026-10-22 | certification、certifier 上線（Lapidary `a955b43`）；「進行中」段改為上線說明 |
+| 1.3 | 2026-10-23 | TheDistiller v3.81.0 接上 Certification、Certifier；三個 realm 的 source 改為 `lapidary:<market>` |
 
 ### 系統依賴
 
 **上游**：AmazonCopal（`copal.amazon.db`、`copal.amazon.gb.db`、`copal.iherb.db`）
 
-**下游**：TheDistiller（`input/lapidary.db`，v3.79.0 起必要輸入；Certification 待 #89）
+**下游**：TheDistiller（`input/lapidary.db`，v3.79.0 起必要輸入；v3.81.0 起三個 realm 全接）
 
 ---
 
