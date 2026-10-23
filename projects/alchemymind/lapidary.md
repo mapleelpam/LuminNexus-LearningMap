@@ -4,7 +4,7 @@ type: spec
 status: active
 created: 2026-10-21
 updated: 2026-10-23
-version: "1.3"
+version: "1.4"
 project: LearningMap
 author: maple
 tags:
@@ -172,6 +172,25 @@ graph LR
 - 在 distiller.db 裡，Certifier 和 Certification 只能用 `product_id` 對起來：哪個機構認證哪個標準沒有帶過去，一個產品有多個認證時配對無法還原。
 - v3.80.x 的 Certification 是空表（SpiderWeb 已停供、Lapidary 還沒接），所以那幾版讀到 0 是正常的。
 
+### 為什麼 distiller.db 的列數比 lapidary.db 多
+
+distiller 讀 Certification、Certifier 時做三件事：
+
+1. **去重**：lapidary 一句 claim 一列，同一產品的不同句子可能落在同一節點；distiller 以 (product_id, taxonomy_id) 為唯一鍵收成一列。
+2. **範圍過濾**：Formulary 沒收錄的產品（不在 distiller 的 Products）丟掉。
+3. **UPC 傳播**：一列複製到所有共用同一 UPC 的產品，跨市場也跨來源（包括 S_、T_ 產品）。
+
+| realm | lapidary.db | − 去重 | − 範圍外 | = 原生 | + UPC 傳播 | = distiller.db |
+|------|------:|------:|------:|------:|------:|------:|
+| Certification | 60,578 | 8,623 | 524 | 51,431（33,988 產品） | 25,089 | 76,520（48,220 產品） |
+| Certifier | 30,858 | 2,869 | 287 | 27,702（17,591 產品） | 21,350 | 49,052（28,553 產品） |
+
+（distiller v3.81.0，2026-10-22 17:56 建置。）
+
+- 傳播出來的列**保留來源列的 source**（例如 `lapidary:keepa`），所以從 source 看不出一列是不是傳播來的；要分，就拿 (product_id, taxonomy_id) 回 lapidary.db 對。
+- S_、T_ 產品在 lapidary 沒有自己的列，它們的 Certification 全部來自 UPC 傳播。
+- Flavor 不做 UPC 傳播，改在產品家族（family）內複製，複製的列 source 是 `canonical:<market>`。
+
 ---
 
 ## 🐛 常見問題
@@ -216,6 +235,7 @@ Lapidary 就是「kind → 對照表 → facet」這條映射的機械實作：k
 | 1.1 | 2026-10-21 | flavor 切換完成：distiller v3.79.0 起必要輸入，TheTap 從 git 建置 |
 | 1.2 | 2026-10-22 | certification、certifier 上線（Lapidary `a955b43`）；「進行中」段改為上線說明 |
 | 1.3 | 2026-10-23 | TheDistiller v3.81.0 接上 Certification、Certifier；三個 realm 的 source 改為 `lapidary:<market>` |
+| 1.4 | 2026-10-23 | 補「為什麼 distiller.db 的列數比 lapidary.db 多」：去重、範圍過濾、UPC 傳播的拆解（distiller agent 實測） |
 
 ### 系統依賴
 
