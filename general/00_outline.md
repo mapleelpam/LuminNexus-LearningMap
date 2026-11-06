@@ -3,8 +3,8 @@ title: "General Learning Map - 通用核心能力大綱"
 type: outline
 status: active
 created: 2025-11-10
-updated: 2026-08-14
-version: "2.17"
+updated: 2026-11-06
+version: "2.18"
 project: LearningMap
 author: maple
 tags:
@@ -770,6 +770,7 @@ mindmap
 - [ai-data-terminology.md](./ai-data-terminology.md) - Infer / Derive / Reasoning 術語辨析
 - [supplement-industry-terminology.md](./supplement-industry-terminology.md) - 保健食品產業術語：標籤結構、成分角色、BI/BT/BP、voice 家族
 - [classification-terminology.md](./classification-terminology.md) - 分類體系術語：taxonomy vs facet、realm / kind、macro 四義
+- [design-token-component-layers.md](./design-token-component-layers.md) - Design System 分層思維：token 三層、元件依賴分層、variant
 - [ubuntu-desktop-tips.md](./ubuntu-desktop-tips.md) - Ubuntu Desktop 環境技巧
 
 ---
@@ -797,6 +798,7 @@ mindmap
 | 2.15 | 2026-07-08 | 新增 clarification-wish-and-plan.md（實務層鉸鏈：許願與計畫一體兩面、計畫換了作者、澄清 loop 的停止點）；agent-work-forms 加「回望」coda 點破實務層四相位同構 | maple |
 | 2.16 | 2026-07-29 | 術語與環境索引收錄 supplement-industry-terminology.md 與 classification-terminology.md；1.2 營養補充品產業知識加指路（認證標準與法規環境已收進術語文）；1.3 分類法類型的「面向式」改為「分面式」——facet 中文定案為「分面」（依國教院《圖書館學與資訊科學大辭典》「分面式分類法」），「面向」已被 aspect 義佔用（thejournalism.md 8 處） | Dustin |
 | 2.17 | 2026-08-14 | paradigm-shift-task-to-wish.md 升 v1.1：補入第三次反轉（2026-02 agentic engineering），並修正「2025-04 起重心移到 loop 與驗收」的時間線錯誤（loop 是 2025-11、驗收是 2026-01）；參考文件索引該行描述同步改為「三次反轉」 | maple |
+| 2.18 | 2026-11-06 | 術語與環境索引收錄 design-token-component-layers.md（token 三層、元件依賴分層、variant） | yijou14 |
 
 ---
 

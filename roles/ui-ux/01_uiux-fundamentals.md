@@ -3,8 +3,8 @@ title: "UI/UX 基礎 - 團隊共同語言"
 type: topic
 status: active
 created: 2026-07-07
-updated: 2026-07-07
-version: "1.1"
+updated: 2026-11-06
+version: "1.2"
 project: LearningMap
 author: leana
 tags:
@@ -90,7 +90,7 @@ graph LR
 | **wireframe** | 低保真的版面骨架：只有框和字，不談顏色美感 | 本章下節 |
 | **mockup** | 高保真的靜態畫面：長得像成品，但不能操作 | 本章下節 |
 | **prototype** | 可以點擊操作的模擬品：用來在寫程式前驗證流程 | 本章下節 |
-| **design system** | 一套可重用的元件與規則（顏色、字級、間距），讓產品長得一致 | [05](./05_mechanical-checks.md) |
+| **design system** | 一套可重用的元件與規則（顏色、字級、間距），讓產品長得一致 | [05](./05_mechanical-checks.md)；分層架構見 [Design System 的分層思維](../../general/design-token-component-layers.md) |
 | **usability（可用性）** | 使用者能否有效、有效率、滿意地完成目標 | [02](./02_evaluation-design.md)–[04](./04_finding-quality.md) |
 
 ### 4. 保真度光譜：wireframe → mockup → prototype
@@ -143,3 +143,4 @@ graph LR
 |------|------|------|----------|
 | 1.0 | 2026-07-07 | maple | 初版建立 |
 | 1.1 | 2026-07-07 | maple | Review 修正：user journey 指路移除（03 未展開該主題） |
+| 1.2 | 2026-11-06 | yijou14 | design system 詞條加指路至 Design System 的分層思維 |
